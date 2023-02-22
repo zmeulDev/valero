@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "111776262525",
+    "project_id": "zmeul-kit",
+    "storage_bucket": "zmeul-kit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111776262525:android:d4931ce0c36b9b84c10414",
+        "android_client_info": {
+          "package_name": "com.zmeul.zmeulkit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111776262525-tbuecfm7k4169m838if1cfr6jitm7ms3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zmeul.zmeulkit",
+            "certificate_hash": "83877897ccc547fa13c0a3699debe04793f39992"
+          }
+        },
+        {
+          "client_id": "111776262525-7963dcloq42qjfpc9c1droni4qgq8nlt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4CqjvILLpOGr8I6v2HY7R3mBSGf-9P80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111776262525-7963dcloq42qjfpc9c1droni4qgq8nlt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
