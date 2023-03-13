@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:valero/pages/splash.dart';
+import 'package:valero/utils/constant.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,10 +24,10 @@ class MyApp extends StatelessWidget {
       title: 'zmeul',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          textTheme: GoogleFonts.nunitoTextTheme(),
-          primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: Colors.white,
-          canvasColor: Colors.white),
+          textTheme: GoogleFonts.ralewayTextTheme(),
+          primarySwatch: Colors.orange,
+          scaffoldBackgroundColor: primaryColor,
+          canvasColor: primaryColor),
       home: Splash(),
     );
   }

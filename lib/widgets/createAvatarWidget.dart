@@ -10,17 +10,17 @@ createAvatarWidget(double radius) {
     borderColor: fourthColor,
     avatarType: AvatarType.CIRCLE,
     backgroundColor: tertiaryColor,
-    imagePath: UserModel().profileUrl,
+    imagePath: UserModel().avatarUrl,
     placeHolder: Container(
       color: secondaryColor,
-      child: Icon(
+      child: const Icon(
         CupertinoIcons.profile_circled,
         size: 36,
       ),
     ),
     errorWidget: Container(
       color: secondaryColor,
-      child: Icon(
+      child: const Icon(
         CupertinoIcons.exclamationmark_triangle,
         size: 36,
       ),

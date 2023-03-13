@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "111776262525",
-    "project_id": "zmeul-kit",
-    "storage_bucket": "zmeul-kit.appspot.com"
+    "project_number": "708706699887",
+    "project_id": "valero-ca265",
+    "storage_bucket": "valero-ca265.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:111776262525:android:d4931ce0c36b9b84c10414",
+        "mobilesdk_app_id": "1:708706699887:android:d1c4e0e2c68bb11508db9a",
         "android_client_info": {
-          "package_name": "com.zmeul.zmeulkit"
+          "package_name": "com.zmeul.valero"
         }
       },
       "oauth_client": [
         {
-          "client_id": "111776262525-tbuecfm7k4169m838if1cfr6jitm7ms3.apps.googleusercontent.com",
+          "client_id": "708706699887-lhrudu8bokg4f6mjdsu72a6rjqn8qpvg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.zmeul.zmeulkit",
-            "certificate_hash": "83877897ccc547fa13c0a3699debe04793f39992"
+            "package_name": "com.zmeul.valero",
+            "certificate_hash": "0ed38293e8ee1a5b0ccb251b903a387558b44007"
           }
         },
         {
-          "client_id": "111776262525-7963dcloq42qjfpc9c1droni4qgq8nlt.apps.googleusercontent.com",
+          "client_id": "708706699887-emq7im8pj2mmbh5miacp1qplem4olm8j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA4CqjvILLpOGr8I6v2HY7R3mBSGf-9P80"
+          "current_key": "AIzaSyCGZ3GIYL1VDPUvNktRrr0jto8Ck01rVek"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "111776262525-7963dcloq42qjfpc9c1droni4qgq8nlt.apps.googleusercontent.com",
+              "client_id": "708706699887-emq7im8pj2mmbh5miacp1qplem4olm8j.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

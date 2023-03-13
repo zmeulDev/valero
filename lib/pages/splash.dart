@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:valero/Services/auth_services.dart';
-import 'package:valero/pages/Auth/chooseloginsignup.dart';
+import 'package:valero/pages/Auth/welcome.dart';
 import 'package:valero/pages/navbar.dart';
 import 'package:valero/utils/constant.dart';
 
@@ -63,14 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedSplashScreen(
-          duration: 3000,
-          splash: function(),
-          splashIconSize: 300,
-          nextScreen: const ChooseLoginSignup(),
-          splashTransition: SplashTransition.slideTransition,
-          pageTransitionType: PageTransitionType.scale,
-          backgroundColor: tertiaryColor),
+      body: ChooseLoginSignup(),
     );
   }
 }

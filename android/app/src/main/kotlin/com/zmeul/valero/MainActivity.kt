@@ -1,4 +1,4 @@
-package com.zmeul.zmeulkit
+package com.zmeul.valero
 
 import io.flutter.embedding.android.FlutterActivity
 

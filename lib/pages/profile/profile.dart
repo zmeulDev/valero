@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
-import 'package:valero/pages/Auth/chooseloginsignup.dart';
+import 'package:valero/pages/Auth/welcome.dart';
 import 'package:valero/pages/imageview.dart';
 import 'package:valero/pages/profile/editprofile.dart';
 import 'package:valero/utils/constant.dart';
@@ -36,18 +36,18 @@ class _ProfileState extends State<Profile> {
                   GestureDetector(
                     onTap: () {
                       Get.to(ImageViewPage(
-                          img: UserModel().profileUrl == ''
+                          img: UserModel().avatarUrl == ''
                               ? tempUserImg
-                              : UserModel().profileUrl));
+                              : UserModel().avatarUrl));
                     },
                     child: createAvatarWidget(75),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  UserModel().username != ''
+                  UserModel().userName != ''
                       ? Text(
-                          UserModel().username,
+                          UserModel().userName,
                           style: style2.copyWith(
                               color: secondaryColor, fontSize: 14),
                         )
@@ -71,7 +71,7 @@ class _ProfileState extends State<Profile> {
                     height: 5,
                   ),
                   Text(
-                    UserModel().phoneNo!,
+                    UserModel().mobilePhone!,
                     style: style2.copyWith(
                         color: secondaryColor.withOpacity(0.7), fontSize: 14),
                   ),

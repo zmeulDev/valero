@@ -76,9 +76,9 @@ class _HomeState extends State<Home> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    UserModel().username != ''
+                    UserModel().userName != ''
                         ? Text(
-                            UserModel().username,
+                            UserModel().userName,
                             style: style2.copyWith(
                                 color: secondaryColor, fontSize: 18),
                           )

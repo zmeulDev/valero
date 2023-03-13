@@ -81,18 +81,18 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                       ),
                       Text(
                         'Enter OTP',
-                        style: style1,
+                        style: style1.copyWith(color: fourthColor),
                       ),
                       SizedBox(
                         height: size.height * 0.01,
                       ),
                       Text(
                         'We have send your access code Via SMS for',
-                        style: style2,
+                        style: style2.copyWith(color: fourthColor),
                       ),
                       Text(
-                        'mobile number verification.',
-                        style: style2,
+                        'Mobile number verification.',
+                        style: style2.copyWith(color: fourthColor),
                       ),
                       SizedBox(
                         height: size.height * 0.01,
@@ -114,7 +114,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                                 child: Text('Wait for: $minutes:$seconds',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: primaryColor,
+                                        color: fourthColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16)));
                           }),
@@ -126,7 +126,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                             child: PinCodeTextField(
                               appContext: context,
                               pastedTextStyle: TextStyle(
-                                color: secondaryColor,
+                                color: fourthColor,
                               ),
                               length: 6,
                               obscureText: false,
@@ -395,7 +395,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
             child: Padding(
           padding: const EdgeInsets.all(1.0),
           child: Image(
-            image: AssetImage('assets/otp_2.png'),
+            image: AssetImage('assets/otp.png'),
             fit: BoxFit.fill,
           ),
         )),

@@ -28,8 +28,8 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       isLoading = true;
     });
-    UserModel().username = nameController.text;
-    UserModel().phoneNo = phoneNoController.text;
+    UserModel().userName = nameController.text;
+    UserModel().mobilePhone = phoneNoController.text;
     UserModel().email = emailController.text;
     //UserModel().profileUrl = ?;
     var res = _image == null
@@ -54,12 +54,12 @@ class _EditProfileState extends State<EditProfile> {
   @override
   initState() {
     super.initState();
-    userImg = UserModel().profileUrl;
-    if (UserModel().phoneNo != null || UserModel().phoneNo != "") {
-      phoneNoController.text = UserModel().phoneNo!;
+    userImg = UserModel().avatarUrl;
+    if (UserModel().mobilePhone != null || UserModel().mobilePhone != "") {
+      phoneNoController.text = UserModel().mobilePhone!;
     }
-    if (UserModel().username != null || UserModel().username != "") {
-      nameController.text = UserModel().username;
+    if (UserModel().userName != null || UserModel().userName != "") {
+      nameController.text = UserModel().userName;
     }
     if (UserModel().email != null || UserModel().email != "") {
       emailController.text = UserModel().email;

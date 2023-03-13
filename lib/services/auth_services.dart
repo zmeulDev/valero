@@ -35,9 +35,9 @@ class AuthServices {
   }) async {
     try {
       UserModel().uid = uid;
-      UserModel().profileUrl = profileUrl ?? '';
-      UserModel().phoneNo = phoneNo;
-      UserModel().username = username ?? '';
+      UserModel().avatarUrl = profileUrl ?? '';
+      UserModel().mobilePhone = phoneNo;
+      UserModel().userName = username ?? '';
       UserModel().email = email ?? '';
       await userRef.doc(uid).set(UserModel().toJson());
     } catch (e) {
@@ -48,9 +48,9 @@ class AuthServices {
   static Future<void> setCurrentUserToMap(userId) async {
     var userMap = await getUserDetails(userId);
     UserModel().uid = userId;
-    UserModel().profileUrl = userMap['profileurl'];
-    UserModel().phoneNo = userMap['phoneNo'];
-    UserModel().username = userMap['username'];
+    UserModel().avatarUrl = userMap['avatarUrl'];
+    UserModel().mobilePhone = userMap['mobilePhone'];
+    UserModel().userName = userMap['userName'];
     UserModel().email = userMap['email'];
   }
 
@@ -58,7 +58,7 @@ class AuthServices {
       File imageFile, String userId) async {
     String res;
     try {
-      UserModel().profileUrl = await uploadImageToStorage(imageFile, userId);
+      UserModel().avatarUrl = await uploadImageToStorage(imageFile, userId);
       await userRef.doc(UserModel().uid).update(UserModel().toJson());
       res = "Success";
     } catch (e) {

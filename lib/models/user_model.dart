@@ -3,10 +3,10 @@ import 'dart:convert';
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  String? phoneNo;
-  String username = '';
+  String? mobilePhone;
+  String userName = '';
   String? uid;
-  String profileUrl = '';
+  String avatarUrl = '';
   String email = '';
 
   static final UserModel userModel = UserModel._internal();
@@ -18,9 +18,9 @@ class UserModel {
   UserModel._internal();
 
   Map<String, dynamic> toJson() => {
-        "phoneNo": phoneNo,
-        "profileurl": profileUrl,
-        "username": username,
+        "mobilePhone": mobilePhone,
+        "avatarUrl": avatarUrl,
+        "userName": userName,
         "uid": uid,
         "email": email
       };
