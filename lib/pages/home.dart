@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/getImages.dart';
-import 'package:valero/utils/loading.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
 
 class Home extends StatefulWidget {
@@ -24,7 +23,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar('tkyo'),
+      appBar: getAppBar('valero'),
       body: getBody(),
     );
   }
@@ -38,12 +37,15 @@ class _HomeState extends State<Home> {
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                userContainer(),
+                helloContainer(),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('data'),
+                    carsContainer(),
+                    carsContainer(),
                   ],
-                ),
+                )
+
               ],
             ),
           ),
@@ -52,90 +54,48 @@ class _HomeState extends State<Home> {
     );
   }
 
-  userContainer() {
-    Size size = MediaQuery.of(context).size;
+  helloContainer() {
     return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      height: Get.height * 0.1,
+      width: Get.width * 0.95,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         color: tertiaryColor,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                createAvatarWidget(25),
-                const SizedBox(
-                  width: 15,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    UserModel().userName != ''
-                        ? Text(
-                            UserModel().userName,
-                            style: style2.copyWith(
-                                color: secondaryColor, fontSize: 18),
-                          )
-                        : Text('Hello!',
-                            style: style2.copyWith(
-                                color: secondaryColor, fontSize: 18)),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            StreamBuilder(
-                stream: qrCollection
-                    .where('uid', isEqualTo: UserModel().uid)
-                    .where('isMain', isEqualTo: '1')
-                    .limit(1)
-                    .snapshots(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: loading(),
-                    );
-                  } else {
-                    List<DocumentSnapshot> list = snapshot.data.docs;
-                    if (list.isEmpty) {
-                      return Container(
-                        height: size.height * 0.3,
-                        child: Image.asset('assets/logo.png'),
-                      );
-                    } else {
-                      return Container(
-                        height: size.height * 0.35,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: list.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: secondaryColor,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: GetImage(
-                              imagePath: list[index]['qrUrl'],
-                              width: 250,
-                              height: 250,
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                  }
-                }),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start ,
+        children: [
+          SizedBox(width: Get.width * 0.05,),
+          createAvatarWidget(36),
+          SizedBox(width: Get.width * 0.02,),
+          UserModel().userName != ''
+              ? Text( 'Hello ${UserModel().userName}',
+            style: style2.copyWith(
+                color: secondaryColor, fontSize: 18),
+          )
+              : Text('Hello!',
+              style: style2.copyWith(
+                  color: secondaryColor, fontSize: 18)),
+        ],
+      ),
+    );
+  }
+
+  carsContainer() {
+    return Container(
+      margin: EdgeInsets.only(top: 12),
+      height: Get.height * 0.3,
+      width: Get.width * 0.4,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: secondaryColor,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start ,
+        children: [
+          SizedBox(width: Get.width * 0.05,),
+          createAvatarWidget(36),
+        ],
       ),
     );
   }

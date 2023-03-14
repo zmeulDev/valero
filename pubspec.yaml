@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  awesome_select: ^6.0.0
   cloud_firestore: ^4.4.3
   firebase_auth: ^4.2.9
   firebase_storage: ^11.0.14
@@ -28,7 +27,6 @@ dependencies:
   cached_network_image: ^3.2.3
   avatar_view: ^1.0.1
   google_nav_bar: ^5.0.6
-  fluttertoast: ^8.2.1
   mobile_number: ^2.1.1
 
 

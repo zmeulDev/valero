@@ -17,7 +17,7 @@ getAppBar(String screenName) {
     centerTitle: true,
     title: Text(
       screenName,
-      style: style1.copyWith(fontWeight: FontWeight.w900),
+      style: style1.copyWith(fontWeight: FontWeight.w900, color: fourthColor),
     ),
     actions: [
       InkWell(
@@ -40,8 +40,8 @@ getAppBar(String screenName) {
           ],
         ),
       ),
-      const SizedBox(
-        width: 20,
+       SizedBox(
+        width: Get.width * 0.05,
       ),
     ],
   );

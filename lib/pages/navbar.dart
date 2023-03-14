@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:valero/pages/home.dart';
 import 'package:valero/pages/profile/profile.dart';
 import 'package:valero/utils/constant.dart';
+import 'package:valero/utils/helper.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class NavigationBar extends State<NavBar> {
 
   Future<bool> onWillPop() {
     if (backPressCounter < 2) {
-      Fluttertoast.showToast(msg: "Tap Again To Exit ");
+      Helper.showSnack(context, "Tap Again To Exit");
       backPressCounter++;
       Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
         backPressCounter--;
@@ -54,10 +54,10 @@ class NavigationBar extends State<NavBar> {
         bottomNavigationBar: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: fourthColor,
             boxShadow: [
               BoxShadow(
-                spreadRadius: -10,
+                spreadRadius: -12,
                 blurRadius: 60,
                 color: Colors.black.withOpacity(.20),
                 offset: const Offset(0, 15),
@@ -67,12 +67,13 @@ class NavigationBar extends State<NavBar> {
           child: GNav(
               selectedIndex: _currentIndex,
               onTabChange: onTabTapped,
+              tabBorderRadius: 12,
               haptic: true,
-              rippleColor: tertiaryColor,
-              hoverColor: tertiaryColor,
-              tabBackgroundColor: tertiaryColor,
+              rippleColor: fifthColor,
+              hoverColor: fifthColor,
+              tabBackgroundColor: fourthColor,
               color: primaryColor,
-              activeColor: secondaryColor,
+              activeColor: tertiaryColor,
               gap: 4,
               iconSize: 28,
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

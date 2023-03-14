@@ -99,13 +99,13 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.phone,
                             color: tertiaryColor,
                           ),
                           Text(
                             _mobileNumber,
-                            style: style2.copyWith(color: fourthColor),
+                            style: style2.copyWith(color: fourthColor, fontSize: 20,),
                           )
                         ],
                       ),

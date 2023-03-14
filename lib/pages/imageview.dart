@@ -17,7 +17,7 @@ class ImageViewPage extends StatelessWidget {
       body: Center(
         child: Container(
             child: PhotoView(
-          backgroundDecoration: BoxDecoration(
+          backgroundDecoration: const BoxDecoration(
             color: primaryColor,
           ),
           imageProvider: AssetImage("$img"),
@@ -35,7 +35,7 @@ class ImageViewPage extends StatelessWidget {
         onPressed: () {
           Get.back();
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back_ios,
           color: tertiaryColor,
           size: 20,
