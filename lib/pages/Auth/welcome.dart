@@ -45,7 +45,6 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
     setState(() {});
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,9 +69,11 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
                           opacity: 0.8,
                           child: Image.asset(
                             'assets/cover.png',
-                            width: Get.width * 0.7,
+                            width: Get.width * 0.8,
                           ),
                         ),
+                        Text('valero', style: styleLogin,),
+                        Text('car management', style: style2,),
                       ],
                     ),
                   ),
@@ -91,15 +92,24 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
                     Container(
                       height: Get.height * 0.07,
                       width: double.infinity,
+                      padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: secondaryColor,
                       ),
-                      child: Center(
-                          child: Text(
-                            'This is you: $_mobileNumber',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(
+                            Icons.phone,
+                            color: tertiaryColor,
+                          ),
+                          Text(
+                            _mobileNumber,
                             style: style2.copyWith(color: fourthColor),
-                          )),
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: Get.height * 0.01,
