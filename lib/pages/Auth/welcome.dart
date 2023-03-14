@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:get/get.dart';
 import 'package:valero/pages/Auth/enterotp.dart';
-import 'package:valero/services/getSimNumber.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:mobile_number/mobile_number.dart';
 

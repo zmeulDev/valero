@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_number/mobile_number.dart';
 
+// TODO get this implemented and allow user to change phone number
+
 class GetSimNumber extends StatefulWidget {
   const GetSimNumber({Key? key}) : super(key: key);
 
