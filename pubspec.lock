@@ -480,6 +480,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  mobile_number:
+    dependency: "direct main"
+    description:
+      name: mobile_number
+      sha256: "4c3ef292b198c8607385a75f6afae73b34026a9238931d116b42e2c7120c8eec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   octo_image:
     dependency: transitive
     description:

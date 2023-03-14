@@ -29,6 +29,7 @@ dependencies:
   avatar_view: ^1.0.1
   google_nav_bar: ^5.0.6
   fluttertoast: ^8.2.1
+  mobile_number: ^2.1.1
 
 
 dev_dependencies:

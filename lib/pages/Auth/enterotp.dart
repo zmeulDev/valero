@@ -41,7 +41,6 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
   @override
   void dispose() {
     errorController!.close();
-
     super.dispose();
   }
 
@@ -99,30 +98,22 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                       ),
                       TweenAnimationBuilder<Duration>(
                           duration: Duration(minutes: 1),
-                          tween: Tween(
-                              begin: Duration(minutes: 1), end: Duration.zero),
+                          tween: Tween(begin: Duration(minutes: 1), end: Duration.zero),
                           onEnd: () {
                             print('Please go back and try again.');
                           },
-                          builder: (BuildContext context, Duration value,
-                              Widget? child) {
+                          builder: (BuildContext context, Duration value, Widget? child) {
                             final minutes = value.inMinutes;
                             final seconds = value.inSeconds % 60;
                             return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
+                                padding: const EdgeInsets.symmetric(vertical: 15),
                                 child: Text('Wait for: $minutes:$seconds',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: fourthColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16)));
+                                    textAlign: TextAlign.center, style: TextStyle(color: fourthColor, fontWeight: FontWeight.bold, fontSize: 16)));
                           }),
                       Form(
                         key: formKey,
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 52),
+                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 52),
                             child: PinCodeTextField(
                               appContext: context,
                               pastedTextStyle: TextStyle(
@@ -191,11 +182,8 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 // formKey.currentState!.validate();
                 // // conditions for validating
                 var res = await check();
-                if (currentText.length != 6 ||
-                    currentText.isEmpty ||
-                    res == false) {
-                  errorController!.add(ErrorAnimationType
-                      .shake); // Triggering error shake animation
+                if (currentText.length != 6 || currentText.isEmpty || res == false) {
+                  errorController!.add(ErrorAnimationType.shake); // Triggering error shake animation
                 } else {}
               }),
               SizedBox(
@@ -242,34 +230,24 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
 
   _verifyPhone() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "+${widget.phoneNumber}",
+        phoneNumber: "${widget.phoneNumber}",
         timeout: Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) async {
           try {
             setState(() {
               isLoading = true;
             });
-            await FirebaseAuth.instance
-                .signInWithCredential(credential)
-                .then((value) async {
+            await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
               if (value.user != null) {
                 if (value.additionalUserInfo?.isNewUser == true) {
                   await AuthServices.uploadUserDatatoFirestore(
-                      uid: value.user!.uid,
-                      profileUrl: "",
-                      phoneNo: "${widget.phoneNumber}",
-                      username: "",
-                      email: "");
+                      uid: value.user!.uid, profileUrl: "", phoneNo: "${widget.phoneNumber}", username: "", email: "");
                   setState(() {
                     isLoading = false;
                   });
                   Helper.toReplacementScreen(context, NavBar());
                 } else if (value.additionalUserInfo?.isNewUser == false) {
-                  await FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(value.user?.uid)
-                      .get()
-                      .then((userData) async {
+                  await FirebaseFirestore.instance.collection("users").doc(value.user?.uid).get().then((userData) async {
                     if (userData.exists) {
                       await AuthServices.setCurrentUserToMap(value.user?.uid);
                       setState(() {
@@ -279,11 +257,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                       Helper.toReplacementScreen(context, NavBar());
                     } else {
                       await AuthServices.uploadUserDatatoFirestore(
-                          uid: value.user!.uid,
-                          profileUrl: "",
-                          phoneNo: "+${widget.phoneNumber}",
-                          username: "",
-                          email: "");
+                          uid: value.user!.uid, profileUrl: "", phoneNo: "+${widget.phoneNumber}", username: "", email: "");
                       setState(() {
                         isLoading = false;
                       });
@@ -319,17 +293,12 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
         isLoading = true;
       });
       await FirebaseAuth.instance
-          .signInWithCredential(PhoneAuthProvider.credential(
-              verificationId: _verificationCode, smsCode: enteredPin))
+          .signInWithCredential(PhoneAuthProvider.credential(verificationId: _verificationCode, smsCode: enteredPin))
           .then((value) async {
         if (value.user != null) {
           if (value.additionalUserInfo?.isNewUser == true) {
             await AuthServices.uploadUserDatatoFirestore(
-                uid: value.user!.uid,
-                profileUrl: "",
-                phoneNo: "+${widget.phoneNumber}",
-                username: "",
-                email: "");
+                uid: value.user!.uid, profileUrl: "", phoneNo: "+${widget.phoneNumber}", username: "", email: "");
             setState(() {
               isLoading = false;
             });
@@ -337,11 +306,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
             res = true;
             Helper.toReplacementScreen(context, NavBar());
           } else if (value.additionalUserInfo?.isNewUser == false) {
-            await FirebaseFirestore.instance
-                .collection("users")
-                .doc(value.user?.uid)
-                .get()
-                .then((userData) async {
+            await FirebaseFirestore.instance.collection("users").doc(value.user?.uid).get().then((userData) async {
               if (userData.exists) {
                 await AuthServices.setCurrentUserToMap(value.user?.uid);
                 setState(() {
@@ -352,11 +317,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 Helper.toReplacementScreen(context, NavBar());
               } else {
                 await AuthServices.uploadUserDatatoFirestore(
-                    uid: value.user!.uid,
-                    profileUrl: "",
-                    phoneNo: "+${widget.phoneNumber}",
-                    username: "",
-                    email: "");
+                    uid: value.user!.uid, profileUrl: "", phoneNo: "${widget.phoneNumber}", username: "", email: "");
                 setState(() {
                   isLoading = false;
                 });
@@ -391,9 +352,9 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
               tertiaryColor.withOpacity(0.3),
               tertiaryColor.withOpacity(0.6),
             ])),
-        child: Center(
+        child: const Center(
             child: Padding(
-          padding: const EdgeInsets.all(1.0),
+          padding: EdgeInsets.all(1.0),
           child: Image(
             image: AssetImage('assets/otp.png'),
             fit: BoxFit.fill,
@@ -415,7 +376,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 )),
-            child: Icon(
+            child: const Icon(
               CupertinoIcons.arrow_right,
               size: 30,
               color: secondaryColor,
