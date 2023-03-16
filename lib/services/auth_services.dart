@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:valero/models/user_model.dart';
+import 'package:valero/pages/Auth/welcome.dart';
 
 class AuthServices {
   static final auth = FirebaseAuth.instance;
@@ -54,8 +56,7 @@ class AuthServices {
     UserModel().email = userMap['email'];
   }
 
-  static Future<String> updateUserDatainFirestore(
-      File imageFile, String userId) async {
+  static Future<String> updateUserDatainFirestore(File imageFile, String userId) async {
     String res;
     try {
       UserModel().avatarUrl = await uploadImageToStorage(imageFile, userId);
@@ -67,8 +68,7 @@ class AuthServices {
     return res;
   }
 
-  static Future<String> updateUserDatainFirestoreWithoutImage(
-      String userId) async {
+  static Future<String> updateUserDatainFirestoreWithoutImage(String userId) async {
     String res;
     try {
       await userRef.doc(UserModel().uid).update(UserModel().toJson());
@@ -79,17 +79,13 @@ class AuthServices {
     return res;
   }
 
-  static Future<String> uploadImageToStorage(
-      File imageFile, String userId) async {
+  static Future<String> uploadImageToStorage(File imageFile, String userId) async {
     var url;
 
     try {
-      Reference storageReference =
-          _firebaseStorage.child("user/profile/${userId}");
+      Reference storageReference = _firebaseStorage.child("user/profile/${userId}");
       UploadTask storageUploadTask = storageReference.putFile(imageFile);
-      url = await (await storageUploadTask.whenComplete(() => true))
-          .ref
-          .getDownloadURL();
+      url = await (await storageUploadTask.whenComplete(() => true)).ref.getDownloadURL();
       return url;
     } catch (e) {
       // Helper.showSnack(, e.toString());

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/pages/UserProfile/viewProfile.dart';
@@ -23,6 +22,12 @@ class _NavigationState extends State<Navigation> {
   void initState() {
     super.initState();
     _controller = PersistentTabController();
+  }
+
+  @override
+  void dispose() {
+    PersistentTabController().dispose();
+    super.dispose();
   }
 
   Future<bool> tapToExit() {

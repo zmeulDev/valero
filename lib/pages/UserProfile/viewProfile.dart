@@ -7,7 +7,6 @@ import 'package:valero/pages/Auth/welcome.dart';
 import 'package:valero/pages/UserProfile/editProfile.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/helper.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
 
 class Profile extends StatefulWidget {
@@ -93,9 +92,7 @@ class _ProfileState extends State<Profile> {
                   )),
               ElevatedButton(
                   onPressed: () {
-                    AuthServices.signOut().then((value) {
-                      Helper.toReplacementScreen(context, ChooseLoginSignup());
-                    });
+                    AuthServices.signOut().whenComplete(() => Get.to(ChooseLoginSignup()));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: tertiaryColor,

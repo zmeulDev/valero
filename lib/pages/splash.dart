@@ -6,6 +6,8 @@ import 'package:valero/pages/navbar.dart';
 import 'package:valero/utils/constant.dart';
 
 class Splash extends StatefulWidget {
+  const Splash({Key? key}) : super(key: key);
+
   @override
   State<Splash> createState() => _SplashState();
 }
@@ -40,6 +42,8 @@ class _SplashState extends State<Splash> {
 }
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -73,13 +77,13 @@ function() {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/logo_reverse.png',
+            'assets/logo.png',
             width: 120,
             height: 120,
             fit: BoxFit.cover,
           ),
           Text(
-            'zmeulKit',
+            'valero',
             style: style1.copyWith(fontSize: 28, color: secondaryColor),
           ),
         ],

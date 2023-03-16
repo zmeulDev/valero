@@ -13,7 +13,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
-    runApp(new MyApp());
+    runApp(MyApp());
   });
 }
 
@@ -21,14 +21,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'zmeul',
+      title: 'valero',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           textTheme: GoogleFonts.robotoTextTheme(),
-          primarySwatch: Colors.orange,
+          primarySwatch: Colors.blueGrey,
           scaffoldBackgroundColor: primaryColor,
           canvasColor: primaryColor),
-      home: Splash(),
+      home: const Splash(),
     );
   }
 }
