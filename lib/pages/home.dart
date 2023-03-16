@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar('valero'),
+      appBar: getAppBar('home'),
       body: getBody(),
     );
   }
@@ -31,25 +31,21 @@ class _HomeState extends State<Home> {
   getBody() {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
+      child: Container(
+        margin: EdgeInsets.all(8),
+        child: Column(
+          children: [
+            helloContainer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                helloContainer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    carsContainer(),
-                    carsContainer(),
-                  ],
-                )
-
+                carsContainer(),
+                carsContainer(),
               ],
-            ),
-          ),
-        ],
+            )
+
+          ],
+        ),
       ),
     );
   }
@@ -57,7 +53,6 @@ class _HomeState extends State<Home> {
   helloContainer() {
     return Container(
       height: Get.height * 0.1,
-      width: Get.width * 0.95,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: tertiaryColor,
@@ -65,8 +60,8 @@ class _HomeState extends State<Home> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start ,
         children: [
-          SizedBox(width: Get.width * 0.05,),
-          createAvatarWidget(36),
+          SizedBox(width: Get.width * 0.02,),
+          createAvatarWidget(32),
           SizedBox(width: Get.width * 0.02,),
           UserModel().userName != ''
               ? Text( 'Hello ${UserModel().userName}',

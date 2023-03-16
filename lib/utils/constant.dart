@@ -8,8 +8,6 @@ const tertiaryColor = Color(0xFF016a41);
 const fourthColor = Color(0xFF000000);
 const fifthColor = Color(0xFFedeef4);
 
-String tempUserImg = 'assets/user.png';
-
 var styleLogin = GoogleFonts.roboto(
   fontSize: 34.0,
   color: primaryColor,
@@ -31,13 +29,10 @@ var style1 = GoogleFonts.roboto(
 var style2 = GoogleFonts.roboto(
   fontSize: 16.0,
   color: secondaryColor,
-  wordSpacing: 0.5,
-  fontWeight: FontWeight.w500,
-  letterSpacing: 0.5,
+    fontWeight: FontWeight.w300
 );
 var style3 = GoogleFonts.roboto(
-  fontSize: 12.0,
+  fontSize: 13.0,
   color: primaryColor,
-  wordSpacing: 0.5,
-  letterSpacing: 0.5,
+  fontWeight: FontWeight.w300
 );

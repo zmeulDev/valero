@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
+import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 import 'package:valero/utils/inputwidget.dart';
@@ -18,7 +19,9 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  File? _image;
   bool isLoading = false;
+  final picker = ImagePicker();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNoController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -33,10 +36,8 @@ class _EditProfileState extends State<EditProfile> {
     UserModel().email = emailController.text;
     //UserModel().profileUrl = ?;
     var res = _image == null
-        ? await AuthServices.updateUserDatainFirestoreWithoutImage(
-            UserModel().uid!)
-        : await AuthServices.updateUserDatainFirestore(
-            _image!, UserModel().uid!);
+        ? await AuthServices.updateUserDatainFirestoreWithoutImage(UserModel().uid!)
+        : await AuthServices.updateUserDatainFirestore(_image!, UserModel().uid!);
     if (res == "Success") {
       setState(() {
         isLoading = false;
@@ -66,35 +67,8 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  Widget displayImage() {
-    if (_image == null) {
-      return Container(
-        height: 150,
-        width: 150,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: tertiaryColor,
-        ),
-        child: createAvatarWidget(75),
-      );
-    } else {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(75),
-        child: Image.file(
-          _image!,
-          fit: BoxFit.cover,
-        ),
-      );
-    }
-  }
-
-  File? _image;
-
-  final picker = ImagePicker();
-
   Future getImage() async {
-    final pickedFile =
-        await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -102,45 +76,52 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  Widget displayImage() {
+    if (_image == null) {
+      return Container(
+        height: Get.height * 0.15,
+        width: Get.width * 0.32,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: tertiaryColor,
+        ),
+        child: createAvatarWidget(125),
+      );
+    } else {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(75),
+        child: Image.file(
+          _image!,
+          height: Get.height * 0.15,
+          width: Get.width * 0.32,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(),
+      appBar: getAppBar('Edit profile'),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            SizedBox(
-              height: 20,
-            ),
             Stack(
               children: [
-                Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: primaryColor.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset: Offset(1, 1), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: displayImage(),
-                ),
+                displayImage(),
                 Positioned(
                     right: 0,
                     bottom: 0,
                     child: CircleAvatar(
+
                       backgroundColor: fourthColor,
                       child: IconButton(
                         onPressed: () {
                           getImage();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit_outlined,
                           size: 20,
                           color: secondaryColor,
@@ -152,141 +133,64 @@ class _EditProfileState extends State<EditProfile> {
               ],
             ),
             SizedBox(
-              height: 40,
+              height: Get.height * 0.05,
             ),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: input('Choose your name', 'UserName', TextInputType.text,
-                    CupertinoIcons.person, nameController)),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: input(
-                    'Choose your email',
-                    'Email',
-                    TextInputType.emailAddress,
-                    CupertinoIcons.envelope,
-                    emailController)),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-              child: TextField(
-                controller: phoneNoController,
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintText: 'Phone number',
-                  labelText: 'Phone number',
-                  hintStyle:
-                      style2.copyWith(color: primaryColor.withOpacity(0.5)),
-                  labelStyle: style3.copyWith(color: tertiaryColor),
-                  contentPadding:
-                      EdgeInsets.only(left: 8, bottom: 12, right: 5, top: 5),
-                  suffixIcon: Icon(
-                    CupertinoIcons.phone,
-                    color: primaryColor.withOpacity(0.5),
-                    size: 20,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      width: 2,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                style: style2.copyWith(color: Colors.grey),
-              ),
-            ),
+            input('Choose your name', 'UserName', TextInputType.text, CupertinoIcons.person, nameController),
+            input('Choose your email', 'Email', TextInputType.emailAddress, CupertinoIcons.envelope, emailController),
+            input('Phone', 'Phone cannot be changed', TextInputType.phone, CupertinoIcons.phone, phoneNoController, readonly: true),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        height: 50,
-        width: double.infinity,
-        margin: EdgeInsets.only(bottom: 20),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: primaryColor),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: isLoading == true
-                      ? () {}
-                      : () {
-                          Get.back();
-                        },
-                  child: Text(
-                    'Cancel',
-                    style: style2.copyWith(fontWeight: FontWeight.bold),
-                  ),
+        color: fourthColor,
+        padding: EdgeInsets.all(8),
+        height: 65,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: primaryColor),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              SizedBox(
-                width: 15,
+              onPressed: isLoading == true
+                  ? () {}
+                  : () {
+                      Get.back();
+                    },
+              child: Text(
+                'Cancel',
+                style: style2.copyWith(color: fourthColor),
               ),
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: tertiaryColor,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: tertiaryColor),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () {
-                    updateData();
-                  },
-                  child: isLoading == true
-                      ? Center(
-                          child: CircularProgressIndicator(
-                          strokeWidth: 3.0,
-                          valueColor: AlwaysStoppedAnimation(Colors.white),
-                        ))
-                      : Text(
-                          'Save',
-                          style: style2.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: secondaryColor),
-                        ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: tertiaryColor,
+                shadowColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: tertiaryColor),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-            ],
-          ),
+              onPressed: () {
+                updateData();
+              },
+              child: isLoading == true
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      strokeWidth: 3.0,
+                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                    ))
+                  : Text(
+                      'Update',
+                      style: style2,
+                    ),
+            ),
+          ],
         ),
-      ),
-    );
-  }
-
-  getAppBar() {
-    return AppBar(
-      leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            CupertinoIcons.back,
-            color: primaryColor,
-          )),
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
-      centerTitle: true,
-      title: Text(
-        'Edit Profile',
-        style: style1.copyWith(fontWeight: FontWeight.w900),
       ),
     );
   }

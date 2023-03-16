@@ -1,30 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:valero/utils/constant.dart';
 
 Widget input(hintText, labelText, keyboardType, suffixIcon,
-    TextEditingController controller) {
+    TextEditingController controller, {readonly = false}) {
+
+
   return Container(
+    margin: EdgeInsets.all(8),
+    height: Get.height * 0.07,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12),
+      color: tertiaryColor,
+    ),
     child: TextField(
       controller: controller,
-      cursorColor: tertiaryColor,
+      cursorColor: primaryColor,
       cursorHeight: 20,
       keyboardType: keyboardType,
+      readOnly: readonly,
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        hintStyle: style2.copyWith(color: primaryColor.withOpacity(0.5)),
-        labelStyle: style3.copyWith(color: tertiaryColor),
-        contentPadding: EdgeInsets.only(left: 8, bottom: 12, right: 5, top: 5),
+        hintStyle: style3.copyWith(color: primaryColor.withOpacity(0.5)),
+        labelStyle: style3.copyWith(color: primaryColor),
+        contentPadding: const EdgeInsets.only(left: 10, bottom: 2, right: 4, top: 2),
         suffixIcon: Icon(
           suffixIcon,
           color: primaryColor.withOpacity(0.5),
           size: 20,
         ),
         enabledBorder: UnderlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
             width: 1,
-            color: primaryColor,
+            color: tertiaryColor,
           ),
         ),
         focusedBorder: UnderlineInputBorder(

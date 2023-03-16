@@ -6,12 +6,13 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Auth/welcome.dart';
 import 'package:valero/pages/UserProfile/editProfile.dart';
 import 'package:valero/pages/appBar.dart';
-import 'package:valero/pages/imageview.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
 
 class Profile extends StatefulWidget {
+  const Profile({Key? key}) : super(key: key);
+
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -21,11 +22,11 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar('profile'),
-      body: ListView(
+      body: Column(
         children: [
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: tertiaryColor,
@@ -34,89 +35,81 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.to(ImageViewPage(
-                          img: UserModel().avatarUrl == ''
-                              ? tempUserImg
-                              : UserModel().avatarUrl));
-                    },
-                    child: createAvatarWidget(75),
-                  ),
-                  const SizedBox(
-                    height: 10,
+                  createAvatarWidget(125),
+                  SizedBox(
+                    height: Get.height * 0.05,
                   ),
                   UserModel().userName != ''
                       ? Text(
                           UserModel().userName,
-                          style: style2.copyWith(
-                              color: secondaryColor, fontSize: 14),
+                          style: style2,
                         )
                       : Text(
-                          ' Name',
-                          style: style2.copyWith(
-                              color: secondaryColor, fontSize: 14),
+                          'Your name',
+                          style: style2,
                         ),
                   UserModel().email != ''
                       ? Text(
                           UserModel().email,
-                          style: style2.copyWith(
-                              color: secondaryColor, fontSize: 14),
+                          style: style2,
                         )
                       : Text(
-                          'Email',
-                          style: style2.copyWith(
-                              color: secondaryColor, fontSize: 14),
+                          'Your email',
+                          style: style2,
                         ),
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    height: Get.height * 0.02,
                   ),
                   Text(
                     UserModel().mobilePhone!,
-                    style: style2.copyWith(
-                        color: secondaryColor.withOpacity(0.7), fontSize: 14),
+                    style: style2.copyWith(color: secondaryColor.withOpacity(0.7)),
                   ),
                 ],
               ),
             ),
           ),
-          //Space
-          const SizedBox(
-            height: 20,
+          SizedBox(
+            height: Get.height * 0.02,
           ),
-          Container(
-            height: 44,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ElevatedButton(
-                onPressed: () {
-                  Get.to(const EditProfile())!.then((value) {
-                    setState(() {});
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: tertiaryColor,
-                ),
-                child: const Text('Edit')),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(const EditProfile())!.then((value) {
+                      setState(() {});
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: tertiaryColor,
+                      padding: const EdgeInsets.all(13),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      )),
+                  child: const Icon(
+                    CupertinoIcons.pencil,
+                    size: 30,
+                    color: secondaryColor,
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                    AuthServices.signOut().then((value) {
+                      Helper.toReplacementScreen(context, ChooseLoginSignup());
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: tertiaryColor,
+                      padding: const EdgeInsets.all(13),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      )),
+                  child: const Icon(
+                    CupertinoIcons.arrow_right_square,
+                    size: 30,
+                    color: secondaryColor,
+                  )),
+            ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            height: 44,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ElevatedButton(
-                onPressed: () {
-                  AuthServices.signOut().then((value) {
-                    Helper.toReplacementScreen(context, ChooseLoginSignup());
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: tertiaryColor,
-                ),
-                child: const Text('Logout')),
-          ),
-          //Space
-
         ],
       ),
     );

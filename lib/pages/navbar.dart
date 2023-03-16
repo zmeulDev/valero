@@ -25,7 +25,7 @@ class _NavigationState extends State<Navigation> {
     _controller = PersistentTabController();
   }
 
-  Future<bool> onWillPop() {
+  Future<bool> tapToExit() {
     if (backPressCounter < 2) {
       Helper.showSnack(context, "Tap Again To Exit");
       backPressCounter++;
@@ -55,35 +55,39 @@ class _NavigationState extends State<Navigation> {
         iconSize: 22
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.home),
-        title: ("Garage"),
+          icon: const Icon(CupertinoIcons.wrench),
+          title: ("Service"),
           activeColorPrimary: tertiaryColor,
           activeColorSecondary: primaryColor,
           inactiveColorPrimary: primaryColor,
+          inactiveColorSecondary: primaryColor,
           iconSize: 22
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.plus, color: secondaryColor,),
-        title: ("Garage"),
+          icon: const Icon(CupertinoIcons.car),
+          title: ("Garage"),
           activeColorPrimary: tertiaryColor,
           activeColorSecondary: primaryColor,
           inactiveColorPrimary: primaryColor,
+          inactiveColorSecondary: primaryColor,
           iconSize: 22
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.home),
-        title: ("Garage"),
+          icon: const Icon(CupertinoIcons.location),
+          title: ("Parking"),
           activeColorPrimary: tertiaryColor,
           activeColorSecondary: primaryColor,
           inactiveColorPrimary: primaryColor,
+          inactiveColorSecondary: primaryColor,
           iconSize: 22
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.settings),
-        title: ("Settings"),
+          icon: const Icon(CupertinoIcons.settings),
+          title: ("Settings"),
           activeColorPrimary: tertiaryColor,
           activeColorSecondary: primaryColor,
           inactiveColorPrimary: primaryColor,
+          inactiveColorSecondary: primaryColor,
           iconSize: 22
       ),
     ];
@@ -96,6 +100,7 @@ class _NavigationState extends State<Navigation> {
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
+      navBarHeight: 65,
       confineInSafeArea: true,
       backgroundColor: fourthColor,
       handleAndroidBackButtonPress: true,
@@ -106,11 +111,11 @@ class _NavigationState extends State<Navigation> {
       popActionScreens: PopActionScreensType.all,
       itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
+        curve: Curves.easeIn,
       ),
       screenTransitionAnimation: const ScreenTransitionAnimation(
         animateTabTransition: true,
-        curve: Curves.ease,
+        curve: Curves.fastOutSlowIn,
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style10,
