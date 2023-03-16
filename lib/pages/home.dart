@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 8),
             child: Column(
               children: [
                 helloContainer(),
@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
       width: Get.width * 0.4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: secondaryColor,
+        color: fifthColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start ,

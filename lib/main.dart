@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'zmeul',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          textTheme: GoogleFonts.ralewayTextTheme(),
+          textTheme: GoogleFonts.robotoTextTheme(),
           primarySwatch: Colors.orange,
           scaffoldBackgroundColor: primaryColor,
           canvasColor: primaryColor),

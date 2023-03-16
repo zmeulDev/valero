@@ -1,29 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:valero/pages/UserProfile/viewProfile.dart';
 import 'package:valero/pages/home.dart';
-import 'package:valero/pages/profile/profile.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 
-class NavBar extends StatefulWidget {
+class Navigation extends StatefulWidget {
+  const Navigation({Key? key}) : super(key: key);
+
   @override
-  State<StatefulWidget> createState() {
-    return NavigationBar();
-  }
+  State<Navigation> createState() => _NavigationState();
 }
 
-class NavigationBar extends State<NavBar> {
-  int _currentIndex = 0;
-  final List<Widget> _children = [
-    Home(),
-    Home(),
-    Home(),
-    Profile(),
-  ];
+class _NavigationState extends State<Navigation> {
   int backPressCounter = 1;
   int backPressTotal = 2;
+  late PersistentTabController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PersistentTabController();
+  }
 
   Future<bool> onWillPop() {
     if (backPressCounter < 2) {
@@ -39,71 +39,81 @@ class NavigationBar extends State<NavBar> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
+  List<Widget> _buildScreens() {
+    return [Home(), Profile(), Profile(), Profile(), Profile()];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        icon: const Icon(CupertinoIcons.home),
+        title: ("Home"),
+        activeColorPrimary: tertiaryColor,
+        activeColorSecondary: primaryColor,
+        inactiveColorPrimary: primaryColor,
+        inactiveColorSecondary: primaryColor,
+        iconSize: 22
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(CupertinoIcons.home),
+        title: ("Garage"),
+          activeColorPrimary: tertiaryColor,
+          activeColorSecondary: primaryColor,
+          inactiveColorPrimary: primaryColor,
+          iconSize: 22
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(CupertinoIcons.plus, color: secondaryColor,),
+        title: ("Garage"),
+          activeColorPrimary: tertiaryColor,
+          activeColorSecondary: primaryColor,
+          inactiveColorPrimary: primaryColor,
+          iconSize: 22
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(CupertinoIcons.home),
+        title: ("Garage"),
+          activeColorPrimary: tertiaryColor,
+          activeColorSecondary: primaryColor,
+          inactiveColorPrimary: primaryColor,
+          iconSize: 22
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(CupertinoIcons.settings),
+        title: ("Settings"),
+          activeColorPrimary: tertiaryColor,
+          activeColorSecondary: primaryColor,
+          inactiveColorPrimary: primaryColor,
+          iconSize: 22
+      ),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Scaffold(
-        body: _children[_currentIndex],
-        extendBody: true,
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: fourthColor,
-            boxShadow: [
-              BoxShadow(
-                spreadRadius: -12,
-                blurRadius: 60,
-                color: Colors.black.withOpacity(.20),
-                offset: const Offset(0, 15),
-              )
-            ],
-          ),
-          child: GNav(
-              selectedIndex: _currentIndex,
-              onTabChange: onTabTapped,
-              tabBorderRadius: 12,
-              haptic: true,
-              rippleColor: fifthColor,
-              hoverColor: fifthColor,
-              tabBackgroundColor: fourthColor,
-              color: primaryColor,
-              activeColor: tertiaryColor,
-              gap: 4,
-              iconSize: 28,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              duration: const Duration(milliseconds: 300),
-              tabs: const [
-                GButton(
-                  icon: Icons.home,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: Icons.search,
-                  text: 'Find',
-                ),
-                GButton(
-                  icon: Icons.car_crash,
-                  text: 'Garage',
-                ),
-                GButton(
-                  icon: Icons.person,
-                  text: 'Profile',
-                )
-              ]),
-        ),
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      backgroundColor: fourthColor,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      hideNavigationBarWhenKeyboardShows: true,
+      popAllScreensOnTapOfSelectedTab: true,
+      popActionScreens: PopActionScreensType.all,
+      itemAnimationProperties: const ItemAnimationProperties(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.ease,
       ),
+      screenTransitionAnimation: const ScreenTransitionAnimation(
+        animateTabTransition: true,
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
+      ),
+      navBarStyle: NavBarStyle.style10,
     );
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 }

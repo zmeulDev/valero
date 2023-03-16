@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Auth/welcome.dart';
+import 'package:valero/pages/UserProfile/editProfile.dart';
+import 'package:valero/pages/appBar.dart';
 import 'package:valero/pages/imageview.dart';
-import 'package:valero/pages/profile/editprofile.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
@@ -19,12 +20,12 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(),
+      appBar: getAppBar('profile'),
       body: ListView(
         children: [
           Container(
             width: double.infinity,
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: tertiaryColor,
@@ -42,7 +43,7 @@ class _ProfileState extends State<Profile> {
                     },
                     child: createAvatarWidget(75),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   UserModel().userName != ''
@@ -67,7 +68,7 @@ class _ProfileState extends State<Profile> {
                           style: style2.copyWith(
                               color: secondaryColor, fontSize: 14),
                         ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Text(
@@ -80,12 +81,29 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           //Space
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
             height: 44,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ElevatedButton(
+                onPressed: () {
+                  Get.to(const EditProfile())!.then((value) {
+                    setState(() {});
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: tertiaryColor,
+                ),
+                child: const Text('Edit')),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            height: 44,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
                 onPressed: () {
                   AuthServices.signOut().then((value) {
@@ -93,53 +111,14 @@ class _ProfileState extends State<Profile> {
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: tertiaryColor,
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white, backgroundColor: tertiaryColor,
                 ),
-                child: Text('Logout')),
+                child: const Text('Logout')),
           ),
           //Space
-          SizedBox(
-            height: 20,
-          ),
+
         ],
       ),
-    );
-  }
-
-  getAppBar() {
-    return AppBar(
-      leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(
-            CupertinoIcons.qrcode,
-            color: primaryColor,
-          )),
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
-      centerTitle: true,
-      title: Text(
-        'profile',
-        style: style1.copyWith(fontWeight: FontWeight.w900),
-      ),
-      actions: [
-        IconButton(
-            onPressed: () {
-              Get.to(EditProfile())!.then((value) {
-                setState(() {});
-              });
-            },
-            icon: Icon(
-              Icons.settings_outlined,
-              color: tertiaryColor,
-              size: 26,
-            )),
-        SizedBox(
-          width: 10,
-        ),
-      ],
     );
   }
 }

@@ -100,7 +100,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                   setState(() {
                     isLoading = false;
                   });
-                  Helper.toReplacementScreen(context, NavBar());
+                  Helper.toReplacementScreen(context, Navigation());
                 } else if (value.additionalUserInfo?.isNewUser == false) {
                   await FirebaseFirestore.instance.collection("users").doc(value.user?.uid).get().then((userData) async {
                     if (userData.exists) {
@@ -109,14 +109,14 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                         isLoading = false;
                       });
                       Helper.showSnack(context, "Logged In Successfully");
-                      Helper.toReplacementScreen(context, NavBar());
+                      Helper.toReplacementScreen(context, Navigation());
                     } else {
                       await AuthServices.uploadUserDatatoFirestore(
                           uid: value.user!.uid, profileUrl: "", phoneNo: "+${widget.phoneNumber}", username: "", email: "");
                       setState(() {
                         isLoading = false;
                       });
-                      Helper.toReplacementScreen(context, NavBar());
+                      Helper.toReplacementScreen(context, Navigation());
                     }
                   });
                 }
@@ -159,7 +159,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
             });
             print("Success");
             res = true;
-            Helper.toReplacementScreen(context, NavBar());
+            Helper.toReplacementScreen(context, Navigation());
           } else if (value.additionalUserInfo?.isNewUser == false) {
             await FirebaseFirestore.instance.collection("users").doc(value.user?.uid).get().then((userData) async {
               if (userData.exists) {
@@ -169,7 +169,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 });
                 Helper.showSnack(context, "Logged In Successfully");
                 res = true;
-                Helper.toReplacementScreen(context, NavBar());
+                Helper.toReplacementScreen(context, Navigation());
               } else {
                 await AuthServices.uploadUserDatatoFirestore(
                     uid: value.user!.uid, profileUrl: "", phoneNo: "${widget.phoneNumber}", username: "", email: "");
@@ -177,7 +177,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                   isLoading = false;
                 });
                 res = true;
-                Helper.toReplacementScreen(context, NavBar());
+                Helper.toReplacementScreen(context, Navigation());
               }
             });
           }

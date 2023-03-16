@@ -32,7 +32,7 @@ class _SplashState extends State<Splash> {
           );
         } else {
           initUserModel();
-          return NavBar();
+          return Navigation();
         }
       },
     );
