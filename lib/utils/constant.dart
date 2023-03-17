@@ -3,10 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 const primaryColor = Color(0xFFFFFFFF);
-const secondaryColor = Color(0xffdde0e7);
+const secondaryColor = Color(0xffedecd8);
 const tertiaryColor = Color(0xFF016a41);
 const fourthColor = Color(0xFF000000);
-const fifthColor = Color(0xFFedeef4);
+const fifthColor = Color(0xFFf8a125);
 
 var styleLogin = GoogleFonts.roboto(
   fontSize: 34.0,

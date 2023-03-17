@@ -24,7 +24,7 @@ class Helper {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
           message,
-          style: TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14),
         ),
         backgroundColor: color,
         duration: Duration(seconds: duration)));

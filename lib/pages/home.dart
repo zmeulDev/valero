@@ -7,6 +7,8 @@ import 'package:valero/utils/constant.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -32,7 +34,7 @@ class _HomeState extends State<Home> {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Container(
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         child: Column(
           children: [
             helloContainer(),
@@ -83,7 +85,7 @@ class _HomeState extends State<Home> {
       width: Get.width * 0.4,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: fifthColor,
+        color: secondaryColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start ,

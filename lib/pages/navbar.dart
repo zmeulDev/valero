@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:valero/pages/Car/addCar.dart';
+import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/UserProfile/viewProfile.dart';
 import 'package:valero/pages/home.dart';
 import 'package:valero/utils/constant.dart';
@@ -45,7 +47,7 @@ class _NavigationState extends State<Navigation> {
   }
 
   List<Widget> _buildScreens() {
-    return [Home(), Profile(), Profile(), Profile(), Profile()];
+    return [Home(), AddCar(), ViewCar(), Profile(), Profile()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {

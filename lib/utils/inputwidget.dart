@@ -13,7 +13,7 @@ Widget input(hintText, labelText, keyboardType, suffixIcon,
       borderRadius: BorderRadius.circular(12),
       color: secondaryColor,
     ),
-    child: TextField(
+    child: TextFormField(
       controller: controller,
       cursorColor: tertiaryColor,
       cursorHeight: 20,
