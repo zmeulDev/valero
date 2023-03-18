@@ -107,7 +107,7 @@ class _NavigationState extends State<Navigation> {
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
-      navBarHeight: 65,
+      navBarHeight: 80,
       confineInSafeArea: true,
       backgroundColor: fourthColor,
       handleAndroidBackButtonPress: true,

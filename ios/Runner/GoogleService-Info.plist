@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>708706699887-ks0i8t2779gqqjg485eg3pepir0lkbea.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.708706699887-ks0i8t2779gqqjg485eg3pepir0lkbea</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>708706699887-lhrudu8bokg4f6mjdsu72a6rjqn8qpvg.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAQ54fa2h2I8UjU19c47K0ydk0BKgWPRcY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>708706699887</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.valero.valero</string>
+	<key>PROJECT_ID</key>
+	<string>valero-ca265</string>
+	<key>STORAGE_BUCKET</key>
+	<string>valero-ca265.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:708706699887:ios:b3a2cbeaa4b6946f08db9a</string>
+</dict>
+</plist>

@@ -68,7 +68,7 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
                           opacity: 0.8,
                           child: Image.asset(
                             'assets/cover.png',
-                            width: Get.width * 0.8,
+                            width: Get.width * 0.7,
                           ),
                         ),
                         Text('valero', style: styleLogin,),

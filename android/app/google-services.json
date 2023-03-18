@@ -37,6 +37,13 @@
             {
               "client_id": "708706699887-emq7im8pj2mmbh5miacp1qplem4olm8j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "708706699887-ks0i8t2779gqqjg485eg3pepir0lkbea.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.valero.valero"
+              }
             }
           ]
         }
