@@ -1,8 +1,28 @@
 class Car{
   String? uid;
-  String? name;
+  String? vin;
+  String? plates;
   String? maker;
   String? model;
+  String? year;
+  String? fuel;
+  String? inspection;
+  String? insurance;
+  String? vignette;
+  String? note;
 
-  Car({this.uid,this.name,this.maker,this.model});
+
+  Car({
+    this.uid,
+    this.vin,
+    this.plates,
+    this.maker,
+    this.model,
+    this.year,
+    this.fuel,
+    this.inspection,
+    this.insurance,
+    this.vignette,
+    this.note,
+});
 }

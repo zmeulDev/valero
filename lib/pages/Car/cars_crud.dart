@@ -3,31 +3,46 @@ import 'package:valero/services/response.dart';
 
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-final CollectionReference _Collection = _firestore.collection('cars');
+final CollectionReference _carCollection = _firestore.collection('cars');
 
 class CarsCrud {
 
   static Future<Response> addCar({
-    required String name,
-     String? maker = '',
-     String? model = '',
+    required
+    String vin,
+    String? plates = '',
+    String? maker = '',
+    String? model = '',
+    String? year = '',
+    String? fuel = '',
+    String? inspection = '',
+    String? insurance = '',
+    String? vignette = '',
+    String? note = '',
   }) async {
 
     Response response = Response();
     DocumentReference documentReferencer =
-    _Collection.doc();
+    _carCollection.doc();
 
     Map<String, dynamic> data = <String, dynamic>{
-      "name": name,
-      "maker": maker,
-      "model" : model
+      "vin":vin,
+      "plates":plates,
+      "maker":maker,
+      "model":model,
+      "year":year,
+      "fuel":fuel,
+      "inspection":inspection,
+      "insurance":insurance,
+      "vignette":vignette,
+      "note":note,
     };
 
     var result = await documentReferencer
         .set(data)
         .whenComplete(() {
       response.code = 200;
-      response.message = "Sucessfully added.";
+      response.message = "Successfully added.";
     })
         .catchError((e) {
       response.code = 500;
@@ -40,32 +55,46 @@ class CarsCrud {
 
   static Stream<QuerySnapshot> readCar() {
     CollectionReference notesItemCollection =
-        _Collection;
+        _carCollection;
 
     return notesItemCollection.snapshots();
   }
 
   static Future<Response> updateCar({
-    required String name,
+    required String vin,
+    required String plates,
     required String maker,
     required String model,
+    required String year,
+    required String fuel,
+    required String inspection,
+    required String insurance,
+    required String vignette,
+    required String note,
     required String docId,
   }) async {
     Response response = Response();
     DocumentReference documentReferencer =
-    _Collection.doc(docId);
+    _carCollection.doc(docId);
 
     Map<String, dynamic> data = <String, dynamic>{
-      "name": name,
-      "maker": maker,
-      "model" : model
+      "vin":vin,
+      "plates":plates,
+      "maker":maker,
+      "model":model,
+      "year":year,
+      "fuel":fuel,
+      "inspection":inspection,
+      "insurance":insurance,
+      "vignette":vignette,
+      "note":note,
     };
 
     await documentReferencer
         .update(data)
         .whenComplete(() {
       response.code = 200;
-      response.message = "Sucessfully updated.";
+      response.message = "Successfully updated.";
     })
         .catchError((e) {
       response.code = 500;
@@ -80,13 +109,13 @@ class CarsCrud {
   }) async {
     Response response = Response();
     DocumentReference documentReferencer =
-    _Collection.doc(docId);
+    _carCollection.doc(docId);
 
     await documentReferencer
         .delete()
         .whenComplete((){
       response.code = 200;
-      response.message = "Sucessfully Deleted.";
+      response.message = "Successfully Deleted.";
     })
         .catchError((e) {
       response.code = 500;

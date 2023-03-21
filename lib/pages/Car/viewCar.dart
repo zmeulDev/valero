@@ -11,6 +11,8 @@ import 'package:valero/utils/helper.dart';
 import '../../models/carModel.dart';
 
 class ViewCar extends StatefulWidget {
+  const ViewCar({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _ViewCar();
@@ -44,7 +46,7 @@ class _ViewCar extends State<ViewCar> {
                       child: Column(children: [
                         ListTile(
                           title: Text(
-                            car["name"],
+                            car["vin"],
                             style: style2,
                           ),
                           subtitle: Container(
@@ -67,7 +69,20 @@ class _ViewCar extends State<ViewCar> {
                                   context,
                                   MaterialPageRoute<dynamic>(
                                     builder: (BuildContext context) => EditCar(
-                                      car: Car(uid: car.id, name: car["name"], maker: car["maker"], model: car["model"]),
+                                      car: Car(
+                                          uid: car.id,
+                                          vin: car["vin"],
+                                          plates: car["plates"],
+                                          maker: car["maker"],
+                                          model: car["model"],
+                                          year: car["year"],
+                                          fuel: car["fuel"],
+                                          inspection: car["inspection"],
+                                          insurance: car["insurance"],
+                                          vignette: car["vignette"],
+                                          note: car["note"]
+
+                                      ),
                                     ),
                                   ),
                                   (route) => true, //if you want to disable back feature set to false
