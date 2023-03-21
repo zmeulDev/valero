@@ -30,6 +30,7 @@ dependencies:
   avatar_view: ^1.0.1
   persistent_bottom_nav_bar: ^5.0.2
   mobile_number: ^2.1.1
+  flutter_svg: ^2.0.4
 
 
 dev_dependencies:
@@ -42,6 +43,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/svg/
 
 flutter_icons:
   android: "launcher_icon"

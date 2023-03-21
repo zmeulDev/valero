@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:valero/pages/Car/addCar.dart';
+import 'package:valero/models/carModel.dart';
 import 'package:valero/pages/Car/editCar.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
-
-import '../../models/carModel.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:valero/widgets/createAvatarWidget.dart';
 
 class ViewCar extends StatefulWidget {
   const ViewCar({Key? key}) : super(key: key);
@@ -22,48 +22,69 @@ class ViewCar extends StatefulWidget {
 class _ViewCar extends State<ViewCar> {
   final Stream<QuerySnapshot> collectionReference = CarsCrud.readCar();
 
-  //FirebaseFirestore.instance.collection('Employee').snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: getAppBar('Garage'),
-      body: StreamBuilder(
-        stream: collectionReference,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            return Container(
-              margin: const EdgeInsets.all(8),
-              child: ListView(
+      body: Container(
+        margin: const EdgeInsets.all(8),
+        child: StreamBuilder(
+          stream: collectionReference,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
                 children: snapshot.data!.docs.map((car) {
                   return Container(
-                    margin: const EdgeInsets.only(top: 12),
-                    height: Get.height * 0.15,
+                    margin: EdgeInsets.only(top: 8),
+                    padding: EdgeInsets.all(8),
+                    height: Get.height * 0.3,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: tertiaryColor,
                     ),
-                      child: Column(children: [
-                        ListTile(
-                          title: Text(
-                            car["vin"],
-                            style: style2,
+                    child: Column(
+                      children: [
+                        ClipOval(
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            color: secondaryColor,
+                            child: SvgPicture.asset(
+                              'assets/svg/car-driving.svg',
+                            ),
                           ),
-                          subtitle: Container(
-                            child: (Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text("Maker: " + car['maker'], style: style2),
-                                Text("Model: " + car['model'], style: style2),
-                              ],
-                            )),
-                          ),
+                        ),
+                        Text(
+                          car["plates"],
+                          style: style2,
+                        ),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Insurance: ${car["insurance"]}',
+                              style: style2,
+                            ),
+                            Text(
+                              'Inspection: ${car["inspection"]}',
+                              style: style2,
+                            ),
+                            Text(
+                              'Vignette: ${car["vignette"]}',
+                              style: style2,
+                            ),
+
+                          ],
                         ),
                         ButtonBar(
                           alignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             TextButton(
-                              child: const Text('Edit'),
+                              child: Text(
+                                'Details',
+                                style: style2,
+                              ),
                               onPressed: () {
                                 Navigator.pushAndRemoveUntil<dynamic>(
                                   context,
@@ -80,17 +101,18 @@ class _ViewCar extends State<ViewCar> {
                                           inspection: car["inspection"],
                                           insurance: car["insurance"],
                                           vignette: car["vignette"],
-                                          note: car["note"]
-
-                                      ),
+                                          note: car["note"]),
                                     ),
                                   ),
-                                  (route) => true, //if you want to disable back feature set to false
+                                      (route) => true,
                                 );
                               },
                             ),
                             TextButton(
-                              child: const Text('Delete'),
+                              child: Text(
+                                'Delete',
+                                style: style2,
+                              ),
                               onPressed: () async {
                                 var response = await CarsCrud.deleteCar(docId: car.id);
                                 if (response.code != 200) {
@@ -100,19 +122,22 @@ class _ViewCar extends State<ViewCar> {
                             ),
                           ],
                         ),
-                      ],),);
+                      ],
+                    ),
+
+                  );
                 }).toList(),
+              );
+            }
+
+            return Container(
+              child: Text(
+                'empty',
+                style: style2.copyWith(color: tertiaryColor),
               ),
             );
-          }
-
-          return Container(
-            child: Text(
-              'empty',
-              style: style2.copyWith(color: tertiaryColor),
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }

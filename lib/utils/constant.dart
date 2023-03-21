@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,3 +38,13 @@ var style3 = GoogleFonts.roboto(
   color: primaryColor,
   fontWeight: FontWeight.w300
 );
+
+IconData getRandomIcon(){
+  final List<IconData> iconData = <IconData>[Icons.call, Icons.school];
+  final Random random = Random();
+  const String chars = '0123456789ABCDEF';
+  int length = 3;
+  String hex = '0xe';
+  while(length-- > 0) hex += chars[(random.nextInt(16)) | 0];
+  return IconData(int.parse(hex), fontFamily: 'MaterialIcons');
+}
