@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:valero/Services/auth_services.dart';
@@ -34,7 +35,7 @@ class _EditProfileState extends State<EditProfile> {
     UserModel().userName = nameController.text;
     UserModel().mobilePhone = phoneNoController.text;
     UserModel().email = emailController.text;
-    //UserModel().profileUrl = ?;
+
     var res = _image == null
         ? await AuthServices.updateUserDatainFirestoreWithoutImage(UserModel().uid!)
         : await AuthServices.updateUserDatainFirestore(_image!, UserModel().uid!);
@@ -42,13 +43,15 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         isLoading = false;
       });
-      Helper.showSnack(context, "Data Updated Successfully");
+      Fluttertoast.cancel();
+      Fluttertoast.showToast(msg: 'Data Updated Successfully', backgroundColor: fifthColor);
       Get.back();
     } else {
       setState(() {
         isLoading = false;
       });
-      Helper.showSnack(context, res.toString());
+      Fluttertoast.cancel();
+      Fluttertoast.showToast(msg: res.toString(), backgroundColor: fifthColor);
     }
   }
 

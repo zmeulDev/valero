@@ -1,5 +1,7 @@
+import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/pages/Car/addCar.dart';
 import 'package:valero/pages/Car/viewCar.dart';
@@ -34,7 +36,13 @@ class _NavigationState extends State<Navigation> {
 
   Future<bool> tapToExit() {
     if (backPressCounter < 2) {
-      Helper.showSnack(context, "Tap Again To Exit");
+      CherryToast.warning(
+          title:  Text(""),
+          displayTitle:  false,
+          description:  const Text("Tap Again To Exit"),
+          autoDismiss:  true
+      );
+
       backPressCounter++;
       Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
         backPressCounter--;

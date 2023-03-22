@@ -13,7 +13,7 @@ getAppBar(String screenName) {
           ),
           margin: EdgeInsets.all(8),
           child: IconButton(
-            icon: const Icon(CupertinoIcons.arrow_branch, color: secondaryColor,),
+            icon: const Icon(Icons.ramp_left_outlined, color: secondaryColor,),
             onPressed: () { Scaffold.of(context).openDrawer(); },
             tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           ),

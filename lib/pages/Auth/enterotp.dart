@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/pages/navbar.dart';
@@ -46,7 +47,6 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -108,8 +108,9 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                       setState(() {
                         isLoading = false;
                       });
-                      Helper.showSnack(context, "Logged In Successfully");
-                      Helper.toReplacementScreen(context, Navigation());
+                      Fluttertoast.cancel();
+                      Fluttertoast.showToast(msg: 'Logged In Successfully');
+                      Helper.toReplacementScreen( context, Navigation());
                     } else {
                       await AuthServices.uploadUserDatatoFirestore(
                           uid: value.user!.uid, profileUrl: "", phoneNo: "+${widget.phoneNumber}", username: "", email: "");
@@ -123,11 +124,13 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
               }
             });
           } on FirebaseAuthException catch (e) {
-            Helper.showSnack(context, e.toString());
+            Fluttertoast.cancel();
+            Fluttertoast.showToast(msg: e.toString());
           }
         },
         verificationFailed: (FirebaseAuthException e) {
-          Helper.showSnack(context, e.toString());
+          Fluttertoast.cancel();
+          Fluttertoast.showToast(msg: e.toString());
         },
         codeSent: (String verificationId, int? resendtoken) {
           setState(() {
@@ -167,7 +170,9 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 setState(() {
                   isLoading = false;
                 });
-                Helper.showSnack(context, "Logged In Successfully");
+                Fluttertoast.cancel();
+                Fluttertoast.showToast(msg: "Logged In Successfully");
+
                 res = true;
                 Helper.toReplacementScreen(context, Navigation());
               } else {

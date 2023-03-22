@@ -1,10 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/user_model.dart';
-import 'package:valero/pages/Car/cars_crud.dart';
+import 'package:valero/pages/Car/carsCrud.dart';
 import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
@@ -43,8 +44,7 @@ class _AddCar extends State<AddCar> {
     final fieldModel = inputField('Model', 'Car model', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carModel);
     final fieldYear = inputField('Year', 'Car year', TextInputType.number, CupertinoIcons.arrow_up_down_circle, carYear);
     final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carFuel);
-    final fieldInspection =
-        inputField('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInspection);
+    final fieldInspection = inputField('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.alt, carInspection);
     final fieldInsurance = inputField('Insurance', 'Next insurance date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInsurance);
     final fieldVignette = inputField('Vignette', 'Vignette expires on', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carVignette);
     final fieldNote = inputField('Note', 'anything else', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carNote);
@@ -79,7 +79,7 @@ class _AddCar extends State<AddCar> {
         minWidth: Get.width * 0.02,
         onPressed: () async {
           if (carVin.text.isEmpty) {
-            Helper.showSnack(context, 'Car VIN not valid', color: fifthColor);
+           Helper.errorMsg('Invalid Vin number');
           } else {
             if (_formKey.currentState!.validate()) {
               var response = await CarsCrud.addCar(
@@ -96,9 +96,14 @@ class _AddCar extends State<AddCar> {
                 note: carNote.text,
               );
               if (response.code != 200) {
-                Helper.showSnack(context, response.message.toString(), color: tertiaryColor);
+                Helper.errorMsg(response.message.toString());
               } else {
-                Helper.showSnack(context, response.message.toString(), color: fifthColor);
+                Helper.successMsg(response.message.toString());
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: ViewCar(),
+                  withNavBar: true,
+                );
               }
             }
           }

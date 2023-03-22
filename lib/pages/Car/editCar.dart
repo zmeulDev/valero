@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/carModel.dart';
 import 'package:valero/models/user_model.dart';
-import 'package:valero/pages/Car/cars_crud.dart';
+import 'package:valero/pages/Car/carsCrud.dart';
 import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
@@ -55,14 +57,6 @@ class _EditCar extends State<EditCar> {
 
   @override
   Widget build(BuildContext context) {
-    final DocIDField = TextField(
-        controller: docId,
-        readOnly: true,
-        autofocus: false,
-        decoration: InputDecoration(
-            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            hintText: "Name",
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
 
     final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carVin);
     final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carPlates);
@@ -92,11 +86,12 @@ class _EditCar extends State<EditCar> {
       borderRadius: BorderRadius.circular(12.0),
       color: tertiaryColor,
       child: MaterialButton(
+        // TODO change width to Get
         minWidth: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
           if (carVin.text.isEmpty) {
-            Helper.showSnack(context, 'VIN number is not valid', color: fifthColor);
+            Helper.successMsg('VIN number is not valid');
           } else {
             if (_formKey.currentState!.validate()) {
               var response = await CarsCrud.updateCar(
@@ -114,9 +109,9 @@ class _EditCar extends State<EditCar> {
                 note: carNote.text,
               );
               if (response.code != 200) {
-                Helper.showSnack(context, response.message.toString(), color: tertiaryColor);
+                Helper.errorMsg(response.message.toString());
               } else {
-                Helper.showSnack(context, response.message.toString(), color: fifthColor);
+                Helper.successMsg(response.message.toString());
               }
             }
           }
@@ -189,7 +184,14 @@ class _EditCar extends State<EditCar> {
                 onPressed: () async {
                   var response = await CarsCrud.deleteCar(docId: docId.text);
                   if (response.code != 200) {
-                    Helper.showSnack(context, response.message.toString(), color: fifthColor);
+                    Helper.errorMsg(response.message.toString());
+                  } else {
+                    Helper.successMsg(response.message.toString());
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: ViewCar(),
+                      withNavBar: true,
+                    );
                   }
                 },
               ),

@@ -6,14 +6,14 @@ import 'package:valero/pages/Auth/enterotp.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:mobile_number/mobile_number.dart';
 
-class ChooseLoginSignup extends StatefulWidget {
-  ChooseLoginSignup({Key? key}) : super(key: key);
+class Welcome extends StatefulWidget {
+  Welcome({Key? key}) : super(key: key);
 
   @override
-  State<ChooseLoginSignup> createState() => _ChooseLoginSignupState();
+  State<Welcome> createState() => _WelcomeState();
 }
 
-class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
+class _WelcomeState extends State<Welcome> {
   String _mobileNumber = '';
 
   @override
@@ -46,6 +46,7 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -71,8 +72,14 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
                             width: Get.width * 0.7,
                           ),
                         ),
-                        Text('valero', style: styleLogin,),
-                        Text('car management', style: style2,),
+                        Text(
+                          'valero',
+                          style: styleLogin,
+                        ),
+                        Text(
+                          'car management',
+                          style: style2,
+                        ),
                       ],
                     ),
                   ),
@@ -105,7 +112,10 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
                           ),
                           Text(
                             _mobileNumber,
-                            style: style2.copyWith(color: fourthColor, fontSize: 20,),
+                            style: style2.copyWith(
+                              color: fourthColor,
+                              fontSize: 20,
+                            ),
                           )
                         ],
                       ),
@@ -125,12 +135,13 @@ class _ChooseLoginSignupState extends State<ChooseLoginSignup> {
                           color: fourthColor,
                         ),
                         child: Center(
-                            child: Text(
-                          "Sign in",
-                          style: style2,
-                        )),
+                          child:  Text(
+                                  "Sign in",
+                                  style: style2,
+                                ),
+                          ),
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

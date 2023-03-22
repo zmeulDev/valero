@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:valero/models/carModel.dart';
 import 'package:valero/pages/Car/addCar.dart';
-import 'package:valero/pages/Car/cars_crud.dart';
+import 'package:valero/pages/Car/carsCrud.dart';
 import 'package:valero/pages/Car/editCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';

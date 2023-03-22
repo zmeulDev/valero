@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> {
                   )),
               ElevatedButton(
                   onPressed: () {
-                    AuthServices.signOut().whenComplete(() => Get.to(ChooseLoginSignup()));
+                    AuthServices.signOut().whenComplete(() => Get.to(Welcome()));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: tertiaryColor,
