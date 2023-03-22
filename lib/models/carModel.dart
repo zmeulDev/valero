@@ -1,5 +1,6 @@
 class Car{
   String? uid;
+  String? userId;
   String? vin;
   String? plates;
   String? maker;
@@ -14,6 +15,7 @@ class Car{
 
   Car({
     this.uid,
+    this.userId,
     this.vin,
     this.plates,
     this.maker,

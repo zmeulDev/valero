@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
-import 'package:valero/utils/inputwidget.dart';
+import 'package:valero/utils/createInputField.dart';
 
 class AddCar extends StatefulWidget {
   const AddCar({Key? key}) : super(key: key);
@@ -19,6 +22,7 @@ class AddCar extends StatefulWidget {
 
 class _AddCar extends State<AddCar> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // car form fields
   final carVin = TextEditingController();
   final carPlates = TextEditingController();
@@ -31,51 +35,59 @@ class _AddCar extends State<AddCar> {
   final carVignette = TextEditingController();
   final carNote = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
+    final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carVin);
+    final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carPlates);
+    final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carMaker);
+    final fieldModel = inputField('Model', 'Car model', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carModel);
+    final fieldYear = inputField('Year', 'Car year', TextInputType.number, CupertinoIcons.arrow_up_down_circle, carYear);
+    final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carFuel);
+    final fieldInspection =
+        inputField('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInspection);
+    final fieldInsurance = inputField('Insurance', 'Next insurance date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInsurance);
+    final fieldVignette = inputField('Vignette', 'Vignette expires on', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carVignette);
+    final fieldNote = inputField('Note', 'anything else', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carNote);
 
-    final fieldVin = input('VIN', 'Car VIN number', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carVin);
-    final fieldPlates = input('Plates', 'Car plates', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carPlates);
-    final fieldMaker = input('Maker', 'Car maker', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carMaker);
-    final fieldModel = input('Model', 'Car model', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carModel);
-    final fieldYear = input('Year', 'Car year', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carYear);
-    final fieldFuel = input('Fuel', 'Car fuel type', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carFuel);
-    final fieldInspection = input('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInspection);
-    final fieldInsurance = input('Insurance', 'Next insurance date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInsurance);
-    final fieldVignette = input('Vignette', 'Vignette expires on', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carVignette);
-    final fieldNote = input('Note', 'anything else', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carNote);
 
-
-    final viewListButton = TextButton(
+    final allCarsButton = Material(
+      borderRadius: BorderRadius.circular(12.0),
+      color: fourthColor,
+      child: MaterialButton(
+        minWidth: Get.width * 0.03,
         onPressed: () {
           Navigator.pushAndRemoveUntil<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => ViewCar(),
             ),
-            (route) => false, //To disable back feature set to false
+                (route) => false, //To disable back feature set to false
           );
         },
-        child: const Text('View all your cars'));
+        child: Text(
+          "My garage",
+          style: style2,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
 
     final saveButton = Material(
-      elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
       color: tertiaryColor,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        minWidth: Get.width * 0.02,
         onPressed: () async {
           if (carVin.text.isEmpty) {
             Helper.showSnack(context, 'Car VIN not valid', color: fifthColor);
           } else {
             if (_formKey.currentState!.validate()) {
               var response = await CarsCrud.addCar(
-                vin: carVin.text,
-                maker: carMaker.text,
-                model: carModel.text,
-                plates: carPlates.text,
+                userId: UserModel().uid.toString(),
+                vin: carVin.text.toUpperCase(),
+                maker: carMaker.text.toUpperCase(),
+                model: carModel.text.toUpperCase(),
+                plates: carPlates.text.toUpperCase(),
                 year: carYear.text,
                 fuel: carFuel.text,
                 inspection: carInspection.text,
@@ -93,8 +105,7 @@ class _AddCar extends State<AddCar> {
         },
         child: Text(
           "Save",
-          style: style2.copyWith(color: fifthColor),
-          textAlign: TextAlign.center,
+          style: style2,
         ),
       ),
     );
@@ -104,67 +115,72 @@ class _AddCar extends State<AddCar> {
       appBar: getAppBar('Add car'),
       body: Form(
         key: _formKey,
-        child:
-        Column(
+        child: Stack(
           children: [
-            fieldVin,
-            SizedBox(
-              height: Get.height * 0.01,
-            ),
-            Row(
+            SvgPicture.asset('assets/svg/delorean.svg', alignment: Alignment.bottomCenter, width: Get.width, height: Get.height),
+            Column(
               children: [
-                Expanded(
-                  child: fieldPlates
-                ),
+                Container(
+                  padding: EdgeInsets.all(15),
+                    color: tertiaryColor,
+                    child: fieldVin),
                 SizedBox(
-                  width: Get.width * 0.02,
+                  height: Get.height * 0.01,
                 ),
-                Expanded(
-                  child: fieldYear
+                Row(
+                  children: [
+                    Expanded(child: fieldPlates),
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Expanded(child: fieldYear),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: fieldMaker),
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Expanded(child: fieldModel),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: fieldInsurance),
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Expanded(child: fieldInspection),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: fieldFuel),
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Expanded(child: fieldVignette),
+                  ],
+                ),
+                fieldNote,
+                Container(
+                    margin: EdgeInsets.all(8),
+                  child:
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        allCarsButton,
+                      SizedBox(
+                        width: Get.width * 0.01,
+                      ),
+                      saveButton,
+                      ],
+                    ),
+
                 ),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                    child: fieldMaker
-                ),
-                SizedBox(
-                  width: Get.width * 0.02,
-                ),
-                Expanded(
-                    child: fieldModel
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                    child: fieldInsurance
-                ),
-                SizedBox(
-                  width: Get.width * 0.02,
-                ),
-                Expanded(
-                    child: fieldInspection
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                    child: fieldFuel
-                ),
-                SizedBox(
-                  width: Get.width * 0.02,
-                ),
-                Expanded(
-                    child: fieldVignette
-                ),
-              ],
-            ),
-            fieldNote,
-            saveButton,
           ],
         ),
       ),

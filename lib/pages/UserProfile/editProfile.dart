@@ -8,7 +8,7 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
-import 'package:valero/utils/inputwidget.dart';
+import 'package:valero/utils/createInputField.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
 
 class EditProfile extends StatefulWidget {
@@ -135,9 +135,9 @@ class _EditProfileState extends State<EditProfile> {
             SizedBox(
               height: Get.height * 0.05,
             ),
-            input('Choose your name', 'UserName', TextInputType.text, CupertinoIcons.person, nameController),
-            input('Choose your email', 'Email', TextInputType.emailAddress, CupertinoIcons.envelope, emailController),
-            input('Phone', 'Phone cannot be changed', TextInputType.phone, CupertinoIcons.phone, phoneNoController, readonly: true),
+            inputField('Choose your name', 'UserName', TextInputType.text, CupertinoIcons.person, nameController),
+            inputField('Choose your email', 'Email', TextInputType.emailAddress, CupertinoIcons.envelope, emailController),
+            inputField('Phone', 'Phone cannot be changed', TextInputType.phone, CupertinoIcons.phone, phoneNoController, readonly: true),
           ],
         ),
       ),

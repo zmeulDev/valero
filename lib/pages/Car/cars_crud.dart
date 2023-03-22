@@ -1,4 +1,7 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:valero/models/user_model.dart';
 import 'package:valero/services/response.dart';
 
 
@@ -8,8 +11,8 @@ final CollectionReference _carCollection = _firestore.collection('cars');
 class CarsCrud {
 
   static Future<Response> addCar({
-    required
-    String vin,
+    required String vin,
+    required String userId,
     String? plates = '',
     String? maker = '',
     String? model = '',
@@ -26,6 +29,7 @@ class CarsCrud {
     _carCollection.doc();
 
     Map<String, dynamic> data = <String, dynamic>{
+      "userId":userId,
       "vin":vin,
       "plates":plates,
       "maker":maker,
@@ -54,13 +58,14 @@ class CarsCrud {
 
 
   static Stream<QuerySnapshot> readCar() {
-    CollectionReference notesItemCollection =
-        _carCollection;
+    Query<Object?> notesItemCollection =
+        _carCollection.where('userId', isEqualTo: UserModel().uid.toString());
 
     return notesItemCollection.snapshots();
   }
 
   static Future<Response> updateCar({
+    required String userId,
     required String vin,
     required String plates,
     required String maker,
@@ -78,6 +83,7 @@ class CarsCrud {
     _carCollection.doc(docId);
 
     Map<String, dynamic> data = <String, dynamic>{
+      "userId":userId,
       "vin":vin,
       "plates":plates,
       "maker":maker,

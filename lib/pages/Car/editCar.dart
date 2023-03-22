@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:valero/models/carModel.dart';
+import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
-import 'package:valero/utils/inputwidget.dart';
+import 'package:valero/utils/createInputField.dart';
 
 class EditCar extends StatefulWidget {
   final Car? car;
@@ -63,16 +64,16 @@ class _EditCar extends State<EditCar> {
             hintText: "Name",
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
 
-    final fieldVin = input('VIN', 'Car VIN number', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carVin);
-    final fieldPlates = input('Plates', 'Car plates', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carPlates);
-    final fieldMaker = input('Maker', 'Car maker', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carMaker);
-    final fieldModel = input('Model', 'Car model', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carModel);
-    final fieldYear = input('Year', 'Car year', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carYear);
-    final fieldFuel = input('Fuel', 'Car fuel type', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carFuel);
-    final fieldInspection = input('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInspection);
-    final fieldInsurance = input('Insurance', 'Next insurance date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInsurance);
-    final fieldVignette = input('Vignette', 'Vignette expires on', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carVignette);
-    final fieldNote = input('Note', 'anything else', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carNote);
+    final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carVin);
+    final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carPlates);
+    final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carMaker);
+    final fieldModel = inputField('Model', 'Car model', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carModel);
+    final fieldYear = inputField('Year', 'Car year', TextInputType.number, CupertinoIcons.arrow_up_down_circle, carYear);
+    final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carFuel);
+    final fieldInspection = inputField('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInspection);
+    final fieldInsurance = inputField('Insurance', 'Next insurance date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInsurance);
+    final fieldVignette = inputField('Vignette', 'Vignette expires on', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carVignette);
+    final fieldNote = inputField('Note', 'anything else', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carNote);
 
     final viewListButton = TextButton(
         onPressed: () {
@@ -100,12 +101,13 @@ class _EditCar extends State<EditCar> {
             if (_formKey.currentState!.validate()) {
               var response = await CarsCrud.updateCar(
                 docId: docId.text,
-                vin: carVin.text,
-                plates: carPlates.text,
-                maker: carMaker.text,
-                model: carModel.text,
+                userId:  UserModel().uid.toString(),
+                vin: carVin.text.toUpperCase(),
+                plates: carPlates.text.toUpperCase(),
+                maker: carMaker.text.toUpperCase(),
+                model: carModel.text.toUpperCase(),
                 year: carYear.text,
-                fuel: carFuel.text,
+                fuel: carFuel.text.toUpperCase(),
                 inspection: carInspection.text,
                 insurance: carInsurance.text,
                 vignette: carVignette.text,
@@ -178,7 +180,19 @@ class _EditCar extends State<EditCar> {
               ),
               fieldNote,
               updateButon,
-              viewListButton
+              viewListButton,
+              TextButton(
+                child: Text(
+                  'Delete',
+                  style: style2,
+                ),
+                onPressed: () async {
+                  var response = await CarsCrud.deleteCar(docId: docId.text);
+                  if (response.code != 200) {
+                    Helper.showSnack(context, response.message.toString(), color: fifthColor);
+                  }
+                },
+              ),
             ],
           ),
         ),
