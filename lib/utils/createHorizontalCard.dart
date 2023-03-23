@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/utils/constant.dart';
 
-class CreateHorizontalCard extends StatelessWidget {
-  const CreateHorizontalCard(
-      {Key? key, required this.level, required this.title, required this.duration, required this.color, required this.image, required this.textColor})
+class CreateHorizontalCard extends StatefulWidget {
+   CreateHorizontalCard(
+      {Key? key,
+      required this.subTitle,
+      required this.title,
+      required this.duration,
+      required this.color,
+      required this.image,
+      required this.textColor,
+   this.navigate})
       : super(key: key);
 
-  final String level;
+  final String subTitle;
   final String title;
   final String duration;
   final Color color;
   final SvgPicture image;
   final Color textColor;
+  var navigate ;
+
+  @override
+  State<CreateHorizontalCard> createState() => _CreateHorizontalCardState();
+}
+
+class _CreateHorizontalCardState extends State<CreateHorizontalCard> {
+
+  navigateTo() {
+    return PersistentNavBarNavigator.pushNewScreen(
+      context,
+      screen: widget.navigate,
+      withNavBar: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: Get.height * 0.11,
       child: Card(
-        color: color,
+        color: widget.color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -29,20 +52,20 @@ class CreateHorizontalCard extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Container(
-                child: image,
+                child: widget.image,
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(28, 55, 0, 0),
               child: Text(
-                level,
+                widget.subTitle,
                 style: style2,
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 24, 0, 0),
               child: Text(
-                title,
+                widget.title,
                 style: style3,
               ),
             ),
@@ -51,9 +74,9 @@ class CreateHorizontalCard extends StatelessWidget {
               child: MaterialButton(
                 color: secondaryColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-                onPressed: () {},
+                onPressed: () => navigateTo(),
                 child: Text("Start", style: style3.copyWith(color: fourthColor)),
               ),
             ),
@@ -63,3 +86,5 @@ class CreateHorizontalCard extends StatelessWidget {
     );
   }
 }
+
+

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:valero/models/user_model.dart';
+import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/createHorizontalCard.dart';
+import 'package:valero/utils/createVerticalCard.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
 
 class Home extends StatefulWidget {
@@ -42,19 +44,20 @@ class _HomeState extends State<Home> {
           children: [
             helloContainer(),
             CreateHorizontalCard(
-                level: 'level',
-                title: 'title',
-                duration: 'duration',
-                color: fifthColor,
-                image: SvgPicture.asset('assets/svg/delorean.svg'),
-                textColor: fourthColor),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                carsContainer(),
-                carsContainer(),
-              ],
-            )
+              subTitle: 'level',
+              title: 'title',
+              duration: 'duration',
+              color: fifthColor,
+              image: SvgPicture.asset('assets/svg/delorean.svg'),
+              textColor: fourthColor,
+              navigate: ViewCar(),),
+            CreateVerticalCard(
+              title: 'title',
+              duration: 'duration',
+              color: tertiaryColor,
+              image: SvgPicture.asset('assets/svg/delorean.svg'),
+              textColor: tertiaryColor,
+              subTitle: 'level',),
           ],
         ),
       ),
@@ -74,37 +77,16 @@ class _HomeState extends State<Home> {
           SizedBox(
             width: Get.width * 0.02,
           ),
-          createAvatarWidget(32),
+          createAvatarWidget(36),
           SizedBox(
             width: Get.width * 0.02,
           ),
           UserModel().userName != ''
               ? Text(
-                  'Hello ${UserModel().userName}',
-                  style: style2.copyWith(color: secondaryColor, fontSize: 18),
-                )
+            'Hello ${UserModel().userName}',
+            style: style2.copyWith(color: secondaryColor, fontSize: 18),
+          )
               : Text('Hello!', style: style2.copyWith(color: secondaryColor, fontSize: 18)),
-        ],
-      ),
-    );
-  }
-
-  carsContainer() {
-    return Container(
-      margin: EdgeInsets.only(top: 12),
-      height: Get.height * 0.3,
-      width: Get.width * 0.4,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: secondaryColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: Get.width * 0.05,
-          ),
-          createAvatarWidget(36),
         ],
       ),
     );
