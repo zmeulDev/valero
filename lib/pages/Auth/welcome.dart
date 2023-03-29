@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:valero/pages/Auth/enterotp.dart';
 import 'package:valero/utils/constant.dart';
@@ -35,7 +36,8 @@ class _WelcomeState extends State<Welcome> {
     }
     try {
       _mobileNumber = (await MobileNumber.mobileNumber)!;
-      _mobileNumber = _mobileNumber.substring(_mobileNumber.indexOf('+'), _mobileNumber.length);
+      _mobileNumber = _mobileNumber.substring(
+          _mobileNumber.indexOf('+'), _mobileNumber.length);
     } on PlatformException catch (e) {
       debugPrint("Failed to get mobile number because of '${e.message}'");
     }
@@ -46,7 +48,6 @@ class _WelcomeState extends State<Welcome> {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -67,8 +68,8 @@ class _WelcomeState extends State<Welcome> {
                       children: [
                         Opacity(
                           opacity: 0.8,
-                          child: Image.asset(
-                            'assets/cover.png',
+                          child: SvgPicture.asset(
+                            'assets/svg/ride.svg',
                             width: Get.width * 0.7,
                           ),
                         ),
@@ -135,13 +136,13 @@ class _WelcomeState extends State<Welcome> {
                           color: fourthColor,
                         ),
                         child: Center(
-                          child:  Text(
-                                  "Sign in",
-                                  style: style2,
-                                ),
+                          child: Text(
+                            "Sign in",
+                            style: style2,
                           ),
                         ),
                       ),
+                    ),
                   ],
                 ),
               ),

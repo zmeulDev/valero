@@ -7,7 +7,8 @@ import 'package:valero/pages/Car/carsCrud.dart';
 import 'package:valero/pages/Car/editCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createVerticalCard.dart';
+import 'package:valero/utils/createWideCard.dart';
+import 'package:valero/utils/createGridCard.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // https://github.com/niamulhasan/Flutter-Cards/tree/main/lib
@@ -35,27 +36,23 @@ class _ViewCar extends State<ViewCar> {
         margin: const EdgeInsets.all(8),
         child: StreamBuilder(
           stream: collectionReference,
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             } else if (snapshot.data?.size == 0) {
               return Column(
                 children: [
-                  Text(
-                    'There are no cars yet.',
-                    style: style2.copyWith(color: tertiaryColor),
+                  CreateWideCard(
+                    subTitle: 'you have',
+                    title: '0',
+                    paragraph: 'cars',
+                    color: tertiaryColor,
+                    image: SvgPicture.asset('assets/svg/delorean.svg'),
+                    textColor: secondaryColor,
+                    buttonText: 'Add',
+                    navigate: const AddCar(),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil<dynamic>(
-                          context,
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) => AddCar(),
-                          ),
-                          (route) => false, //if you want to disable back feature set to false
-                        );
-                      },
-                      child: const Text('Add new car')),
                   SvgPicture.asset(
                     'assets/svg/nodata-cuate.svg',
                     alignment: Alignment.bottomCenter,
@@ -63,62 +60,66 @@ class _ViewCar extends State<ViewCar> {
                 ],
               );
             } else {
-              return ListView(
-                children: snapshot.data!.docs.map((car) {
-                  return Stack(fit: StackFit.loose, children: [
-                    CreateVerticalCard(
-                      subTitle: car["model"],
-                      title: car["plates"],
-                      duration: car["year"],
-                      color: tertiaryColor,
-                      textColor: secondaryColor,
-                      image: SvgPicture.asset(
-                        'assets/svg/delorean.svg',
-                        alignment: Alignment.topRight,
-                      ),
-                    ),
-                    Positioned(
-                      top: 105,
-                      left: 295,
-                      height: 35,
-                      width: 80,
-                      child: MaterialButton(
-                        color: secondaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
+              return Column(children: [
+                CreateWideCard(
+                  subTitle: 'you have',
+                  title: snapshot.data!.docs.length.toString(),
+                  paragraph:
+                      snapshot.data!.docs.length.isEqual(1) ? 'car' : 'cars',
+                  color: fifthColor,
+                  image: SvgPicture.asset('assets/svg/delorean.svg'),
+                  textColor: secondaryColor,
+                  buttonText: 'Add',
+                  navigate: const AddCar(),
+                ),
+                SizedBox(
+                  height: Get.height * 0.68,
+                  child: GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8,
+                            childAspectRatio: 0.7),
+                    children: snapshot.data!.docs.map((car) {
+                      return CreateGridCard(
+                        subTitle: car["model"].toString().isEmpty
+                            ? car["maker"]
+                            : car["model"],
+                        title: car["plates"],
+                        paragraph: car["year"],
+                        color: fourthColor.withOpacity(0.8),
+                        textColor: secondaryColor,
+                        image: SvgPicture.asset(
+                          'assets/svg/offRoad.svg',
                         ),
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil<dynamic>(
-                            context,
-                            MaterialPageRoute<dynamic>(
-                              builder: (BuildContext context) => EditCar(
-                                car: Car(
-                                    uid: car.id,
-                                    vin: car["vin"],
-                                    plates: car["plates"],
-                                    maker: car["maker"],
-                                    model: car["model"],
-                                    year: car["year"],
-                                    fuel: car["fuel"],
-                                    inspection: car["inspection"],
-                                    insurance: car["insurance"],
-                                    vignette: car["vignette"],
-                                    note: car["note"]),
-                              ),
-                            ),
-                            (route) => true,
-                          );
-                        },
-                        child: Text("Details", style: style3.copyWith(color: fourthColor)),
-                      ),
-                    ),
-                  ]);
-                }).toList(),
-              );
+                        buttonText: 'Details',
+                        navigate: editCarButton(car),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ]);
             }
           },
         ),
       ),
+    );
+  }
+
+  Widget editCarButton(QueryDocumentSnapshot<Object?> car) {
+    return EditCar(
+      car: Car(
+          uid: car.id,
+          vin: car["vin"],
+          plates: car["plates"],
+          maker: car["maker"],
+          model: car["model"],
+          year: car["year"],
+          fuel: car["fuel"],
+          inspection: car["inspection"],
+          insurance: car["insurance"],
+          vignette: car["vignette"],
+          note: car["note"]),
     );
   }
 }

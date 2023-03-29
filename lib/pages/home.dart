@@ -6,8 +6,8 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createHorizontalCard.dart';
-import 'package:valero/utils/createVerticalCard.dart';
+import 'package:valero/utils/createBoxCard.dart';
+import 'package:valero/utils/createWideCard.dart';
 import 'package:valero/widgets/createAvatarWidget.dart';
 
 class Home extends StatefulWidget {
@@ -18,7 +18,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  CollectionReference qrCollection = FirebaseFirestore.instance.collection('codes');
+  CollectionReference qrCollection =
+      FirebaseFirestore.instance.collection('codes');
 
   @override
   void initState() {
@@ -34,32 +35,46 @@ class _HomeState extends State<Home> {
   }
 
   getBody() {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        height: Get.height,
-        width: Get.width,
-        margin: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            helloContainer(),
-            CreateHorizontalCard(
-              subTitle: 'level',
-              title: 'title',
-              duration: 'duration',
-              color: fifthColor,
-              image: SvgPicture.asset('assets/svg/delorean.svg'),
-              textColor: fourthColor,
-              navigate: ViewCar(),),
-            CreateVerticalCard(
-              title: 'title',
-              duration: 'duration',
-              color: tertiaryColor,
-              image: SvgPicture.asset('assets/svg/delorean.svg'),
-              textColor: tertiaryColor,
-              subTitle: 'level',),
-          ],
-        ),
+    return Container(
+      height: Get.height,
+      width: Get.width,
+      margin: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          helloContainer(),
+          CreateWideCard(
+            subTitle: 'level',
+            title: 'title',
+            paragraph: 'duration',
+            color: fifthColor,
+            image: SvgPicture.asset('assets/svg/delorean.svg'),
+            textColor: fourthColor,
+            buttonText: 'Homme',
+            navigate: const ViewCar(),
+          ),
+          Row(
+            children: [
+              CreateBoxCard(
+                title: 'title',
+                paragraph: 'duration',
+                color: tertiaryColor,
+                image: SvgPicture.asset('assets/svg/delorean.svg'),
+                textColor: primaryColor,
+                subTitle: 'level',
+                buttonText: 'Bla',
+              ),
+              CreateBoxCard(
+                title: 'title',
+                paragraph: 'duration',
+                color: tertiaryColor,
+                image: SvgPicture.asset('assets/svg/delorean.svg'),
+                textColor: secondaryColor,
+                subTitle: 'level',
+                buttonText: 'BlaBla',
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -83,10 +98,11 @@ class _HomeState extends State<Home> {
           ),
           UserModel().userName != ''
               ? Text(
-            'Hello ${UserModel().userName}',
-            style: style2.copyWith(color: secondaryColor, fontSize: 18),
-          )
-              : Text('Hello!', style: style2.copyWith(color: secondaryColor, fontSize: 18)),
+                  'Hello ${UserModel().userName}',
+                  style: style2.copyWith(color: secondaryColor, fontSize: 18),
+                )
+              : Text('Hello!',
+                  style: style2.copyWith(color: secondaryColor, fontSize: 18)),
         ],
       ),
     );

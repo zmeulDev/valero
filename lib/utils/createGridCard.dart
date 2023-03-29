@@ -4,32 +4,33 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/utils/constant.dart';
 
-class CreateHorizontalCard extends StatefulWidget {
-   CreateHorizontalCard(
+class CreateGridCard extends StatefulWidget {
+  CreateGridCard(
       {Key? key,
       required this.subTitle,
       required this.title,
-      required this.duration,
+      required this.paragraph,
       required this.color,
       required this.image,
       required this.textColor,
-   this.navigate})
+      required this.buttonText,
+      this.navigate})
       : super(key: key);
 
   final String subTitle;
   final String title;
-  final String duration;
+  final String paragraph;
   final Color color;
   final SvgPicture image;
   final Color textColor;
-  var navigate ;
+  final String buttonText;
+  var navigate;
 
   @override
-  State<CreateHorizontalCard> createState() => _CreateHorizontalCardState();
+  State<CreateGridCard> createState() => _CreateGridCard();
 }
 
-class _CreateHorizontalCardState extends State<CreateHorizontalCard> {
-
+class _CreateGridCard extends State<CreateGridCard> {
   navigateTo() {
     return PersistentNavBarNavigator.pushNewScreen(
       context,
@@ -41,7 +42,8 @@ class _CreateHorizontalCardState extends State<CreateHorizontalCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Get.height * 0.11,
+      height: Get.height * 0.12,
+      width: Get.width * 0.48,
       child: Card(
         color: widget.color,
         shape: RoundedRectangleBorder(
@@ -49,35 +51,45 @@ class _CreateHorizontalCardState extends State<CreateHorizontalCard> {
         ),
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.center,
+            Opacity(
+              opacity: 0.8,
               child: Container(
                 child: widget.image,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(28, 55, 0, 0),
+              padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
               child: Text(
                 widget.subTitle,
-                style: style2,
+                style: style3.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(25, 24, 0, 0),
+              padding: const EdgeInsets.fromLTRB(18, 28, 0, 0),
               child: Text(
                 widget.title,
-                style: style3,
+                style: style1.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(275, 26, 0, 0),
+              padding: const EdgeInsets.fromLTRB(15, 56, 0, 0),
+              child: Text(
+                widget.paragraph,
+                style: style3.copyWith(color: widget.textColor),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(90, 215, 0, 0),
               child: MaterialButton(
-                color: secondaryColor,
+                color: tertiaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 onPressed: () => navigateTo(),
-                child: Text("Start", style: style3.copyWith(color: fourthColor)),
+                child: Text(
+                  widget.buttonText,
+                  style: style3.copyWith(color: widget.textColor),
+                ),
               ),
             ),
           ],
@@ -86,5 +98,3 @@ class _CreateHorizontalCardState extends State<CreateHorizontalCard> {
     );
   }
 }
-
-

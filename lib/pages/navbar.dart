@@ -37,11 +37,10 @@ class _NavigationState extends State<Navigation> {
   Future<bool> tapToExit() {
     if (backPressCounter < 2) {
       CherryToast.warning(
-          title:  Text(""),
-          displayTitle:  false,
-          description:  const Text("Tap Again To Exit"),
-          autoDismiss:  true
-      );
+          title: Text(""),
+          displayTitle: false,
+          description: const Text("Tap Again To Exit"),
+          autoDismiss: true);
 
       backPressCounter++;
       Future.delayed(const Duration(seconds: 1, milliseconds: 500), () {
@@ -55,29 +54,19 @@ class _NavigationState extends State<Navigation> {
   }
 
   List<Widget> _buildScreens() {
-    return [Home(), AddCar(), ViewCar(), Profile(), Profile()];
+    return [Home(), ViewCar(), Profile()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.home),
-        title: ("Home"),
-        activeColorPrimary: tertiaryColor,
-        activeColorSecondary: primaryColor,
-        inactiveColorPrimary: primaryColor,
-        inactiveColorSecondary: primaryColor,
-        iconSize: 22
-      ),
-      PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.wrench),
-          title: ("Service"),
+          icon: const Icon(CupertinoIcons.home),
+          title: ("Home"),
           activeColorPrimary: tertiaryColor,
           activeColorSecondary: primaryColor,
           inactiveColorPrimary: primaryColor,
           inactiveColorSecondary: primaryColor,
-          iconSize: 22
-      ),
+          iconSize: 22),
       PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.car),
           title: ("Garage"),
@@ -85,17 +74,7 @@ class _NavigationState extends State<Navigation> {
           activeColorSecondary: primaryColor,
           inactiveColorPrimary: primaryColor,
           inactiveColorSecondary: primaryColor,
-          iconSize: 22
-      ),
-      PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.location),
-          title: ("Parking"),
-          activeColorPrimary: tertiaryColor,
-          activeColorSecondary: primaryColor,
-          inactiveColorPrimary: primaryColor,
-          inactiveColorSecondary: primaryColor,
-          iconSize: 22
-      ),
+          iconSize: 22),
       PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.settings),
           title: ("Settings"),
@@ -103,8 +82,7 @@ class _NavigationState extends State<Navigation> {
           activeColorSecondary: primaryColor,
           inactiveColorPrimary: primaryColor,
           inactiveColorSecondary: primaryColor,
-          iconSize: 22
-      ),
+          iconSize: 22),
     ];
   }
 
