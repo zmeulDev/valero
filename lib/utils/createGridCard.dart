@@ -81,7 +81,7 @@ class _CreateGridCard extends State<CreateGridCard> {
             Padding(
               padding: const EdgeInsets.fromLTRB(90, 215, 0, 0),
               child: MaterialButton(
-                color: tertiaryColor,
+                color: fourthColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),

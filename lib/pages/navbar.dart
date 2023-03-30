@@ -62,25 +62,25 @@ class _NavigationState extends State<Navigation> {
       PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.home),
           title: ("Home"),
-          activeColorPrimary: tertiaryColor,
+          activeColorPrimary: secondaryColor,
           activeColorSecondary: primaryColor,
-          inactiveColorPrimary: primaryColor,
-          inactiveColorSecondary: primaryColor,
+          inactiveColorPrimary: secondaryColor,
+          inactiveColorSecondary: tertiaryColor,
           iconSize: 22),
       PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.car),
           title: ("Garage"),
-          activeColorPrimary: tertiaryColor,
+          activeColorPrimary: secondaryColor,
           activeColorSecondary: primaryColor,
-          inactiveColorPrimary: primaryColor,
+          inactiveColorPrimary: secondaryColor,
           inactiveColorSecondary: primaryColor,
           iconSize: 22),
       PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.settings),
           title: ("Settings"),
-          activeColorPrimary: tertiaryColor,
+          activeColorPrimary: secondaryColor,
           activeColorSecondary: primaryColor,
-          inactiveColorPrimary: primaryColor,
+          inactiveColorPrimary: secondaryColor,
           inactiveColorSecondary: primaryColor,
           iconSize: 22),
     ];
@@ -95,7 +95,7 @@ class _NavigationState extends State<Navigation> {
       items: _navBarsItems(),
       navBarHeight: 80,
       confineInSafeArea: true,
-      backgroundColor: fourthColor,
+      backgroundColor: tertiaryColor,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
@@ -112,6 +112,9 @@ class _NavigationState extends State<Navigation> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style10,
+      decoration: NavBarDecoration(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
+      ),
     );
   }
 }

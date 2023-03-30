@@ -73,7 +73,7 @@ class _ViewCar extends State<ViewCar> {
                   navigate: const AddCar(),
                 ),
                 SizedBox(
-                  height: Get.height * 0.68,
+                  height: Get.height * 0.65,
                   child: GridView(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -87,7 +87,7 @@ class _ViewCar extends State<ViewCar> {
                             : car["model"],
                         title: car["plates"],
                         paragraph: car["year"],
-                        color: fourthColor.withOpacity(0.8),
+                        color: tertiaryColor,
                         textColor: secondaryColor,
                         image: SvgPicture.asset(
                           'assets/svg/offRoad.svg',

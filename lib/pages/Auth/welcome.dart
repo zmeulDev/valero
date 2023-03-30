@@ -73,6 +73,9 @@ class _WelcomeState extends State<Welcome> {
                             width: Get.width * 0.7,
                           ),
                         ),
+                        SizedBox(
+                          height: Get.height * 0.02,
+                        ),
                         Text(
                           'valero',
                           style: styleLogin,

@@ -52,7 +52,7 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
         child: Stack(
           children: [
             Opacity(
-              opacity: 0.8,
+              opacity: 0.2,
               child: Container(
                 child: widget.image,
               ),
@@ -65,14 +65,14 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 20, 0, 0),
+              padding: const EdgeInsets.fromLTRB(18, 21, 0, 0),
               child: Text(
                 widget.title,
                 style: style1.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(15, 43, 0, 0),
+              padding: const EdgeInsets.fromLTRB(15, 47, 0, 0),
               child: Text(
                 widget.paragraph,
                 style: style3.copyWith(color: widget.textColor),

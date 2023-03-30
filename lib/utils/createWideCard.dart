@@ -71,7 +71,7 @@ class _CreateWideCardState extends State<CreateWideCard> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(25, 62, 0, 0),
+              padding: const EdgeInsets.fromLTRB(17, 62, 0, 0),
               child: Text(
                 widget.paragraph,
                 style: style3,
