@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,17 +37,34 @@ class _AddCar extends State<AddCar> {
 
   @override
   Widget build(BuildContext context) {
-    final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carVin);
-    final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carPlates);
-    final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carMaker);
-    final fieldModel = inputField('Model', 'Car model', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carModel);
-    final fieldYear = inputField('Year', 'Car year', TextInputType.number, CupertinoIcons.arrow_up_down_circle, carYear);
-    final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carFuel);
-    final fieldInspection = inputField('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.alt, carInspection);
-    final fieldInsurance = inputField('Insurance', 'Next insurance date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInsurance);
-    final fieldVignette = inputField('Vignette', 'Vignette expires on', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carVignette);
-    final fieldNote = inputField('Note', 'anything else', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carNote);
-
+    final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carVin);
+    final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carPlates);
+    final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carMaker);
+    final fieldModel = inputField('Model', 'Car model', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carModel);
+    final fieldYear = inputField('Year', 'Car year', TextInputType.number,
+        CupertinoIcons.arrow_up_down_circle, carYear);
+    final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carFuel);
+    final fieldInspection = inputField('Inspection', 'Next inspection date',
+        TextInputType.datetime, CupertinoIcons.alt, carInspection);
+    final fieldInsurance = inputField(
+        'Insurance',
+        'Next insurance date',
+        TextInputType.datetime,
+        CupertinoIcons.arrow_up_down_circle,
+        carInsurance);
+    final fieldVignette = inputField(
+        'Vignette',
+        'Vignette expires on',
+        TextInputType.datetime,
+        CupertinoIcons.arrow_up_down_circle,
+        carVignette);
+    final fieldNote = inputField('Note', 'anything else', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carNote);
 
     final allCarsButton = Material(
       borderRadius: BorderRadius.circular(12.0),
@@ -59,9 +75,9 @@ class _AddCar extends State<AddCar> {
           Navigator.pushAndRemoveUntil<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => ViewCar(),
+              builder: (BuildContext context) => const ViewCar(),
             ),
-                (route) => false, //To disable back feature set to false
+            (route) => false, //To disable back feature set to false
           );
         },
         child: Text(
@@ -79,7 +95,7 @@ class _AddCar extends State<AddCar> {
         minWidth: Get.width * 0.02,
         onPressed: () async {
           if (carVin.text.isEmpty) {
-           Helper.errorMsg('Invalid Vin number');
+            Helper.errorMsg('Invalid Vin number');
           } else {
             if (_formKey.currentState!.validate()) {
               var response = await CarsCrud.addCar(
@@ -101,7 +117,7 @@ class _AddCar extends State<AddCar> {
                 Helper.successMsg(response.message.toString());
                 PersistentNavBarNavigator.pushNewScreen(
                   context,
-                  screen: ViewCar(),
+                  screen: const ViewCar(),
                   withNavBar: true,
                 );
               }
@@ -122,11 +138,14 @@ class _AddCar extends State<AddCar> {
         key: _formKey,
         child: Stack(
           children: [
-            SvgPicture.asset('assets/svg/delorean.svg', alignment: Alignment.bottomCenter, width: Get.width, height: Get.height),
+            SvgPicture.asset('assets/svg/delorean.svg',
+                alignment: Alignment.bottomCenter,
+                width: Get.width,
+                height: Get.height),
             Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     color: tertiaryColor,
                     child: fieldVin),
                 SizedBox(
@@ -170,19 +189,17 @@ class _AddCar extends State<AddCar> {
                 ),
                 fieldNote,
                 Container(
-                    margin: EdgeInsets.all(8),
-                  child:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        allCarsButton,
+                  margin: const EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      allCarsButton,
                       SizedBox(
                         width: Get.width * 0.01,
                       ),
                       saveButton,
-                      ],
-                    ),
-
+                    ],
+                  ),
                 ),
               ],
             ),

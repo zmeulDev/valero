@@ -21,15 +21,16 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.delayed(const Duration(seconds: 3), () async => await AuthServices.getCurrentUser()),
+      future: Future.delayed(const Duration(seconds: 3),
+          () async => await AuthServices.getCurrentUser()),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return MaterialApp(
+          return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Welcome(),
           );
         } else if (snapshot.hasError || snapshot.data == null) {
-          return MaterialApp(
+          return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
               body: Welcome(),
@@ -57,7 +58,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if (user != null) {
       AuthServices.setCurrentUserToMap(user.uid);
     } else {
-      return Container( color: tertiaryColor, child: Text('Ma incarc', style: style3,));
+      return Container(
+          color: tertiaryColor,
+          child: Text(
+            'Ma incarc',
+            style: style3,
+          ));
     }
   }
 
@@ -69,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Welcome(),
     );
   }

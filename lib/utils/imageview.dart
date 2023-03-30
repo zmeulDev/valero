@@ -15,13 +15,12 @@ class ImageViewPage extends StatelessWidget {
       backgroundColor: primaryColor,
       extendBodyBehindAppBar: true,
       body: Center(
-        child: Container(
-            child: PhotoView(
+        child: PhotoView(
           backgroundDecoration: const BoxDecoration(
             color: primaryColor,
           ),
           imageProvider: AssetImage("$img"),
-        )),
+        ),
       ),
     );
   }

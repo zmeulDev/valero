@@ -36,14 +36,17 @@ class _EditProfileState extends State<EditProfile> {
     UserModel().email = emailController.text;
 
     var res = _image == null
-        ? await AuthServices.updateUserDatainFirestoreWithoutImage(UserModel().uid!)
-        : await AuthServices.updateUserDatainFirestore(_image!, UserModel().uid!);
+        ? await AuthServices.updateUserDatainFirestoreWithoutImage(
+            UserModel().uid!)
+        : await AuthServices.updateUserDatainFirestore(
+            _image!, UserModel().uid!);
     if (res == "Success") {
       setState(() {
         isLoading = false;
       });
       Fluttertoast.cancel();
-      Fluttertoast.showToast(msg: 'Data Updated Successfully', backgroundColor: fifthColor);
+      Fluttertoast.showToast(
+          msg: 'Data Updated Successfully', backgroundColor: fifthColor);
       Get.back();
     } else {
       setState(() {
@@ -61,7 +64,7 @@ class _EditProfileState extends State<EditProfile> {
     if (UserModel().mobilePhone != null || UserModel().mobilePhone != "") {
       phoneNoController.text = UserModel().mobilePhone!;
     }
-    if (UserModel().userName != null || UserModel().userName != "") {
+    if (UserModel().userName != "") {
       nameController.text = UserModel().userName;
     }
     if (UserModel().email != null || UserModel().email != "") {
@@ -70,7 +73,8 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 25);
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 25);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -117,7 +121,6 @@ class _EditProfileState extends State<EditProfile> {
                     right: 0,
                     bottom: 0,
                     child: CircleAvatar(
-
                       backgroundColor: fourthColor,
                       child: IconButton(
                         onPressed: () {
@@ -137,9 +140,13 @@ class _EditProfileState extends State<EditProfile> {
             SizedBox(
               height: Get.height * 0.05,
             ),
-            inputField('Choose your name', 'UserName', TextInputType.text, CupertinoIcons.person, nameController),
-            inputField('Choose your email', 'Email', TextInputType.emailAddress, CupertinoIcons.envelope, emailController),
-            inputField('Phone', 'Phone cannot be changed', TextInputType.phone, CupertinoIcons.phone, phoneNoController, readonly: true),
+            inputField('Choose your name', 'UserName', TextInputType.text,
+                CupertinoIcons.person, nameController),
+            inputField('Choose your email', 'Email', TextInputType.emailAddress,
+                CupertinoIcons.envelope, emailController),
+            inputField('Phone', 'Phone cannot be changed', TextInputType.phone,
+                CupertinoIcons.phone, phoneNoController,
+                readonly: true),
           ],
         ),
       ),
@@ -170,7 +177,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: tertiaryColor,
+                backgroundColor: tertiaryColor,
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
                   side: const BorderSide(color: tertiaryColor),

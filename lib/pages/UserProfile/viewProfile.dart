@@ -61,7 +61,8 @@ class _ProfileState extends State<Profile> {
                   ),
                   Text(
                     UserModel().mobilePhone!,
-                    style: style2.copyWith(color: secondaryColor.withOpacity(0.7)),
+                    style:
+                        style2.copyWith(color: secondaryColor.withOpacity(0.7)),
                   ),
                 ],
               ),
@@ -92,7 +93,8 @@ class _ProfileState extends State<Profile> {
                   )),
               ElevatedButton(
                   onPressed: () {
-                    AuthServices.signOut().whenComplete(() => Get.to(Welcome()));
+                    AuthServices.signOut()
+                        .whenComplete(() => Get.to(const Welcome()));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: tertiaryColor,

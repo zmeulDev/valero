@@ -8,7 +8,7 @@ import 'package:valero/utils/constant.dart';
 import 'package:mobile_number/mobile_number.dart';
 
 class Welcome extends StatefulWidget {
-  Welcome({Key? key}) : super(key: key);
+  const Welcome({Key? key}) : super(key: key);
 
   @override
   State<Welcome> createState() => _WelcomeState();
@@ -75,6 +75,13 @@ class _WelcomeState extends State<Welcome> {
                         ),
                         SizedBox(
                           height: Get.height * 0.02,
+                        ),
+                        const Text(
+                          'V',
+                          style: TextStyle(
+                              fontFamily: 'Depot',
+                              color: secondaryColor,
+                              fontSize: 132),
                         ),
                         Text(
                           'valero',

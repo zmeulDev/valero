@@ -41,7 +41,7 @@ class _CreateWideCardState extends State<CreateWideCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: Get.height * 0.11,
       child: Card(
         color: widget.color,

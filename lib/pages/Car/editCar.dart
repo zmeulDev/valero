@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/carModel.dart';
@@ -49,32 +48,55 @@ class _EditCar extends State<EditCar> {
     carModel.value = TextEditingValue(text: widget.car!.model.toString());
     carYear.value = TextEditingValue(text: widget.car!.year.toString());
     carFuel.value = TextEditingValue(text: widget.car!.fuel.toString());
-    carInspection.value = TextEditingValue(text: widget.car!.inspection.toString());
-    carInsurance.value = TextEditingValue(text: widget.car!.insurance.toString());
+    carInspection.value =
+        TextEditingValue(text: widget.car!.inspection.toString());
+    carInsurance.value =
+        TextEditingValue(text: widget.car!.insurance.toString());
     carVignette.value = TextEditingValue(text: widget.car!.vignette.toString());
     carNote.value = TextEditingValue(text: widget.car!.note.toString());
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carVin);
-    final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carPlates);
-    final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carMaker);
-    final fieldModel = inputField('Model', 'Car model', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carModel);
-    final fieldYear = inputField('Year', 'Car year', TextInputType.number, CupertinoIcons.arrow_up_down_circle, carYear);
-    final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carFuel);
-    final fieldInspection = inputField('Inspection', 'Next inspection date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInspection);
-    final fieldInsurance = inputField('Insurance', 'Next insurance date', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carInsurance);
-    final fieldVignette = inputField('Vignette', 'Vignette expires on', TextInputType.datetime, CupertinoIcons.arrow_up_down_circle, carVignette);
-    final fieldNote = inputField('Note', 'anything else', TextInputType.text, CupertinoIcons.arrow_up_down_circle, carNote);
+    final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carVin);
+    final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carPlates);
+    final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carMaker);
+    final fieldModel = inputField('Model', 'Car model', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carModel);
+    final fieldYear = inputField('Year', 'Car year', TextInputType.number,
+        CupertinoIcons.arrow_up_down_circle, carYear);
+    final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carFuel);
+    final fieldInspection = inputField(
+        'Inspection',
+        'Next inspection date',
+        TextInputType.datetime,
+        CupertinoIcons.arrow_up_down_circle,
+        carInspection);
+    final fieldInsurance = inputField(
+        'Insurance',
+        'Next insurance date',
+        TextInputType.datetime,
+        CupertinoIcons.arrow_up_down_circle,
+        carInsurance);
+    final fieldVignette = inputField(
+        'Vignette',
+        'Vignette expires on',
+        TextInputType.datetime,
+        CupertinoIcons.arrow_up_down_circle,
+        carVignette);
+    final fieldNote = inputField('Note', 'anything else', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carNote);
 
     final viewListButton = TextButton(
         onPressed: () {
           Navigator.pushAndRemoveUntil<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => ViewCar(),
+              builder: (BuildContext context) => const ViewCar(),
             ),
             (route) => false, //if you want to disable back feature set to false
           );
@@ -96,7 +118,7 @@ class _EditCar extends State<EditCar> {
             if (_formKey.currentState!.validate()) {
               var response = await CarsCrud.updateCar(
                 docId: docId.text,
-                userId:  UserModel().uid.toString(),
+                userId: UserModel().uid.toString(),
                 vin: carVin.text.toUpperCase(),
                 plates: carPlates.text.toUpperCase(),
                 maker: carMaker.text.toUpperCase(),
@@ -189,7 +211,7 @@ class _EditCar extends State<EditCar> {
                     Helper.successMsg(response.message.toString());
                     PersistentNavBarNavigator.pushNewScreen(
                       context,
-                      screen: ViewCar(),
+                      screen: const ViewCar(),
                       withNavBar: true,
                     );
                   }

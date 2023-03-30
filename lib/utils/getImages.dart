@@ -35,7 +35,7 @@ class GetImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: isAssets
-          ? Container(
+          ? SizedBox(
               height: height,
               width: width,
               child: Image.asset(
@@ -58,7 +58,7 @@ class GetImage extends StatelessWidget {
                   ),
                 ),
               ),
-              placeholder: (context, url) => Container(
+              placeholder: (context, url) => SizedBox(
                 height: height,
                 width: width,
                 child: loading(),

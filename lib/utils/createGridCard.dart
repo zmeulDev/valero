@@ -41,7 +41,7 @@ class _CreateGridCard extends State<CreateGridCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: Get.height * 0.12,
       width: Get.width * 0.48,
       child: Card(

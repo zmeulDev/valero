@@ -1,14 +1,11 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:valero/pages/Car/addCar.dart';
 import 'package:valero/pages/Car/viewCar.dart';
 import 'package:valero/pages/UserProfile/viewProfile.dart';
 import 'package:valero/pages/home.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/helper.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);
@@ -37,7 +34,7 @@ class _NavigationState extends State<Navigation> {
   Future<bool> tapToExit() {
     if (backPressCounter < 2) {
       CherryToast.warning(
-          title: Text(""),
+          title: const Text(""),
           displayTitle: false,
           description: const Text("Tap Again To Exit"),
           autoDismiss: true);
@@ -54,7 +51,7 @@ class _NavigationState extends State<Navigation> {
   }
 
   List<Widget> _buildScreens() {
-    return [Home(), ViewCar(), Profile()];
+    return [const Home(), const ViewCar(), const Profile()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -112,8 +109,9 @@ class _NavigationState extends State<Navigation> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle: NavBarStyle.style10,
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
+      decoration: const NavBarDecoration(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(12), topLeft: Radius.circular(12)),
       ),
     );
   }

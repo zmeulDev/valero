@@ -2,7 +2,6 @@ import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:flutter/material.dart';
 
 createAvatarWidget(double radius) {
   return UserModel().avatarUrl != ''
@@ -12,8 +11,10 @@ createAvatarWidget(double radius) {
           avatarType: AvatarType.CIRCLE,
           backgroundColor: tertiaryColor,
           imagePath: UserModel().avatarUrl,
-          placeHolder: Icon(CupertinoIcons.person),
-          errorWidget: Icon(CupertinoIcons.person,))
+          placeHolder: const Icon(CupertinoIcons.person),
+          errorWidget: const Icon(
+            CupertinoIcons.person,
+          ))
       : ClipOval(
           child: Container(
             height: radius,
