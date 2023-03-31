@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/pages/navbar.dart';
@@ -13,7 +15,7 @@ import 'package:valero/utils/helper.dart';
 class EnterOTPScreen extends StatefulWidget {
   final String phoneNumber;
 
-  EnterOTPScreen(this.phoneNumber);
+  EnterOTPScreen(this.phoneNumber, {Key? key}) : super(key: key);
 
   @override
   _EnterOTPScreenState createState() => _EnterOTPScreenState();
@@ -51,14 +53,13 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
-          margin: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             children: [
               Expanded(
                 flex: 6,
                 child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+                  height: Get.height,
+                  width: Get.width,
                   child: Column(
                     children: <Widget>[
                       upperImage(),
@@ -204,21 +205,16 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
 
   upperImage() {
     return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
+      height: Get.height * 0.4,
+      margin: const EdgeInsets.only(top: 15, bottom: 25),
       decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(colors: [
             tertiaryColor.withOpacity(0.3),
             tertiaryColor.withOpacity(0.6),
           ])),
-      child: const Center(
-          child: Padding(
-        padding: EdgeInsets.all(1.0),
-        child: Image(
-          image: AssetImage('assets/otp.png'),
-          fit: BoxFit.fill,
-        ),
-      )),
+      child:  Center(
+        child:  SvgPicture.asset('assets/svg/preferences.svg'),),
     );
   }
 
@@ -228,15 +224,15 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
       children: [
         Text(
           'Enter code',
-          style: style1.copyWith(color: fourthColor),
+          style: style1,
         ),
         Text(
           'We have send your access code Via SMS for',
-          style: style2.copyWith(color: fourthColor),
+          style: style2,
         ),
         Text(
           'mobile number verification.',
-          style: style2.copyWith(color: fourthColor),
+          style: style2,
         ),
         TweenAnimationBuilder<Duration>(
             duration: const Duration(minutes: 1),
@@ -250,7 +246,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
               return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Text('Wait for: $minutes:$seconds',
-                      textAlign: TextAlign.center, style: const TextStyle(color: fourthColor, fontWeight: FontWeight.bold, fontSize: 16)));
+                      textAlign: TextAlign.center, style: style2));
             }),
       ],
     );
@@ -264,12 +260,12 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
           child: PinCodeTextField(
             appContext: context,
             pastedTextStyle: const TextStyle(
-              color: fourthColor,
+              color: secondaryColor,
             ),
             length: 6,
             obscureText: false,
             obscuringCharacter: '•',
-            textStyle: style1.copyWith(color: fourthColor),
+            textStyle: style1,
             blinkWhenObscuring: true,
             animationType: AnimationType.fade,
             validator: (v) {
@@ -285,12 +281,12 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
               borderWidth: 2,
               fieldWidth: 28,
               activeFillColor: Colors.transparent,
-              inactiveColor: tertiaryColor,
+              inactiveColor: secondaryColor,
               inactiveFillColor: Colors.transparent,
-              selectedColor: tertiaryColor,
-              disabledColor: fourthColor,
+              selectedColor: secondaryColor,
+              disabledColor: secondaryColor,
             ),
-            cursorColor: tertiaryColor,
+            cursorColor: secondaryColor,
             animationDuration: const Duration(milliseconds: 300),
             enableActiveFill: false,
             errorAnimationController: errorController,

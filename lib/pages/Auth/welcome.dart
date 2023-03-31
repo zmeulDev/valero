@@ -74,7 +74,7 @@ class _WelcomeState extends State<Welcome> {
                           ),
                         ),
                         SizedBox(
-                          height: Get.height * 0.02,
+                          height: Get.height * 0.01,
                         ),
                         const Text(
                           'V',
@@ -140,7 +140,7 @@ class _WelcomeState extends State<Welcome> {
                       },
                       child: Container(
                         height: Get.height * 0.07,
-                        width: double.infinity,
+
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: fourthColor,
