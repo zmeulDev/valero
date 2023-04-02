@@ -7,14 +7,14 @@ import 'package:valero/pages/Auth/enterotp.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:mobile_number/mobile_number.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<Welcome> createState() => _WelcomeState();
+  State<Login> createState() => _LoginState();
 }
 
-class _WelcomeState extends State<Welcome> {
+class _LoginState extends State<Login> {
   String _mobileNumber = '';
 
   @override

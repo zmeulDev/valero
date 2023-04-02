@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
-import 'package:valero/pages/Auth/welcome.dart';
+import 'package:valero/pages/Auth/login.dart';
 import 'package:valero/pages/UserProfile/editProfile.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
@@ -60,7 +60,7 @@ class _ProfileState extends State<Profile> {
                     height: Get.height * 0.02,
                   ),
                   Text(
-                    UserModel().mobilePhone!,
+                    UserModel().mobilePhone.toString(),
                     style:
                         style2.copyWith(color: secondaryColor.withOpacity(0.7)),
                   ),
@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
               ElevatedButton(
                   onPressed: () {
                     AuthServices.signOut()
-                        .whenComplete(() => Get.to(const Welcome()));
+                        .whenComplete(() => Get.to(const Login()));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: tertiaryColor,

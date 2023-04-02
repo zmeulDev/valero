@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:valero/Services/auth_services.dart';
-import 'package:valero/pages/Auth/welcome.dart';
+import 'package:valero/pages/Auth/login.dart';
 import 'package:valero/pages/navbar.dart';
 import 'package:valero/utils/constant.dart';
 
@@ -13,9 +13,24 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-  initUserModel() async {
-    var user = await AuthServices.auth.currentUser;
-    AuthServices.setCurrentUserToMap(user!.uid);
+  iniUserModel() async {
+    var user = AuthServices.auth.currentUser;
+    if (user != null) {
+      AuthServices.setCurrentUserToMap(user.uid);
+    } else {
+      return Container(
+          color: tertiaryColor,
+          child: Text(
+            'Waiting for user data...',
+            style: style3,
+          ));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    iniUserModel();
   }
 
   @override
@@ -26,24 +41,24 @@ class _SplashState extends State<Splash> {
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Welcome(),
+            home: Login(),
           );
         } else if (snapshot.hasError || snapshot.data == null) {
           return const MaterialApp(
-            debugShowCheckedModeBanner: false,
             home: Scaffold(
-              body: Welcome(),
+              body: Login(),
             ),
           );
         } else {
-          initUserModel();
           return const Navigation();
         }
       },
     );
   }
 }
+
+/*
+ // TODO check if this can be refactor, for now is not used
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -61,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
       return Container(
           color: tertiaryColor,
           child: Text(
-            'Ma incarc',
+            'Waiting for user data...',
             style: style3,
           ));
     }
@@ -69,36 +84,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    initUserModel();
     super.initState();
+    initUserModel();
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Welcome(),
+      body: Login(),
     );
   }
 }
-
-function() {
-  return Container(
-    child: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/logo.png',
-            width: 120,
-            height: 120,
-            fit: BoxFit.cover,
-          ),
-          Text(
-            'valero',
-            style: style1.copyWith(fontSize: 28, color: secondaryColor),
-          ),
-        ],
-      ),
-    ),
-  );
-}
+ */
