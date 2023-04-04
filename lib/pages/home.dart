@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:valero/models/user_model.dart';
+import 'package:valero/pages/Car/addCar.dart';
 import 'package:valero/pages/UserProfile/viewProfile.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
@@ -130,7 +131,7 @@ class _HomeState extends State<Home> {
         builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');
           if (snapshot.data?.size == 0) {
-            return const Text('no data for you');
+            return const Text('no data');
           }
           if (snapshot.hasData) {
             final car = snapshot.data!.docs.first;

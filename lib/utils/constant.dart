@@ -28,4 +28,4 @@ var style1 = GoogleFonts.roboto(
 var style2 = GoogleFonts.roboto(
     fontSize: 16.0, color: secondaryColor, fontWeight: FontWeight.w300);
 var style3 = GoogleFonts.roboto(
-    fontSize: 13.0, color: primaryColor, fontWeight: FontWeight.w300);
+    fontSize: 13.0, color: secondaryColor, fontWeight: FontWeight.w300);
