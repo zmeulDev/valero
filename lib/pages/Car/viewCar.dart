@@ -116,9 +116,10 @@ class _ViewCar extends State<ViewCar> {
           model: car["model"],
           year: car["year"],
           fuel: car["fuel"],
-          inspection: car["inspection"],
-          insurance: car["insurance"],
-          vignette: car["vignette"],
+          inspection: car["inspection"].toString(),
+          insurance: car["insurance"].toString(),
+          vignette: car["vignette"].toString(),
+          maintenance: car["maintenance"].toString(),
           note: car["note"]),
     );
   }

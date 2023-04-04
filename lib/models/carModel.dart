@@ -10,6 +10,7 @@ class Car{
   String? inspection;
   String? insurance;
   String? vignette;
+  String? maintenance;
   String? note;
 
 
@@ -25,6 +26,7 @@ class Car{
     this.inspection,
     this.insurance,
     this.vignette,
+    this.maintenance,
     this.note,
 });
 }

@@ -14,9 +14,10 @@ class CarsCrud {
     String? model = '',
     String? year = '',
     String? fuel = '',
-    String? inspection = '',
-    String? insurance = '',
-    String? vignette = '',
+    DateTime? inspection ,
+    DateTime? insurance,
+    DateTime? vignette,
+    DateTime? maintenance,
     String? note = '',
   }) async {
     Response response = Response();
@@ -33,6 +34,7 @@ class CarsCrud {
       "inspection": inspection,
       "insurance": insurance,
       "vignette": vignette,
+      "maintenance": maintenance,
       "note": note,
     };
 
@@ -48,10 +50,10 @@ class CarsCrud {
   }
 
   static Stream<QuerySnapshot> readCar() {
-    Query<Object?> notesItemCollection =
+    Query<Object?> carsItemCollection =
         _carCollection.where('userId', isEqualTo: UserModel().uid.toString());
 
-    return notesItemCollection.snapshots();
+    return carsItemCollection.snapshots();
   }
 
   static Future<Response> updateCar({
@@ -62,9 +64,10 @@ class CarsCrud {
     required String model,
     required String year,
     required String fuel,
-    required String inspection,
-    required String insurance,
-    required String vignette,
+    required DateTime? inspection,
+    required DateTime? insurance,
+    required DateTime? vignette,
+    required DateTime? maintenance,
     required String note,
     required String docId,
   }) async {
@@ -82,6 +85,7 @@ class CarsCrud {
       "inspection": inspection,
       "insurance": insurance,
       "vignette": vignette,
+      "maintenance": maintenance,
       "note": note,
     };
 

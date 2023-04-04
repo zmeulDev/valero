@@ -33,8 +33,14 @@ class _EditCar extends State<EditCar> {
   final carFuel = TextEditingController();
   final carInspection = TextEditingController();
   final carInsurance = TextEditingController();
+  final carMaintenance = TextEditingController();
   final carVignette = TextEditingController();
   final carNote = TextEditingController();
+
+  DateTime? carInspectionDate;
+  DateTime? carInsuranceDate;
+  DateTime? carMaintenanceDate;
+  DateTime? carVignetteDate;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -53,6 +59,8 @@ class _EditCar extends State<EditCar> {
     carInsurance.value =
         TextEditingValue(text: widget.car!.insurance.toString());
     carVignette.value = TextEditingValue(text: widget.car!.vignette.toString());
+    carMaintenance.value =
+        TextEditingValue(text: widget.car!.maintenance.toString());
     carNote.value = TextEditingValue(text: widget.car!.note.toString());
   }
 
@@ -70,24 +78,106 @@ class _EditCar extends State<EditCar> {
         CupertinoIcons.arrow_up_down_circle, carYear);
     final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text,
         CupertinoIcons.arrow_up_down_circle, carFuel);
-    final fieldInspection = inputField(
-        'Inspection',
-        'Next inspection date',
-        TextInputType.datetime,
-        CupertinoIcons.arrow_up_down_circle,
-        carInspection);
-    final fieldInsurance = inputField(
-        'Insurance',
-        'Next insurance date',
-        TextInputType.datetime,
-        CupertinoIcons.arrow_up_down_circle,
-        carInsurance);
-    final fieldVignette = inputField(
-        'Vignette',
-        'Vignette expires on',
-        TextInputType.datetime,
-        CupertinoIcons.arrow_up_down_circle,
-        carVignette);
+
+    final fieldInspection = ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      )),
+      icon: const Icon(Icons.calendar_today, size: 22),
+      label: carInspectionDate == null
+          ? const Text("Insurance")
+          : Text(f.format(carInspectionDate!)),
+      onPressed: () {
+        showDatePicker(
+                context: context,
+                initialDate: carInspectionDate == null
+                    ? DateTime.now()
+                    : carInspectionDate!,
+                firstDate: DateTime(2021),
+                lastDate: DateTime(2025))
+            .then((date) {
+          setState(() {
+            carInspectionDate = date;
+          });
+        });
+      },
+    );
+
+    final fieldInsurance = ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      )),
+      icon: const Icon(Icons.abc, size: 22),
+      label: carInsuranceDate == null
+          ? const Text("Insurance")
+          : Text(f.format(carInsuranceDate!)),
+      onPressed: () {
+        showDatePicker(
+                context: context,
+                initialDate: carInsuranceDate == null
+                    ? DateTime.now()
+                    : carInsuranceDate!,
+                firstDate: DateTime(2021),
+                lastDate: DateTime(2025))
+            .then((date) {
+          setState(() {
+            carInsuranceDate = date;
+          });
+        });
+      },
+    );
+
+    final fieldMaintenance = ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      )),
+      icon: const Icon(Icons.abc, size: 22),
+      label: carMaintenanceDate == null
+          ? const Text("Maintenance")
+          : Text(f.format(carMaintenanceDate!)),
+      onPressed: () {
+        showDatePicker(
+                context: context,
+                initialDate: carMaintenanceDate == null
+                    ? DateTime.now()
+                    : carMaintenanceDate!,
+                firstDate: DateTime(2021),
+                lastDate: DateTime(2025))
+            .then((date) {
+          setState(() {
+            carMaintenanceDate = date;
+          });
+        });
+      },
+    );
+
+    final fieldVignette = ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      )),
+      icon: const Icon(Icons.abc, size: 22),
+      label: carVignetteDate == null
+          ? const Text("Vignette")
+          : Text(f.format(carVignetteDate!)),
+      onPressed: () {
+        showDatePicker(
+                context: context,
+                initialDate:
+                    carVignetteDate == null ? DateTime.now() : carVignetteDate!,
+                firstDate: DateTime(2021),
+                lastDate: DateTime(2025))
+            .then((date) {
+          setState(() {
+            carVignetteDate = date;
+          });
+        });
+      },
+    );
+
     final fieldNote = inputField('Note', 'anything else', TextInputType.text,
         CupertinoIcons.arrow_up_down_circle, carNote);
 
@@ -125,9 +215,10 @@ class _EditCar extends State<EditCar> {
                 model: carModel.text.toUpperCase(),
                 year: carYear.text,
                 fuel: carFuel.text.toUpperCase(),
-                inspection: carInspection.text,
-                insurance: carInsurance.text,
-                vignette: carVignette.text,
+                inspection: carInspectionDate,
+                insurance: carInsuranceDate,
+                vignette: carVignetteDate,
+                maintenance: carMaintenanceDate,
                 note: carNote.text,
               );
               if (response.code != 200) {
@@ -188,7 +279,7 @@ class _EditCar extends State<EditCar> {
               ),
               Row(
                 children: [
-                  Expanded(child: fieldFuel),
+                  Expanded(child: fieldMaintenance),
                   SizedBox(
                     width: Get.width * 0.02,
                   ),

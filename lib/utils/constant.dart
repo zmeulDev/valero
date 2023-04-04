@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 const primaryColor = Color(0xFF292942);
 const secondaryColor = Color(0xfffaf8f0);
@@ -9,6 +8,8 @@ const tertiaryColor = Color(0xFF383856);
 const fourthColor = Color(0xFF222325);
 const fifthColor = Color(0xFFfd783b);
 const sixthColor = Color(0xFFA8A8C7);
+
+final f = new DateFormat('dd MM yy');
 
 var styleLogin = GoogleFonts.roboto(
   fontSize: 34.0,
