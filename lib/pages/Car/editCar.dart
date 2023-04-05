@@ -67,35 +67,31 @@ class _EditCar extends State<EditCar> {
   @override
   Widget build(BuildContext context) {
     final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text,
-        CupertinoIcons.arrow_up_down_circle, carVin);
+        Icons.factory, carVin);
     final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text,
-        CupertinoIcons.arrow_up_down_circle, carPlates);
+        Icons.factory, carPlates);
     final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text,
-        CupertinoIcons.arrow_up_down_circle, carMaker);
+        Icons.factory, carMaker);
     final fieldModel = inputField('Model', 'Car model', TextInputType.text,
-        CupertinoIcons.arrow_up_down_circle, carModel);
+        Icons.factory, carModel);
     final fieldYear = inputField('Year', 'Car year', TextInputType.number,
-        CupertinoIcons.arrow_up_down_circle, carYear);
+        Icons.factory, carYear);
     final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text,
-        CupertinoIcons.arrow_up_down_circle, carFuel);
+        Icons.factory, carFuel);
 
     final fieldInspection = ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      )),
-      icon: const Icon(Icons.calendar_today, size: 22),
+      style: elevatedButtonStyle,
+      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
       label: carInspectionDate == null
-          ? const Text("Insurance")
-          : Text(f.format(carInspectionDate!)),
+          ? Text("Inspection", style: style3.copyWith(color: primaryColor),)
+          : Text(f.format(carInspectionDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
-                context: context,
-                initialDate: carInspectionDate == null
-                    ? DateTime.now()
-                    : carInspectionDate!,
-                firstDate: DateTime(2021),
-                lastDate: DateTime(2025))
+            context: context,
+            initialDate:
+            carInspectionDate == null ? DateTime.now() : carInspectionDate!,
+            firstDate: DateTime(2021),
+            lastDate: DateTime(2035))
             .then((date) {
           setState(() {
             carInspectionDate = date;
@@ -105,22 +101,18 @@ class _EditCar extends State<EditCar> {
     );
 
     final fieldInsurance = ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      )),
-      icon: const Icon(Icons.abc, size: 22),
+      style: elevatedButtonStyle,
+      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
       label: carInsuranceDate == null
-          ? const Text("Insurance")
-          : Text(f.format(carInsuranceDate!)),
+          ? Text("Insurance", style: style3.copyWith(color: primaryColor),)
+          : Text(f.format(carInsuranceDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
-                context: context,
-                initialDate: carInsuranceDate == null
-                    ? DateTime.now()
-                    : carInsuranceDate!,
-                firstDate: DateTime(2021),
-                lastDate: DateTime(2025))
+            context: context,
+            initialDate:
+            carInsuranceDate == null ? DateTime.now() : carInsuranceDate!,
+            firstDate: DateTime(2021),
+            lastDate: DateTime(2035))
             .then((date) {
           setState(() {
             carInsuranceDate = date;
@@ -130,22 +122,18 @@ class _EditCar extends State<EditCar> {
     );
 
     final fieldMaintenance = ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      )),
-      icon: const Icon(Icons.abc, size: 22),
+      style: elevatedButtonStyle,
+      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
       label: carMaintenanceDate == null
-          ? const Text("Maintenance")
-          : Text(f.format(carMaintenanceDate!)),
+          ? Text("Maintenance", style: style3.copyWith(color: primaryColor),)
+          : Text(f.format(carMaintenanceDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
-                context: context,
-                initialDate: carMaintenanceDate == null
-                    ? DateTime.now()
-                    : carMaintenanceDate!,
-                firstDate: DateTime(2021),
-                lastDate: DateTime(2025))
+            context: context,
+            initialDate:
+            carMaintenanceDate == null ? DateTime.now() : carMaintenanceDate!,
+            firstDate: DateTime(2021),
+            lastDate: DateTime(2035))
             .then((date) {
           setState(() {
             carMaintenanceDate = date;
@@ -155,21 +143,18 @@ class _EditCar extends State<EditCar> {
     );
 
     final fieldVignette = ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      )),
-      icon: const Icon(Icons.abc, size: 22),
+      style: elevatedButtonStyle,
+      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
       label: carVignetteDate == null
-          ? const Text("Vignette")
-          : Text(f.format(carVignetteDate!)),
+          ? Text("Vignette", style: style3.copyWith(color: primaryColor),)
+          : Text(f.format(carVignetteDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
-                context: context,
-                initialDate:
-                    carVignetteDate == null ? DateTime.now() : carVignetteDate!,
-                firstDate: DateTime(2021),
-                lastDate: DateTime(2025))
+            context: context,
+            initialDate:
+            carVignetteDate == null ? DateTime.now() : carVignetteDate!,
+            firstDate: DateTime(2021),
+            lastDate: DateTime(2035))
             .then((date) {
           setState(() {
             carVignetteDate = date;
@@ -193,7 +178,7 @@ class _EditCar extends State<EditCar> {
         },
         child: const Text('View List of car'));
 
-    final updateButon = Material(
+    final updateButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
       color: tertiaryColor,
@@ -287,7 +272,7 @@ class _EditCar extends State<EditCar> {
                 ],
               ),
               fieldNote,
-              updateButon,
+              updateButton,
               viewListButton,
               TextButton(
                 child: Text(

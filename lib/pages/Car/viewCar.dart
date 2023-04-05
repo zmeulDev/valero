@@ -65,7 +65,7 @@ class _ViewCar extends State<ViewCar> {
                   subTitle: 'you have',
                   title: snapshot.data!.docs.length.toString(),
                   paragraph:
-                      snapshot.data!.docs.length.isEqual(1) ? 'car' : 'cars',
+                      snapshot.data!.docs.length.isEqual(1) ? 'car added' : 'cars added',
                   color: fifthColor,
                   image: SvgPicture.asset('assets/svg/delorean.svg'),
                   textColor: secondaryColor,

@@ -30,3 +30,12 @@ var style2 = GoogleFonts.roboto(
     fontSize: 16.0, color: secondaryColor, fontWeight: FontWeight.w300);
 var style3 = GoogleFonts.roboto(
     fontSize: 13.0, color: secondaryColor, fontWeight: FontWeight.w300);
+
+final ButtonStyle elevatedButtonStyle =  ElevatedButton.styleFrom(
+  backgroundColor: secondaryColor,
+  textStyle: style2.copyWith(color: primaryColor),
+  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15) ,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(12.0),
+  ),
+);
