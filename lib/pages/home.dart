@@ -121,12 +121,12 @@ class _HomeState extends State<Home> {
 
   nextInsurance() {
     return SizedBox(
+      width: Get.width * 0.45,
+      height: Get.height * 0.12,
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('cars')
             .where('userId', isEqualTo: UserModel().uid.toString())
-            .where('insurance', isLessThanOrEqualTo: '31 03 2023')
-            .orderBy('insurance', descending: true)
             .snapshots(),
         builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');
@@ -138,7 +138,7 @@ class _HomeState extends State<Home> {
             return CreateBoxCard(
               subTitle: 'Next Insurance',
               title: car['insurance'].toString().isNotEmpty
-                  ? car['insurance']
+                  ? f.format(car['insurance'].toDate())
                   : 'Not set',
               paragraph: car['insurance'].toString().isNotEmpty
                   ? car['plates']
@@ -163,11 +163,12 @@ class _HomeState extends State<Home> {
 
   nextInspection() {
     return SizedBox(
+      width: Get.width * 0.45,
+      height: Get.height * 0.12,
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('cars')
             .where('userId', isEqualTo: UserModel().uid.toString())
-            .where('inspection', isLessThanOrEqualTo: '45')
             .snapshots(),
         builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');
@@ -179,11 +180,9 @@ class _HomeState extends State<Home> {
             return CreateBoxCard(
               subTitle: 'Next inspection',
               title: car['inspection'].toString().isNotEmpty
-                  ? car['inspection']
+                  ? f.format(car['inspection'].toDate())
                   : 'Not set',
-              paragraph: car['inspection'].toString().isNotEmpty
-                  ? car['plates']
-                  : 'no data set',
+              paragraph: car['plates'],
               color: secondaryColor,
               image: SvgPicture.asset(
                 'assets/svg/inspection.svg',
@@ -204,11 +203,12 @@ class _HomeState extends State<Home> {
 
   nextVignette() {
     return SizedBox(
+      width: Get.width * 0.45,
+      height: Get.height * 0.12,
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection('cars')
             .where('userId', isEqualTo: UserModel().uid.toString())
-            .where('vignette', isLessThanOrEqualTo: '45')
             .snapshots(),
         builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');
@@ -221,7 +221,7 @@ class _HomeState extends State<Home> {
             return CreateBoxCard(
               subTitle: 'Next vignette',
               title: car['vignette'].toString().isNotEmpty
-                  ? car['vignette']
+                  ? f.format(car['vignette'].toDate())
                   : 'Not set',
               paragraph: car['vignette'].toString().isNotEmpty
                   ? car['plates']
@@ -231,9 +231,10 @@ class _HomeState extends State<Home> {
                 'assets/svg/vignette.svg',
                 alignment: Alignment.bottomRight,
               ),
-              textColor: car['vignette'].toString() == '31 03 2023'
-                  ? tertiaryColor
-                  : const Color(0xFFf0554f),
+              textColor: f.format(car['vignette'].toDate()) == f.format(DateTime.now().subtract(const Duration(days: 6)))
+                          ? tertiaryColor
+                          : const Color(0xFFf0554f),
+
               buttonText: 'buttonText',
             );
           }
