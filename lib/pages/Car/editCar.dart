@@ -24,6 +24,7 @@ class EditCar extends StatefulWidget {
 }
 
 class _EditCar extends State<EditCar> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -37,7 +38,6 @@ class _EditCar extends State<EditCar> {
     carYear.value = TextEditingValue(text: widget.car!.year.toString());
     carFuel.value = TextEditingValue(text: widget.car!.fuel.toString());
     carNote.value = TextEditingValue(text: widget.car!.note.toString());
-    widget.car!.vignette;
   }
 
   bool isLoading = false;
@@ -49,20 +49,10 @@ class _EditCar extends State<EditCar> {
   final carYear = TextEditingController();
   final carFuel = TextEditingController();
   final carNote = TextEditingController();
-
-  final carInspection = TextEditingController();
-  final carInsurance = TextEditingController();
-  final carMaintenance = TextEditingController();
-  final carVignette = TextEditingController();
-
-
   late DateTime? carInspectionDate = widget.car!.inspection!;
   late DateTime? carInsuranceDate = widget.car!.insurance!;
   late DateTime? carMaintenanceDate = widget.car!.maintenance!;
   late DateTime? carVignetteDate = widget.car!.vignette!;
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
 
 
   @override
@@ -82,90 +72,161 @@ class _EditCar extends State<EditCar> {
     final fieldNote = inputField('Note', 'anything else', TextInputType.text,
         CupertinoIcons.arrow_up_down_circle, carNote);
 
-
-
-    final fieldInspection = ElevatedButton.icon(
-      style: elevatedButtonStyle,
-      icon: const Icon(Icons.check_circle_outline, color: primaryColor,),
-        label: carInspectionDate == null
-            ? Text(f.format(widget.car!.inspection!).toString(), style: style3.copyWith(color: primaryColor),)
-            : Text(f.format(carInspectionDate!), style: style3.copyWith(color: primaryColor),),
-      onPressed: () {
-        showDatePicker(
-            context: context,
-            initialDate: carInspectionDate == null ? widget.car!.inspection! : carInspectionDate!,
-            firstDate: DateTime(2021),
-            lastDate: DateTime(2035))
-            .then((date) {
-          setState(() {
-            carInspectionDate = date;
-          });
-        });
-      },
+    final fieldInsurance = Container(
+      height: Get.height * 0.08,
+      margin: const EdgeInsets.only(left: 8, right: 8),
+      child: Stack(
+        alignment: AlignmentDirectional.centerEnd,
+        children: [
+          Container(
+            width: Get.width,
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: widget.car!.insurance!.isBefore(DateTime.now()) ? fifthColor : tertiaryColor,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Text('Insurance', style: style3,),
+          ),
+          ElevatedButton.icon(
+            style: elevatedButtonStyle,
+            icon: const Icon(Icons.safety_check_sharp, color: primaryColor,),
+            label: carInsuranceDate == null
+                ? Text(f.format(widget.car!.insurance!).toString(), style: style3.copyWith(color: primaryColor),)
+                : Text(f.format(carInsuranceDate!), style: style3.copyWith(color: primaryColor),),
+            onPressed: () {
+              showDatePicker(
+                  context: context,
+                  initialDate:
+                  carInsuranceDate == null ? widget.car!.insurance! : carInsuranceDate!,
+                  firstDate: DateTime(2021),
+                  lastDate: DateTime(2035))
+                  .then((date) {
+                setState(() {
+                  carInsuranceDate = date;
+                });
+              });
+            },
+          ),
+        ],
+      ),
     );
 
-    final fieldInsurance = ElevatedButton.icon(
-      style: elevatedButtonStyle,
-      icon: const Icon(Icons.safety_check_sharp, color: primaryColor,),
-      label: carInsuranceDate == null
-          ? Text(f.format(widget.car!.insurance!).toString(), style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carInsuranceDate!), style: style3.copyWith(color: primaryColor),),
-      onPressed: () {
-        showDatePicker(
-            context: context,
-            initialDate:
-            carInsuranceDate == null ? widget.car!.insurance! : carInsuranceDate!,
-            firstDate: DateTime(2021),
-            lastDate: DateTime(2035))
-            .then((date) {
-          setState(() {
-            carInsuranceDate = date;
-          });
-        });
-      },
+    final fieldInspection = Container(
+      height: Get.height * 0.08,
+      margin: const EdgeInsets.only(left: 8, right: 8),
+      child: Stack(
+        alignment: AlignmentDirectional.centerEnd,
+        children: [
+          Container(
+            width: Get.width,
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: widget.car!.inspection!.isBefore(DateTime.now()) ? fifthColor : tertiaryColor,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Text('Inspection', style: style3,),
+          ),
+          ElevatedButton.icon(
+            style: elevatedButtonStyle,
+            icon: const Icon(Icons.safety_check_sharp, color: primaryColor,),
+            label: carInspectionDate == null
+                ? Text(f.format(widget.car!.inspection!).toString(), style: style3.copyWith(color: primaryColor),)
+                : Text(f.format(carInspectionDate!), style: style3.copyWith(color: primaryColor),),
+            onPressed: () {
+              showDatePicker(
+                  context: context,
+                  initialDate:
+                  carInspectionDate == null ? widget.car!.inspection! : carInspectionDate!,
+                  firstDate: DateTime(2021),
+                  lastDate: DateTime(2035))
+                  .then((date) {
+                setState(() {
+                  carInspectionDate = date;
+                });
+              });
+            },
+          ),
+        ],
+      ),
     );
 
-    final fieldMaintenance = ElevatedButton.icon(
-      style: elevatedButtonStyle,
-      icon: const Icon(Icons.checklist, color: primaryColor,),
-      label: carMaintenanceDate == null
-          ? Text(f.format(widget.car!.maintenance!).toString(), style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carMaintenanceDate!), style: style3.copyWith(color: primaryColor),),
-      onPressed: () {
-        showDatePicker(
-            context: context,
-            initialDate:
-            carMaintenanceDate == null ? widget.car!.maintenance! : carMaintenanceDate!,
-            firstDate: DateTime(2021),
-            lastDate: DateTime(2035))
-            .then((date) {
-          setState(() {
-            carMaintenanceDate = date ?? widget.car!.maintenance!;
-          });
-        });
-      },
+    final fieldMaintenance = Container(
+      height: Get.height * 0.08,
+      margin: const EdgeInsets.only(left: 8, right: 8),
+      child: Stack(
+        alignment: AlignmentDirectional.centerEnd,
+        children: [
+          Container(
+            width: Get.width,
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: widget.car!.maintenance!.isBefore(DateTime.now()) ? fifthColor : tertiaryColor,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Text('Maint', style: style3,),
+          ),
+          ElevatedButton.icon(
+            style: elevatedButtonStyle,
+            icon: const Icon(Icons.safety_check_sharp, color: primaryColor,),
+            label: carMaintenanceDate == null
+                ? Text(f.format(widget.car!.maintenance!).toString(), style: style3.copyWith(color: primaryColor),)
+                : Text(f.format(carMaintenanceDate!), style: style3.copyWith(color: primaryColor),),
+            onPressed: () {
+              showDatePicker(
+                  context: context,
+                  initialDate:
+                  carMaintenanceDate == null ? widget.car!.maintenance! : carMaintenanceDate!,
+                  firstDate: DateTime(2021),
+                  lastDate: DateTime(2035))
+                  .then((date) {
+                setState(() {
+                  carMaintenanceDate = date;
+                });
+              });
+            },
+          ),
+        ],
+      ),
     );
 
-    final fieldVignette = ElevatedButton.icon(
-      style: elevatedButtonStyle,
-      icon: const Icon(Icons.file_copy_sharp, color: primaryColor,),
-      label: carVignetteDate == null
-          ? Text(f.format(widget.car!.vignette!).toString(), style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carVignetteDate!), style: style3.copyWith(color: primaryColor),),
-      onPressed: () {
-        showDatePicker(
-            context: context,
-            initialDate: carVignetteDate == null ? widget.car!.vignette! : carVignetteDate!,
-            firstDate: DateTime(2021),
-            lastDate: DateTime(2035))
-            .then((date) {
-          setState(() {
-            carVignetteDate = date ;
-          });
-        });
-      },
+    final fieldVignette = Container(
+      height: Get.height * 0.08,
+      margin: const EdgeInsets.only(left: 8, right: 8),
+      child: Stack(
+        alignment: AlignmentDirectional.centerEnd,
+        children: [
+          Container(
+            width: Get.width,
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: widget.car!.vignette!.isBefore(DateTime.now()) ? fifthColor : tertiaryColor,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Text('Vignette', style: style3,),
+          ),
+          ElevatedButton.icon(
+            style: elevatedButtonStyle,
+            icon: const Icon(Icons.safety_check_sharp, color: primaryColor,),
+            label: carVignetteDate == null
+                ? Text(f.format(widget.car!.vignette!).toString(), style: style3.copyWith(color: primaryColor),)
+                : Text(f.format(carVignetteDate!), style: style3.copyWith(color: primaryColor),),
+            onPressed: () {
+              showDatePicker(
+                  context: context,
+                  initialDate:
+                  carVignetteDate == null ? widget.car!.vignette! : carVignetteDate!,
+                  firstDate: DateTime(2021),
+                  lastDate: DateTime(2035))
+                  .then((date) {
+                setState(() {
+                  carVignetteDate = date;
+                });
+              });
+            },
+          ),
+        ],
+      ),
     );
-
 
     final viewListButton = TextButton(
         onPressed: () {
@@ -174,7 +235,7 @@ class _EditCar extends State<EditCar> {
             MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => const ViewGarage(),
             ),
-            (route) => false, //if you want to disable back feature set to false
+            (route) => true, //if you want to disable back feature set to false
           );
         },
         child: const Text('View List of car'));
@@ -228,76 +289,60 @@ class _EditCar extends State<EditCar> {
       appBar: getAppBar('Edit car'),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              fieldVin,
-              SizedBox(
-                height: Get.height * 0.01,
-              ),
-              Row(
-                children: [
-                  Expanded(child: fieldPlates),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  Expanded(child: fieldYear),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(child: fieldMaker),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  Expanded(child: fieldModel),
-                ],
-              ),
+        child: Column(
+          children: [
+            Container(
+              color: tertiaryColor,
+                padding: EdgeInsets.all(8),
+                child: fieldVin,),
+            Row(
+              children: [
+                Expanded(child: fieldInsurance),
+                Expanded(child: fieldInspection),
+              ],
+            ),
 
-              Row(
-                children: [
-                  Expanded(child: fieldInsurance),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  Expanded(child: fieldInspection),
-                ],
+            Row(
+              children: [
+                Expanded(child: fieldMaintenance),
+                Expanded(child: fieldVignette),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(child: fieldPlates),
+                Expanded(child: fieldYear),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(child: fieldMaker),
+                Expanded(child: fieldModel),
+              ],
+            ),
+            fieldNote,
+            editCarButton,
+            viewListButton,
+            TextButton(
+              child: Text(
+                'Delete',
+                style: style2,
               ),
-              Row(
-                children: [
-                  Expanded(child: fieldMaintenance),
-                  SizedBox(
-                    width: Get.width * 0.02,
-                  ),
-                  Expanded(child: fieldVignette),
-                ],
-              ),
-
-              fieldNote,
-              editCarButton,
-              viewListButton,
-              TextButton(
-                child: Text(
-                  'Delete',
-                  style: style2,
-                ),
-                onPressed: () async {
-                  var response = await CarsCrud.deleteCar(docId: docId.text);
-                  if (response.code != 200) {
-                    Helper.errorMsg(response.message.toString());
-                  } else {
-                    Helper.successMsg(response.message.toString());
-                    PersistentNavBarNavigator.pushNewScreen(
-                      context,
-                      screen: const ViewGarage(),
-                      withNavBar: true,
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
+              onPressed: () async {
+                var response = await CarsCrud.deleteCar(docId: docId.text);
+                if (response.code != 200) {
+                  Helper.errorMsg(response.message.toString());
+                } else {
+                  Helper.successMsg(response.message.toString());
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: const ViewGarage(),
+                    withNavBar: true,
+                  );
+                }
+              },
+            ),
+          ],
         ),
       ),
     );

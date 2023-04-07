@@ -34,7 +34,7 @@ var style3 = GoogleFonts.roboto(
 final ButtonStyle elevatedButtonStyle =  ElevatedButton.styleFrom(
   backgroundColor: secondaryColor,
   textStyle: style2.copyWith(color: primaryColor),
-  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15) ,
+  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12) ,
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(12.0),
   ),
