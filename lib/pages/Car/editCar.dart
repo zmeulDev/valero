@@ -6,7 +6,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/carModel.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/carsCrud.dart';
-import 'package:valero/pages/Car/viewCar.dart';
+import 'package:valero/pages/Car/viewGarage.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
@@ -15,7 +15,7 @@ import 'package:valero/utils/createInputField.dart';
 class EditCar extends StatefulWidget {
   final Car? car;
 
-  EditCar({Key? key, this.car}) : super(key: key);
+  const EditCar({Key? key, this.car}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,29 +24,10 @@ class EditCar extends StatefulWidget {
 }
 
 class _EditCar extends State<EditCar> {
-  bool isLoading = false;
-  final docId = TextEditingController();
-  final carVin = TextEditingController();
-  final carPlates = TextEditingController();
-  final carMaker = TextEditingController();
-  final carModel = TextEditingController();
-  final carYear = TextEditingController();
-  final carFuel = TextEditingController();
-  final carInspection = TextEditingController();
-  final carInsurance = TextEditingController();
-  final carMaintenance = TextEditingController();
-  final carVignette = TextEditingController();
-  final carNote = TextEditingController();
-
-  DateTime? carInspectionDate;
-  DateTime? carInsuranceDate;
-  DateTime? carMaintenanceDate;
-  DateTime? carVignetteDate;
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    super.initState();
     // TODO: implement initState
     docId.value = TextEditingValue(text: widget.car!.uid.toString());
     carVin.value = TextEditingValue(text: widget.car!.vin.toString());
@@ -55,15 +36,34 @@ class _EditCar extends State<EditCar> {
     carModel.value = TextEditingValue(text: widget.car!.model.toString());
     carYear.value = TextEditingValue(text: widget.car!.year.toString());
     carFuel.value = TextEditingValue(text: widget.car!.fuel.toString());
-    carInspection.value =
-        TextEditingValue(text: widget.car!.inspection.toString());
-    carInsurance.value =
-        TextEditingValue(text: widget.car!.insurance.toString());
-    carVignette.value = TextEditingValue(text: widget.car!.vignette.toString());
-    carMaintenance.value =
-        TextEditingValue(text: widget.car!.maintenance.toString());
     carNote.value = TextEditingValue(text: widget.car!.note.toString());
+    widget.car!.vignette;
   }
+
+  bool isLoading = false;
+  final docId = TextEditingController();
+  final carVin = TextEditingController();
+  final carPlates = TextEditingController();
+  final carMaker = TextEditingController();
+  final carModel = TextEditingController();
+  final carYear = TextEditingController();
+  final carFuel = TextEditingController();
+  final carNote = TextEditingController();
+
+  final carInspection = TextEditingController();
+  final carInsurance = TextEditingController();
+  final carMaintenance = TextEditingController();
+  final carVignette = TextEditingController();
+
+
+  late DateTime? carInspectionDate = widget.car!.inspection!;
+  late DateTime? carInsuranceDate = widget.car!.insurance!;
+  late DateTime? carMaintenanceDate = widget.car!.maintenance!;
+  late DateTime? carVignetteDate = widget.car!.vignette!;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,18 +79,21 @@ class _EditCar extends State<EditCar> {
         Icons.factory, carYear);
     final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text,
         Icons.factory, carFuel);
+    final fieldNote = inputField('Note', 'anything else', TextInputType.text,
+        CupertinoIcons.arrow_up_down_circle, carNote);
+
+
 
     final fieldInspection = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
-      label: carInspectionDate == null
-          ? Text("Inspection", style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carInspectionDate!), style: style3.copyWith(color: primaryColor),),
+      icon: const Icon(Icons.check_circle_outline, color: primaryColor,),
+        label: carInspectionDate == null
+            ? Text(f.format(widget.car!.inspection!).toString(), style: style3.copyWith(color: primaryColor),)
+            : Text(f.format(carInspectionDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
-            initialDate:
-            carInspectionDate == null ? DateTime.now() : carInspectionDate!,
+            initialDate: carInspectionDate == null ? widget.car!.inspection! : carInspectionDate!,
             firstDate: DateTime(2021),
             lastDate: DateTime(2035))
             .then((date) {
@@ -103,15 +106,15 @@ class _EditCar extends State<EditCar> {
 
     final fieldInsurance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
+      icon: const Icon(Icons.safety_check_sharp, color: primaryColor,),
       label: carInsuranceDate == null
-          ? Text("Insurance", style: style3.copyWith(color: primaryColor),)
+          ? Text(f.format(widget.car!.insurance!).toString(), style: style3.copyWith(color: primaryColor),)
           : Text(f.format(carInsuranceDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
             initialDate:
-            carInsuranceDate == null ? DateTime.now() : carInsuranceDate!,
+            carInsuranceDate == null ? widget.car!.insurance! : carInsuranceDate!,
             firstDate: DateTime(2021),
             lastDate: DateTime(2035))
             .then((date) {
@@ -124,20 +127,20 @@ class _EditCar extends State<EditCar> {
 
     final fieldMaintenance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
+      icon: const Icon(Icons.checklist, color: primaryColor,),
       label: carMaintenanceDate == null
-          ? Text("Maintenance", style: style3.copyWith(color: primaryColor),)
+          ? Text(f.format(widget.car!.maintenance!).toString(), style: style3.copyWith(color: primaryColor),)
           : Text(f.format(carMaintenanceDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
             initialDate:
-            carMaintenanceDate == null ? DateTime.now() : carMaintenanceDate!,
+            carMaintenanceDate == null ? widget.car!.maintenance! : carMaintenanceDate!,
             firstDate: DateTime(2021),
             lastDate: DateTime(2035))
             .then((date) {
           setState(() {
-            carMaintenanceDate = date;
+            carMaintenanceDate = date ?? widget.car!.maintenance!;
           });
         });
       },
@@ -145,41 +148,38 @@ class _EditCar extends State<EditCar> {
 
     final fieldVignette = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
+      icon: const Icon(Icons.file_copy_sharp, color: primaryColor,),
       label: carVignetteDate == null
-          ? Text("Vignette", style: style3.copyWith(color: primaryColor),)
+          ? Text(f.format(widget.car!.vignette!).toString(), style: style3.copyWith(color: primaryColor),)
           : Text(f.format(carVignetteDate!), style: style3.copyWith(color: primaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
-            initialDate:
-            carVignetteDate == null ? DateTime.now() : carVignetteDate!,
+            initialDate: carVignetteDate == null ? widget.car!.vignette! : carVignetteDate!,
             firstDate: DateTime(2021),
             lastDate: DateTime(2035))
             .then((date) {
           setState(() {
-            carVignetteDate = date;
+            carVignetteDate = date ;
           });
         });
       },
     );
 
-    final fieldNote = inputField('Note', 'anything else', TextInputType.text,
-        CupertinoIcons.arrow_up_down_circle, carNote);
 
     final viewListButton = TextButton(
         onPressed: () {
           Navigator.pushAndRemoveUntil<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => const ViewCar(),
+              builder: (BuildContext context) => const ViewGarage(),
             ),
             (route) => false, //if you want to disable back feature set to false
           );
         },
         child: const Text('View List of car'));
 
-    final updateButton = Material(
+    final editCarButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
       color: tertiaryColor,
@@ -192,7 +192,7 @@ class _EditCar extends State<EditCar> {
             Helper.successMsg('VIN number is not valid');
           } else {
             if (_formKey.currentState!.validate()) {
-              var response = await CarsCrud.updateCar(
+              var response = await CarsCrud.editCar(
                 docId: docId.text,
                 userId: UserModel().uid.toString(),
                 vin: carVin.text.toUpperCase(),
@@ -254,6 +254,7 @@ class _EditCar extends State<EditCar> {
                   Expanded(child: fieldModel),
                 ],
               ),
+
               Row(
                 children: [
                   Expanded(child: fieldInsurance),
@@ -272,8 +273,9 @@ class _EditCar extends State<EditCar> {
                   Expanded(child: fieldVignette),
                 ],
               ),
+
               fieldNote,
-              updateButton,
+              editCarButton,
               viewListButton,
               TextButton(
                 child: Text(
@@ -288,7 +290,7 @@ class _EditCar extends State<EditCar> {
                     Helper.successMsg(response.message.toString());
                     PersistentNavBarNavigator.pushNewScreen(
                       context,
-                      screen: const ViewCar(),
+                      screen: const ViewGarage(),
                       withNavBar: true,
                     );
                   }

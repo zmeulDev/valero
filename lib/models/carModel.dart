@@ -7,11 +7,12 @@ class Car{
   String? model;
   String? year;
   String? fuel;
-  String? inspection;
-  String? insurance;
-  String? vignette;
-  String? maintenance;
   String? note;
+  DateTime? inspection;
+  DateTime? insurance;
+  DateTime? vignette;
+  DateTime? maintenance;
+
 
 
   Car({
@@ -23,10 +24,11 @@ class Car{
     this.model,
     this.year,
     this.fuel,
+    this.note,
     this.inspection,
     this.insurance,
     this.vignette,
     this.maintenance,
-    this.note,
+
 });
 }

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/carsCrud.dart';
-import 'package:valero/pages/Car/viewCar.dart';
+import 'package:valero/pages/Car/viewGarage.dart';
 import 'package:valero/pages/appBar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
@@ -155,7 +155,7 @@ class _AddCar extends State<AddCar> {
           Navigator.pushAndRemoveUntil<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => const ViewCar(),
+              builder: (BuildContext context) => const ViewGarage(),
             ),
             (route) => false, //To disable back feature set to false
           );
@@ -198,7 +198,7 @@ class _AddCar extends State<AddCar> {
                 Helper.successMsg(response.message.toString());
                 PersistentNavBarNavigator.pushNewScreen(
                   context,
-                  screen: const ViewCar(),
+                  screen: const ViewGarage(),
                   withNavBar: true,
                 );
               }

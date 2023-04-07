@@ -1,17 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:valero/models/user_model.dart';
-import 'package:valero/pages/Car/addCar.dart';
-import 'package:valero/pages/UserProfile/viewProfile.dart';
-import 'package:valero/pages/appBar.dart';
-import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createBoxCard.dart';
-import 'package:valero/utils/createWideCard.dart';
-import 'package:valero/widgets/createAvatarWidget.dart';
 
-// TODO move to FeatureBuild instead of StreamBuilder
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:valero/pages/Car/widgets/helloWidget.dart';
+import 'package:valero/pages/Car/widgets/nextInspectionWidget.dart';
+import 'package:valero/pages/Car/widgets/nextInsuranceWidget.dart';
+import 'package:valero/pages/Car/widgets/nextMaintenanceWidget.dart';
+import 'package:valero/pages/Car/widgets/nextVignetteWidget.dart';
+import 'package:valero/pages/Car/widgets/noteWidget.dart';
+import 'package:valero/pages/appBar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -41,30 +37,14 @@ class _HomeState extends State<Home> {
       margin: const EdgeInsets.all(8),
       child: Column(
         children: [
-          CreateWideCard(
-            subTitle: 'Hi',
-            title: UserModel().userName != '' ? UserModel().userName : 'user',
-            paragraph: 'welcome back!',
-            color: fifthColor,
-            image: SvgPicture.asset(
-              'assets/svg/avatar.svg',
-              height: 75,
-              width: 75,
-            ),
-            textColor: fourthColor,
-            buttonText: 'Profile',
-            navigate: Profile(),
-          ),
+          helloWidget(),
           Column(
             children: [
               SizedBox(
                 height: Get.height * 0.03,
               ),
               Row(
-                children: [
-                  nextCard(),
-
-                ],
+                children: [ noteWidget(), ],
               ),
               Row(
                 children: [
@@ -78,221 +58,6 @@ class _HomeState extends State<Home> {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  helloContainer() {
-    return Container(
-      height: Get.height * 0.1,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: sixthColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: Get.width * 0.02,
-          ),
-          createAvatarWidget(36),
-          SizedBox(
-            width: Get.width * 0.02,
-          ),
-          UserModel().userName != ''
-              ? Text(
-                  'Hello ${UserModel().userName}',
-                  style: style2.copyWith(color: secondaryColor, fontSize: 18),
-                )
-              : Text('Hello!',
-                  style: style2.copyWith(color: secondaryColor, fontSize: 18)),
-        ],
-      ),
-    );
-  }
-
-  nextCard() {
-    return SizedBox(
-      width: Get.width * 0.65,
-      height: Get.height * 0.12,
-      child: CreateBoxCard(
-        subTitle: 'Always',
-        title: 'be careful',
-        paragraph: 'its better!',
-        color: secondaryColor,
-        image: SvgPicture.asset(
-          'assets/svg/notify.svg',
-        ),
-        textColor: const Color(0xFFf0554f),
-        buttonText: 'buttonText',
-      ),
-    );
-  }
-
-  nextInsurance() {
-    return SizedBox(
-      width: Get.width * 0.48,
-      height: Get.height * 0.12,
-      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('cars')
-            .where('userId', isEqualTo: UserModel().uid.toString())
-            .snapshots(),
-        builder: (_, snapshot) {
-          if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-          if (snapshot.data?.size == 0) {
-            return const Text('no data');
-          }
-          if (snapshot.hasData) {
-            final car = snapshot.data!.docs.first;
-            return CreateBoxCard(
-              subTitle: 'Next Insurance',
-              title: car['insurance'].toString().isNotEmpty
-                  ? f.format(car['insurance'].toDate())
-                  : 'Not set',
-              paragraph: car['insurance'].toString().isNotEmpty
-                  ? car['plates']
-                  : 'no data set',
-              color: secondaryColor,
-              image: SvgPicture.asset(
-                'assets/svg/insurance.svg',
-                alignment: Alignment.bottomRight,
-              ),
-              textColor: DateTime.now().isBefore(car['insurance'].toDate())
-                  ? tertiaryColor
-                  : const Color(0xFFf0554f),
-              buttonText: 'buttonText',
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
-    );
-  }
-
-  nextInspection() {
-    return SizedBox(
-      width: Get.width * 0.48,
-      height: Get.height * 0.12,
-      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('cars')
-            .where('userId', isEqualTo: UserModel().uid.toString())
-            .snapshots(),
-        builder: (_, snapshot) {
-          if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-          if (snapshot.data?.size == 0) {
-            return const Text('no data');
-          }
-          if (snapshot.hasData) {
-            final car = snapshot.data!.docs.first;
-            return CreateBoxCard(
-              subTitle: 'Next Inspection ',
-              title: car['inspection'].toString().isNotEmpty
-                  ? f.format(car['inspection'].toDate())
-                  : 'Not set',
-              paragraph: car['inspection'].toString().isNotEmpty
-                  ? car['plates']
-                  : 'no data set',
-              color: secondaryColor,
-              image: SvgPicture.asset(
-                'assets/svg/insurance.svg',
-                alignment: Alignment.bottomRight,
-              ),
-              textColor: DateTime.now().isBefore(car['inspection'].toDate())
-                  ? tertiaryColor
-                  : const Color(0xFFf0554f),
-              buttonText: 'buttonText',
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
-    );
-  }
-
-  nextVignette() {
-    return SizedBox(
-      width: Get.width * 0.48,
-      height: Get.height * 0.12,
-      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('cars')
-            .where('userId', isEqualTo: UserModel().uid.toString())
-            .snapshots(),
-        builder: (_, snapshot) {
-          if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-          if (snapshot.data?.size == 0) {
-            return const Text('no data');
-          }
-          if (snapshot.hasData) {
-            final car = snapshot.data!.docs.first;
-            return CreateBoxCard(
-              subTitle: 'Next Vignette ',
-              title: car['vignette'].toString().isNotEmpty
-                  ? f.format(car['vignette'].toDate())
-                  : 'Not set',
-              paragraph: car['vignette'].toString().isNotEmpty
-                  ? car['plates']
-                  : 'no data set',
-              color: secondaryColor,
-              image: SvgPicture.asset(
-                'assets/svg/insurance.svg',
-                alignment: Alignment.bottomRight,
-              ),
-              textColor: DateTime.now().isBefore(car['vignette'].toDate())
-                  ? tertiaryColor
-                  : const Color(0xFFf0554f),
-              buttonText: 'buttonText',
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
-    );
-  }
-
-  nextMaintenance() {
-    return SizedBox(
-      width: Get.width * 0.48,
-      height: Get.height * 0.12,
-      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection('cars')
-            .where('userId', isEqualTo: UserModel().uid.toString())
-            .snapshots(),
-        builder: (_, snapshot) {
-          if (snapshot.hasError) return Text('Error = ${snapshot.error}');
-          if (snapshot.data?.size == 0) {
-            return const Text('no data');
-          }
-          if (snapshot.hasData) {
-            final car = snapshot.data!.docs.first;
-            return CreateBoxCard(
-              subTitle: 'Next Maintenance',
-              title: car['maintenance'].toString().isNotEmpty
-                  ? f.format(car['maintenance'].toDate())
-                  : 'Not set',
-              paragraph: car['maintenance'].toString().isNotEmpty
-                  ? car['plates']
-                  : 'no data set',
-              color: secondaryColor,
-              image: SvgPicture.asset(
-                'assets/svg/insurance.svg',
-                alignment: Alignment.bottomRight,
-              ),
-              textColor: DateTime.now().isBefore(car['maintenance'].toDate())
-                  ? tertiaryColor
-                  : const Color(0xFFf0554f),
-              buttonText: 'buttonText',
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
-        },
       ),
     );
   }

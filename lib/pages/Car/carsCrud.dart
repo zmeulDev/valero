@@ -56,7 +56,8 @@ class CarsCrud {
     return carsItemCollection.snapshots();
   }
 
-  static Future<Response> updateCar({
+  static Future<Response> editCar({
+    required String docId,
     required String userId,
     required String vin,
     required String plates,
@@ -64,12 +65,13 @@ class CarsCrud {
     required String model,
     required String year,
     required String fuel,
+    required String note,
     required DateTime? inspection,
     required DateTime? insurance,
     required DateTime? vignette,
     required DateTime? maintenance,
-    required String note,
-    required String docId,
+
+
   }) async {
     Response response = Response();
     DocumentReference documentReferencer = _carCollection.doc(docId);
@@ -82,11 +84,11 @@ class CarsCrud {
       "model": model,
       "year": year,
       "fuel": fuel,
+      "note": note,
       "inspection": inspection,
       "insurance": insurance,
       "vignette": vignette,
       "maintenance": maintenance,
-      "note": note,
     };
 
     await documentReferencer.update(data).whenComplete(() {

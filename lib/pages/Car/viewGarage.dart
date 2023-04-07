@@ -15,16 +15,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 // https://undraw.co/illustrations
 // https://storyset.com/car
 
-class ViewCar extends StatefulWidget {
-  const ViewCar({Key? key}) : super(key: key);
+class ViewGarage extends StatefulWidget {
+  const ViewGarage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ViewCar();
+    return _ViewGarage();
   }
 }
 
-class _ViewCar extends State<ViewCar> {
+class _ViewGarage extends State<ViewGarage> {
   final Stream<QuerySnapshot> collectionReference = CarsCrud.readCar();
 
   @override
@@ -64,8 +64,9 @@ class _ViewCar extends State<ViewCar> {
                 CreateWideCard(
                   subTitle: 'you have',
                   title: snapshot.data!.docs.length.toString(),
-                  paragraph:
-                      snapshot.data!.docs.length.isEqual(1) ? 'car added' : 'cars added',
+                  paragraph: snapshot.data!.docs.length.isEqual(1)
+                      ? 'car added'
+                      : 'cars added',
                   color: fifthColor,
                   image: SvgPicture.asset('assets/svg/delorean.svg'),
                   textColor: secondaryColor,
@@ -109,18 +110,19 @@ class _ViewCar extends State<ViewCar> {
   Widget editCarButton(QueryDocumentSnapshot<Object?> car) {
     return EditCar(
       car: Car(
-          uid: car.id,
-          vin: car["vin"],
-          plates: car["plates"],
-          maker: car["maker"],
-          model: car["model"],
-          year: car["year"],
-          fuel: car["fuel"],
-          inspection: car["inspection"].toDate(),
-          insurance: car["insurance"].toDate(),
-          vignette: car["vignette"].toDate(),
-          maintenance: car["maintenance"].toDate(),
-          note: car["note"]),
+        uid: car.id,
+        vin: car["vin"],
+        plates: car["plates"],
+        maker: car["maker"],
+        model: car["model"],
+        year: car["year"],
+        fuel: car["fuel"],
+        note: car["note"],
+        inspection: car["inspection"].toDate(),
+        insurance: car["insurance"].toDate(),
+        vignette: car["vignette"].toDate(),
+        maintenance: car["maintenance"].toDate(),
+      ),
     );
   }
 }
