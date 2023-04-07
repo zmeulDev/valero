@@ -63,6 +63,12 @@ class _HomeState extends State<Home> {
               Row(
                 children: [
                   nextCard(),
+
+                ],
+              ),
+              Row(
+                children: [
+                  nextMaintenance(),
                   nextInsurance(),
                 ],
               ),
@@ -106,22 +112,26 @@ class _HomeState extends State<Home> {
   }
 
   nextCard() {
-    return CreateBoxCard(
-      subTitle: 'Always',
-      title: 'be careful',
-      paragraph: 'its better!',
-      color: secondaryColor,
-      image: SvgPicture.asset(
-        'assets/svg/notify.svg',
+    return SizedBox(
+      width: Get.width * 0.65,
+      height: Get.height * 0.12,
+      child: CreateBoxCard(
+        subTitle: 'Always',
+        title: 'be careful',
+        paragraph: 'its better!',
+        color: secondaryColor,
+        image: SvgPicture.asset(
+          'assets/svg/notify.svg',
+        ),
+        textColor: const Color(0xFFf0554f),
+        buttonText: 'buttonText',
       ),
-      textColor: const Color(0xFFf0554f),
-      buttonText: 'buttonText',
     );
   }
 
   nextInsurance() {
     return SizedBox(
-      width: Get.width * 0.45,
+      width: Get.width * 0.48,
       height: Get.height * 0.12,
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
@@ -148,7 +158,7 @@ class _HomeState extends State<Home> {
                 'assets/svg/insurance.svg',
                 alignment: Alignment.bottomRight,
               ),
-              textColor: car['insurance'].toString() == '31 03 2023'
+              textColor: DateTime.now().isBefore(car['insurance'].toDate())
                   ? tertiaryColor
                   : const Color(0xFFf0554f),
               buttonText: 'buttonText',
@@ -163,7 +173,7 @@ class _HomeState extends State<Home> {
 
   nextInspection() {
     return SizedBox(
-      width: Get.width * 0.45,
+      width: Get.width * 0.48,
       height: Get.height * 0.12,
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
@@ -173,22 +183,24 @@ class _HomeState extends State<Home> {
         builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');
           if (snapshot.data?.size == 0) {
-            return const Text('no data for you');
+            return const Text('no data');
           }
           if (snapshot.hasData) {
             final car = snapshot.data!.docs.first;
             return CreateBoxCard(
-              subTitle: 'Next inspection',
+              subTitle: 'Next Inspection ',
               title: car['inspection'].toString().isNotEmpty
                   ? f.format(car['inspection'].toDate())
                   : 'Not set',
-              paragraph: car['plates'],
+              paragraph: car['inspection'].toString().isNotEmpty
+                  ? car['plates']
+                  : 'no data set',
               color: secondaryColor,
               image: SvgPicture.asset(
-                'assets/svg/inspection.svg',
+                'assets/svg/insurance.svg',
                 alignment: Alignment.bottomRight,
               ),
-              textColor: car['inspection'].toString() == '31 03 2023'
+              textColor: DateTime.now().isBefore(car['inspection'].toDate())
                   ? tertiaryColor
                   : const Color(0xFFf0554f),
               buttonText: 'buttonText',
@@ -203,7 +215,7 @@ class _HomeState extends State<Home> {
 
   nextVignette() {
     return SizedBox(
-      width: Get.width * 0.45,
+      width: Get.width * 0.48,
       height: Get.height * 0.12,
       child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
@@ -213,13 +225,12 @@ class _HomeState extends State<Home> {
         builder: (_, snapshot) {
           if (snapshot.hasError) return Text('Error = ${snapshot.error}');
           if (snapshot.data?.size == 0) {
-            return const Text('no data for you');
+            return const Text('no data');
           }
           if (snapshot.hasData) {
-            var car = snapshot.data!.docs.first;
-
+            final car = snapshot.data!.docs.first;
             return CreateBoxCard(
-              subTitle: 'Next vignette',
+              subTitle: 'Next Vignette ',
               title: car['vignette'].toString().isNotEmpty
                   ? f.format(car['vignette'].toDate())
                   : 'Not set',
@@ -228,13 +239,54 @@ class _HomeState extends State<Home> {
                   : 'no data set',
               color: secondaryColor,
               image: SvgPicture.asset(
-                'assets/svg/vignette.svg',
+                'assets/svg/insurance.svg',
                 alignment: Alignment.bottomRight,
               ),
-              textColor: f.format(car['vignette'].toDate()) == f.format(DateTime.now().subtract(const Duration(days: 6)))
-                          ? tertiaryColor
-                          : const Color(0xFFf0554f),
+              textColor: DateTime.now().isBefore(car['vignette'].toDate())
+                  ? tertiaryColor
+                  : const Color(0xFFf0554f),
+              buttonText: 'buttonText',
+            );
+          }
 
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
+  }
+
+  nextMaintenance() {
+    return SizedBox(
+      width: Get.width * 0.48,
+      height: Get.height * 0.12,
+      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('cars')
+            .where('userId', isEqualTo: UserModel().uid.toString())
+            .snapshots(),
+        builder: (_, snapshot) {
+          if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+          if (snapshot.data?.size == 0) {
+            return const Text('no data');
+          }
+          if (snapshot.hasData) {
+            final car = snapshot.data!.docs.first;
+            return CreateBoxCard(
+              subTitle: 'Next Maintenance',
+              title: car['maintenance'].toString().isNotEmpty
+                  ? f.format(car['maintenance'].toDate())
+                  : 'Not set',
+              paragraph: car['maintenance'].toString().isNotEmpty
+                  ? car['plates']
+                  : 'no data set',
+              color: secondaryColor,
+              image: SvgPicture.asset(
+                'assets/svg/insurance.svg',
+                alignment: Alignment.bottomRight,
+              ),
+              textColor: DateTime.now().isBefore(car['maintenance'].toDate())
+                  ? tertiaryColor
+                  : const Color(0xFFf0554f),
               buttonText: 'buttonText',
             );
           }
