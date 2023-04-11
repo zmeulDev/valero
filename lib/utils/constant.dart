@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 const primaryColor = Color(0xFFe9eff9);
-const secondaryColor = Color(0xfffaf8f0);
+const secondaryColor = Color(0xffFFFFFF);
 const tertiaryColor = Color(0xFF001d47);
 const fourthColor  = Color(0xFF0168ff);
 const fifthColor = Color(0xFFf47f30);
-const sixthColor = Color(0xFF9563fc);
+const sixthColor = Color(0XFF4fb4fe);
 
 final f = new DateFormat('dd MM yyyy');
 

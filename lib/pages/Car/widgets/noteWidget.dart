@@ -17,7 +17,7 @@ noteWidget() {
       image: SvgPicture.asset(
         'assets/svg/notify.svg',
       ),
-      textColor: const Color(0xFFf0554f),
+      textColor: const Color(0XFF3f67f2),
       buttonText: 'buttonText',
     ),
   );

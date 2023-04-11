@@ -30,14 +30,13 @@ nextVignette() {
             paragraph: car['vignette'].toString().isNotEmpty
                 ? car['plates']
                 : 'no data set',
-            color: secondaryColor,
-            image: SvgPicture.asset(
-              'assets/svg/vignette.svg',
-              alignment: Alignment.bottomRight,
-            ),
+            color: DateTime.now().isBefore(car['vignette'].toDate())
+                ? secondaryColor
+                : secondaryColor,
+            image: SvgPicture.asset('',),
             textColor: DateTime.now().isBefore(car['vignette'].toDate())
                 ? tertiaryColor
-                : const Color(0xFFf0554f),
+                : fifthColor,
             buttonText: 'buttonText',
           );
         }

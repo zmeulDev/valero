@@ -30,14 +30,13 @@ nextInsurance() {
             paragraph: car['insurance'].toString().isNotEmpty
                 ? car['plates']
                 : 'no data set',
-            color: secondaryColor,
-            image: SvgPicture.asset(
-              'assets/svg/insurance.svg',
-              alignment: Alignment.bottomRight,
-            ),
+            color: DateTime.now().isBefore(car['insurance'].toDate())
+                ? secondaryColor
+                : secondaryColor,
+            image: SvgPicture.asset('',),
             textColor: DateTime.now().isBefore(car['insurance'].toDate())
                 ? tertiaryColor
-                : const Color(0xFFf0554f),
+                : fifthColor,
             buttonText: 'buttonText',
           );
         }

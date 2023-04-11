@@ -32,13 +32,10 @@ nextInspection() {
                 ? car['plates']
                 : 'no data set',
             color: secondaryColor,
-            image: SvgPicture.asset(
-              'assets/svg/inspection.svg',
-              alignment: Alignment.bottomRight,
-            ),
+            image: SvgPicture.asset('',),
             textColor: DateTime.now().isBefore(car['inspection'].toDate())
                 ? tertiaryColor
-                : const Color(0xFFf0554f),
+                : fifthColor,
             buttonText: 'buttonText',
           );
         }

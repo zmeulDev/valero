@@ -124,7 +124,7 @@ class _LoginState extends State<Login> {
                           Text(
                             _mobileNumber,
                             style: style2.copyWith(
-                              color: fourthColor,
+                              color: tertiaryColor,
                               fontSize: 20,
                             ),
                           )
@@ -143,7 +143,7 @@ class _LoginState extends State<Login> {
 
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: fourthColor,
+                          color: tertiaryColor,
                         ),
                         child: Center(
                           child: Text(

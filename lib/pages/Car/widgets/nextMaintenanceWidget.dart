@@ -31,14 +31,13 @@ nextMaintenance() {
             paragraph: car['maintenance'].toString().isNotEmpty
                 ? car['plates']
                 : 'no data set',
-            color: secondaryColor,
-            image: SvgPicture.asset(
-              'assets/svg/insurance.svg',
-              alignment: Alignment.bottomRight,
-            ),
+            color: DateTime.now().isBefore(car['maintenance'].toDate())
+                ? secondaryColor
+                : secondaryColor,
+            image: SvgPicture.asset('',),
             textColor: DateTime.now().isBefore(car['maintenance'].toDate())
                 ? tertiaryColor
-                : const Color(0xFFf0554f),
+                : fifthColor,
             buttonText: 'buttonText',
           );
         }
