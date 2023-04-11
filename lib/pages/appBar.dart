@@ -9,7 +9,7 @@ getAppBar(String screenName) {
           child: Text(
             'V',
             style: TextStyle(
-                fontFamily: 'Depot', color: secondaryColor, fontSize: 48),
+                fontFamily: 'Depot', color: tertiaryColor, fontSize: 48),
           ),
         );
       },

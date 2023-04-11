@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-const primaryColor = Color(0xFF292942);
+const primaryColor = Color(0xFFe9eff9);
 const secondaryColor = Color(0xfffaf8f0);
-const tertiaryColor = Color(0xFF383856);
-const fourthColor = Color(0xFF222325);
-const fifthColor = Color(0xFFfd783b);
-const sixthColor = Color(0xFFA8A8C7);
+const tertiaryColor = Color(0xFF001d47);
+const fourthColor  = Color(0xFF0168ff);
+const fifthColor = Color(0xFFf47f30);
+const sixthColor = Color(0xFF9563fc);
 
 final f = new DateFormat('dd MM yyyy');
 
@@ -16,19 +16,22 @@ var styleLogin = GoogleFonts.roboto(
   color: secondaryColor,
 );
 
-var styleAppBar = GoogleFonts.roboto(
-    fontSize: 20.0, color: secondaryColor, fontWeight: FontWeight.bold);
+var styleAppBar = const TextStyle(
+    fontFamily: 'Pure', color: tertiaryColor, fontSize: 24);
 
-var style1 = GoogleFonts.roboto(
+var style1 = const TextStyle(
+  fontFamily: 'Pure',
   fontSize: 26.0,
   color: secondaryColor,
   fontWeight: FontWeight.bold,
   wordSpacing: 1,
   letterSpacing: 0.5,
 );
-var style2 = GoogleFonts.roboto(
+var style2 = const TextStyle(
+    fontFamily: 'Pure',
     fontSize: 16.0, color: secondaryColor, fontWeight: FontWeight.w300);
-var style3 = GoogleFonts.roboto(
+var style3 = const TextStyle(
+    fontFamily: 'Pure',
     fontSize: 13.0, color: secondaryColor, fontWeight: FontWeight.w300);
 
 final ButtonStyle elevatedButtonStyle =  ElevatedButton.styleFrom(

@@ -10,13 +10,13 @@ helloWidget() {
     subTitle: 'Hi',
     title: UserModel().userName != '' ? UserModel().userName : 'user',
     paragraph: 'welcome back!',
-    color: fifthColor,
+    color: tertiaryColor,
     image: SvgPicture.asset(
       'assets/svg/avatar.svg',
       height: 75,
       width: 75,
     ),
-    textColor: fourthColor,
+    textColor: primaryColor,
     buttonText: 'Profile',
     navigate: const Profile(),
   );

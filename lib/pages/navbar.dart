@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/pages/Car/viewGarage.dart';
 import 'package:valero/pages/UserProfile/viewProfile.dart';
@@ -40,29 +39,29 @@ class _NavigationState extends State<Navigation> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.home),
+          icon: const Icon(LineIcons.home),
           title: ("Home"),
-          activeColorPrimary: secondaryColor,
-          activeColorSecondary: primaryColor,
-          inactiveColorPrimary: secondaryColor,
+          activeColorPrimary: primaryColor,
+          activeColorSecondary: tertiaryColor,
+          inactiveColorPrimary: primaryColor,
           inactiveColorSecondary: tertiaryColor,
-          iconSize: 22),
+          iconSize: 24),
       PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.car),
+          icon: const Icon(LineIcons.car),
           title: ("Garage"),
-          activeColorPrimary: secondaryColor,
-          activeColorSecondary: primaryColor,
-          inactiveColorPrimary: secondaryColor,
-          inactiveColorSecondary: primaryColor,
-          iconSize: 22),
+          activeColorPrimary: primaryColor,
+          activeColorSecondary: tertiaryColor,
+          inactiveColorPrimary: primaryColor,
+          inactiveColorSecondary: tertiaryColor,
+          iconSize: 24),
       PersistentBottomNavBarItem(
-          icon: const Icon(CupertinoIcons.settings),
+          icon: const  Icon(LineIcons.user),
           title: ("Settings"),
-          activeColorPrimary: secondaryColor,
-          activeColorSecondary: primaryColor,
-          inactiveColorPrimary: secondaryColor,
-          inactiveColorSecondary: primaryColor,
-          iconSize: 22),
+          activeColorPrimary: primaryColor,
+          activeColorSecondary: tertiaryColor,
+          inactiveColorPrimary: primaryColor,
+          inactiveColorSecondary: tertiaryColor,
+          iconSize: 24),
     ];
   }
 
