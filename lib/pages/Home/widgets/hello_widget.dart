@@ -16,7 +16,7 @@ helloWidget() {
       height: 75,
       width: 75,
     ),
-    textColor: primaryColor,
+    textColor: fourthColor,
     buttonText: 'Profile',
     navigate: const Profile(),
   );

@@ -47,7 +47,7 @@ class _NavigationState extends State<Navigation> {
           inactiveColorSecondary: tertiaryColor,
           iconSize: 24),
       PersistentBottomNavBarItem(
-          icon: const Icon(LineIcons.car),
+          icon: const Icon(LineIcons.suitcaseRolling),
           title: ("Garage"),
           activeColorPrimary: primaryColor,
           activeColorSecondary: tertiaryColor,
