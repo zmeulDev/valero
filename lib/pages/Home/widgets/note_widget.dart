@@ -14,7 +14,7 @@ noteWidget() {
       title: 'be careful',
       paragraph: 'its better!',
       color: secondaryColor,
-      image: Icon(LineIcons.addressCard),
+      image: Icon(LineIcons.safari, size: 56,),
       textColor: const Color(0xFFf0554f),
       buttonText: 'buttonText',
     ),
