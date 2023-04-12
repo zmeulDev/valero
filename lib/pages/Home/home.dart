@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:valero/pages/Car/widgets/helloWidget.dart';
-import 'package:valero/pages/Car/widgets/nextInspectionWidget.dart';
-import 'package:valero/pages/Car/widgets/nextInsuranceWidget.dart';
-import 'package:valero/pages/Car/widgets/nextMaintenanceWidget.dart';
-import 'package:valero/pages/Car/widgets/nextVignetteWidget.dart';
-import 'package:valero/pages/Car/widgets/noteWidget.dart';
-import 'package:valero/pages/appBar.dart';
+import 'package:valero/pages/Home/widgets/hello_widget.dart';
+import 'package:valero/pages/Home/widgets/inspection_widget.dart';
+import 'package:valero/pages/Home/widgets/insurance_widget.dart';
+import 'package:valero/pages/Home/widgets/maintenance_widget.dart';
+import 'package:valero/pages/Home/widgets/vignette_widget.dart';
+import 'package:valero/pages/Home/widgets/note_widget.dart';
+import 'package:valero/pages/app_bar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

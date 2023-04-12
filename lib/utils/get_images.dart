@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:valero/utils/constant.dart';
 
-import 'loading.dart';
-
 // ignore: must_be_immutable
 class GetImage extends StatelessWidget {
   String imagePath;
@@ -28,7 +26,7 @@ class GetImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imagePath == null || imagePath.isEmpty) {
+    if (imagePath.isEmpty) {
       imagePath = 'assets/logo.png';
     }
 
@@ -61,11 +59,9 @@ class GetImage extends StatelessWidget {
               placeholder: (context, url) => SizedBox(
                 height: height,
                 width: width,
-                child: loading(),
+                child: const CircularProgressIndicator(),
               ),
-              errorWidget: (context, url, error) => Container(
-                child: Icon(Icons.error),
-              ),
+              errorWidget: (context, url, error) =>  const Icon(Icons.error),
             ),
     );
   }

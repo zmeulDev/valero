@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:valero/pages/Auth/enterotp.dart';
+import 'package:valero/pages/Auth/otp.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:mobile_number/mobile_number.dart';
 
@@ -124,7 +124,7 @@ class _LoginState extends State<Login> {
                           Text(
                             _mobileNumber,
                             style: style2.copyWith(
-                              color: fourthColor,
+                              color: tertiaryColor,
                               fontSize: 20,
                             ),
                           )
@@ -143,7 +143,7 @@ class _LoginState extends State<Login> {
 
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: fourthColor,
+                          color: tertiaryColor,
                         ),
                         child: Center(
                           child: Text(

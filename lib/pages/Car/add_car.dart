@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/user_model.dart';
-import 'package:valero/pages/Car/carsCrud.dart';
-import 'package:valero/pages/Car/viewGarage.dart';
-import 'package:valero/pages/appBar.dart';
+import 'package:valero/pages/Car/cars_crud.dart';
+import 'package:valero/pages/Car/view_garage.dart';
+import 'package:valero/pages/app_bar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
-import 'package:valero/utils/createInputField.dart';
+import 'package:valero/utils/create_input_field.dart';
 
 class AddCar extends StatefulWidget {
   const AddCar({Key? key}) : super(key: key);

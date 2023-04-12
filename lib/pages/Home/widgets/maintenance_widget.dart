@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createBoxCard.dart';
+import 'package:valero/utils/create_box_card.dart';
 
 
 nextMaintenance() {
@@ -32,10 +32,7 @@ nextMaintenance() {
                 ? car['plates']
                 : 'no data set',
             color: secondaryColor,
-            image: SvgPicture.asset(
-              'assets/svg/insurance.svg',
-              alignment: Alignment.bottomRight,
-            ),
+            image: Icon(LineIcons.wrench, size: 82,),
             textColor: DateTime.now().isBefore(car['maintenance'].toDate())
                 ? tertiaryColor
                 : const Color(0xFFf0554f),

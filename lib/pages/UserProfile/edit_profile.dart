@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
-import 'package:valero/pages/appBar.dart';
+import 'package:valero/pages/app_bar.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createInputField.dart';
-import 'package:valero/widgets/createAvatarWidget.dart';
+import 'package:valero/utils/create_input_field.dart';
+import 'package:valero/widgets/create_avatar_widget.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);

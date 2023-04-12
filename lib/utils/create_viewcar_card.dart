@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/utils/constant.dart';
 
-class CreateBoxCard extends StatefulWidget {
-  CreateBoxCard(
+class CreateViewCarCard extends StatefulWidget {
+  CreateViewCarCard(
       {Key? key,
       required this.subTitle,
       required this.title,
@@ -27,10 +27,10 @@ class CreateBoxCard extends StatefulWidget {
   var navigate;
 
   @override
-  State<CreateBoxCard> createState() => _CreateBoxCardState();
+  State<CreateViewCarCard> createState() => _CreateGridCard();
 }
 
-class _CreateBoxCardState extends State<CreateBoxCard> {
+class _CreateGridCard extends State<CreateViewCarCard> {
   navigateTo() {
     return PersistentNavBarNavigator.pushNewScreen(
       context,
@@ -52,30 +52,45 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
         child: Stack(
           children: [
             Opacity(
-              opacity: 0.2,
+              opacity: 0.8,
               child: Container(
                 child: widget.image,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
+              padding: const EdgeInsets.fromLTRB(15, 15, 0, 0),
               child: Text(
                 widget.subTitle,
                 style: style3.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 21, 0, 0),
+              padding: const EdgeInsets.fromLTRB(18, 28, 0, 0),
               child: Text(
                 widget.title,
                 style: style1.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(15, 47, 0, 0),
+              padding: const EdgeInsets.fromLTRB(15, 56, 0, 0),
               child: Text(
                 widget.paragraph,
                 style: style3.copyWith(color: widget.textColor),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(90, 215, 0, 0),
+              child: MaterialButton(
+                elevation: 0,
+                color: tertiaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                onPressed: () => navigateTo(),
+                child: Text(
+                  widget.buttonText,
+                  style: style3,
+                ),
               ),
             ),
           ],

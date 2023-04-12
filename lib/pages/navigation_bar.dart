@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:valero/pages/Car/viewGarage.dart';
-import 'package:valero/pages/UserProfile/viewProfile.dart';
-import 'package:valero/pages/home.dart';
+import 'package:valero/pages/Car/view_garage.dart';
+import 'package:valero/pages/UserProfile/view_profile.dart';
+import 'package:valero/pages/Home/home.dart';
 import 'package:valero/utils/constant.dart';
 
 // TODO chek onWillPop for exit app

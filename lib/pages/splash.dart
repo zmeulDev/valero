@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/pages/Auth/login.dart';
-import 'package:valero/pages/navbar.dart';
+import 'package:valero/pages/navigation_bar.dart';
 import 'package:valero/utils/constant.dart';
 
 class Splash extends StatefulWidget {

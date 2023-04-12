@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:valero/models/carModel.dart';
-import 'package:valero/pages/Car/addCar.dart';
-import 'package:valero/pages/Car/carsCrud.dart';
-import 'package:valero/pages/Car/editCar.dart';
-import 'package:valero/pages/appBar.dart';
+import 'package:valero/models/car_model.dart';
+import 'package:valero/pages/Car/add_car.dart';
+import 'package:valero/pages/Car/cars_crud.dart';
+import 'package:valero/pages/Car/edit_car.dart';
+import 'package:valero/pages/app_bar.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createWideCard.dart';
-import 'package:valero/utils/createGridCard.dart';
+import 'package:valero/utils/create_wide_card.dart';
+import 'package:valero/utils/create_viewcar_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// https://github.com/niamulhasan/Flutter-Cards/tree/main/lib
+// https://www.flaticon.com/packs/transportation-3
 // https://undraw.co/illustrations
 // https://storyset.com/car
 
@@ -82,14 +82,14 @@ class _ViewGarage extends State<ViewGarage> {
                             crossAxisSpacing: 8,
                             childAspectRatio: 0.7),
                     children: snapshot.data!.docs.map((car) {
-                      return CreateGridCard(
+                      return CreateViewCarCard(
                         subTitle: car["model"].toString().isEmpty
                             ? car["maker"]
                             : car["model"],
                         title: car["plates"],
                         paragraph: car["year"],
-                        color: tertiaryColor,
-                        textColor: secondaryColor,
+                        color: secondaryColor,
+                        textColor: tertiaryColor,
                         image: SvgPicture.asset(
                           'assets/svg/offRoad.svg',
                         ),

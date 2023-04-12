@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createBoxCard.dart';
+import 'package:valero/utils/create_box_card.dart';
 
-nextInsurance() {
+nextVignette() {
   return SizedBox(
     width: Get.width * 0.48,
     height: Get.height * 0.12,
@@ -23,19 +23,16 @@ nextInsurance() {
         if (snapshot.hasData) {
           final car = snapshot.data!.docs.first;
           return CreateBoxCard(
-            subTitle: 'Next Insurance',
-            title: car['insurance'].toString().isNotEmpty
-                ? f.format(car['insurance'].toDate())
+            subTitle: 'Next Vignette ',
+            title: car['vignette'].toString().isNotEmpty
+                ? f.format(car['vignette'].toDate())
                 : 'Not set',
-            paragraph: car['insurance'].toString().isNotEmpty
+            paragraph: car['vignette'].toString().isNotEmpty
                 ? car['plates']
                 : 'no data set',
             color: secondaryColor,
-            image: SvgPicture.asset(
-              'assets/svg/insurance.svg',
-              alignment: Alignment.bottomRight,
-            ),
-            textColor: DateTime.now().isBefore(car['insurance'].toDate())
+              image: const Icon(LineIcons.passport, size: 82,),
+            textColor: DateTime.now().isBefore(car['vignette'].toDate())
                 ? tertiaryColor
                 : const Color(0xFFf0554f),
             buttonText: 'buttonText',

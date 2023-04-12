@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/createBoxCard.dart';
+import 'package:valero/utils/create_box_card.dart';
 
 
 noteWidget() {
@@ -14,9 +14,7 @@ noteWidget() {
       title: 'be careful',
       paragraph: 'its better!',
       color: secondaryColor,
-      image: SvgPicture.asset(
-        'assets/svg/notify.svg',
-      ),
+      image: Icon(LineIcons.addressCard),
       textColor: const Color(0xFFf0554f),
       buttonText: 'buttonText',
     ),

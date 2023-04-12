@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:valero/Services/auth_services.dart';
-import 'package:valero/pages/navbar.dart';
+import 'package:valero/pages/navigation_bar.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 

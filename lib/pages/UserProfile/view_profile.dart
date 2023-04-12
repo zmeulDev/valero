@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Auth/login.dart';
-import 'package:valero/pages/UserProfile/editProfile.dart';
-import 'package:valero/pages/appBar.dart';
+import 'package:valero/pages/UserProfile/edit_profile.dart';
+import 'package:valero/pages/app_bar.dart';
 import 'package:valero/utils/constant.dart';
-import 'package:valero/widgets/createAvatarWidget.dart';
+import 'package:valero/widgets/create_avatar_widget.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
