@@ -11,9 +11,7 @@ import 'package:valero/utils/create_wide_card.dart';
 import 'package:valero/utils/create_viewcar_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// https://www.flaticon.com/packs/transportation-3
-// https://undraw.co/illustrations
-// https://storyset.com/car
+// https://www.svgrepo.com/
 
 class ViewGarage extends StatefulWidget {
   const ViewGarage({Key? key}) : super(key: key);
@@ -48,7 +46,7 @@ class _ViewGarage extends State<ViewGarage> {
                     title: '0',
                     paragraph: 'cars',
                     color: tertiaryColor,
-                    image: SvgPicture.asset('assets/svg/delorean.svg'),
+                    image: SvgPicture.asset('assets/svg/garage.svg', width: 75, height: 75,),
                     textColor: secondaryColor,
                     buttonText: 'Add',
                     navigate: const AddCar(),
@@ -68,7 +66,7 @@ class _ViewGarage extends State<ViewGarage> {
                       ? 'car added'
                       : 'cars added',
                   color: fifthColor,
-                  image: SvgPicture.asset('assets/svg/delorean.svg'),
+                  image: SvgPicture.asset('assets/svg/garage.svg', width: 75, height: 75,),
                   textColor: secondaryColor,
                   buttonText: 'Add',
                   navigate: const AddCar(),
