@@ -9,6 +9,7 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/Car/view_garage.dart';
 import 'package:valero/pages/app_bar.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 import 'package:valero/utils/create_input_field.dart';
@@ -80,8 +81,8 @@ class _EditCar extends State<EditCar> {
           padding: const EdgeInsets.only(left: 6, right: 5, top: 11, bottom: 11),
           decoration: BoxDecoration(
             color: widget.car!.insurance!.isBefore(DateTime.now())
-                ? fifthColor
-                : tertiaryColor,
+                ? lightColorScheme.onError
+                : lightColorScheme.tertiary,
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Text(
@@ -93,18 +94,18 @@ class _EditCar extends State<EditCar> {
           width: Get.width * 0.25,
           child: ElevatedButton.icon(
             style: elevatedButtonStyle,
-            icon: const Icon(
+            icon:  Icon(
               LineIcons.alternateShield,
-              color: tertiaryColor,
+              color: lightColorScheme.tertiary,
             ),
             label: carInsuranceDate == null
                 ? Text(
                     f.format(widget.car!.insurance!).toString(),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   )
                 : Text(
                     f.format(carInsuranceDate!),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   ),
             onPressed: () {
               showDatePicker(
@@ -133,8 +134,8 @@ class _EditCar extends State<EditCar> {
           padding: const EdgeInsets.only(left: 6, right: 5, top: 11, bottom: 11),
           decoration: BoxDecoration(
             color: widget.car!.inspection!.isBefore(DateTime.now())
-                ? fifthColor
-                : tertiaryColor,
+                ? lightColorScheme.onError
+                : lightColorScheme.tertiary,
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Text(
@@ -146,18 +147,18 @@ class _EditCar extends State<EditCar> {
           width: Get.width * 0.25,
           child: ElevatedButton.icon(
             style: elevatedButtonStyle,
-            icon: const Icon(
+            icon:  Icon(
               LineIcons.alternateMedicalFile,
-              color: tertiaryColor,
+              color: lightColorScheme.tertiary,
             ),
             label: carInspectionDate == null
                 ? Text(
                     f.format(widget.car!.inspection!).toString(),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   )
                 : Text(
                     f.format(carInspectionDate!),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   ),
             onPressed: () {
               showDatePicker(
@@ -186,8 +187,8 @@ class _EditCar extends State<EditCar> {
           padding: const EdgeInsets.only(left: 6, right: 5, top: 11, bottom: 11),
           decoration: BoxDecoration(
             color: widget.car!.maintenance!.isBefore(DateTime.now())
-                ? fifthColor
-                : tertiaryColor,
+                ? lightColorScheme.onError
+                : lightColorScheme.tertiary,
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Text(
@@ -199,18 +200,18 @@ class _EditCar extends State<EditCar> {
           width: Get.width * 0.25,
           child: ElevatedButton.icon(
             style: elevatedButtonStyle,
-            icon: const Icon(
+            icon:  Icon(
               LineIcons.wrench,
-              color: tertiaryColor,
+              color: lightColorScheme.tertiary,
             ),
             label: carMaintenanceDate == null
                 ? Text(
                     f.format(widget.car!.maintenance!).toString(),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   )
                 : Text(
                     f.format(carMaintenanceDate!),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   ),
             onPressed: () {
               showDatePicker(
@@ -239,8 +240,8 @@ class _EditCar extends State<EditCar> {
           padding: const EdgeInsets.only(left: 6, right: 5, top: 11, bottom: 11),
           decoration: BoxDecoration(
             color: widget.car!.vignette!.isBefore(DateTime.now())
-                ? fifthColor
-                : tertiaryColor,
+                ? lightColorScheme.onError
+                : lightColorScheme.tertiary,
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Text(
@@ -252,18 +253,18 @@ class _EditCar extends State<EditCar> {
           width: Get.width * 0.25,
           child: ElevatedButton.icon(
             style: elevatedButtonStyle,
-            icon: const Icon(
+            icon:  Icon(
               LineIcons.passport,
-              color: tertiaryColor,
+              color: lightColorScheme.tertiary,
             ),
             label: carVignetteDate == null
                 ? Text(
                     f.format(widget.car!.vignette!).toString(),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   )
                 : Text(
                     f.format(carVignetteDate!),
-                    style: style3.copyWith(color: tertiaryColor),
+                    style: style3.copyWith(color: lightColorScheme.tertiary),
                   ),
             onPressed: () {
               showDatePicker(
@@ -299,7 +300,7 @@ class _EditCar extends State<EditCar> {
     final editCarButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
-      color: tertiaryColor,
+      color: lightColorScheme.tertiary,
       child: MaterialButton(
         minWidth: Get.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -333,7 +334,7 @@ class _EditCar extends State<EditCar> {
         },
         child: Text(
           "Update",
-          style: style2.copyWith(color: fifthColor),
+          style: style2.copyWith(color: lightColorScheme.onError),
           textAlign: TextAlign.center,
         ),
       ),
@@ -347,7 +348,7 @@ class _EditCar extends State<EditCar> {
         child: Column(
           children: [
             Container(
-              color: tertiaryColor,
+              color: lightColorScheme.tertiary,
               padding: const EdgeInsets.all(8),
               child: fieldVin,
             ),

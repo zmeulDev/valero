@@ -10,9 +10,7 @@ class CreateBoxCard extends StatefulWidget {
       required this.subTitle,
       required this.title,
       required this.paragraph,
-      required this.color,
       required this.image,
-      required this.textColor,
       required this.buttonText,
       this.navigate})
       : super(key: key);
@@ -20,9 +18,7 @@ class CreateBoxCard extends StatefulWidget {
   final String subTitle;
   final String title;
   final String paragraph;
-  final Color color;
   final Icon image;
-  final Color textColor;
   final String buttonText;
   var navigate;
 
@@ -45,7 +41,7 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
       height: Get.height * 0.12,
       width: Get.width * 0.48,
       child: Card(
-        color: widget.color,
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -65,21 +61,21 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
               padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
               child: Text(
                 widget.subTitle,
-                style: style3.copyWith(color: widget.textColor),
+                style: style3,
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 21, 0, 0),
               child: Text(
                 widget.title,
-                style: style1.copyWith(color: widget.textColor),
+                style: style1,
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 47, 0, 0),
               child: Text(
                 widget.paragraph,
-                style: style3.copyWith(color: widget.textColor),
+                style: style3,
               ),
             ),
           ],

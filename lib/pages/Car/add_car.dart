@@ -7,6 +7,7 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/Car/view_garage.dart';
 import 'package:valero/pages/app_bar.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 import 'package:valero/utils/create_input_field.dart';
@@ -60,10 +61,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldInspection = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(LineIcons.alternateMedicalFile, color: tertiaryColor,),
+      icon: const Icon(LineIcons.alternateMedicalFile),
       label: carInspectionDate == null
-          ? Text("Inspection", style: style3.copyWith(color: tertiaryColor),)
-          : Text(f.format(carInspectionDate!), style: style3.copyWith(color: tertiaryColor),),
+          ? Text("Inspection", style: style3)
+          : Text(f.format(carInspectionDate!), style: style3),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -81,10 +82,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldInsurance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(LineIcons.alternateShield, color: tertiaryColor,),
+      icon:  Icon(LineIcons.alternateShield),
       label: carInsuranceDate == null
-          ? Text("Insurance", style: style3.copyWith(color: tertiaryColor),)
-          : Text(f.format(carInsuranceDate!), style: style3.copyWith(color: tertiaryColor),),
+          ? Text("Insurance", style: style3)
+          : Text(f.format(carInsuranceDate!), style: style3),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -102,10 +103,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldMaintenance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(LineIcons.wrench, color: tertiaryColor,),
+      icon:  Icon(LineIcons.wrench),
       label: carMaintenanceDate == null
-          ? Text("Maintenance", style: style3.copyWith(color: tertiaryColor),)
-          : Text(f.format(carMaintenanceDate!), style: style3.copyWith(color: tertiaryColor),),
+          ? Text("Maintenance", style: style3)
+          : Text(f.format(carMaintenanceDate!), style: style3),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -123,10 +124,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldVignette = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(LineIcons.passport, color: tertiaryColor,),
+      icon:  Icon(LineIcons.passport),
       label: carVignetteDate == null
-          ? Text("Vignette", style: style3.copyWith(color: tertiaryColor),)
-          : Text(f.format(carVignetteDate!), style: style3.copyWith(color: tertiaryColor),),
+          ? Text("Vignette", style: style3)
+          : Text(f.format(carVignetteDate!), style: style3),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -142,13 +143,12 @@ class _AddCar extends State<AddCar> {
       },
     );
 
-
     final fieldNote = inputField('Note', 'Anything else', TextInputType.text,
         Icons.factory, carNote);
 
     final allCarsButton = Material(
+      color: lightColorScheme.outline,
       borderRadius: BorderRadius.circular(12.0),
-      color: fourthColor,
       child: MaterialButton(
         minWidth: Get.width * 0.03,
         onPressed: () {
@@ -169,8 +169,8 @@ class _AddCar extends State<AddCar> {
     );
 
     final saveButton = Material(
+      color: lightColorScheme.primary,
       borderRadius: BorderRadius.circular(12.0),
-      color: tertiaryColor,
       child: MaterialButton(
         minWidth: Get.width * 0.02,
         onPressed: () async {
@@ -226,8 +226,8 @@ class _AddCar extends State<AddCar> {
             Column(
               children: [
                 Container(
+                  color: lightColorScheme.secondary,
                     padding: const EdgeInsets.all(15),
-                    color: tertiaryColor,
                     child: fieldVin),
                 SizedBox(
                   height: Get.height * 0.01,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/pages/Auth/login.dart';
 import 'package:valero/pages/navigation_bar.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
 class Splash extends StatefulWidget {
@@ -19,7 +20,7 @@ class _SplashState extends State<Splash> {
       AuthServices.setCurrentUserToMap(user.uid);
     } else {
       return Container(
-          color: tertiaryColor,
+          color: lightColorScheme.tertiary,
           child: Text(
             'Waiting for user data...',
             style: style3,
@@ -74,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
       AuthServices.setCurrentUserToMap(user.uid);
     } else {
       return Container(
-          color: tertiaryColor,
+          color: lightColorScheme.tertiary,
           child: Text(
             'Waiting for user data...',
             style: style3,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
 getAppBar(String screenName) {
@@ -9,12 +10,12 @@ getAppBar(String screenName) {
           child: Text(
             'V',
             style: TextStyle(
-                fontFamily: 'Depot', color: tertiaryColor, fontSize: 48),
+                fontFamily: 'Depot',  fontSize: 48),
           ),
         );
       },
     ),
-    backgroundColor: Colors.transparent,
+
     elevation: 0.0,
     centerTitle: true,
     title: Text(

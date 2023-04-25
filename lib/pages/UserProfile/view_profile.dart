@@ -6,6 +6,7 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Auth/login.dart';
 import 'package:valero/pages/UserProfile/edit_profile.dart';
 import 'package:valero/pages/app_bar.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/widgets/create_avatar_widget.dart';
 
@@ -28,7 +29,7 @@ class _ProfileState extends State<Profile> {
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: tertiaryColor,
+              color: lightColorScheme.tertiary,
             ),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -62,7 +63,7 @@ class _ProfileState extends State<Profile> {
                   Text(
                     UserModel().mobilePhone.toString(),
                     style:
-                        style2.copyWith(color: secondaryColor.withOpacity(0.7)),
+                        style2.copyWith(color: lightColorScheme.secondary.withOpacity(0.7)),
                   ),
                 ],
               ),
@@ -81,15 +82,15 @@ class _ProfileState extends State<Profile> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: tertiaryColor,
+                      backgroundColor: lightColorScheme.tertiary,
                       padding: const EdgeInsets.all(13),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       )),
-                  child: const Icon(
+                  child:  Icon(
                     CupertinoIcons.pencil,
                     size: 30,
-                    color: secondaryColor,
+                    color: lightColorScheme.secondary,
                   )),
               ElevatedButton(
                   onPressed: () {
@@ -97,15 +98,15 @@ class _ProfileState extends State<Profile> {
                         .whenComplete(() => Get.to(const Login()));
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: tertiaryColor,
+                      backgroundColor: lightColorScheme.tertiary,
                       padding: const EdgeInsets.all(13),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       )),
-                  child: const Icon(
+                  child:  Icon(
                     CupertinoIcons.arrow_right_square,
                     size: 30,
-                    color: secondaryColor,
+                    color: lightColorScheme.secondary,
                   )),
             ],
           ),

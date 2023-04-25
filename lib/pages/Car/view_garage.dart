@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:valero/models/car_model.dart';
 import 'package:valero/pages/Car/add_car.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/Car/edit_car.dart';
 import 'package:valero/pages/app_bar.dart';
-import 'package:valero/utils/constant.dart';
-import 'package:valero/utils/create_wide_card.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/create_viewcar_card.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:valero/utils/create_wide_card.dart';
 
 // https://www.svgrepo.com/
 
@@ -45,15 +45,16 @@ class _ViewGarage extends State<ViewGarage> {
                     subTitle: 'you have',
                     title: '0',
                     paragraph: 'cars',
-                    color: tertiaryColor,
-                    image: SvgPicture.asset('assets/svg/garage.svg', width: 65, height: 65,),
-                    textColor: secondaryColor,
+                    image: SvgPicture.asset(
+                      'assets/svg/garage.svg',
+                      width: 65,
+                      height: 65,
+                    ),
                     buttonText: 'Add',
                     navigate: const AddCar(),
                   ),
                   SvgPicture.asset(
                     'assets/svg/nodata-cuate.svg',
-                    alignment: Alignment.bottomCenter,
                   ),
                 ],
               );
@@ -65,9 +66,11 @@ class _ViewGarage extends State<ViewGarage> {
                   paragraph: snapshot.data!.docs.length.isEqual(1)
                       ? 'car added'
                       : 'cars added',
-                  color: fourthColor,
-                  image: SvgPicture.asset('assets/svg/garage.svg', width: 65, height: 65,),
-                  textColor: secondaryColor,
+                  image: SvgPicture.asset(
+                    'assets/svg/garage.svg',
+                    width: 65,
+                    height: 65,
+                  ),
                   buttonText: 'Add',
                   navigate: const AddCar(),
                 ),
@@ -86,8 +89,6 @@ class _ViewGarage extends State<ViewGarage> {
                             : car["model"],
                         title: car["plates"],
                         paragraph: car["year"],
-                        color: secondaryColor,
-                        textColor: tertiaryColor,
                         image: SvgPicture.asset(
                           'assets/svg/offRoad.svg',
                         ),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
 // ignore: must_be_immutable
@@ -22,7 +23,8 @@ class GetImage extends StatelessWidget {
       this.radius = 0.0,
       this.isAssets = false,
       this.isSvg = false,
-      this.loadingColor = primaryColor});
+      this.loadingColor =  Colors.grey
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class GetImage extends StatelessWidget {
               width: width,
               child: Image.asset(
                 imagePath,
-                color: primaryColor,
+                color: lightColorScheme.primary,
                 width: width,
                 height: height,
               ),

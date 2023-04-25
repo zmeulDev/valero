@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
 class ImageViewPage extends StatelessWidget {
@@ -12,12 +13,12 @@ class ImageViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(),
-      backgroundColor: primaryColor,
+      backgroundColor: lightColorScheme.primary,
       extendBodyBehindAppBar: true,
       body: Center(
         child: PhotoView(
-          backgroundDecoration: const BoxDecoration(
-            color: primaryColor,
+          backgroundDecoration:  BoxDecoration(
+            color: lightColorScheme.primary,
           ),
           imageProvider: AssetImage("$img"),
         ),
@@ -27,16 +28,16 @@ class ImageViewPage extends StatelessWidget {
 
   getAppBar() {
     return AppBar(
-      backgroundColor: primaryColor,
+      backgroundColor: lightColorScheme.primary,
       elevation: 0.0,
       leading: Center(
           child: IconButton(
         onPressed: () {
           Get.back();
         },
-        icon: const Icon(
+        icon:  Icon(
           Icons.arrow_back_ios,
-          color: tertiaryColor,
+          color: lightColorScheme.tertiary,
           size: 20,
         ),
       )),

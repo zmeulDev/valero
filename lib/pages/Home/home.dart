@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:valero/pages/Home/widgets/hello_widget.dart';
 import 'package:valero/pages/Home/widgets/inspection_widget.dart';
 import 'package:valero/pages/Home/widgets/insurance_widget.dart';
 import 'package:valero/pages/Home/widgets/maintenance_widget.dart';
-import 'package:valero/pages/Home/widgets/vignette_widget.dart';
 import 'package:valero/pages/Home/widgets/note_widget.dart';
+import 'package:valero/pages/Home/widgets/vignette_widget.dart';
 import 'package:valero/pages/app_bar.dart';
 
 class Home extends StatefulWidget {
@@ -44,7 +43,9 @@ class _HomeState extends State<Home> {
                 height: Get.height * 0.03,
               ),
               Row(
-                children: [ noteWidget(), ],
+                children: [
+                  noteWidget(),
+                ],
               ),
               Row(
                 children: [

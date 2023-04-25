@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:valero/pages/Auth/otp.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:mobile_number/mobile_number.dart';
 
@@ -51,49 +51,33 @@ class _LoginState extends State<Login> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: primaryColor,
         body: Column(
           children: [
             Expanded(
               flex: 2,
-              child: Container(
-                color: primaryColor,
-                child: ClipPath(
-                  clipper: OvalBottomBorderClipper(),
-                  child: Container(
-                    width: Get.width,
-                    color: tertiaryColor,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Opacity(
-                          opacity: 0.8,
-                          child: SvgPicture.asset(
-                            'assets/svg/ride.svg',
-                            width: Get.width * 0.7,
-                          ),
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.01,
-                        ),
-                        const Text(
-                          'V',
-                          style: TextStyle(
-                              fontFamily: 'Depot',
-                              color: secondaryColor,
-                              fontSize: 132),
-                        ),
-                        Text(
-                          'valero',
-                          style: styleLogin,
-                        ),
-                        Text(
-                          'car management',
-                          style: style2,
-                        ),
-                      ],
+              child: SizedBox(
+                width: Get.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/login.svg',
+                      width: Get.width * 0.6,
                     ),
-                  ),
+                    SizedBox(
+                      height: Get.height * 0.01,
+                    ),
+                     Text(
+                      'V',
+                      style: TextStyle(
+                        fontFamily: 'Depot',
+                        fontSize: 132,
+                        color:lightColorScheme.primary,
+                      ),
+                    ),
+                    Text('valero', style: style1.copyWith(color: lightColorScheme.secondary)),
+                    Text('car management', style: style2.copyWith(color: lightColorScheme.secondary)),
+                  ],
                 ),
               ),
             ),
@@ -109,22 +93,22 @@ class _LoginState extends State<Login> {
                     Container(
                       height: Get.height * 0.07,
                       width: double.infinity,
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: secondaryColor,
+                        color: lightColorScheme.secondaryContainer,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.phone,
-                            color: tertiaryColor,
+                            color: lightColorScheme.onPrimaryContainer,
                           ),
                           Text(
                             _mobileNumber,
                             style: style2.copyWith(
-                              color: tertiaryColor,
+                              color: lightColorScheme.onPrimaryContainer,
                               fontSize: 20,
                             ),
                           )
@@ -140,15 +124,16 @@ class _LoginState extends State<Login> {
                       },
                       child: Container(
                         height: Get.height * 0.07,
-
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: tertiaryColor,
+                          color: lightColorScheme.secondaryContainer,
                         ),
                         child: Center(
                           child: Text(
                             "Sign in",
-                            style: style2,
+                            style: style2.copyWith(
+                              color: lightColorScheme.onPrimaryContainer,
+                            ),
                           ),
                         ),
                       ),

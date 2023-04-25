@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/app_bar.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/create_input_field.dart';
 import 'package:valero/widgets/create_avatar_widget.dart';
@@ -46,14 +47,14 @@ class _EditProfileState extends State<EditProfile> {
       });
       Fluttertoast.cancel();
       Fluttertoast.showToast(
-          msg: 'Data Updated Successfully', backgroundColor: fifthColor);
+          msg: 'Data Updated Successfully', backgroundColor: lightColorScheme.onError);
       Get.back();
     } else {
       setState(() {
         isLoading = false;
       });
       Fluttertoast.cancel();
-      Fluttertoast.showToast(msg: res.toString(), backgroundColor: fifthColor);
+      Fluttertoast.showToast(msg: res.toString(), backgroundColor: lightColorScheme.onError);
     }
   }
 
@@ -87,9 +88,9 @@ class _EditProfileState extends State<EditProfile> {
       return Container(
         height: Get.height * 0.15,
         width: Get.width * 0.32,
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           shape: BoxShape.circle,
-          color: tertiaryColor,
+          color: lightColorScheme.tertiary,
         ),
         child: createAvatarWidget(125),
       );
@@ -121,15 +122,15 @@ class _EditProfileState extends State<EditProfile> {
                     right: 0,
                     bottom: 0,
                     child: CircleAvatar(
-                      backgroundColor: fourthColor,
+                      backgroundColor: lightColorScheme.tertiary,
                       child: IconButton(
                         onPressed: () {
                           getImage();
                         },
-                        icon: const Icon(
+                        icon:  Icon(
                           Icons.edit_outlined,
                           size: 20,
-                          color: secondaryColor,
+                          color: lightColorScheme.secondary,
                         ),
                         splashRadius: 5.0,
                         splashColor: Colors.grey,
@@ -151,7 +152,7 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: fourthColor,
+        color: lightColorScheme.tertiary,
         padding: EdgeInsets.all(8),
         height: 65,
         child: Row(
@@ -159,9 +160,9 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
+                backgroundColor: lightColorScheme.primary,
                 shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: primaryColor),
+                  side:  BorderSide(color: lightColorScheme.primary),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
@@ -172,15 +173,15 @@ class _EditProfileState extends State<EditProfile> {
                     },
               child: Text(
                 'Cancel',
-                style: style2.copyWith(color: fourthColor),
+                style: style2.copyWith(color: lightColorScheme.tertiary),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: tertiaryColor,
+                backgroundColor: lightColorScheme.tertiary,
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: tertiaryColor),
+                  side:  BorderSide(color: lightColorScheme.tertiary),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),

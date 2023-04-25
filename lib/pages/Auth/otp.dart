@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/pages/navigation_bar.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/helper.dart';
 
@@ -204,18 +205,9 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
   }
 
   upperImage() {
-    return Container(
-      height: Get.height * 0.4,
-      margin: const EdgeInsets.only(top: 15, bottom: 25),
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: LinearGradient(colors: [
-            tertiaryColor.withOpacity(0.3),
-            tertiaryColor.withOpacity(0.6),
-          ])),
-      child:  Center(
-        child:  SvgPicture.asset('assets/svg/preferences.svg'),),
-    );
+    return Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+      child:  SvgPicture.asset('assets/svg/otp.svg', height: Get.height * 0.3,));
   }
 
   infoText() {
@@ -259,8 +251,8 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40),
           child: PinCodeTextField(
             appContext: context,
-            pastedTextStyle: const TextStyle(
-              color: secondaryColor,
+            pastedTextStyle:  TextStyle(
+              color: lightColorScheme.secondary,
             ),
             length: 6,
             obscureText: false,
@@ -281,12 +273,12 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
               borderWidth: 2,
               fieldWidth: 28,
               activeFillColor: Colors.transparent,
-              inactiveColor: secondaryColor,
+              inactiveColor: lightColorScheme.secondary,
               inactiveFillColor: Colors.transparent,
-              selectedColor: secondaryColor,
-              disabledColor: secondaryColor,
+              selectedColor: lightColorScheme.secondary,
+              disabledColor: lightColorScheme.secondary,
             ),
-            cursorColor: secondaryColor,
+            cursorColor: lightColorScheme.secondary,
             animationDuration: const Duration(milliseconds: 300),
             enableActiveFill: false,
             errorAnimationController: errorController,
@@ -319,15 +311,14 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
         child: ElevatedButton(
             onPressed: function,
             style: ElevatedButton.styleFrom(
-                backgroundColor: tertiaryColor,
                 padding: const EdgeInsets.all(13),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 )),
-            child: const Icon(
+            child: const  Icon(
               CupertinoIcons.arrow_right,
               size: 30,
-              color: secondaryColor,
+
             )),
       ),
     );

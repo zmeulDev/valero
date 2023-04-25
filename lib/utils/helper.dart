@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'constant.dart';
 
 class Helper {
@@ -14,9 +15,9 @@ class Helper {
   }
 
   static circularProgress(context) {
-    const Center(
+     Center(
       child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(tertiaryColor),
+        valueColor: AlwaysStoppedAnimation(lightColorScheme.tertiary),
       ),
     );
   }

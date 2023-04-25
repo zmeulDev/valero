@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:valero/models/user_model.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/create_box_card.dart';
 
@@ -30,11 +31,9 @@ nextInsurance() {
             paragraph: car['insurance'].toString().isNotEmpty
                 ? car['plates']
                 : 'no data set',
-            color: secondaryColor,
+
             image: const Icon(LineIcons.alternateShield, size: 82,),
-            textColor: DateTime.now().isBefore(car['insurance'].toDate())
-                ? tertiaryColor
-                : fifthColor,
+
             buttonText: 'buttonText',
           );
         }

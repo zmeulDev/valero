@@ -4,6 +4,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/pages/Car/view_garage.dart';
 import 'package:valero/pages/UserProfile/view_profile.dart';
 import 'package:valero/pages/Home/home.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
 // TODO chek onWillPop for exit app
@@ -41,26 +42,26 @@ class _NavigationState extends State<Navigation> {
       PersistentBottomNavBarItem(
           icon: const Icon(LineIcons.home),
           title: ("Home"),
-          activeColorPrimary: primaryColor,
-          activeColorSecondary: tertiaryColor,
-          inactiveColorPrimary: primaryColor,
-          inactiveColorSecondary: tertiaryColor,
+          activeColorPrimary: darkColorScheme.onBackground,
+          activeColorSecondary: darkColorScheme.surfaceVariant,
+          inactiveColorPrimary: darkColorScheme.onSurfaceVariant,
+          inactiveColorSecondary: darkColorScheme.surfaceVariant,
           iconSize: 24),
       PersistentBottomNavBarItem(
           icon: const Icon(LineIcons.suitcaseRolling),
           title: ("Garage"),
-          activeColorPrimary: primaryColor,
-          activeColorSecondary: tertiaryColor,
-          inactiveColorPrimary: primaryColor,
-          inactiveColorSecondary: tertiaryColor,
+          activeColorPrimary: darkColorScheme.onBackground,
+          activeColorSecondary: darkColorScheme.surfaceVariant,
+          inactiveColorPrimary: darkColorScheme.onSurfaceVariant,
+          inactiveColorSecondary: darkColorScheme.surfaceVariant,
           iconSize: 24),
       PersistentBottomNavBarItem(
           icon: const  Icon(LineIcons.user),
           title: ("Settings"),
-          activeColorPrimary: primaryColor,
-          activeColorSecondary: tertiaryColor,
-          inactiveColorPrimary: primaryColor,
-          inactiveColorSecondary: tertiaryColor,
+          activeColorPrimary: darkColorScheme.onBackground,
+          activeColorSecondary: darkColorScheme.surfaceVariant,
+          inactiveColorPrimary: darkColorScheme.onSurfaceVariant,
+          inactiveColorSecondary: darkColorScheme.surfaceVariant,
           iconSize: 24),
     ];
   }
@@ -73,7 +74,7 @@ class _NavigationState extends State<Navigation> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       navBarHeight: 80,
-      backgroundColor: tertiaryColor,
+      backgroundColor: darkColorScheme.surfaceVariant,
       resizeToAvoidBottomInset: true,
       itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 200),
