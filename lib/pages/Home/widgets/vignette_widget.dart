@@ -34,7 +34,7 @@ nextVignette() {
               image: const Icon(LineIcons.passport, size: 82,),
             textColor: DateTime.now().isBefore(car['vignette'].toDate())
                 ? tertiaryColor
-                : const Color(0xFFf0554f),
+                : fifthColor,
             buttonText: 'buttonText',
           );
         }

@@ -1,7 +1,9 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#a67777">
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<svg width="800px" height="800px" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(1.8000000000000007,1.8000000000000007), scale(0.85)">
+<rect x="-2.4" y="-2.4" width="28.80" height="28.80" rx="14.4" fill="#ffffff" strokewidth="0"/>
+</g>
 <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-<g id="SVGRepo_iconCarrier"> <path d="M13.3 8.1101L14.62 10.7501C14.8 11.1101 15.28 11.4701 15.68 11.5301L18.07 11.9301C19.6 12.1901 19.96 13.2901 18.86 14.3901L17 16.2501C16.69 16.5601 16.51 17.1701 16.61 17.6101L17.14 19.9201C17.56 21.7401 16.59 22.4501 14.98 21.5001L12.74 20.1701C12.33 19.9301 11.67 19.9301 11.26 20.1701L9.01996 21.5001C7.40996 22.4501 6.43995 21.7401 6.85995 19.9201L7.38998 17.6101C7.48998 17.1801 7.30997 16.5701 6.99997 16.2501L5.13998 14.3901C4.03998 13.2901 4.39996 12.1801 5.92996 11.9301L8.31997 11.5301C8.71997 11.4601 9.19997 11.1101 9.37997 10.7501L10.7 8.1101C11.41 6.6801 12.59 6.6801 13.3 8.1101Z" stroke="#d5dbe1" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.4" d="M6 9V2" stroke="#d5dbe1" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.4" d="M18 9V2" stroke="#d5dbe1" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.4" d="M12 4V2" stroke="#d5dbe1" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"/> </g>
+<g id="SVGRepo_iconCarrier"> <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#d3660d" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/> <g opacity="0.4"> <path d="M8 12H16" stroke="#d3660d" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/> <path d="M12 16V8" stroke="#d3660d" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/> </g> </g>
 </svg>

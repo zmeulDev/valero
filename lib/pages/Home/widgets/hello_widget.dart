@@ -13,10 +13,10 @@ helloWidget() {
     color: tertiaryColor,
     image: SvgPicture.asset(
       'assets/svg/avatar.svg',
-      height: 75,
-      width: 75,
+      height: 65,
+      width: 65,
     ),
-    textColor: fourthColor,
+    textColor: secondaryColor,
     buttonText: 'Profile',
     navigate: const Profile(),
   );

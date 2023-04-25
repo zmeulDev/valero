@@ -13,9 +13,9 @@ noteWidget() {
       subTitle: 'Always',
       title: 'be careful',
       paragraph: 'its better!',
-      color: secondaryColor,
-      image: Icon(LineIcons.safari, size: 56,),
-      textColor: const Color(0xFFf0554f),
+      color: tertiaryColor,
+      image: const Icon(LineIcons.safari, size: 56, color: secondaryColor,),
+      textColor:secondaryColor,
       buttonText: 'buttonText',
     ),
   );

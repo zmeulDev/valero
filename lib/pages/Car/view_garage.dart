@@ -46,7 +46,7 @@ class _ViewGarage extends State<ViewGarage> {
                     title: '0',
                     paragraph: 'cars',
                     color: tertiaryColor,
-                    image: SvgPicture.asset('assets/svg/garage.svg', width: 75, height: 75,),
+                    image: SvgPicture.asset('assets/svg/garage.svg', width: 65, height: 65,),
                     textColor: secondaryColor,
                     buttonText: 'Add',
                     navigate: const AddCar(),
@@ -65,8 +65,8 @@ class _ViewGarage extends State<ViewGarage> {
                   paragraph: snapshot.data!.docs.length.isEqual(1)
                       ? 'car added'
                       : 'cars added',
-                  color: fifthColor,
-                  image: SvgPicture.asset('assets/svg/garage.svg', width: 75, height: 75,),
+                  color: fourthColor,
+                  image: SvgPicture.asset('assets/svg/garage.svg', width: 65, height: 65,),
                   textColor: secondaryColor,
                   buttonText: 'Add',
                   navigate: const AddCar(),

@@ -35,7 +35,7 @@ nextMaintenance() {
             image: Icon(LineIcons.wrench, size: 82,),
             textColor: DateTime.now().isBefore(car['maintenance'].toDate())
                 ? tertiaryColor
-                : const Color(0xFFf0554f),
+                : fifthColor,
             buttonText: 'buttonText',
           );
         }

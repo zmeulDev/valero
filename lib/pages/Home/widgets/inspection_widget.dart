@@ -35,7 +35,7 @@ nextInspection() {
             image: const Icon(LineIcons.alternateMedicalFile, size: 82,),
             textColor: DateTime.now().isBefore(car['inspection'].toDate())
                 ? tertiaryColor
-                : const Color(0xFFf0554f),
+                : fifthColor,
             buttonText: 'buttonText',
           );
         }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
@@ -59,10 +60,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldInspection = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
+      icon: const Icon(LineIcons.alternateMedicalFile, color: tertiaryColor,),
       label: carInspectionDate == null
-          ? Text("Inspection", style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carInspectionDate!), style: style3.copyWith(color: primaryColor),),
+          ? Text("Inspection", style: style3.copyWith(color: tertiaryColor),)
+          : Text(f.format(carInspectionDate!), style: style3.copyWith(color: tertiaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -80,10 +81,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldInsurance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
+      icon: const Icon(LineIcons.alternateShield, color: tertiaryColor,),
       label: carInsuranceDate == null
-          ? Text("Insurance", style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carInsuranceDate!), style: style3.copyWith(color: primaryColor),),
+          ? Text("Insurance", style: style3.copyWith(color: tertiaryColor),)
+          : Text(f.format(carInsuranceDate!), style: style3.copyWith(color: tertiaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -101,10 +102,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldMaintenance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
+      icon: const Icon(LineIcons.wrench, color: tertiaryColor,),
       label: carMaintenanceDate == null
-          ? Text("Maintenance", style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carMaintenanceDate!), style: style3.copyWith(color: primaryColor),),
+          ? Text("Maintenance", style: style3.copyWith(color: tertiaryColor),)
+          : Text(f.format(carMaintenanceDate!), style: style3.copyWith(color: tertiaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -122,10 +123,10 @@ class _AddCar extends State<AddCar> {
 
     final fieldVignette = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon: const Icon(Icons.calendar_today_rounded, color: primaryColor,),
+      icon: const Icon(LineIcons.passport, color: tertiaryColor,),
       label: carVignetteDate == null
-          ? Text("Vignette", style: style3.copyWith(color: primaryColor),)
-          : Text(f.format(carVignetteDate!), style: style3.copyWith(color: primaryColor),),
+          ? Text("Vignette", style: style3.copyWith(color: tertiaryColor),)
+          : Text(f.format(carVignetteDate!), style: style3.copyWith(color: tertiaryColor),),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -185,10 +186,10 @@ class _AddCar extends State<AddCar> {
                 plates: carPlates.text.toUpperCase(),
                 year: carYear.text,
                 fuel: carFuel.text,
-                inspection: carInspectionDate,
-                insurance: carInsuranceDate,
-                vignette: carVignetteDate,
-                maintenance: carMaintenanceDate,
+                inspection: carInspectionDate ?? DateTime.now(),
+                insurance: carInsuranceDate  ?? DateTime.now(),
+                vignette: carVignetteDate  ?? DateTime.now(),
+                maintenance: carMaintenanceDate  ?? DateTime.now(),
                 note: carNote.text,
               );
               if (response.code != 200) {
