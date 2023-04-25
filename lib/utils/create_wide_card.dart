@@ -8,6 +8,8 @@ import 'package:valero/utils/constant.dart';
 class CreateWideCard extends StatefulWidget {
   CreateWideCard(
       {Key? key,
+        required this.cardColor,
+        required this.textColor,
       required this.subTitle,
       required this.title,
       required this.paragraph,
@@ -16,6 +18,8 @@ class CreateWideCard extends StatefulWidget {
       this.navigate})
       : super(key: key);
 
+  final Color textColor;
+  final Color cardColor;
   final String subTitle;
   final String title;
   final String paragraph;
@@ -42,6 +46,7 @@ class _CreateWideCardState extends State<CreateWideCard> {
     return SizedBox(
       height: Get.height * 0.11,
       child: Card(
+        color: widget.cardColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -57,21 +62,21 @@ class _CreateWideCardState extends State<CreateWideCard> {
               padding: const EdgeInsets.fromLTRB(22, 20, 0, 0),
               child: Text(
                 widget.subTitle,
-                style: style3,
+                style: style3.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(28, 35, 0, 0),
               child: Text(
                 widget.title,
-                style: style1,
+                style: style1.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(17, 62, 0, 0),
               child: Text(
                 widget.paragraph,
-                style: style3,
+                style: style3.copyWith(color: widget.textColor),
               ),
             ),
             Padding(

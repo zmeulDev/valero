@@ -11,12 +11,12 @@ noteWidget() {
     width: Get.width * 0.65,
     height: Get.height * 0.12,
     child: CreateBoxCard(
+      textColor: lightColorScheme.onTertiary,
+      cardColor: lightColorScheme.tertiary,
       subTitle: 'Always',
       title: 'be careful',
       paragraph: 'its better!',
-
       image:  Icon(LineIcons.safari, size: 56, ),
-
       buttonText: 'buttonText',
     ),
   );

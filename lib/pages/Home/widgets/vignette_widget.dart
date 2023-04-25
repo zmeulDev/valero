@@ -24,7 +24,13 @@ nextVignette() {
         if (snapshot.hasData) {
           final car = snapshot.data!.docs.first;
           return CreateBoxCard(
-            subTitle: 'Next Vignette ',
+            textColor: DateTime.now().isAfter(car['vignette'].toDate())
+                ? lightColorScheme.onErrorContainer
+                : lightColorScheme.onSecondary,
+            cardColor: DateTime.now().isAfter(car['vignette'].toDate())
+                ? lightColorScheme.errorContainer
+                : lightColorScheme.secondary,
+            subTitle: 'Vignette ',
             title: car['vignette'].toString().isNotEmpty
                 ? f.format(car['vignette'].toDate())
                 : 'Not set',

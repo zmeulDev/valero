@@ -42,6 +42,8 @@ class _ViewGarage extends State<ViewGarage> {
               return Column(
                 children: [
                   CreateWideCard(
+                    cardColor: lightColorScheme.secondaryContainer,
+                    textColor: lightColorScheme.onSecondaryContainer,
                     subTitle: 'you have',
                     title: '0',
                     paragraph: 'cars',
@@ -61,6 +63,8 @@ class _ViewGarage extends State<ViewGarage> {
             } else {
               return Column(children: [
                 CreateWideCard(
+                  cardColor: lightColorScheme.secondaryContainer,
+                  textColor: lightColorScheme.onSecondaryContainer,
                   subTitle: 'you have',
                   title: snapshot.data!.docs.length.toString(),
                   paragraph: snapshot.data!.docs.length.isEqual(1)

@@ -7,7 +7,6 @@ import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/create_box_card.dart';
 
-
 nextInspection() {
   return SizedBox(
     width: Get.width * 0.48,
@@ -25,16 +24,23 @@ nextInspection() {
         if (snapshot.hasData) {
           final car = snapshot.data!.docs.first;
           return CreateBoxCard(
-            subTitle: 'Next Inspection ',
+            textColor: DateTime.now().isAfter(car['inspection'].toDate())
+                ? lightColorScheme.onErrorContainer
+                : lightColorScheme.onSecondary,
+            cardColor: DateTime.now().isAfter(car['inspection'].toDate())
+                ? lightColorScheme.errorContainer
+                : lightColorScheme.secondary,
+            subTitle: 'Inspection ',
             title: car['inspection'].toString().isNotEmpty
                 ? f.format(car['inspection'].toDate())
                 : 'Not set',
             paragraph: car['inspection'].toString().isNotEmpty
                 ? car['plates']
                 : 'no data set',
-
-            image: const Icon(LineIcons.alternateMedicalFile, size: 82,),
-
+            image: const Icon(
+              LineIcons.alternateMedicalFile,
+              size: 82,
+            ),
             buttonText: 'buttonText',
           );
         }

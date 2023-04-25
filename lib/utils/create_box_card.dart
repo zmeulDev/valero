@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
 class CreateBoxCard extends StatefulWidget {
   CreateBoxCard(
       {Key? key,
+        required this.textColor,
+        required this.cardColor,
       required this.subTitle,
       required this.title,
       required this.paragraph,
@@ -15,6 +18,8 @@ class CreateBoxCard extends StatefulWidget {
       this.navigate})
       : super(key: key);
 
+  final Color textColor;
+  final Color cardColor;
   final String subTitle;
   final String title;
   final String paragraph;
@@ -41,7 +46,7 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
       height: Get.height * 0.12,
       width: Get.width * 0.48,
       child: Card(
-
+        color: widget.cardColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -50,7 +55,7 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
              Align(
               alignment: Alignment.bottomRight,
               child: Opacity(
-                opacity: 0.06,
+                opacity: 0.09,
                 child: Padding(
                   padding: const EdgeInsets.all(4),
                   child:widget.image ,
@@ -61,21 +66,21 @@ class _CreateBoxCardState extends State<CreateBoxCard> {
               padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
               child: Text(
                 widget.subTitle,
-                style: style3,
+                style: style3.copyWith(color: widget.textColor)
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 21, 0, 0),
+              padding: const EdgeInsets.fromLTRB(25, 30, 0, 0),
               child: Text(
                 widget.title,
-                style: style1,
+                style: style1.copyWith(color: widget.textColor),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(15, 47, 0, 0),
+              padding: const EdgeInsets.fromLTRB(15, 65, 0, 0),
               child: Text(
                 widget.paragraph,
-                style: style3,
+                style: style3.copyWith(color: widget.textColor),
               ),
             ),
           ],

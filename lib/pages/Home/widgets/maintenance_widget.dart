@@ -25,7 +25,13 @@ nextMaintenance() {
         if (snapshot.hasData) {
           final car = snapshot.data!.docs.first;
           return CreateBoxCard(
-            subTitle: 'Next Maintenance',
+            textColor: DateTime.now().isAfter(car['maintenance'].toDate())
+                ? lightColorScheme.onErrorContainer
+                : lightColorScheme.onSecondary,
+            cardColor: DateTime.now().isAfter(car['maintenance'].toDate())
+                ? lightColorScheme.errorContainer
+                : lightColorScheme.secondary,
+            subTitle: 'Maintenance',
             title: car['maintenance'].toString().isNotEmpty
                 ? f.format(car['maintenance'].toDate())
                 : 'Not set',
