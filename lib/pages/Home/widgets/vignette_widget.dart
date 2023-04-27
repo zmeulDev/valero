@@ -26,10 +26,10 @@ nextVignette() {
           return CreateBoxCard(
             textColor: DateTime.now().isAfter(car['vignette'].toDate())
                 ? lightColorScheme.onErrorContainer
-                : lightColorScheme.onSecondary,
+                : lightColorScheme.onSurfaceVariant,
             cardColor: DateTime.now().isAfter(car['vignette'].toDate())
                 ? lightColorScheme.errorContainer
-                : lightColorScheme.secondary,
+                : lightColorScheme.surfaceVariant,
             subTitle: 'Vignette ',
             title: car['vignette'].toString().isNotEmpty
                 ? f.format(car['vignette'].toDate())

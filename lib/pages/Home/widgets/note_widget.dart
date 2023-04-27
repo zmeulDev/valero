@@ -11,8 +11,8 @@ noteWidget() {
     width: Get.width * 0.65,
     height: Get.height * 0.12,
     child: CreateBoxCard(
-      textColor: lightColorScheme.onTertiary,
-      cardColor: lightColorScheme.tertiary,
+      textColor: lightColorScheme.onSecondary,
+      cardColor: lightColorScheme.secondary,
       subTitle: 'Always',
       title: 'be careful',
       paragraph: 'its better!',

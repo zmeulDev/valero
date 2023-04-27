@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:valero/utils/color_schemes.g.dart';
 
 
 final f = new DateFormat('dd MM yyyy');
@@ -26,6 +27,9 @@ var style3 = const   TextStyle(
     fontSize: 13.0,  fontWeight: FontWeight.w300);
 
 final ButtonStyle elevatedButtonStyle =  ElevatedButton.styleFrom(
+  foregroundColor: lightColorScheme.onSecondaryContainer,
+  backgroundColor: lightColorScheme.secondaryContainer,
+  padding: const EdgeInsets.all(16.0),
   elevation: 0,
   textStyle: style2,
   shape: RoundedRectangleBorder(

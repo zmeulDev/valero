@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
-Widget inputField(hintText, labelText, keyboardType, suffixIcon,
+Widget valeroField(hintText, labelText, keyboardType, suffixIcon,
     TextEditingController controller, {readonly = false}) {
 
 

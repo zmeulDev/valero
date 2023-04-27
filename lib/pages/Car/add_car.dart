@@ -46,25 +46,25 @@ class _AddCar extends State<AddCar> {
 
   @override
   Widget build(BuildContext context) {
-    final fieldVin = inputField('VIN', 'Car VIN number', TextInputType.text,
+    final fieldVin = valeroField('VIN', 'Car VIN number', TextInputType.text,
         Icons.factory, carVin);
-    final fieldPlates = inputField('Plates', 'Car plates', TextInputType.text,
+    final fieldPlates = valeroField('Plates', 'Car plates', TextInputType.text,
         Icons.factory, carPlates);
-    final fieldMaker = inputField('Maker', 'Car maker', TextInputType.text,
+    final fieldMaker = valeroField('Maker', 'Car maker', TextInputType.text,
         Icons.factory, carMaker);
-    final fieldModel = inputField('Model', 'Car model', TextInputType.text,
+    final fieldModel = valeroField('Model', 'Car model', TextInputType.text,
         Icons.factory, carModel);
-    final fieldYear = inputField('Year', 'Car year', TextInputType.number,
+    final fieldYear = valeroField('Year', 'Car year', TextInputType.number,
         Icons.factory, carYear);
-    final fieldFuel = inputField('Fuel', 'Car fuel type', TextInputType.text,
+    final fieldFuel = valeroField('Fuel', 'Car fuel type', TextInputType.text,
         Icons.factory, carFuel);
 
     final fieldInspection = ElevatedButton.icon(
       style: elevatedButtonStyle,
       icon: const Icon(LineIcons.alternateMedicalFile),
       label: carInspectionDate == null
-          ? Text("Inspection", style: style3)
-          : Text(f.format(carInspectionDate!), style: style3),
+          ? Text("Inspection", style: style2)
+          : Text(f.format(carInspectionDate!), style: style2),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -84,8 +84,8 @@ class _AddCar extends State<AddCar> {
       style: elevatedButtonStyle,
       icon:  Icon(LineIcons.alternateShield),
       label: carInsuranceDate == null
-          ? Text("Insurance", style: style3)
-          : Text(f.format(carInsuranceDate!), style: style3),
+          ? Text("Insurance", style: style2)
+          : Text(f.format(carInsuranceDate!), style: style2),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -105,8 +105,8 @@ class _AddCar extends State<AddCar> {
       style: elevatedButtonStyle,
       icon:  Icon(LineIcons.wrench),
       label: carMaintenanceDate == null
-          ? Text("Maintenance", style: style3)
-          : Text(f.format(carMaintenanceDate!), style: style3),
+          ? Text("Maintenance", style: style2)
+          : Text(f.format(carMaintenanceDate!), style: style2),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -126,8 +126,8 @@ class _AddCar extends State<AddCar> {
       style: elevatedButtonStyle,
       icon:  Icon(LineIcons.passport),
       label: carVignetteDate == null
-          ? Text("Vignette", style: style3)
-          : Text(f.format(carVignetteDate!), style: style3),
+          ? Text("Vignette", style: style2)
+          : Text(f.format(carVignetteDate!), style: style2),
       onPressed: () {
         showDatePicker(
             context: context,
@@ -143,11 +143,11 @@ class _AddCar extends State<AddCar> {
       },
     );
 
-    final fieldNote = inputField('Note', 'Anything else', TextInputType.text,
+    final fieldNote = valeroField('Note', 'Anything else', TextInputType.text,
         Icons.factory, carNote);
 
     final allCarsButton = Material(
-      color: lightColorScheme.outline,
+      color: darkColorScheme.secondaryContainer,
       borderRadius: BorderRadius.circular(12.0),
       child: MaterialButton(
         minWidth: Get.width * 0.03,
@@ -162,7 +162,7 @@ class _AddCar extends State<AddCar> {
         },
         child: Text(
           "My garage",
-          style: style2,
+          style: style2.copyWith(color: darkColorScheme.onSecondaryContainer),
           textAlign: TextAlign.center,
         ),
       ),
@@ -207,7 +207,7 @@ class _AddCar extends State<AddCar> {
         },
         child: Text(
           "Save",
-          style: style2,
+          style: style2.copyWith(color: lightColorScheme.onPrimary),
         ),
       ),
     );
@@ -219,10 +219,17 @@ class _AddCar extends State<AddCar> {
         key: _formKey,
         child: Stack(
           children: [
-            SvgPicture.asset('assets/svg/delorean.svg',
-                alignment: Alignment.bottomCenter,
-                width: Get.width,
-                height: Get.height),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Opacity(
+                  opacity: 0.9,
+                  child: SvgPicture.asset('assets/svg/add.svg',
+                    fit: BoxFit.fitWidth,
+                    width: Get.width * 0.85,),
+                ),
+              ],
+            ),
             Column(
               children: [
                 Container(
@@ -232,25 +239,6 @@ class _AddCar extends State<AddCar> {
                 SizedBox(
                   height: Get.height * 0.01,
                 ),
-                Row(
-                  children: [
-                    Expanded(child: fieldPlates),
-                    SizedBox(
-                      width: Get.width * 0.02,
-                    ),
-                    Expanded(child: fieldYear),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(child: fieldMaker),
-                    SizedBox(
-                      width: Get.width * 0.02,
-                    ),
-                    Expanded(child: fieldModel),
-                  ],
-                ),
-                fieldNote,
                 Container(
                   margin: const EdgeInsets.all(8),
                   child: Row(
@@ -276,7 +264,25 @@ class _AddCar extends State<AddCar> {
                     ],
                   ),
                 ),
-
+                Row(
+                  children: [
+                    Expanded(child: fieldPlates),
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Expanded(child: fieldYear),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: fieldMaker),
+                    SizedBox(
+                      width: Get.width * 0.02,
+                    ),
+                    Expanded(child: fieldModel),
+                  ],
+                ),
+                fieldNote,
                 Container(
                   margin: const EdgeInsets.all(8),
                   child: Row(

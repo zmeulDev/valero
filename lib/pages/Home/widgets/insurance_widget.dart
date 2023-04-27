@@ -26,10 +26,10 @@ nextInsurance() {
           return CreateBoxCard(
             textColor: DateTime.now().isAfter(car['insurance'].toDate())
                 ? lightColorScheme.onErrorContainer
-                : lightColorScheme.onSecondary,
+                : lightColorScheme.onSurfaceVariant,
             cardColor: DateTime.now().isAfter(car['insurance'].toDate())
                 ? lightColorScheme.errorContainer
-                : lightColorScheme.secondary,
+                : lightColorScheme.surfaceVariant,
             subTitle: 'Insurance',
             title: car['insurance'].toString().isNotEmpty
                 ? f.format(car['insurance'].toDate())
