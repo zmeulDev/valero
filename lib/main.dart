@@ -13,7 +13,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((_) {
-    runApp(MyApp());
+    runApp(const MyApp());
   });
 }
 

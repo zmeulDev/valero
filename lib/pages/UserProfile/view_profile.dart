@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: lightColorScheme.tertiary,
+              color: lightColorScheme.primary,
             ),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -42,20 +42,20 @@ class _ProfileState extends State<Profile> {
                   UserModel().userName != ''
                       ? Text(
                           UserModel().userName,
-                          style: style2,
+                          style: style2.copyWith(color: lightColorScheme.onPrimary),
                         )
                       : Text(
                           'Your name',
-                          style: style2,
+                          style: style2.copyWith(color: lightColorScheme.onPrimary),
                         ),
                   UserModel().email != ''
                       ? Text(
                           UserModel().email,
-                          style: style2,
+                          style: style2.copyWith(color: lightColorScheme.onPrimary),
                         )
                       : Text(
                           'Your email',
-                          style: style2,
+                          style: style2.copyWith(color: lightColorScheme.onPrimary),
                         ),
                   SizedBox(
                     height: Get.height * 0.02,
@@ -63,7 +63,7 @@ class _ProfileState extends State<Profile> {
                   Text(
                     UserModel().mobilePhone.toString(),
                     style:
-                        style2.copyWith(color: lightColorScheme.secondary.withOpacity(0.7)),
+                        style2.copyWith(color: lightColorScheme.onPrimary.withOpacity(0.5)),
                   ),
                 ],
               ),
@@ -82,7 +82,7 @@ class _ProfileState extends State<Profile> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: lightColorScheme.tertiary,
+                      backgroundColor: lightColorScheme.primary,
                       padding: const EdgeInsets.all(13),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -90,7 +90,7 @@ class _ProfileState extends State<Profile> {
                   child:  Icon(
                     CupertinoIcons.pencil,
                     size: 30,
-                    color: lightColorScheme.secondary,
+                    color: lightColorScheme.onPrimary,
                   )),
               ElevatedButton(
                   onPressed: () {
@@ -98,7 +98,7 @@ class _ProfileState extends State<Profile> {
                         .whenComplete(() => Get.to(const Login()));
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: lightColorScheme.tertiary,
+                      backgroundColor: lightColorScheme.primary,
                       padding: const EdgeInsets.all(13),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -106,7 +106,7 @@ class _ProfileState extends State<Profile> {
                   child:  Icon(
                     CupertinoIcons.arrow_right_square,
                     size: 30,
-                    color: lightColorScheme.secondary,
+                    color: lightColorScheme.onPrimary,
                   )),
             ],
           ),

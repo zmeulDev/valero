@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:valero/utils/color_schemes.g.dart';
-import 'package:valero/utils/constant.dart';
 
 // ignore: must_be_immutable
 class GetImage extends StatelessWidget {
@@ -12,10 +11,10 @@ class GetImage extends StatelessWidget {
   final double radius;
   final bool isAssets;
   final bool isSvg;
-  final loadingColor;
+  final Color loadingColor;
 
   GetImage(
-      {this.imagePath =
+      {Key? key, this.imagePath =
           'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
       required this.width,
       required this.height,
@@ -24,7 +23,7 @@ class GetImage extends StatelessWidget {
       this.isAssets = false,
       this.isSvg = false,
       this.loadingColor =  Colors.grey
-      });
+      }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

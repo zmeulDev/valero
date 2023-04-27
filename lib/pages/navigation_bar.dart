@@ -5,7 +5,6 @@ import 'package:valero/pages/Car/view_garage.dart';
 import 'package:valero/pages/UserProfile/view_profile.dart';
 import 'package:valero/pages/Home/home.dart';
 import 'package:valero/utils/color_schemes.g.dart';
-import 'package:valero/utils/constant.dart';
 
 // TODO chek onWillPop for exit app
 

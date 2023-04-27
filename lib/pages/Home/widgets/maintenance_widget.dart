@@ -39,7 +39,7 @@ nextMaintenance() {
                 ? car['plates']
                 : 'no data set',
 
-            image: Icon(LineIcons.wrench, size: 82,),
+            image: const Icon(LineIcons.wrench, size: 82,),
 
             buttonText: 'buttonText',
           );

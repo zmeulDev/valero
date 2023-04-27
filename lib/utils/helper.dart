@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:valero/utils/color_schemes.g.dart';
-import 'constant.dart';
 
 class Helper {
   static toScreen(context, screen) {

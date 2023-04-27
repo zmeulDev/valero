@@ -82,7 +82,7 @@ class _AddCar extends State<AddCar> {
 
     final fieldInsurance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon:  Icon(LineIcons.alternateShield),
+      icon:  const Icon(LineIcons.alternateShield),
       label: carInsuranceDate == null
           ? Text("Insurance", style: style2)
           : Text(f.format(carInsuranceDate!), style: style2),
@@ -103,7 +103,7 @@ class _AddCar extends State<AddCar> {
 
     final fieldMaintenance = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon:  Icon(LineIcons.wrench),
+      icon:  const Icon(LineIcons.wrench),
       label: carMaintenanceDate == null
           ? Text("Maintenance", style: style2)
           : Text(f.format(carMaintenanceDate!), style: style2),
@@ -124,7 +124,7 @@ class _AddCar extends State<AddCar> {
 
     final fieldVignette = ElevatedButton.icon(
       style: elevatedButtonStyle,
-      icon:  Icon(LineIcons.passport),
+      icon:  const Icon(LineIcons.passport),
       label: carVignetteDate == null
           ? Text("Vignette", style: style2)
           : Text(f.format(carVignetteDate!), style: style2),

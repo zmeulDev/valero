@@ -196,24 +196,64 @@ class _EditCar extends State<EditCar> {
       },
     );
 
-    final viewListButton = TextButton(
-        onPressed: () {
+    final viewAllCarsButton = Material(
+      elevation: 2.0,
+      borderRadius: BorderRadius.circular(12.0),
+      color: lightColorScheme.secondary,
+      child: MaterialButton(
+        minWidth: Get.width * 0.02,
+        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () async {
           Navigator.pushAndRemoveUntil<dynamic>(
             context,
             MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => const ViewGarage(),
             ),
-            (route) => true, //if you want to disable back feature set to false
+                (route) => true, //if you want to disable back feature set to false
           );
         },
-        child: const Text('View List of car'));
+        child: Text(
+          "View all cars",
+          style: style2.copyWith(color: lightColorScheme.onError),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
 
-    final editCarButton = Material(
+    final deleteCarButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
-      color: lightColorScheme.tertiary,
+      color: lightColorScheme.error,
       child: MaterialButton(
-        minWidth: Get.width,
+        minWidth: Get.width * 0.02,
+        padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () async {
+          var response = await CarsCrud.deleteCar(docId: docId.text);
+          if (response.code != 200) {
+            Helper.errorMsg(response.message.toString());
+          } else {
+            Helper.successMsg(response.message.toString());
+            PersistentNavBarNavigator.pushNewScreen(
+              context,
+              screen: const ViewGarage(),
+              withNavBar: true,
+            );
+          }
+        },
+        child: Text(
+          "Delete car",
+          style: style2.copyWith(color: lightColorScheme.onError),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+
+    final updateCarButton = Material(
+      elevation: 2.0,
+      borderRadius: BorderRadius.circular(12.0),
+      color: lightColorScheme.primary,
+      child: MaterialButton(
+        minWidth: Get.width * 0.02,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () async {
           if (carVin.text.isEmpty) {
@@ -244,7 +284,7 @@ class _EditCar extends State<EditCar> {
           }
         },
         child: Text(
-          "Update",
+          "Update car",
           style: style2.copyWith(color: lightColorScheme.onError),
           textAlign: TextAlign.center,
         ),
@@ -304,26 +344,16 @@ class _EditCar extends State<EditCar> {
               ],
             ),
             fieldNote,
-            editCarButton,
-            viewListButton,
-            TextButton(
-              child: Text(
-                'Delete',
-                style: style2,
+            Container(
+              margin: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  viewAllCarsButton,
+                  deleteCarButton,
+                  updateCarButton,
+                ],
               ),
-              onPressed: () async {
-                var response = await CarsCrud.deleteCar(docId: docId.text);
-                if (response.code != 200) {
-                  Helper.errorMsg(response.message.toString());
-                } else {
-                  Helper.successMsg(response.message.toString());
-                  PersistentNavBarNavigator.pushNewScreen(
-                    context,
-                    screen: const ViewGarage(),
-                    withNavBar: true,
-                  );
-                }
-              },
             ),
           ],
         ),

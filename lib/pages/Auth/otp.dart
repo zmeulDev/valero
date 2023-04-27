@@ -102,7 +102,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                   setState(() {
                     isLoading = false;
                   });
-                  Helper.toReplacementScreen(context, Navigation());
+                  Helper.toReplacementScreen(context, const Navigation());
                 } else if (value.additionalUserInfo?.isNewUser == false) {
                   await FirebaseFirestore.instance.collection("users").doc(value.user?.uid).get().then((userData) async {
                     if (userData.exists) {
@@ -112,14 +112,14 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                       });
                       Fluttertoast.cancel();
                       Fluttertoast.showToast(msg: 'Logged In Successfully');
-                      Helper.toReplacementScreen( context, Navigation());
+                      Helper.toReplacementScreen( context, const Navigation());
                     } else {
                       await AuthServices.uploadUserDatatoFirestore(
                           uid: value.user!.uid, profileUrl: "", phoneNo: "+${widget.phoneNumber}", username: "", email: "");
                       setState(() {
                         isLoading = false;
                       });
-                      Helper.toReplacementScreen(context, Navigation());
+                      Helper.toReplacementScreen(context, const Navigation());
                     }
                   });
                 }
@@ -164,7 +164,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
             });
             print("Success");
             res = true;
-            Helper.toReplacementScreen(context, Navigation());
+            Helper.toReplacementScreen(context, const Navigation());
           } else if (value.additionalUserInfo?.isNewUser == false) {
             await FirebaseFirestore.instance.collection("users").doc(value.user?.uid).get().then((userData) async {
               if (userData.exists) {
@@ -176,7 +176,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                 Fluttertoast.showToast(msg: "Logged In Successfully");
 
                 res = true;
-                Helper.toReplacementScreen(context, Navigation());
+                Helper.toReplacementScreen(context, const Navigation());
               } else {
                 await AuthServices.uploadUserDatatoFirestore(
                     uid: value.user!.uid, profileUrl: "", phoneNo: "${widget.phoneNumber}", username: "", email: "");
@@ -184,7 +184,7 @@ class _EnterOTPScreenState extends State<EnterOTPScreen> {
                   isLoading = false;
                 });
                 res = true;
-                Helper.toReplacementScreen(context, Navigation());
+                Helper.toReplacementScreen(context, const Navigation());
               }
             });
           }

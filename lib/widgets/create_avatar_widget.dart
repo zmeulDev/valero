@@ -1,28 +1,27 @@
 import 'package:avatar_view/avatar_view.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/utils/color_schemes.g.dart';
-import 'package:valero/utils/constant.dart';
 
 createAvatarWidget(double radius) {
   return UserModel().avatarUrl != ''
       ? AvatarView(
           radius: radius,
-          borderColor: lightColorScheme.tertiary,
+          borderColor: lightColorScheme.surface,
           avatarType: AvatarType.CIRCLE,
-          backgroundColor: lightColorScheme.tertiary,
+          backgroundColor: lightColorScheme.surface,
           imagePath: UserModel().avatarUrl,
-          placeHolder: const Icon(CupertinoIcons.person),
-          errorWidget: const Icon(
-            CupertinoIcons.person,
-          ))
+          placeHolder: const Icon(LineIcons.user),
+          errorWidget: const Icon( LineIcons.user),)
       : ClipOval(
           child: Container(
             height: radius,
             width: radius,
-            color: lightColorScheme.secondary,
+            color: lightColorScheme.surfaceVariant,
             child: Icon(
-              CupertinoIcons.person_alt_circle,
+              LineIcons.user,
+              color: lightColorScheme.onSurface,
               size: radius,
             ),
           ),

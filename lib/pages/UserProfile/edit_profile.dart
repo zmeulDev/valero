@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/app_bar.dart';
@@ -68,7 +69,7 @@ class _EditProfileState extends State<EditProfile> {
     if (UserModel().userName != "") {
       nameController.text = UserModel().userName;
     }
-    if (UserModel().email != null || UserModel().email != "") {
+    if ( UserModel().email != "") {
       emailController.text = UserModel().email;
     }
   }
@@ -90,7 +91,7 @@ class _EditProfileState extends State<EditProfile> {
         width: Get.width * 0.32,
         decoration:  BoxDecoration(
           shape: BoxShape.circle,
-          color: lightColorScheme.tertiary,
+          color: lightColorScheme.secondary,
         ),
         child: createAvatarWidget(125),
       );
@@ -122,15 +123,15 @@ class _EditProfileState extends State<EditProfile> {
                     right: 0,
                     bottom: 0,
                     child: CircleAvatar(
-                      backgroundColor: lightColorScheme.tertiary,
+                      backgroundColor: lightColorScheme.secondary,
                       child: IconButton(
                         onPressed: () {
                           getImage();
                         },
                         icon:  Icon(
-                          Icons.edit_outlined,
+                          LineIcons.edit,
                           size: 20,
-                          color: lightColorScheme.secondary,
+                          color: lightColorScheme.onSecondary,
                         ),
                         splashRadius: 5.0,
                         splashColor: Colors.grey,
@@ -142,19 +143,19 @@ class _EditProfileState extends State<EditProfile> {
               height: Get.height * 0.05,
             ),
             valeroField('Choose your name', 'UserName', TextInputType.text,
-                CupertinoIcons.person, nameController),
+                LineIcons.user, nameController),
             valeroField('Choose your email', 'Email', TextInputType.emailAddress,
-                CupertinoIcons.envelope, emailController),
+                LineIcons.envelope, emailController),
             valeroField('Phone', 'Phone cannot be changed', TextInputType.phone,
-                CupertinoIcons.phone, phoneNoController,
+                LineIcons.phone, phoneNoController,
                 readonly: true),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        color: lightColorScheme.tertiary,
-        padding: EdgeInsets.all(8),
-        height: 65,
+        color: lightColorScheme.secondary,
+        padding: const EdgeInsets.all(8),
+        height: Get.height * 0.07,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

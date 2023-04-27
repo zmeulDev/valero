@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:valero/utils/color_schemes.g.dart';
-import 'package:valero/utils/constant.dart';
 
 class ImageViewPage extends StatelessWidget {
   final String img;
@@ -20,7 +19,7 @@ class ImageViewPage extends StatelessWidget {
           backgroundDecoration:  BoxDecoration(
             color: lightColorScheme.primary,
           ),
-          imageProvider: AssetImage("$img"),
+          imageProvider: AssetImage(img),
         ),
       ),
     );

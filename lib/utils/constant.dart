@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:valero/utils/color_schemes.g.dart';
 
 
-final f = new DateFormat('dd MM yyyy');
+final f = DateFormat('dd MM yyyy');
 
 var styleLogin = GoogleFonts.roboto(
   fontSize: 34.0,
