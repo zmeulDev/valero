@@ -5,6 +5,7 @@ import 'package:valero/pages/Home/widgets/inspection_widget.dart';
 import 'package:valero/pages/Home/widgets/insurance_widget.dart';
 import 'package:valero/pages/Home/widgets/maintenance_widget.dart';
 import 'package:valero/pages/Home/widgets/note_widget.dart';
+import 'package:valero/pages/Home/widgets/today_widget.dart';
 import 'package:valero/pages/Home/widgets/vignette_widget.dart';
 import 'package:valero/pages/app_bar.dart';
 
@@ -45,6 +46,7 @@ class _HomeState extends State<Home> {
               Row(
                 children: [
                   noteWidget(),
+                  todayWidget(),
                 ],
               ),
               Row(
