@@ -16,7 +16,7 @@ class Helper {
   static circularProgress(context) {
      Center(
       child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(lightColorScheme.tertiary),
+        valueColor: AlwaysStoppedAnimation(darkColorScheme.tertiary),
       ),
     );
   }

@@ -15,7 +15,7 @@ var styleAppBar = const  TextStyle(
 
 var style1 =  const TextStyle(
   fontFamily: 'Pure',
-  fontSize: 26.0,
+  fontSize: 22.0,
   fontWeight: FontWeight.bold,
 );
 var style2 = const  TextStyle(
@@ -27,8 +27,8 @@ var style3 = const   TextStyle(
     fontSize: 13.0,  fontWeight: FontWeight.w300);
 
 final ButtonStyle elevatedButtonStyle =  ElevatedButton.styleFrom(
-  foregroundColor: lightColorScheme.onSecondaryContainer,
-  backgroundColor: lightColorScheme.secondaryContainer,
+  foregroundColor: darkColorScheme.onSecondaryContainer,
+  backgroundColor: darkColorScheme.secondaryContainer,
   padding: const EdgeInsets.all(16.0),
   elevation: 0,
   textStyle: style2,

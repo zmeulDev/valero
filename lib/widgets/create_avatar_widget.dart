@@ -8,9 +8,9 @@ createAvatarWidget(double radius) {
   return UserModel().avatarUrl != ''
       ? AvatarView(
           radius: radius,
-          borderColor: lightColorScheme.surface,
+          borderColor: darkColorScheme.surface,
           avatarType: AvatarType.CIRCLE,
-          backgroundColor: lightColorScheme.surface,
+          backgroundColor: darkColorScheme.surface,
           imagePath: UserModel().avatarUrl,
           placeHolder: const Icon(LineIcons.user),
           errorWidget: const Icon( LineIcons.user),)
@@ -18,10 +18,10 @@ createAvatarWidget(double radius) {
           child: Container(
             height: radius,
             width: radius,
-            color: lightColorScheme.surfaceVariant,
+            color: darkColorScheme.surfaceVariant,
             child: Icon(
               LineIcons.user,
-              color: lightColorScheme.onSurface,
+              color: darkColorScheme.onSurface,
               size: radius,
             ),
           ),

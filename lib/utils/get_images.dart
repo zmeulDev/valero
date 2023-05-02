@@ -39,7 +39,7 @@ class GetImage extends StatelessWidget {
               width: width,
               child: Image.asset(
                 imagePath,
-                color: lightColorScheme.primary,
+                color: darkColorScheme.primary,
                 width: width,
                 height: height,
               ),

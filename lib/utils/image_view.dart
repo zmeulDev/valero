@@ -12,12 +12,12 @@ class ImageViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(),
-      backgroundColor: lightColorScheme.primary,
+      backgroundColor: darkColorScheme.primary,
       extendBodyBehindAppBar: true,
       body: Center(
         child: PhotoView(
           backgroundDecoration:  BoxDecoration(
-            color: lightColorScheme.primary,
+            color: darkColorScheme.primary,
           ),
           imageProvider: AssetImage(img),
         ),
@@ -27,7 +27,7 @@ class ImageViewPage extends StatelessWidget {
 
   getAppBar() {
     return AppBar(
-      backgroundColor: lightColorScheme.primary,
+      backgroundColor: darkColorScheme.primary,
       elevation: 0.0,
       leading: Center(
           child: IconButton(
@@ -36,7 +36,7 @@ class ImageViewPage extends StatelessWidget {
         },
         icon:  Icon(
           Icons.arrow_back_ios,
-          color: lightColorScheme.tertiary,
+          color: darkColorScheme.tertiary,
           size: 20,
         ),
       )),

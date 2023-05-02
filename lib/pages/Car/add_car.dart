@@ -169,7 +169,7 @@ class _AddCar extends State<AddCar> {
     );
 
     final saveButton = Material(
-      color: lightColorScheme.primary,
+      color: darkColorScheme.primary,
       borderRadius: BorderRadius.circular(12.0),
       child: MaterialButton(
         minWidth: Get.width * 0.02,
@@ -207,7 +207,7 @@ class _AddCar extends State<AddCar> {
         },
         child: Text(
           "Save",
-          style: style2.copyWith(color: lightColorScheme.onPrimary),
+          style: style2.copyWith(color: darkColorScheme.onPrimary),
         ),
       ),
     );
@@ -233,7 +233,7 @@ class _AddCar extends State<AddCar> {
             Column(
               children: [
                 Container(
-                  color: lightColorScheme.secondary,
+                  color: darkColorScheme.secondary,
                     padding: const EdgeInsets.all(15),
                     child: fieldVin),
                 SizedBox(

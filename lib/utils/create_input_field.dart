@@ -12,7 +12,7 @@ Widget valeroField(hintText, labelText, keyboardType, suffixIcon,
     height: Get.height * 0.07,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
-      color: lightColorScheme.secondaryContainer
+      color: darkColorScheme.secondaryContainer
     ),
     child: TextFormField(
       controller: controller,
@@ -22,8 +22,8 @@ Widget valeroField(hintText, labelText, keyboardType, suffixIcon,
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        hintStyle: style2.copyWith(color: lightColorScheme.onSurface),
-        labelStyle: style3.copyWith(color: lightColorScheme.onSurface),
+        hintStyle: style2.copyWith(color: darkColorScheme.onSurface),
+        labelStyle: style3.copyWith(color: darkColorScheme.onSurface),
         contentPadding: const EdgeInsets.only(left: 10, bottom: 2, right: 4, top: 6),
         suffixIcon: Icon(
           suffixIcon,

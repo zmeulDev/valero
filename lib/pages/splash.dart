@@ -20,7 +20,7 @@ class _SplashState extends State<Splash> {
       AuthServices.setCurrentUserToMap(user.uid);
     } else {
       return Container(
-          color: lightColorScheme.tertiary,
+          color: darkColorScheme.tertiary,
           child: Text(
             'Waiting for user data...',
             style: style3,
@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
       AuthServices.setCurrentUserToMap(user.uid);
     } else {
       return Container(
-          color: lightColorScheme.tertiary,
+          color: darkColorScheme.tertiary,
           child: Text(
             'Waiting for user data...',
             style: style3,

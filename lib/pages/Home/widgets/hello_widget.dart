@@ -7,8 +7,8 @@ import 'package:valero/utils/create_wide_card.dart';
 
 helloWidget() {
   return CreateWideCard(
-    cardColor: lightColorScheme.primaryContainer,
-    textColor: lightColorScheme.onPrimaryContainer,
+    cardColor: darkColorScheme.secondaryContainer,
+    textColor: darkColorScheme.onSecondaryContainer,
     subTitle: 'Hi',
     title: UserModel().userName != '' ? UserModel().userName : 'user',
     paragraph: 'welcome back!',

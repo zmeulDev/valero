@@ -77,7 +77,7 @@ class _CreateGridCard extends State<CreateViewCarCard> {
             Padding(
               padding: const EdgeInsets.fromLTRB(90, 215, 0, 0),
               child: MaterialButton(
-                color: lightColorScheme.secondary,
+                color: darkColorScheme.secondary,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -85,7 +85,7 @@ class _CreateGridCard extends State<CreateViewCarCard> {
                 onPressed: () => navigateTo(),
                 child: Text(
                   widget.buttonText,
-                  style: style3.copyWith(color: lightColorScheme.onSecondary),
+                  style: style3.copyWith(color: darkColorScheme.onSecondary),
                 ),
               ),
             ),

@@ -26,11 +26,11 @@ nextMaintenance() {
           final car = snapshot.data!.docs.first;
           return CreateBoxCard(
             textColor: DateTime.now().isAfter(car['maintenance'].toDate())
-                ? lightColorScheme.onErrorContainer
-                : lightColorScheme.onSurfaceVariant,
+                ? darkColorScheme.onErrorContainer
+                : darkColorScheme.onSurfaceVariant,
             cardColor: DateTime.now().isAfter(car['maintenance'].toDate())
-                ? lightColorScheme.errorContainer
-                : lightColorScheme.surfaceVariant,
+                ? darkColorScheme.errorContainer
+                : darkColorScheme.surfaceVariant,
             subTitle: 'Maintenance',
             title: car['maintenance'].toString().isNotEmpty
                 ? f.format(car['maintenance'].toDate())
