@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
 getAppBar(String screenName) {

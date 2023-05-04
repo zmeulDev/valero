@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:valero/models/user_model.dart';
-import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/create_box_card.dart';
 
-nextVignette() {
+nextVignette(context) {
   return SizedBox(
     width: Get.width * 0.48,
     height: Get.height * 0.12,
@@ -25,11 +24,11 @@ nextVignette() {
           final car = snapshot.data!.docs.first;
           return CreateBoxCard(
             textColor: DateTime.now().isAfter(car['vignette'].toDate())
-                ? darkColorScheme.onErrorContainer
-                : darkColorScheme.onSurfaceVariant,
+                ? Theme.of(context).colorScheme.onErrorContainer
+                : Theme.of(context).colorScheme.onSurfaceVariant,
             cardColor: DateTime.now().isAfter(car['vignette'].toDate())
-                ? darkColorScheme.errorContainer
-                : darkColorScheme.surfaceVariant,
+                ? Theme.of(context).colorScheme.errorContainer
+                : Theme.of(context).colorScheme.surfaceVariant,
             subTitle: 'Vignette ',
             title: car['vignette'].toString().isNotEmpty
                 ? f.format(car['vignette'].toDate())

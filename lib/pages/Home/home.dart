@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +38,7 @@ class _HomeState extends State<Home> {
       margin: const EdgeInsets.all(8),
       child: Column(
         children: [
-          helloWidget(),
+          helloWidget(context),
           Column(
             children: [
               SizedBox(
@@ -45,18 +46,18 @@ class _HomeState extends State<Home> {
               ),
               Row(
                 children: [
-                  noteWidget(),
-                  todayWidget(),
+                  noteWidget(context),
+                  todayWidget(context),
                 ],
               ),
               Row(
                 children: [
-                  nextMaintenance(),
-                  nextInsurance(),
+                  nextMaintenance(context),
+                  nextInsurance(context),
                 ],
               ),
               Row(
-                children: [nextInspection(), nextVignette()],
+                children: [nextInspection(context), nextVignette(context)],
               )
             ],
           ),

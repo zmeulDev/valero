@@ -82,14 +82,14 @@ class _CreateWideCardState extends State<CreateWideCard> {
             Padding(
               padding: const EdgeInsets.fromLTRB(285, 24, 0, 0),
               child: MaterialButton(
-                color: darkColorScheme.onPrimary,
+                color: Theme.of(context).colorScheme.onPrimary,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 onPressed: () => navigateTo(),
                 child: Text(widget.buttonText,
-                    style: style3.copyWith(color: darkColorScheme.primary)),
+                    style: style3.copyWith(color: Theme.of(context).colorScheme.primary)),
               ),
             ),
           ],

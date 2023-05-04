@@ -35,7 +35,7 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  createAvatarWidget(125),
+                  createAvatarWidget(context, 125),
                   SizedBox(
                     height: Get.height * 0.05,
                   ),

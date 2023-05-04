@@ -72,11 +72,11 @@ class _LoginState extends State<Login> {
                       style: TextStyle(
                         fontFamily: 'Depot',
                         fontSize: 132,
-                        color:darkColorScheme.primary,
+                        color:lightColorScheme.primary,
                       ),
                     ),
-                    Text('valero', style: style1.copyWith(color: darkColorScheme.secondary)),
-                    Text('car management', style: style2.copyWith(color: darkColorScheme.secondary)),
+                    Text('valero', style: style1.copyWith(color: lightColorScheme.primary)),
+                    Text('car management', style: style2.copyWith(color: lightColorScheme.primary)),
                   ],
                 ),
               ),
@@ -96,19 +96,19 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: darkColorScheme.secondaryContainer,
+                        color: lightColorScheme.surfaceVariant,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Icon(
                             Icons.phone,
-                            color: darkColorScheme.onPrimaryContainer,
+                            color: lightColorScheme.onSurfaceVariant,
                           ),
                           Text(
                             _mobileNumber,
                             style: style2.copyWith(
-                              color: darkColorScheme.onPrimaryContainer,
+                              color: lightColorScheme.onSurfaceVariant,
                               fontSize: 20,
                             ),
                           )
@@ -126,13 +126,13 @@ class _LoginState extends State<Login> {
                         height: Get.height * 0.07,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: darkColorScheme.secondaryContainer,
+                          color: lightColorScheme.surfaceVariant,
                         ),
                         child: Center(
                           child: Text(
                             "Sign in",
                             style: style2.copyWith(
-                              color: darkColorScheme.onPrimaryContainer,
+                              color: lightColorScheme.onSurfaceVariant,
                             ),
                           ),
                         ),

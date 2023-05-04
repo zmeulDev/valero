@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/pages/Car/view_garage.dart';
@@ -41,26 +42,26 @@ class _NavigationState extends State<Navigation> {
       PersistentBottomNavBarItem(
           icon: const Icon(LineIcons.home),
           title: ("Home"),
-          activeColorPrimary: darkColorScheme.primary,
-          activeColorSecondary: darkColorScheme.onPrimary,
-          inactiveColorPrimary: darkColorScheme.secondary,
-          inactiveColorSecondary: darkColorScheme.onSecondary,
+          activeColorPrimary: Theme.of(context).colorScheme.primary,
+          activeColorSecondary: Theme.of(context).colorScheme.onPrimary,
+          inactiveColorPrimary: Theme.of(context).colorScheme.secondary,
+          inactiveColorSecondary: Theme.of(context).colorScheme.onSecondary,
           iconSize: 24),
       PersistentBottomNavBarItem(
           icon: const Icon(LineIcons.suitcaseRolling),
           title: ("Garage"),
-          activeColorPrimary: darkColorScheme.primary,
-          activeColorSecondary: darkColorScheme.onPrimary,
-          inactiveColorPrimary: darkColorScheme.secondary,
-          inactiveColorSecondary: darkColorScheme.onSecondary,
+          activeColorPrimary: Theme.of(context).colorScheme.primary,
+          activeColorSecondary: Theme.of(context).colorScheme.onPrimary,
+          inactiveColorPrimary: Theme.of(context).colorScheme.secondary,
+          inactiveColorSecondary: Theme.of(context).colorScheme.onSecondary,
           iconSize: 24),
       PersistentBottomNavBarItem(
           icon: const  Icon(LineIcons.user),
           title: ("Settings"),
-          activeColorPrimary: darkColorScheme.primary,
-          activeColorSecondary: darkColorScheme.onPrimary,
-          inactiveColorPrimary: darkColorScheme.secondary,
-          inactiveColorSecondary: darkColorScheme.onSecondary,
+          activeColorPrimary: Theme.of(context).colorScheme.primary,
+          activeColorSecondary: Theme.of(context).colorScheme.onPrimary,
+          inactiveColorPrimary: Theme.of(context).colorScheme.secondary,
+          inactiveColorSecondary: Theme.of(context).colorScheme.onSecondary,
           iconSize: 24),
     ];
   }
@@ -73,7 +74,7 @@ class _NavigationState extends State<Navigation> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       navBarHeight: 80,
-      backgroundColor: darkColorScheme.secondaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       resizeToAvoidBottomInset: true,
       itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 200),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/car_model.dart';
@@ -58,19 +59,19 @@ class _EditCar extends State<EditCar> {
   @override
   Widget build(BuildContext context) {
     final fieldVin = valeroField(
-        'VIN', 'Car VIN number', TextInputType.text, Icons.factory, carVin);
+        context, 'VIN', 'Car VIN number', TextInputType.text, LineIcons.digitalTachograph, carVin);
     final fieldPlates = valeroField(
-        'Plates', 'Car plates', TextInputType.text, Icons.factory, carPlates);
+        context, 'Plates', 'Car plates', TextInputType.text, LineIcons.icons, carPlates);
     final fieldMaker = valeroField(
-        'Maker', 'Car maker', TextInputType.text, Icons.factory, carMaker);
+        context, 'Maker', 'Car maker', TextInputType.text, LineIcons.car, carMaker);
     final fieldModel = valeroField(
-        'Model', 'Car model', TextInputType.text, Icons.factory, carModel);
+        context, 'Model', 'Car model', TextInputType.text, LineIcons.carCrash, carModel);
     final fieldYear = valeroField(
-        'Year', 'Car year', TextInputType.number, Icons.factory, carYear);
+        context, 'Year', 'Car year', TextInputType.number, LineIcons.calendar, carYear);
     final fieldFuel = valeroField(
-        'Fuel', 'Car fuel type', TextInputType.text, Icons.factory, carFuel);
-    final fieldNote = valeroField('Note', 'anything else', TextInputType.text,
-        CupertinoIcons.arrow_up_down_circle, carNote);
+        context, 'Fuel', 'Car fuel type', TextInputType.text, LineIcons.gasPump, carFuel);
+    final fieldNote = valeroField(context, 'Note', 'anything else', TextInputType.text,
+        LineIcons.stream, carNote);
 
     final fieldInsurance = ElevatedButton.icon(
       style: elevatedButtonStyle,
@@ -299,7 +300,7 @@ class _EditCar extends State<EditCar> {
         child: Column(
           children: [
             Container(
-              color: darkColorScheme.tertiary,
+              color: darkColorScheme.secondary,
               padding: const EdgeInsets.all(8),
               child: fieldVin,
             ),

@@ -7,7 +7,6 @@ import 'package:valero/pages/Car/add_car.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/Car/edit_car.dart';
 import 'package:valero/pages/app_bar.dart';
-import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/create_viewcar_card.dart';
 import 'package:valero/utils/create_wide_card.dart';
 
@@ -42,8 +41,8 @@ class _ViewGarage extends State<ViewGarage> {
               return Column(
                 children: [
                   CreateWideCard(
-                    cardColor: darkColorScheme.secondaryContainer,
-                    textColor: darkColorScheme.onSecondaryContainer,
+                    cardColor: Theme.of(context).colorScheme.secondaryContainer,
+                    textColor: Theme.of(context).colorScheme.onSecondaryContainer,
                     subTitle: 'you have',
                     title: '0',
                     paragraph: 'cars',
@@ -63,8 +62,8 @@ class _ViewGarage extends State<ViewGarage> {
             } else {
               return Column(children: [
                 CreateWideCard(
-                  cardColor: darkColorScheme.secondaryContainer,
-                  textColor: darkColorScheme.onSecondaryContainer,
+                  cardColor: Theme.of(context).colorScheme.secondaryContainer,
+                  textColor: Theme.of(context).colorScheme.onSecondaryContainer,
                   subTitle: 'you have',
                   title: snapshot.data!.docs.length.toString(),
                   paragraph: snapshot.data!.docs.length.isEqual(1)

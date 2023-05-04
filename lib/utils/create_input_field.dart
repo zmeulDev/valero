@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 
-Widget valeroField(hintText, labelText, keyboardType, suffixIcon,
+Widget valeroField(context, hintText, labelText, keyboardType, suffixIcon,
     TextEditingController controller, {readonly = false}) {
 
 
@@ -22,12 +22,13 @@ Widget valeroField(hintText, labelText, keyboardType, suffixIcon,
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,
-        hintStyle: style2.copyWith(color: darkColorScheme.onSurface),
-        labelStyle: style3.copyWith(color: darkColorScheme.onSurface),
+        hintStyle: style2.copyWith(color: Theme.of(context).colorScheme.onSurface),
+        labelStyle: style3.copyWith(color: Theme.of(context).colorScheme.onSurface),
         contentPadding: const EdgeInsets.only(left: 10, bottom: 2, right: 4, top: 6),
         suffixIcon: Icon(
           suffixIcon,
           size: 20,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
         border: InputBorder.none,
         focusedBorder: InputBorder.none,

@@ -91,9 +91,9 @@ class _EditProfileState extends State<EditProfile> {
         width: Get.width * 0.32,
         decoration:  BoxDecoration(
           shape: BoxShape.circle,
-          color: darkColorScheme.secondary,
+          color: Theme.of(context).colorScheme.secondary,
         ),
-        child: createAvatarWidget(125),
+        child: createAvatarWidget(context, 125),
       );
     } else {
       return ClipRRect(
@@ -123,7 +123,7 @@ class _EditProfileState extends State<EditProfile> {
                     right: 0,
                     bottom: 0,
                     child: CircleAvatar(
-                      backgroundColor: darkColorScheme.secondary,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       child: IconButton(
                         onPressed: () {
                           getImage();
@@ -131,7 +131,7 @@ class _EditProfileState extends State<EditProfile> {
                         icon:  Icon(
                           LineIcons.edit,
                           size: 20,
-                          color: darkColorScheme.onSecondary,
+                          color: Theme.of(context).colorScheme.onSecondary,
                         ),
                         splashRadius: 5.0,
                         splashColor: Colors.grey,
@@ -142,18 +142,18 @@ class _EditProfileState extends State<EditProfile> {
             SizedBox(
               height: Get.height * 0.05,
             ),
-            valeroField('Choose your name', 'UserName', TextInputType.text,
+            valeroField(context, 'Choose your name', 'UserName', TextInputType.text,
                 LineIcons.user, nameController),
-            valeroField('Choose your email', 'Email', TextInputType.emailAddress,
+            valeroField(context, 'Choose your email', 'Email', TextInputType.emailAddress,
                 LineIcons.envelope, emailController),
-            valeroField('Phone', 'Phone cannot be changed', TextInputType.phone,
+            valeroField(context, 'Phone', 'Phone cannot be changed', TextInputType.phone,
                 LineIcons.phone, phoneNoController,
                 readonly: true),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        color: darkColorScheme.secondary,
+        color: Theme.of(context).colorScheme.secondary,
         padding: const EdgeInsets.all(8),
         height: Get.height * 0.07,
         child: Row(
@@ -161,9 +161,9 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: darkColorScheme.primary,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 shape: RoundedRectangleBorder(
-                  side:  BorderSide(color: darkColorScheme.primary),
+                  side:  BorderSide(color: Theme.of(context).colorScheme.primary),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
@@ -174,12 +174,12 @@ class _EditProfileState extends State<EditProfile> {
                     },
               child: Text(
                 'Cancel',
-                style: style2.copyWith(color: darkColorScheme.tertiary),
+                style: style2.copyWith(color: Theme.of(context).colorScheme.tertiary),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: darkColorScheme.tertiary,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
                   side:  BorderSide(color: darkColorScheme.tertiary),
