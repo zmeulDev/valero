@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:valero/models/car_model.dart';
@@ -9,7 +7,6 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Car/cars_crud.dart';
 import 'package:valero/pages/Car/view_garage.dart';
 import 'package:valero/pages/app_bar.dart';
-import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/create_input_field.dart';
 import 'package:valero/utils/helper.dart';
@@ -77,16 +74,16 @@ class _EditCar extends State<EditCar> {
       style: elevatedButtonStyle,
       icon: Icon(
         LineIcons.alternateShield,
-        color: Theme.of(context).colorScheme.tertiary,
+        color: Theme.of(context).colorScheme.onTertiary,
       ),
       label: carInsuranceDate == null
           ? Text(
         f.format(widget.car!.insurance!).toString(),
-        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.onTertiary),
       )
           : Text(
         f.format(carInsuranceDate!),
-        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.onTertiary),
       ),
       onPressed: () {
         showDatePicker(
