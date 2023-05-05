@@ -77,16 +77,16 @@ class _EditCar extends State<EditCar> {
       style: elevatedButtonStyle,
       icon: Icon(
         LineIcons.alternateShield,
-        color: darkColorScheme.tertiary,
+        color: Theme.of(context).colorScheme.tertiary,
       ),
       label: carInsuranceDate == null
           ? Text(
         f.format(widget.car!.insurance!).toString(),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       )
           : Text(
         f.format(carInsuranceDate!),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       ),
       onPressed: () {
         showDatePicker(
@@ -108,16 +108,16 @@ class _EditCar extends State<EditCar> {
       style: elevatedButtonStyle,
       icon: Icon(
         LineIcons.alternateMedicalFile,
-        color: darkColorScheme.tertiary,
+        color: Theme.of(context).colorScheme.tertiary,
       ),
       label: carInspectionDate == null
           ? Text(
         f.format(widget.car!.inspection!).toString(),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       )
           : Text(
         f.format(carInspectionDate!),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       ),
       onPressed: () {
         showDatePicker(
@@ -139,16 +139,16 @@ class _EditCar extends State<EditCar> {
       style: elevatedButtonStyle,
       icon: Icon(
         LineIcons.wrench,
-        color: darkColorScheme.tertiary,
+        color: Theme.of(context).colorScheme.tertiary,
       ),
       label: carMaintenanceDate == null
           ? Text(
         f.format(widget.car!.maintenance!).toString(),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       )
           : Text(
         f.format(carMaintenanceDate!),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       ),
       onPressed: () {
         showDatePicker(
@@ -170,16 +170,16 @@ class _EditCar extends State<EditCar> {
       style: elevatedButtonStyle,
       icon: Icon(
         LineIcons.passport,
-        color: darkColorScheme.tertiary,
+        color: Theme.of(context).colorScheme.tertiary,
       ),
       label: carVignetteDate == null
           ? Text(
         f.format(widget.car!.vignette!).toString(),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       )
           : Text(
         f.format(carVignetteDate!),
-        style: style3.copyWith(color: darkColorScheme.tertiary),
+        style: style3.copyWith(color: Theme.of(context).colorScheme.tertiary),
       ),
       onPressed: () {
         showDatePicker(
@@ -200,7 +200,7 @@ class _EditCar extends State<EditCar> {
     final viewAllCarsButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
-      color: darkColorScheme.secondary,
+      color: Theme.of(context).colorScheme.secondary,
       child: MaterialButton(
         minWidth: Get.width * 0.02,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -215,7 +215,7 @@ class _EditCar extends State<EditCar> {
         },
         child: Text(
           "View all cars",
-          style: style2.copyWith(color: darkColorScheme.onError),
+          style: style2.copyWith(color: Theme.of(context).colorScheme.onError),
           textAlign: TextAlign.center,
         ),
       ),
@@ -224,7 +224,7 @@ class _EditCar extends State<EditCar> {
     final deleteCarButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
-      color: darkColorScheme.error,
+      color: Theme.of(context).colorScheme.error,
       child: MaterialButton(
         minWidth: Get.width * 0.02,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -243,7 +243,7 @@ class _EditCar extends State<EditCar> {
         },
         child: Text(
           "Delete car",
-          style: style2.copyWith(color: darkColorScheme.onError),
+          style: style2.copyWith(color: Theme.of(context).colorScheme.onError),
           textAlign: TextAlign.center,
         ),
       ),
@@ -252,7 +252,7 @@ class _EditCar extends State<EditCar> {
     final updateCarButton = Material(
       elevation: 2.0,
       borderRadius: BorderRadius.circular(12.0),
-      color: darkColorScheme.primary,
+      color: Theme.of(context).colorScheme.primary,
       child: MaterialButton(
         minWidth: Get.width * 0.02,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -286,7 +286,7 @@ class _EditCar extends State<EditCar> {
         },
         child: Text(
           "Update car",
-          style: style2.copyWith(color: darkColorScheme.onError),
+          style: style2.copyWith(color: Theme.of(context).colorScheme.onError),
           textAlign: TextAlign.center,
         ),
       ),
@@ -300,7 +300,7 @@ class _EditCar extends State<EditCar> {
         child: Column(
           children: [
             Container(
-              color: darkColorScheme.secondary,
+              color: Theme.of(context).colorScheme.outline,
               padding: const EdgeInsets.all(8),
               child: fieldVin,
             ),

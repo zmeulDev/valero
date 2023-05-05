@@ -46,18 +46,20 @@ class _AddCar extends State<AddCar> {
 
   @override
   Widget build(BuildContext context) {
-    final fieldVin = valeroField(context, 'VIN', 'Car VIN number', TextInputType.text,
-        Icons.factory, carVin);
-    final fieldPlates = valeroField(context, 'Plates', 'Car plates', TextInputType.text,
-        Icons.factory, carPlates);
-    final fieldMaker = valeroField(context, 'Maker', 'Car maker', TextInputType.text,
-        Icons.factory, carMaker);
-    final fieldModel = valeroField(context, 'Model', 'Car model', TextInputType.text,
-        Icons.factory, carModel);
-    final fieldYear = valeroField(context, 'Year', 'Car year', TextInputType.number,
-        Icons.factory, carYear);
-    final fieldFuel = valeroField(context, 'Fuel', 'Car fuel type', TextInputType.text,
-        Icons.factory, carFuel);
+    final fieldVin = valeroField(
+        context, 'VIN', 'Car VIN number', TextInputType.text, LineIcons.digitalTachograph, carVin);
+    final fieldPlates = valeroField(
+        context, 'Plates', 'Car plates', TextInputType.text, LineIcons.icons, carPlates);
+    final fieldMaker = valeroField(
+        context, 'Maker', 'Car maker', TextInputType.text, LineIcons.car, carMaker);
+    final fieldModel = valeroField(
+        context, 'Model', 'Car model', TextInputType.text, LineIcons.carCrash, carModel);
+    final fieldYear = valeroField(
+        context, 'Year', 'Car year', TextInputType.number, LineIcons.calendar, carYear);
+    final fieldFuel = valeroField(
+        context, 'Fuel', 'Car fuel type', TextInputType.text, LineIcons.gasPump, carFuel);
+    final fieldNote = valeroField(context, 'Note', 'Anything else', TextInputType.text,
+        LineIcons.stream, carNote);
 
     final fieldInspection = ElevatedButton.icon(
       style: elevatedButtonStyle,
@@ -142,9 +144,6 @@ class _AddCar extends State<AddCar> {
         });
       },
     );
-
-    final fieldNote = valeroField(context, 'Note', 'Anything else', TextInputType.text,
-        Icons.factory, carNote);
 
     final allCarsButton = Material(
       color: darkColorScheme.secondaryContainer,
@@ -233,7 +232,7 @@ class _AddCar extends State<AddCar> {
             Column(
               children: [
                 Container(
-                  color: darkColorScheme.secondary,
+                  color: darkColorScheme.outline,
                     padding: const EdgeInsets.all(15),
                     child: fieldVin),
                 SizedBox(
