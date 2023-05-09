@@ -8,7 +8,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:valero/Services/auth_services.dart';
 import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/app_bar.dart';
-import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/utils/create_input_field.dart';
 import 'package:valero/widgets/create_avatar_widget.dart';
@@ -48,14 +47,14 @@ class _EditProfileState extends State<EditProfile> {
       });
       Fluttertoast.cancel();
       Fluttertoast.showToast(
-          msg: 'Data Updated Successfully', backgroundColor: darkColorScheme.onError);
+          msg: 'Data Updated Successfully', backgroundColor: Theme.of(context).colorScheme.onError);
       Get.back();
     } else {
       setState(() {
         isLoading = false;
       });
       Fluttertoast.cancel();
-      Fluttertoast.showToast(msg: res.toString(), backgroundColor: darkColorScheme.onError);
+      Fluttertoast.showToast(msg: res.toString(), backgroundColor: Theme.of(context).colorScheme.onError);
     }
   }
 
@@ -153,7 +152,7 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.surfaceVariant,
         padding: const EdgeInsets.all(8),
         height: Get.height * 0.07,
         child: Row(
@@ -161,9 +160,9 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 shape: RoundedRectangleBorder(
-                  side:  BorderSide(color: Theme.of(context).colorScheme.primary),
+                  side:  BorderSide(color: Theme.of(context).colorScheme.secondary),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
@@ -174,15 +173,15 @@ class _EditProfileState extends State<EditProfile> {
                     },
               child: Text(
                 'Cancel',
-                style: style2.copyWith(color: Theme.of(context).colorScheme.tertiary),
+                style: style2.copyWith(color: Theme.of(context).colorScheme.onSecondary),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
-                  side:  BorderSide(color: darkColorScheme.tertiary),
+                  side:  BorderSide(color: Theme.of(context).colorScheme.secondary),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
@@ -197,7 +196,7 @@ class _EditProfileState extends State<EditProfile> {
                     ))
                   : Text(
                       'Update',
-                      style: style2,
+                      style: style2.copyWith(color: Theme.of(context).colorScheme.onSecondary),
                     ),
             ),
           ],

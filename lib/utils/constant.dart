@@ -27,9 +27,9 @@ var style3 = const   TextStyle(
     fontSize: 13.0,  fontWeight: FontWeight.w300);
 
 final ButtonStyle elevatedButtonStyle =  ElevatedButton.styleFrom(
-  foregroundColor: darkColorScheme.tertiaryContainer,
-  backgroundColor: darkColorScheme.tertiary,
-  padding: const EdgeInsets.all(16.0),
+  foregroundColor: darkColorScheme.primaryContainer,
+  backgroundColor: darkColorScheme.primary,
+  padding: const EdgeInsets.all(8.0),
   elevation: 0,
   textStyle: style1,
   shape: RoundedRectangleBorder(

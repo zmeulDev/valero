@@ -5,11 +5,11 @@ getAppBar(String screenName) {
   return AppBar(
     leading: Builder(
       builder: (BuildContext context) {
-        return const Center(
+        return  Center(
           child: Text(
             'V',
             style: TextStyle(
-                fontFamily: 'Depot',  fontSize: 48),
+                fontFamily: 'Depot',  fontSize: 48, color: Theme.of(context).colorScheme.primary),
           ),
         );
       },

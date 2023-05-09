@@ -6,7 +6,6 @@ import 'package:valero/models/user_model.dart';
 import 'package:valero/pages/Auth/login.dart';
 import 'package:valero/pages/UserProfile/edit_profile.dart';
 import 'package:valero/pages/app_bar.dart';
-import 'package:valero/utils/color_schemes.g.dart';
 import 'package:valero/utils/constant.dart';
 import 'package:valero/widgets/create_avatar_widget.dart';
 
@@ -29,7 +28,7 @@ class _ProfileState extends State<Profile> {
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: darkColorScheme.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -42,20 +41,20 @@ class _ProfileState extends State<Profile> {
                   UserModel().userName != ''
                       ? Text(
                           UserModel().userName,
-                          style: style2.copyWith(color: darkColorScheme.onPrimary),
+                          style: style2.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                         )
                       : Text(
                           'Your name',
-                          style: style2.copyWith(color: darkColorScheme.onPrimary),
+                          style: style2.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                         ),
                   UserModel().email != ''
                       ? Text(
                           UserModel().email,
-                          style: style2.copyWith(color: darkColorScheme.onPrimary),
+                          style: style2.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                         )
                       : Text(
                           'Your email',
-                          style: style2.copyWith(color: darkColorScheme.onPrimary),
+                          style: style2.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                         ),
                   SizedBox(
                     height: Get.height * 0.02,
@@ -63,7 +62,7 @@ class _ProfileState extends State<Profile> {
                   Text(
                     UserModel().mobilePhone.toString(),
                     style:
-                        style2.copyWith(color: darkColorScheme.onPrimary.withOpacity(0.5)),
+                        style2.copyWith(color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5)),
                   ),
                 ],
               ),
@@ -82,7 +81,7 @@ class _ProfileState extends State<Profile> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: darkColorScheme.primary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       padding: const EdgeInsets.all(13),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -90,7 +89,7 @@ class _ProfileState extends State<Profile> {
                   child:  Icon(
                     CupertinoIcons.pencil,
                     size: 30,
-                    color: darkColorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   )),
               ElevatedButton(
                   onPressed: () {
@@ -98,7 +97,7 @@ class _ProfileState extends State<Profile> {
                         .whenComplete(() => Get.to(const Login()));
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: darkColorScheme.primary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       padding: const EdgeInsets.all(13),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -106,7 +105,7 @@ class _ProfileState extends State<Profile> {
                   child:  Icon(
                     CupertinoIcons.arrow_right_square,
                     size: 30,
-                    color: darkColorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   )),
             ],
           ),
