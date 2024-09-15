@@ -4,10 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuestPageController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', [GuestPageController::class, 'showGuestPage'])->name('guest.home');
 
 // Routes that require authentication
 Route::middleware([

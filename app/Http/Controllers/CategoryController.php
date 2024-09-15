@@ -34,10 +34,16 @@ class CategoryController extends Controller
     }
 
     // Display the specified category
-    public function show(Category $category)
-    {
-        return view('categories.show', compact('category'));
-    }
+        public function show(Category $category)
+        {
+            $posts = Post::where('category_id', $category->id)
+                        ->where('is_published', true)
+                        ->latest()
+                        ->paginate(5);
+
+            return view('categories.show', compact('category', 'posts'));
+        }
+
 
     // Show the form for editing the specified category
     public function edit(Category $category)

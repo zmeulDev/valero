@@ -70,7 +70,7 @@
                   onsubmit="return confirm('{{ __('Are you sure you want to delete this post?') }}');">
                   @csrf
                   @method('DELETE')
-                  <x-danger-button>
+                  <x-danger-button type="submit">
                     {{ __('Delete') }}
                   </x-danger-button>
                 </form>

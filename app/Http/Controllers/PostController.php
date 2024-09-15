@@ -10,10 +10,10 @@ class PostController extends Controller
 {
     // Display a listing of the posts
     public function index()
-{
-    $posts = Post::where('is_published', true)->latest()->paginate(5);
-    return view('dashboard', compact('posts'));
-}
+    {
+        $posts = Post::where('is_published', true)->latest()->paginate(5);
+        return view('posts.index', compact('posts'));
+    }
 
     // Show the form for creating a new post
     public function create()

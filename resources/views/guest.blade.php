@@ -1,6 +1,4 @@
-<!-- resources/views/dashboard.blade.php -->
-
-<x-app-layout>
+<x-guest-layout>
     <div class="bg-gray-200 bg-opacity-25 p-6 lg:p-8">
         <div class="flex flex-col md:flex-row">
             <!-- Main Content -->
@@ -48,4 +46,4 @@
 
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>
