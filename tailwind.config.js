@@ -9,15 +9,22 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/js/**/*.vue', // If you're using Vue or other frameworks
+        './resources/js/**/*.jsx', // If you're using React
+        './resources/js/**/*.tsx', // If you're using TypeScript with React
     ],
 
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                serif: ['Merriweather', ...defaultTheme.fontFamily.serif], // Adding serif in case it's needed
             },
         },
     },
 
-    plugins: [forms, typography],
+    plugins: [
+        forms,
+        typography,
+    ],
 };

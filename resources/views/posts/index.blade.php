@@ -95,7 +95,12 @@
           {{ __('No posts found.') }}
         </div>
         @endif
+        
       </div>
+      <!-- Pagination -->
+                <div class="mt-6">
+                    {{ $posts->links() }}
+                </div>
     </div>
   </div>
 </x-app-layout>

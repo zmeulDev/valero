@@ -47,10 +47,10 @@
           </div>
 
           <div class="mb-4">
-            <x-label for="content" value="{{ __('Content') }}" />
-            <textarea name="content" id="content" rows="5"
-              class="block mt-1 w-full border-gray-300 rounded-md">{{ old('content', $post->content) }}</textarea>
+              <x-label for="content" value="{{ __('Content') }}" />
+              <textarea name="content" id="content" rows="5" class="block mt-1 w-full border-gray-300 rounded-md">{{ old('content', $post->content) }}</textarea>
           </div>
+
 
           <div class="mb-4">
             <x-label for="image" value="{{ __('Image') }}" />
