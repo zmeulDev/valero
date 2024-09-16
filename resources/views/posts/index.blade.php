@@ -28,6 +28,10 @@
             <tr>
               <th
                 class="px-6 py-3 border-b border-gray-200 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
+                {{ __('Image') }}
+              </th>
+              <th
+                class="px-6 py-3 border-b border-gray-200 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                 {{ __('Title') }}
               </th>
               <th
@@ -46,7 +50,15 @@
           <tbody class="bg-white">
             @foreach($posts as $post)
             <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+            <!-- Image Avatar -->
+        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+            @if($post->image)
+                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-20 h-20 rounded-xl object-cover">
+            @else
+                <img src="{{ asset('images/default-avatar.jpg') }}" alt="Default Image" class="w-20 h-20 rounded-xl object-cover">
+            @endif
+        </td>   
+            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                 {{ $post->title }}
               </td>
               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -56,23 +68,22 @@
                 {{ $post->is_published }}
               </td>
               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <x-button>
-                  <a href="{{ route('posts.show', $post->slug) }}" class="text-blue-600 hover:text-blue-900">
-                    {{ __('View') }}
-                  </a>
-                </x-button>
-                <x-button>
+               
+                <a href="{{ route('posts.show', $post->slug) }}" class="text-blue-600 hover:text-blue-900">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+
+               
                   <a href="{{ route('posts.edit', $post->slug) }}" class="ml-2 text-yellow-600 hover:text-yellow-900">
-                    {{ __('Edit') }}
+                    <i class="fas fa-edit"></i>
                   </a>
-                </x-button>
                 <form action="{{ route('posts.destroy', $post->slug) }}" method="POST" class="inline-block ml-2"
                   onsubmit="return confirm('{{ __('Are you sure you want to delete this post?') }}');">
                   @csrf
                   @method('DELETE')
-                  <x-danger-button type="submit">
-                    {{ __('Delete') }}
-                  </x-danger-button>
+                  <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('{{ __('Are you sure you want to delete this post?') }}');">
+                      <i class="fas fa-trash"></i>
+                  </button>
                 </form>
               </td>
             </tr>
