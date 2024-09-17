@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Application - @yield('title')</title>
+    <title>{{ $title ?? 'Admin Panel' }} - {{ config('app.name', 'Valero') }}</title>
+
+    <!-- Include CSS -->
     @vite('resources/css/app.css')
+
+    <!-- Livewire Styles -->
+    @livewireStyles
+
+    <!-- Alpine.js for interactivity -->
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-100">
 
@@ -31,7 +39,7 @@
 
     <!-- Main Content -->
     <main class="container mx-auto p-6">
-        @yield('content')
+        {{ $slot }}
     </main>
 
     <!-- Footer -->

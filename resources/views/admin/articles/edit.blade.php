@@ -1,8 +1,5 @@
-@extends('layouts.admin')
-
-@section('title', 'Edit Article')
-
-@section('content')
+<x-admin-layout>
+    <x-slot name="title">Edit Articole</x-slot>
     <h1 class="text-2xl font-bold mb-4">Edit Article</h1>
 
     @if ($errors->any())
@@ -30,6 +27,21 @@
             <label class="block font-bold mb-2">Excerpt</label>
             <textarea name="excerpt" class="w-full p-2 border">{{ old('excerpt', $article->excerpt) }}</textarea>
         </div>
+
+        <!-- Category Select -->
+        <div class="mb-4">
+            <label class="block font-bold mb-2">Category</label>
+            <select name="category_id" class="w-full p-2 border" required>
+                <option value="">Select Category</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" 
+                        {{ old('category_id', isset($article) ? $article->category_id : '') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
 
         <!-- Content -->
         <div class="mb-4">
@@ -81,4 +93,5 @@
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Update Article</button>
     </form>
-@endsection
+</x-admin-layout>
+

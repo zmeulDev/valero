@@ -1,8 +1,6 @@
-@extends('layouts.admin')
+<x-admin-layout>
+    <x-slot name="title">Admin Dashboard</x-slot>
 
-@section('title', 'Dashboard')
-
-@section('content')
     <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
     <!-- Dashboard statistics -->
@@ -22,7 +20,7 @@
             <p class="text-gray-600 text-lg">No recent activities.</p>
         </div>
     </div>
-    
+
     <!-- Latest articles section -->
     <h2 class="text-2xl font-bold mb-4">Latest Articles</h2>
 
@@ -71,6 +69,9 @@
             </table>
         </div>
     @endif
- <!-- Pagination -->
-     {{ $articles->links() }}
-@endsection
+
+    <!-- Pagination -->
+    <div class="mt-6">
+        {{ $articles->links() }}
+    </div>
+</x-admin-layout>

@@ -1,8 +1,5 @@
-@extends('layouts.app')
-
-@section('title', 'Home')
-
-@section('content')
+<x-app-layout>
+    <x-slot name="title">Home</x-slot>
     <!-- Featured Article Section -->
     <section class="mb-12">
         @if ($featuredArticle)
@@ -40,7 +37,9 @@
                                 </h2>
                                 <p class="text-gray-700 mb-4">{{ Str::limit($article->excerpt, 120, '...') }}</p>
                                 <div class="text-sm text-gray-500 mb-2">{{ $article->views }} {{ Str::plural('view', $article->views) }} · {{ $article->created_at->format('M d, Y') }}</div>
-                                <a href="{{ route('articles.show', $article->slug) }}" class="text-blue-600 font-semibold hover:underline">Read More</a>
+                                 <a href="{{ route('articles.show', $article->slug) }}" class="inline-block px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition ease-in-out duration-150">
+                                    Read More
+                                </a>
                             </div>
                         </div>
                     @endforeach
@@ -53,32 +52,8 @@
             @endif
         </div>
 
-        <!-- Sidebar (Visible on large screens, right-aligned) -->
-        <aside class="lg:col-span-1 space-y-8">
-            <!-- Popular Articles Section -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h3 class="text-xl font-bold mb-4">Popular Articles</h3>
-                <ul class="space-y-2">
-                    @foreach ($popularArticles as $popular)
-                        <li>
-                            <a href="{{ route('articles.show', $popular->slug) }}" class="text-blue-600 hover:underline">{{ $popular->title }}</a>
-                            <p class="text-sm text-gray-500">{{ $popular->views }} {{ Str::plural('view', $popular->views) }}</p>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-
-            <!-- Categories Section -->
-            <div class="bg-white shadow-lg rounded-lg p-6">
-                <h3 class="text-xl font-bold mb-4">Categories</h3>
-                <ul class="space-y-2">
-                    @foreach ($categories as $category)
-                        <li>
-                            <a href="{{ route('category.articles', $category->slug) }}" class="text-gray-700 hover:text-blue-600">{{ $category->name }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </aside>
+        <!-- Sidebar (Component) -->
+        <x-sidebar :popularArticles="$popularArticles" :categories="$categories" />
+    
     </div>
-@endsection
+</x-app-layout>

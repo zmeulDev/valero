@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -13,8 +14,9 @@ class ArticleController extends Controller
         $articles = Article::latest()->paginate(4);
         $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
         $featuredArticle = Article::latest()->first();
+        $categories = Category::all();
 
-        return view('home', compact('featuredArticle','articles', 'popularArticles'));
+        return view('home', compact('featuredArticle','articles', 'popularArticles', 'categories'));
     }
 
     public function create()
@@ -64,10 +66,20 @@ class ArticleController extends Controller
 
     public function show($slug)
     {
-        $articles = Article::latest()->paginate(8);
+        $latestArticles = Article::latest()->paginate(8);
+
         $article = Article::where('slug', $slug)->firstOrFail();
-        $article->incrementViews();
-        return view('articles.show', compact('article', 'articles'));
+        $article->incrementViews(); // views count
+        $wordCount = str_word_count(strip_tags($article->content));
+        $readingTime = ceil($wordCount / 200);
+
+        
+        $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
+        $categories = Category::all();
+        
+
+        return view('articles.show', compact('article', 'latestArticles', 'popularArticles', 'categories'))->with('read_time', $readingTime);
+
     }
 
     public function edit($id)
@@ -123,5 +135,17 @@ public function update(Request $request, $id)
     public function destroy(Article $article)
     {
         //
+    }
+
+    public function category($slug)
+    {
+        // Fetch the category by slug
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        // Fetch articles that belong to this category
+        $articles = Article::where('category_id', $category->id)->latest()->paginate(6);
+
+        // Return the view with the articles and category data
+        return view('category.articles', compact('articles', 'category'));
     }
 }

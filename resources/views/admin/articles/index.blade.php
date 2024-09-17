@@ -1,8 +1,5 @@
-@extends('layouts.admin')
-
-@section('title', 'Manage Articles')
-
-@section('content')
+<x-admin-layout>
+    <x-slot name="title">Manage articles</x-slot>
     <h1 class="text-3xl font-bold mb-6">Manage Articles</h1>
 
     <a href="{{ route('admin.articles.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">Create New Article</a>
@@ -17,6 +14,7 @@
                     <th class="border px-4 py-2">Author</th>
                     <th class="border px-4 py-2">Created At</th>
                     <th class="border px-4 py-2">Scheduled At</th>
+                    <th class="border px-4 py-2">Category</th>
                     <th class="border px-4 py-2">Actions</th>
                 </tr>
             </thead>
@@ -27,6 +25,7 @@
                         <td class="border px-4 py-2">{{ $article->user->name }}</td>
                         <td class="border px-4 py-2">{{ $article->created_at }}</td>
                         <td class="border px-4 py-2">{{ $article->scheduled_at }}</td>
+                        <td class="border px-4 py-2">{{ $article->category->name ?? 'N/A' }}</td>
                         <td class="border px-4 py-2">
                             <!-- View Article -->
                             <a href="{{ route('admin.articles.show', $article->id) }}" class="text-blue-600 hover:underline">Preview | </a>
@@ -49,4 +48,5 @@
 
 <!-- Pagination -->
  {{ $articles->links() }}
-@endsection
+</x-admin-layout>
+

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,11 +20,11 @@ class ArticleController extends Controller
         return view('admin.articles.index', compact('articles'));
     }
 
-    // Show the form for creating a new article.
-    public function create()
-    {
-        return view('admin.articles.create');
-    }
+public function create()
+{
+    $categories = Category::all();
+    return view('admin.articles.create', compact('categories'));
+}
 
     // Store a newly created article in storage.
     public function store(Request $request)
@@ -33,6 +34,7 @@ class ArticleController extends Controller
             'title'           => 'required|unique:articles|max:255',
             'excerpt'         => 'nullable|max:255',
             'content'         => 'required',
+            'category_id' => 'required|exists:categories,id',
             'featured_image'  => 'nullable|image|max:2048',
             'scheduled_at'    => 'nullable|date',
             'gallery_images.*'=> 'image|max:2048',
@@ -44,6 +46,7 @@ class ArticleController extends Controller
         $article->title = $validated['title'];
         $article->slug = Str::slug($validated['title']);
         $article->excerpt = $validated['excerpt'] ?? null;
+        $article->category_id = $request->category_id; 
         $article->content = $validated['content'];
         $article->scheduled_at = $validated['scheduled_at'] ?? null;
 
@@ -81,7 +84,8 @@ class ArticleController extends Controller
     // Show the form for editing the specified article.
     public function edit(Article $article)
     {
-        return view('admin.articles.edit', compact('article'));
+        $categories = Category::all();
+        return view('admin.articles.edit', compact('article', 'categories'));
     }
 
     // Update the specified article in storage.
@@ -92,6 +96,7 @@ class ArticleController extends Controller
             'title'           => 'required|max:255|unique:articles,title,' . $article->id,
             'excerpt'         => 'nullable|max:255',
             'content'         => 'required',
+            
             'featured_image'  => 'nullable|image|max:2048',
             'scheduled_at'    => 'nullable|date',
             'gallery_images.*'=> 'image|max:2048',
@@ -101,6 +106,7 @@ class ArticleController extends Controller
         $article->slug = Str::slug($validated['title']);
         $article->excerpt = $validated['excerpt'] ?? null;
         $article->content = $validated['content'];
+        $article->category_id = $request->category_id; 
         $article->scheduled_at = $validated['scheduled_at'] ?? null;
 
         // Handle the featured image upload.

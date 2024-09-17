@@ -1,24 +1,46 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="title">{{ $article->title }}</x-slot>
 
-@section('title', $article->title)
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
 
-@section('content')
-    <h1 class="text-3xl font-bold mb-6">{{ $article->title }}</h1>
+        <!-- Main Content (3 columns on large screens) -->
+        <div class="lg:col-span-3">
 
-    <!-- Display the Featured Image -->
-    @if($article->featured_image)
-        <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="mb-6 w-full h-auto object-cover">
-    @endif
+            <!-- Article Hero Section -->
+            <div class="mb-8 text-center">
+                <h1 class="text-4xl font-extrabold leading-tight mb-4">{{ $article->title }}</h1>
 
-    <!-- Article Metadata: Views -->
-    <div class="text-sm text-gray-500 mb-4">
-        <span>{{ $article->views }} {{ Str::plural('view', $article->views) }}</span>
+                <!-- Author and Metadata -->
+                <div class="flex justify-center items-center text-gray-600 mb-6">
+                <img src="{{ $article->user->profile_photo_url }}" alt="{{ $article->user->name }}" class="h-12 w-12 rounded-full mr-4">    
+                <div>
+                        <p class="font-semibold">{{ $article->user->name }}</p>
+                        <p class="text-sm">{{ $article->created_at->format('F d, Y') }} · {{ $article->read_time }} min read</p>
+                    </div>
+                </div>
+
+                <!-- Featured Image with Rounded Corners -->
+                @if($article->featured_image)
+                    <div class="flex justify-center">
+                        <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="w-2/3 h-auto rounded-lg shadow-lg mb-8">
+                    </div>
+                @endif
+            </div>
+
+            <!-- Article Content -->
+            <div class="prose lg:prose-xl mx-auto text-left">
+                {!! nl2br(e($article->content)) !!}
+            </div>
+
+        </div>
+
+        <!-- Sidebar (1 column) -->
+        <div class="lg:col-span-1 hidden lg:block">
+            <div class="sticky top-16">
+                <!-- Include Sidebar Component -->
+                <x-sidebar :popularArticles="$popularArticles" :categories="$categories" />
+            </div>
+        </div>
+
     </div>
-
-    <!-- Article Content -->
-    <div class="prose">
-        {!! nl2br(e($article->content)) !!}
-    </div>
-
- 
-@endsection
+</x-app-layout>

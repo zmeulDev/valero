@@ -1,8 +1,5 @@
-@extends('layouts.admin')
-
-@section('title', 'View Article')
-
-@section('content')
+<x-admin-layout>
+    <x-slot name="title">View Article</x-slot>
     <h1 class="text-3xl font-bold mb-4">{{ $article->title }}</h1>
 
     <!-- Display the Featured Image -->
@@ -34,4 +31,5 @@
 
     <!-- Back to Articles List -->
     <a href="{{ route('admin.articles.index') }}" class="mt-4 inline-block text-blue-600 hover:underline">Back to Articles</a>
-@endsection
+</x-admin-layout>
+

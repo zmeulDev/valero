@@ -10,7 +10,7 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'title', 'slug', 'excerpt', 'content', 'featured_image', 'scheduled_at', 'views'
+        'user_id', 'title', 'slug', 'excerpt', 'content', 'featured_image', 'scheduled_at', 'views', 'category_id'
     ];
 
     protected $dates = ['scheduled_at'];
@@ -18,6 +18,11 @@ class Article extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function images()
