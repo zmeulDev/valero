@@ -21,6 +21,13 @@ export default {
                 serif: ['Merriweather', ...defaultTheme.fontFamily.serif], // Adding serif in case it's needed
             },
         },
+        screens: {
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1536px',
+        },
     },
 
     plugins: [
