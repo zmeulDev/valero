@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class ArticleController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
@@ -148,4 +149,21 @@ public function update(Request $request, $id)
         // Return the view with the articles and category data
         return view('category.articles', compact('articles', 'category'));
     }
+
+    public function destroyImage(Article $article, $imageId)
+{
+    // Find the image in the article's images
+    $image = $article->images()->where('id', $imageId)->firstOrFail();
+
+    // Delete the image file from storage
+    if (Storage::exists('public/' . $image->image_path)) {
+        Storage::delete('public/' . $image->image_path);
+    }
+
+    // Delete the image from the database
+    $image->delete();
+
+    return redirect()->back()->with('success', 'Image deleted successfully.');
+}
+
 }

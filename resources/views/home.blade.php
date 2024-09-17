@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="title">Home</x-slot>
+    <x-slot name="title">Blog</x-slot>
     <!-- Featured Article Section -->
     <section class="mb-12">
         @if ($featuredArticle)

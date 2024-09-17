@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-slot name="title">Admin Dashboard</x-slot>
+    <x-slot name="title"> Admin Dashboard</x-slot>
 
     <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
 

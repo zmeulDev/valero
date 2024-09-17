@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Admin Panel' }} - {{ config('app.name', 'Valero') }}</title>
+    <title>{{ $title ?? 'Valero' }} - {{ config('app.name', 'Valero') }}</title>
 
     <!-- Include CSS -->
     @vite('resources/css/app.css')
@@ -19,7 +19,7 @@
     <!-- Navigation Bar -->
     <header class="bg-gray-800 text-white p-4">
         <div class="container mx-auto flex justify-between">
-            <a href="{{ route('home') }}" class="text-xl font-bold">Valero Blog</a>
+            <a href="{{ route('home') }}" class="text-xl font-bold"> {{ config('app.name') }}</a>
             <nav>
                 <a href="{{ route('home') }}" class="px-3 hover:underline">Home</a>
                 @auth
