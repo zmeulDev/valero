@@ -1,16 +1,20 @@
 <x-admin-layout>
-    <x-slot name="title">Add category</x-slot>
-    <h1 class="text-3xl font-bold mb-6">Create Category</h1>
+    <x-slot name="title">Add Category</x-slot>
+
+    <h1 class="text-4xl font-semibold mb-6">Create Category</h1>
 
     <form action="{{ route('admin.categories.store') }}" method="POST">
         @csrf
 
-        <div class="mb-4">
-            <label class="block font-bold mb-2">Category Name</label>
-            <input type="text" name="name" class="w-full p-2 border" required>
+        <!-- Category Name -->
+        <div class="mb-6">
+            <label class="block text-gray-700 font-bold mb-2">Category Name</label>
+            <input type="text" name="name" class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200" placeholder="Enter category name" required>
         </div>
 
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Create Category</button>
+        <!-- Submit Button -->
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300 transition ease-in-out duration-150">
+            Create Category
+        </button>
     </form>
 </x-admin-layout>
-
