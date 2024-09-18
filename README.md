@@ -1,8 +1,4 @@
-Here’s a **README.md** structure for your project, which summarizes everything we’ve implemented so far and gives an overview of the application structure:
-
----
-
-# Valero - Article Sharing Platform
+# Valero - Bloging Platform
 
 Valero is an open-source article-sharing platform built with **Laravel 11** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, and galleries. The admin interface includes full CRUD operations for managing articles, categories, and a modal-based category creation interface.
 
