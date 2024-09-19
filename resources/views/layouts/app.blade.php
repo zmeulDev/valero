@@ -15,27 +15,7 @@
     <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-100">
-
-    <!-- Navigation Bar -->
-    <header class="bg-gray-800 text-white p-4">
-        <div class="container mx-auto flex justify-between">
-            <a href="{{ route('home') }}" class="text-xl font-bold"> {{ config('app.name') }}</a>
-            <nav>
-                <a href="{{ route('home') }}" class="px-3 hover:underline">Home</a>
-                @auth
-                    @if(Auth::user()->is_admin)
-                        <a href="{{ route('admin.dashboard') }}" class="px-3 hover:underline">Admin Panel</a>
-                    @endif
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="hover:underline">Logout</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="px-3 hover:underline">Login</a>
-                @endauth
-            </nav>
-        </div>
-    </header>
+    <x-navigation />
 
     <!-- Main Content -->
     <main class="container mx-auto p-6">

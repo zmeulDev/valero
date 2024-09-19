@@ -78,7 +78,10 @@ public function create()
     // Display the specified article.
     public function show(Article $article)
     {
-        return view('admin.articles.show', compact('article'));
+        $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
+        $categories = Category::all();
+
+        return view('admin.articles.show', compact('article', 'popularArticles', 'categories'));
     }
 
     // Show the form for editing the specified article.

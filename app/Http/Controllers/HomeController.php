@@ -74,13 +74,10 @@ class HomeController extends Controller
         $wordCount = str_word_count(strip_tags($article->content));
         $readingTime = ceil($wordCount / 200);
 
-        
         $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
         $categories = Category::all();
-        
 
-        return view('articles.show', compact('article', 'latestArticles', 'popularArticles', 'categories'))->with('read_time', $readingTime);
-
+        return view('articles.show', compact('article', 'latestArticles', 'popularArticles', 'categories', 'readingTime'));
     }
 
     public function edit($id)
