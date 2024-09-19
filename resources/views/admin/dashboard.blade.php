@@ -1,77 +1,94 @@
 <x-admin-layout>
     <x-slot name="title"> Admin Dashboard</x-slot>
 
-    <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Admin Dashboard</h1>
 
-    <!-- Dashboard statistics -->
-    <div class="grid grid-cols-3 gap-6 mb-8">
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-xl font-bold mb-4">Total Articles</h2>
-            <p class="text-gray-600 text-lg">{{ $articleCount }}</p>
+            <!-- Dashboard statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <h2 class="text-xl font-semibold mb-2 text-gray-800">Total Articles</h2>
+                        <p class="text-3xl font-bold text-indigo-600">{{ $articleCount }}</p>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <h2 class="text-xl font-semibold mb-2 text-gray-800">Total Users</h2>
+                        <p class="text-3xl font-bold text-green-600">{{ $userCount }}</p>
+                    </div>
+                </div>
+
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <h2 class="text-xl font-semibold mb-2 text-gray-800">Recent Activity</h2>
+                        <p class="text-gray-600">No recent activities.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest articles section -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Latest Articles</h2>
+
+                    @if ($articles->isEmpty())
+                        <p class="text-gray-600">No articles found.</p>
+                    @else
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Published At</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thumbnail</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach ($articles as $article)
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900">{{ $article->title }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-500">{{ $article->user->name }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-500">{{ $article->created_at->format('Y-m-d') }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                @if($article->featured_image)
+                                                    <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="h-10 w-10 rounded-full object-cover">
+                                                @else
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">No Image</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                <a href="{{ route('admin.articles.show', $article->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">View</a>
+                                                <a href="{{ route('admin.articles.edit', $article->id) }}" class="text-green-600 hover:text-green-900 mr-2">Edit</a>
+                                                <form action="{{ route('admin.articles.destroy', $article->id) }}" method="POST" class="inline-block">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this article?')">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6">
+                {{ $articles->links() }}
+            </div>
         </div>
-
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-xl font-bold mb-4">Total Users</h2>
-            <p class="text-gray-600 text-lg">{{ $userCount }}</p>
-        </div>
-
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <h2 class="text-xl font-bold mb-4">Recent Activity</h2>
-            <p class="text-gray-600 text-lg">No recent activities.</p>
-        </div>
-    </div>
-
-    <!-- Latest articles section -->
-    <h2 class="text-2xl font-bold mb-4">Latest Articles</h2>
-
-    @if ($articles->isEmpty())
-        <p>No articles found.</p>
-    @else
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <table class="min-w-full table-auto">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="border px-4 py-2 text-left">Title</th>
-                        <th class="border px-4 py-2 text-left">Author</th>
-                        <th class="border px-4 py-2 text-left">Published At</th>
-                        <th class="border px-4 py-2">Thumbnail</th>
-                        <th class="border px-4 py-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($articles as $article)
-                        <tr>
-                            <!-- Title and details on the left -->
-                            <td class="border px-4 py-4">{{ $article->title }}</td>
-                            <td class="border px-4 py-4">{{ $article->user->name }}</td>
-                            <td class="border px-4 py-4">{{ $article->created_at->format('Y-m-d') }}</td>
-
-                            <!-- Featured Image Thumbnail -->
-                            <td class="border px-4 py-4 text-center">
-                                @if($article->featured_image)
-                                    <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="w-16 h-16 object-cover rounded-lg">
-                                @else
-                                    <img src="{{ asset('default-thumbnail.jpg') }}" alt="No Image" class="w-16 h-16 object-cover rounded-lg">
-                                @endif
-                            </td>
-
-                            <!-- Actions -->
-                            <td class="border px-4 py-4 text-center">
-                                <!-- View Article -->
-                                <a href="{{ route('admin.articles.show', $article->id) }}" class="text-blue-600 hover:underline">View</a>
-
-                                <!-- Edit Article -->
-                                <a href="{{ route('admin.articles.edit', $article->id) }}" class="text-blue-600 hover:underline ml-2">Edit</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    @endif
-
-    <!-- Pagination -->
-    <div class="mt-6">
-        {{ $articles->links() }}
     </div>
 </x-admin-layout>

@@ -15,7 +15,7 @@
 
   <!-- Alpine.js for interactivity -->
   <script src="//unpkg.com/alpinejs" defer></script>
-
+  
   <!-- Script to Handle Character Counts for Multiple Fields with Color Change -->
   <script>
   function updateCharCount(fieldId, limit = null) {
@@ -64,7 +64,6 @@
 
   <!-- Livewire Scripts -->
   @livewireScripts
-
 </body>
 
 </html>
