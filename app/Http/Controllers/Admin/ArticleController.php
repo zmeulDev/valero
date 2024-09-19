@@ -81,7 +81,10 @@ public function create()
         $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
         $categories = Category::all();
 
-        return view('admin.articles.show', compact('article', 'popularArticles', 'categories'));
+        $wordCount = str_word_count(strip_tags($article->content));
+        $readingTime = ceil($wordCount / 200);
+
+        return view('admin.articles.show', compact('article', 'popularArticles', 'categories', 'readingTime'));
     }
 
     // Show the form for editing the specified article.

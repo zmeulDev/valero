@@ -1,28 +1,28 @@
 <x-admin-layout>
-    <x-slot name="title"> Admin Dashboard</x-slot>
+    <x-slot name="title">Admin Dashboard</x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-6">Admin Dashboard</h1>
+    <div class="bg-gray-100 min-h-screen py-12">
+        <div class="container mx-auto px-4 lg:px-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
 
             <!-- Dashboard statistics -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="p-6">
                         <h2 class="text-xl font-semibold mb-2 text-gray-800">Total Articles</h2>
                         <p class="text-3xl font-bold text-indigo-600">{{ $articleCount }}</p>
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="p-6">
                         <h2 class="text-xl font-semibold mb-2 text-gray-800">Total Users</h2>
                         <p class="text-3xl font-bold text-green-600">{{ $userCount }}</p>
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
+                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="p-6">
                         <h2 class="text-xl font-semibold mb-2 text-gray-800">Recent Activity</h2>
                         <p class="text-gray-600">No recent activities.</p>
                     </div>
@@ -30,8 +30,8 @@
             </div>
 
             <!-- Latest articles section -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="p-6">
                     <h2 class="text-2xl font-semibold mb-4 text-gray-800">Latest Articles</h2>
 
                     @if ($articles->isEmpty())
@@ -41,6 +41,7 @@
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Published At</th>
@@ -51,6 +52,9 @@
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach ($articles as $article)
                                         <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900">{{ $article->category->name ?? 'N/A' }}</div>
+                                            </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm font-medium text-gray-900">{{ $article->title }}</div>
                                             </td>

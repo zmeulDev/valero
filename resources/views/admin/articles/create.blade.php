@@ -1,91 +1,121 @@
 <x-admin-layout>
-  <x-slot name="title">Create New Article</x-slot>
+    <x-slot name="title">Create New Article</x-slot>
 
-  <h1 class="text-4xl font-semibold mb-6">Create New Article</h1>
+    <div class="bg-gray-100 min-h-screen">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">Create New Article</h1>
 
-  @if ($errors->any())
-  <div class="bg-red-100 border border-red-400 text-red-600 px-4 py-3 rounded mb-6">
-    <ul class="list-disc pl-5">
-      @foreach ($errors->all() as $error)
-      <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-  @endif
+            @if ($errors->any())
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+                <p class="font-bold">Please correct the following errors:</p>
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
-  <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+            <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col lg:flex-row gap-8">
+                @csrf
 
-    <!-- Title -->
-    <div class="mb-6">
-      <label for="title" class="block text-gray-700 font-bold mb-2">
-        Title <span id="title-char-count" class="text-gray-600">(0)</span>
-      </label>
-      <span>Recomanded maximum 60 characthers</span>
-      <input type="text" id="title" name="title"
-        class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200" value="{{ old('title') }}"
-        required oninput="updateCharCount('title', 60)">
+                <!-- Main Content -->
+                <div class="w-full lg:w-2/3">
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <div class="p-6 space-y-6">
+                            <!-- Title -->
+                            <div>
+                                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Title <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="title" name="title"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                    value="{{ old('title') }}" required>
+                                <p class="mt-1 text-sm text-gray-500">Recommended: 60 characters maximum</p>
+                                <p class="text-sm text-gray-500">Characters: <span id="title-char-count">0</span></p>
+                            </div>
+
+                            <!-- Excerpt -->
+                            <div>
+                                <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Excerpt
+                                </label>
+                                <textarea id="excerpt" name="excerpt"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                                    rows="3">{{ old('excerpt') }}</textarea>
+                                <p class="mt-1 text-sm text-gray-500">Recommended: 160 characters maximum</p>
+                                <p class="text-sm text-gray-500">Characters: <span id="excerpt-char-count">0</span></p>
+                            </div>
+
+                            <!-- Content (with TinyMCE) -->
+                            <div>
+                                <label for="content" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Content <span class="text-red-500">*</span>
+                                </label>
+                                <textarea id="content" name="content" class="w-full">{{ old('content') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+          <!-- Sidebar -->
+          <div class="w-full lg:w-1/3 order-1 lg:order-2 space-y-6">
+            <!-- Scheduled Publish Date -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+              <div class="p-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Scheduled Publish Date</label>
+                <input type="datetime-local" name="scheduled_at"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+            </div>
+            <!-- Category Select -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+              <div class="p-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Category <span
+                    class="text-red-500">*</span></label>
+                <select name="category_id"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  required>
+                  <option value="">Select Category</option>
+                  @foreach ($categories as $category)
+                  <option value="{{ $category->id }}">
+                    {{ $category->name }}
+                  </option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <!-- Featured Image -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+              <div class="p-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Featured Image</label>
+                <input type="file" name="featured_image" accept="image/*"
+                  class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+              </div>
+            </div>
+
+            <!-- Gallery Images -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+              <div class="p-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Gallery Images</label>
+                  <input type="file" name="gallery_images[]" accept="image/*" multiple
+                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                </div> 
+              </div>
+            </div>
+            <!-- Submit Button -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+              <div class="p-6">
+                <button type="submit"
+                  class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-md shadow-sm transition duration-150 ease-in-out">
+                  Update Article
+                </button>
+              </div>
+            </div>
+          </div>
+            </form>
+        </div>
     </div>
-
-    <!-- Excerpt -->
-    <div class="mb-6">
-      <label for="excerpt" class="block text-gray-700 font-bold mb-2">
-        Excerpt <span id="excerpt-char-count" class="text-gray-600">(0)</span>
-      </label>
-      <span>Recomanded maximum 160 characthers</span>
-      <textarea id="excerpt" name="excerpt"
-        class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200" rows="3"
-        oninput="updateCharCount('excerpt', 160)">{{ old('excerpt') }}</textarea>
-    </div>
-
-    <!-- Category Select -->
-    <div class=" mb-6">
-      <label class="block text-gray-700 font-bold mb-2">Category</label>
-      <select name="category_id" class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
-        required>
-        <option value="">Select Category</option>
-        @foreach ($categories as $category)
-        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-          {{ $category->name }}
-        </option>
-        @endforeach
-      </select>
-    </div>
-
-    <!-- Content -->
-    <div class="mb-6">
-      <label for="content" class="block text-gray-700 font-bold mb-2">
-        Content <span id="content-char-count" class="text-gray-600">(0)</span>
-      </label>
-      <textarea id="content" name="content"
-        class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200" rows="10"
-        oninput="updateCharCount('content')">{{ old('content') }}</textarea>
-    </div>
-
-    <!-- Featured Image -->
-    <div class="mb-6">
-      <label class="block text-gray-700 font-bold mb-2">Featured Image</label>
-      <input type="file" name="featured_image" accept="image/*" class="block w-full text-gray-700">
-    </div>
-
-    <!-- Gallery Images -->
-    <div class="mb-6">
-      <label class="block text-gray-700 font-bold mb-2">Gallery Images</label>
-      <input type="file" name="gallery_images[]" accept="image/*" multiple class="block w-full text-gray-700">
-    </div>
-
-    <!-- Scheduled Publish Date -->
-    <div class="mb-6">
-      <label class="block text-gray-700 font-bold mb-2">Scheduled Publish Date</label>
-      <input type="datetime-local" name="scheduled_at"
-        class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200"
-        value="{{ old('scheduled_at') }}">
-    </div>
-
-    <!-- Submit Button -->
-    <button type="submit"
-      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded focus:outline-none focus:ring focus:ring-blue-300 transition ease-in-out duration-150">
-      Create Article
-    </button>
-  </form>
 </x-admin-layout>
