@@ -178,4 +178,5 @@ public function create()
 
         return back()->with('success', 'Image deleted successfully.');
     }
+
 }
