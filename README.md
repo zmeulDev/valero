@@ -155,6 +155,12 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 
 ---
 
+## Design
+
+- **Logo font**: Protest Guerrilla.
+
+---
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
