@@ -70,15 +70,9 @@
   <!-- Footer -->
   <footer class="bg-gray-800 text-white text-center p-4 mt-6">
     &copy; {{ date('Y') }} Your Valero. All Rights Reserved.
-    Version: {{ config('app.version') }}
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const version = '{{ config('
-      app.version ') }}';
-      document.getElementById('version').textContent = version;
-    });
-    </script>
+    <!-- every time i run npm run build update version -->
+    Version: <span id="version">{{ config('app.version') }}</span>
+  </footer>
 
   </footer>
 
