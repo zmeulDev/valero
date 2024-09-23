@@ -158,6 +158,7 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 ## Design
 
 - **Logo font**: Protest Guerrilla.
+- **Icons**: Lucide. https://lucide.dev/icons/
 
 ---
 
