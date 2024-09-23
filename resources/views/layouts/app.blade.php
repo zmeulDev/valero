@@ -63,19 +63,15 @@
   <x-navigation />
 
   <!-- Main Content -->
-  <main class="container mx-auto p-6">
+  <main class="container mx-auto">
     {{ $slot }}
   </main>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white text-center p-4 mt-6">
     &copy; {{ date('Y') }} Your Valero. All Rights Reserved.
-    <!-- every time i run npm run build update version -->
     Version: <span id="version">{{ config('app.version') }}</span>
   </footer>
-
-  </footer>
-
 </body>
 
 </html>

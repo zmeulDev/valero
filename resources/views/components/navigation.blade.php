@@ -1,6 +1,6 @@
-<header class="mb-8">
+<header class="mb-0">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xs">
       <div class="flex items-center justify-between h-16 px-4">
         <a href="{{ route('home') }}" class="flex items-center">
           <!-- Logo -->
@@ -23,7 +23,7 @@
           </form>
           @else
           <a href="{{ route('login') }}"
-            class="bg-green-500 dark:bg-green-600 text-white hover:bg-green-600 dark:hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Login</a>
+            class="bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 px-3 py-2 rounded-full text-sm font-medium transition duration-150 ease-in-out">Login</a>
           @endauth
           <!-- Dark Mode Toggle Button -->
           <button id="theme-toggle"
