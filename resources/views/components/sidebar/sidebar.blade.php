@@ -9,16 +9,16 @@
   <div class="sticky top-16 space-y-8">
     <aside class="space-y-8">
       <!-- Search -->
-      <x-sidebar-search :categories="$categories" />
+      <x-sidebar.sidebar-search :categories="$categories" />
 
       <!-- Categories Section -->
-      <x-sidebar-categories :categories="$categories" />
+      <x-sidebar.sidebar-categories :categories="$categories" />
 
       <!-- Share this article -->
-      <x-sidebar-share :shareUrl="$shareUrl" :shareTitle="$shareTitle" />
+      <x-sidebar.sidebar-share :shareUrl="$shareUrl" :shareTitle="$shareTitle" />
 
       <!-- Popular Articles Section -->
-      <x-sidebar-popular :popularArticles="$popularArticles" />
+      <x-sidebar.sidebar-popular :popularArticles="$popularArticles" />
     </aside>
   </div>
 </div>

@@ -38,7 +38,7 @@ class HomeController extends Controller
 
     // Create the article
     $article = new Article();
-    $article->user_id = auth()->id(); // Assign the authenticated user as the author
+    $article->user_id = auth()->id();
     $article->title = $validated['title'];
     $article->slug = Str::slug($validated['title']);
     $article->excerpt = $validated['excerpt'];
