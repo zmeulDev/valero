@@ -7,12 +7,13 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Middleware\AdminMiddleware; 
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ShowArticleController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/articles/{slug}', [HomeController::class, 'show'])->name('articles.show');
-Route::get('/category/{slug}', [HomeController::class, 'category'])->name('category.articles');
-Route::delete('/admin/articles/{article}/images/{image}', [HomeController::class, 'destroyImage'])->name('admin.articles.destroyImage');
+Route::get('/articles/{slug}', [ShowArticleController::class, 'show'])->name('articles.show');
+Route::get('/category/{slug}', [ShowArticleController::class, 'category'])->name('category.articles');
+
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Protected Routes (for logged-in users)
@@ -28,4 +29,5 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('articles', AdminArticleController::class);
     Route::resource('categories', CategoryController::class);
+    Route::delete('/admin/articles/{article}/images/{image}', [AdminArticleController::class, 'destroyImage'])->name('admin.articles.destroyImage');
 });

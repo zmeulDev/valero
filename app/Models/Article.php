@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use RalphJSmit\Laravel\SEO\Support\HasSEO;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
+use RalphJSmit\Laravel\SEO\SchemaCollection;
+use RalphJSmit\Laravel\SEO\Facades\SEO;
 
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSEO;
 
     protected $fillable = [
         'user_id', 'title', 'slug', 'excerpt', 'content', 'featured_image', 'scheduled_at', 'views', 'category_id'
@@ -41,6 +45,18 @@ class Article extends Model
     public function incrementViews()
     {
         $this->increment('views');
+    }
+
+    public function getDynamicSEOData(): SEOData
+    {
+        return new SEOData(
+            title: $this->title,
+            description: $this->excerpt,
+            image: $this->featured_image,
+            published_time: $this->created_at,
+            author: $this->user->name,
+            schema: SchemaCollection::make()->addArticle(),
+        );
     }
 
 }
