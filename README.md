@@ -1,6 +1,6 @@
 # Valero - Bloging Platform
 
-Valero is an open-source article-sharing platform built with **Laravel 11** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, and galleries. The admin interface includes full CRUD operations for managing articles, categories, and a modal-based category creation interface.
+Valero is an open-source article-sharing platform built with **Laravel 10** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, and galleries. The admin interface includes full CRUD operations for managing articles, categories, and a modal-based category creation interface.
 
 ## Features
 
@@ -10,6 +10,10 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 - Integration with **Livewire** for dynamic, real-time components.
 - Responsive and clean design with **Tailwind CSS**.
 - A **minimalistic UI** for a modern user experience.
+- SEO optimization with the **RalphJSmit/Laravel/SEO** package.
+- Dark mode support.
+- Reading time estimation.
+- View count for articles.
   
 ---
 
@@ -41,13 +45,19 @@ cp .env.example .env
 
 Update the `.env` file with your database credentials and other environment-specific values (like `APP_NAME`).
 
-4. **Run migrations:**
+4. **Publish SEO package configuration and migrations:**
+
+```bash
+php artisan vendor:publish --provider="RalphJSmit\Laravel\SEO\SEOServiceProvider"
+```
+
+5. **Run migrations:**
 
 ```bash
 php artisan migrate
 ```
 
-5. **Run the application:**
+6. **Run the application:**
 
 ```bash
 php artisan serve
@@ -83,6 +93,8 @@ Key routes for the application are defined in `routes/web.php`. Some important r
 - `/admin/articles`: CRUD routes for managing articles.
 - `/admin/categories`: CRUD routes for managing categories.
 - `/admin/articles/{article}/images/{image}`: Route for deleting images from an article's gallery.
+- `/articles/{article}`: Public route for viewing an article.
+- `/categories/{category}`: Public route for viewing articles in a category.
 
 ### Livewire Components:
 
@@ -105,34 +117,21 @@ Key routes for the application are defined in `routes/web.php`. Some important r
   - `GET /admin/categories`: List of all categories.
   - `POST /admin/categories`: Store a new category via modal or form.
 
----
+### Article Model
 
-## Features Implemented
+The `Article` model represents a blog article and includes the following relationships:
 
-### 1. **Article Management**
+- `category`: Belongs to a category.
+- `images`: Has many images.
+- `tags`: Belongs to many tags.
 
-Articles can be created with the following attributes:
-- Title
-- Excerpt
-- Content
-- Featured Image
-- Gallery Images
-- Scheduled Publish Date
+### SEO Implementation
 
-The admin can view, edit, and delete articles, as well as upload images and preview them.
+The project uses the **RalphJSmit/Laravel/SEO** package to handle SEO-related functionality. This package provides features such as:
 
-### 2. **Category Management**
-
-- Admins can dynamically create and manage categories.
-- A modal interface is available for seamless category creation without page refreshes.
-
-### 3. **Livewire Modal**
-
-The `CreateCategoryModal` component allows users to create categories via a modal. The modal is triggered using Livewire events and listens for `openModal` to dynamically display the form.
-
-### 4. **File Uploads**
-
-The application supports image uploads for both featured images and gallery images for articles. These images can be managed through the admin panel, with the option to delete gallery images.
+- Automatic generation of meta tags based on article data.
+- Social media previews for articles.
+- Sitemap generation.
 
 ---
 
@@ -143,13 +142,14 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - Buttons have hover effects and smooth transitions.
 - Form elements are styled for clarity and ease of use.
 - Tables in the admin panel have subtle row hover effects, making it easier to manage content.
+- Dark mode support for a more comfortable reading experience in low-light conditions.
 
 ---
 
 ## Future Enhancements
 
 - **User Authentication and Roles**: Further define roles (admin, editor, user) and manage access permissions.
-- **SEO Enhancements**: Implement meta tags and social media previews for articles.
+- **SEO Enhancements**: Improve the existing SEO functionality by adding more meta tags and optimizing social media previews.
 - **Article Search**: Add a search functionality to find articles based on title or content.
 - **Dashboard Statistics**: Implement more detailed statistics on articles and categories in the admin dashboard.
 
