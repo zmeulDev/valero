@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class Navigation extends Component
 {
@@ -22,8 +23,10 @@ class Navigation extends Component
      */
     public function render(): View|Closure|string
     {
+        $categories = Category::all();
         return view('components.navigation', [
-            'isAdmin' => Auth::check() && Auth::user()->is_admin
+            'isAdmin' => Auth::check() && Auth::user()->is_admin,
+            'categories' => $categories
         ]);
     }
 }

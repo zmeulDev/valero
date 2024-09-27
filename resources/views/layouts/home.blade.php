@@ -12,6 +12,12 @@
   <!-- Livewire Styles -->
   @livewireStyles
 
+  <style>
+  [x-cloak] {
+    display: none !important;
+  }
+  </style>
+
   <!-- Alpine.js for interactivity -->
   <script src="//unpkg.com/alpinejs" defer></script>
 
