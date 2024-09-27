@@ -9,7 +9,7 @@
     <div class="sm:w-2/3">
       <span class="inline-block bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-lg mb-4">FEATURED</span>
       <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight">
-        <a href="{{ route('articles.show', $article->slug) }}"
+        <a href="{{ route('articles.index', $article->slug) }}"
           class="hover:text-yellow-400 transition-colors duration-150">{{ $article->title }}</a>
       </h2>
       <p class="text-gray-200 mb-6">{{ Str::limit($article->excerpt, 120) }}</p>
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <x-button-action href="{{ route('articles.show', $article->slug) }}"
+  <x-button-action href="{{ route('articles.index', $article->slug) }}"
     class="absolute bottom-4 right-4 border border-yellow-400 bg-yellow-400 text-gray-900 px-4 py-2 font-bold hover:bg-yellow-300">
     Read Now
   </x-button-action>

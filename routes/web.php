@@ -8,11 +8,13 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Middleware\AdminMiddleware; 
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShowArticleController;
+use App\Http\Controllers\ShowCategoryController;
+
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/articles/{slug}', [ShowArticleController::class, 'show'])->name('articles.show');
-Route::get('/category/{slug}', [ShowArticleController::class, 'category'])->name('category.articles');
+Route::get('/articles/{slug}', [ShowArticleController::class, 'index'])->name('articles.index');
+Route::get('/category/{slug}', [ShowCategoryController::class, 'index'])->name('category.index');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 

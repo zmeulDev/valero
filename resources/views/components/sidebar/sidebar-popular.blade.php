@@ -5,7 +5,7 @@
   <ul class="divide-y divide-gray-200 dark:divide-gray-700">
     @foreach ($popularArticles as $popularArticle)
     <li class="hover:bg-gray-50 dark:hover:bg-gray-750 transition duration-150 ease-in-out">
-      <a href="{{ route('articles.show', $popularArticle->slug) }}" class="flex items-center space-x-4 px-6 py-4">
+      <a href="{{ route('articles.index', $popularArticle->slug) }}" class="flex items-center space-x-4 px-6 py-4">
         <img src="{{ asset('storage/' . $popularArticle->featured_image) }}" alt="{{ $popularArticle->title }}"
           class="w-16 h-16 object-cover rounded-md">
         <div class="flex-1 min-w-0">

@@ -5,7 +5,7 @@
   <ul class="px-6 py-4 space-y-2">
     @foreach ($categories as $category)
     <li>
-      <a href="{{ route('category.articles', $category->slug) }}"
+      <a href="{{ route('category.index', $category->slug) }}"
         class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-150 ease-in-out">
         <svg class="w-4 h-4 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg">
