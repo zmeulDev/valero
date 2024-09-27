@@ -68,6 +68,12 @@ For front-end assets, use:
 ```bash
 npm run dev
 ```
+For demo purposes, you can use the following command to seed the database with some data:
+
+```bash
+php artisan db:seed
+php artisan db:seed --class=ArticleSeeder
+```
 
 ---
 

@@ -21,14 +21,13 @@ class Category extends Model
         return $this->hasMany(Article::class);
     }
 
-        public function getDynamicSEOData(): SEOData
+    public function getDynamicSEOData(): SEOData
     {
         return new SEOData(
-            title: $this->title,
-            description: $this->excerpt,
-            image: $this->featured_image,
+            title: $this->name,
+            description: $this->slug,
+            author: $this->name,
             published_time: $this->created_at,
-            author: $this->user->name,
             schema: SchemaCollection::make()->addArticle(),
         );
     }

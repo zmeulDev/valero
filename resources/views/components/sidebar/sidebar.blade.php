@@ -11,9 +11,6 @@
       <!-- Search -->
       <x-sidebar.sidebar-search :categories="$categories" />
 
-      <!-- Categories Section -->
-      <x-sidebar.sidebar-categories :categories="$categories" />
-
       <!-- Share this article -->
       <x-sidebar.sidebar-share :shareUrl="$shareUrl" :shareTitle="$shareTitle" />
 

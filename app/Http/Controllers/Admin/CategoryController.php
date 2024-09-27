@@ -9,11 +9,12 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index()
-    {
-        $categories = Category::all();
-        return view('admin.categories.index', compact('categories'));
-    }
+public function index()
+{
+    $categories = Category::withCount('articles')->get();
+    $categoryCounts = $categories;
+    return view('admin.categories.index', compact('categories', 'categoryCounts'));
+}
 
     public function create()
     {

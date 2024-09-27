@@ -1,14 +1,13 @@
 <x-guest-layout>
-  <div class="font-[sans-serif] min-h-screen flex items-center justify-center py-6 px-4 bg-cover bg-center"
-    style="background-image: url('/path/to/auth_background.png');">
+  <div class="font-[sans-serif] min-h-screen flex items-center justify-center py-6 px-4 bg-cover bg-center">
     <div class="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
-      <div class="hidden md:block lg:h-[400px] md:h-[300px]">
-        <img src="/images/auth_background.jpg" class="w-full h-full object-cover" alt="Authentication Background" />
+      <div class="hidden md:block lg:h-[600px] md:h-[600px]">
+        <img src="/brand/auth_background.png" class="w-full h-full object-cover" alt="Authentication Background" />
       </div>
       <div
         class="border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto bg-white">
         <div class="flex justify-center mb-8">
-          <x-authentication-card-logo class="w-26 h-26" />
+          <x-auth.authentication-card-logo class="w-26 h-26" />
         </div>
         <x-validation-errors class="mb-4" />
 

@@ -12,6 +12,12 @@
   <!-- Livewire Styles -->
   @livewireStyles
 
+  <style>
+  [x-cloak] {
+    display: none !important;
+  }
+  </style>
+
   <!-- Alpine.js for interactivity -->
   <script src="//unpkg.com/alpinejs" defer></script>
 
@@ -68,10 +74,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white text-center p-4 mt-6">
-    &copy; {{ date('Y') }} Your Valero. All Rights Reserved.
-    Version: <span id="version">{{ config('app.version') }}</span>
-  </footer>
+  <x-footer />
 </body>
 
 </html>

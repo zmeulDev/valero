@@ -78,7 +78,8 @@
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white text-center p-4 mt-6">
-    &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All Rights Reserved.
+    &copy; {{ date('Y') }} Your Valero. All Rights Reserved.
+    Version: <span id="version">{{ config('app.version') }}</span>
   </footer>
 
   <!-- Livewire Scripts -->
