@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between h-16 px-4">
         <a href="{{ route('home') }}" class="flex items-center">
           <!-- Logo -->
-          <img src="/images/logo.png" alt="Logo" class="h-12 w-12">
+          <img src="/brand/logo.png" alt="Logo" class="h-12 w-12">
           <span class="ml-2 text-xl font-bold text-gray-800 dark:text-gray-200">{{ config('app.name') }}</span>
         </a>
         <nav class="flex items-center space-x-4">
@@ -13,13 +13,13 @@
           @auth
           @if($isAdmin)
           <a href="{{ route('admin.dashboard') }}"
-            class="bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Admin
+            class="bg-blue-500 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 px-3 py-2 rounded-full text-sm font-medium transition duration-150 ease-in-out">Admin
             Panel</a>
           @endif
           <form action="{{ route('logout') }}" method="POST" class="inline">
             @csrf
             <button type="submit"
-              class="bg-red-500 dark:bg-red-600 text-white hover:bg-red-600 dark:hover:bg-red-700 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Logout</button>
+              class="bg-red-500 dark:bg-red-600 text-white hover:bg-red-600 dark:hover:bg-red-700 px-3 py-2 rounded-full text-sm font-medium transition duration-150 ease-in-out">Logout</button>
           </form>
           @else
           <a href="{{ route('login') }}"

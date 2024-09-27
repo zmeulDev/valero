@@ -12,8 +12,9 @@ class AdminDashboardController extends Controller
     {
         $articleCount = Article::count();
         $userCount = User::count();
+        $totalViews = Article::sum('views');
         $articles = Article::orderBy('created_at', 'desc')->paginate(5);
  
-        return view('admin.dashboard', compact('articleCount', 'userCount', 'articles'));
+        return view('admin.dashboard', compact('articleCount', 'userCount', 'articles', 'totalViews'));
     }
 }
