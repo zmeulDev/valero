@@ -24,6 +24,7 @@
         <div class="bg-white border border -2 shadow-xs rounded-lg overflow-hidden">
           <div class="p-6">
             <h2 class="text-xl font-semibold mb-2 text-gray-800">Total views</h2>
+            <h4 class="text-xs mb-2 text-gray-800">Articles</h4>
             <p class="text-3xl font-bold text-blue-600">{{ $totalViews }}</p>
           </div>
         </div>
