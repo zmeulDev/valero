@@ -15,13 +15,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        
         $articles = Article::latest()->paginate(4);
         $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
         $featuredArticle = Article::latest()->first();
         $categories = Category::all();
 
-        return view('home', compact('featuredArticle','articles', 'popularArticles', 'categories'));
+        return view('home', compact('featuredArticle', 'articles', 'popularArticles', 'categories'));
     }
 
     public function create()
@@ -30,27 +29,22 @@ class HomeController extends Controller
     }
 
     public function store(Request $request)
-{
-    
-}
-
+    {
+        //
+    }
 
     public function show($slug)
     {
-        
+        //
     }
 
     public function edit($id)
-{
-   
-}
-
+    {
+        //
+    }
 
     public function update(Request $request, $id)
     {
-        
+        //
     }
-
-
-
 }

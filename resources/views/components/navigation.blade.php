@@ -10,6 +10,7 @@
         <nav class="flex items-center space-x-4">
           <a href="{{ route('home') }}"
             class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">Home</a>
+
           @auth
           @if($isAdmin)
           <a href="{{ route('admin.dashboard') }}"
@@ -45,6 +46,7 @@
               <path d="m19.07 4.93-1.41 1.41"></path>
             </svg>
           </button>
+
         </nav>
       </div>
     </div>
