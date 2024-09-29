@@ -34,9 +34,11 @@ class ArticleController extends Controller
             'content' => 'required',
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
+            'featured_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $article = new Article();
+        $article = new Article($validated);
         $article->user_id = auth()->id();
         $article->title = $validated['title'];
         $article->slug = Str::slug($validated['title']);
@@ -45,7 +47,21 @@ class ArticleController extends Controller
         $article->content = $validated['content'];
         $article->scheduled_at = $validated['scheduled_at'] ?? null;
 
+        if ($request->hasFile('featured_image')) {
+            $path = $request->file('featured_image')->store('images', 'public');
+            $article->featured_image = $path;
+        }
+
         $article->save();
+
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $image) {
+                $path = $image->store('images', 'public');
+        $article->images()->create(['image_path' => $path]);
+            }
+        }
+
+        
 
         return redirect()->route('admin.articles.index')->with('success', 'Article created successfully.');
     }

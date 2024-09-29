@@ -58,19 +58,8 @@
   <div class="p-6">
     <div>
       <label class="block text-lg font-medium text-gray-700 mb-1">Gallery Images</label>
-      @if($article)
-      <form action="{{ route('admin.articles.images.store', $article) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <input type="file" name="images[]" accept="image/*" multiple
-          class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-        <button type="submit" class="mt-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-          Add Gallery Images
-        </button>
-      </form>
-      @else
-      <input type="file" name="images[]" accept="image/*" multiple
+      <input type="file" name="gallery_images[]" accept="image/*" multiple
         class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-      @endif
     </div>
 
     @if($article && $article->images->count())
@@ -96,6 +85,9 @@
           </form>
         </div>
         @endforeach
+        <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Update Gallery Image
+        </button>
       </div>
     </div>
     @endif
