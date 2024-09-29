@@ -34,6 +34,7 @@ class Article extends Model
         return $this->hasMany(Image::class);
     }
 
+
     public function scopePublished($query)
     {
         return $query->where(function($q) {
@@ -57,6 +58,11 @@ class Article extends Model
             author: $this->user->name,
             schema: SchemaCollection::make()->addArticle(),
         );
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin === true;
     }
 
 }
