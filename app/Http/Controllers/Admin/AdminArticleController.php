@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 
-class ArticleController extends Controller
+
+class AdminArticleController extends Controller
 {
     public function index()
     {
@@ -61,8 +63,14 @@ class ArticleController extends Controller
             }
         }
 
-        
-
+        $article->seo->update([
+            'title' => $article->title,
+            'description' => $article->excerpt,
+            'image' => $article->featured_image,
+            'author' => auth()->user()->name,
+            'robots' => 'index, follow',
+            'canonical_url' => route('articles.index', $article->slug),
+        ]);
         return redirect()->route('admin.articles.index')->with('success', 'Article created successfully.');
     }
 

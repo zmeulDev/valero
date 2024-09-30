@@ -17,6 +17,7 @@ return new class extends Migration
             $table->longText('content');
             $table->string('featured_image')->nullable();
             $table->timestamp('scheduled_at')->nullable();
+            $table->unsignedBigInteger('views')->default(0);
             $table->timestamps();
         });
     }

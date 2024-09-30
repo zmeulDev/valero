@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
-use App\Http\Controllers\Admin\ImageController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Middleware\AdminMiddleware; 
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\ShowArticleController;
-use App\Http\Controllers\ShowCategoryController;
+use App\Http\Controllers\Admin\AdminArticleController;
+use App\Http\Controllers\Admin\AdminImageController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\ShowArticleController;
+use App\Http\Controllers\Frontend\ShowCategoryController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -30,13 +30,13 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
     // Categories
-    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', AdminCategoryController::class);
     
     // Articles
     Route::resource('articles', AdminArticleController::class);
     
     // Image handling
-    Route::post('articles/{article}/images', [ImageController::class, 'store'])->name('articles.images.store');
-    Route::delete('articles/{article}/images/{image}', [ImageController::class, 'destroy'])->name('articles.images.destroy');
-    Route::post('articles/{article}/featured-image', [ImageController::class, 'updateFeatured'])->name('articles.featured-image.update');
+    Route::post('articles/{article}/images', [AdminImageController::class, 'store'])->name('articles.images.store');
+    Route::delete('articles/{article}/images/{image}', [AdminImageController::class, 'destroy'])->name('articles.images.destroy');
+    Route::post('articles/{article}/featured-image', [AdminImageController::class, 'updateFeatured'])->name('articles.featured-image.update');
 });
