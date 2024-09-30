@@ -11,6 +11,9 @@
       <!-- Search -->
       <x-sidebar.sidebar-search :categories="$categories" />
 
+      <!-- Partner Ads -->
+      <x-sidebar.sidebar-ads />
+
       <!-- Share this article -->
       <x-sidebar.sidebar-share :shareUrl="$shareUrl" :shareTitle="$shareTitle" />
 

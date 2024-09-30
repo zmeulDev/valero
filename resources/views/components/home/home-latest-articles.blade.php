@@ -19,7 +19,7 @@
   </div>
 
   @if ($articles->isEmpty())
-  <p class="text-gray-500 dark:text-gray-400 text-center italic p-6">No articles found.</p>
+  <x-nothing-found />
   @else
   <div x-show="view === 'grid'">
     <x-home.home-latest-articles-grid :articles="$articles" />

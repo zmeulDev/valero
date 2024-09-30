@@ -63,7 +63,7 @@
 
           <!-- Sidebar -->
           <div class="w-full lg:w-1/3 order-1 lg:order-2 space-y-6">
-            <x-sidebar.sidebar-admin :article="$article" :categories="$categories" />
+            <x-admin.sidebar-admin :article="$article" :categories="$categories" />
 
             <!-- Submit Button -->
             <div class="bg-white shadow-md rounded-lg overflow-hidden">
