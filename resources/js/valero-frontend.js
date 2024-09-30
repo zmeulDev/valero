@@ -48,6 +48,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const closeButton = document.getElementById('closeButton');
   const galleryImages = document.querySelectorAll('.gallery-image');
 
+  // Check if gallery elements exist
+  if (!galleryModal || !galleryImage || !prevButton || !nextButton || !closeButton || galleryImages.length === 0) {
+    console.log('Gallery elements not found. Skipping gallery initialization.');
+    return;
+  }
+
   let currentIndex = 0;
   const imagePaths = Array.from(galleryImages).map(img => img.src);
 
