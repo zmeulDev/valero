@@ -6,6 +6,9 @@
 <!-- Category Select -->
 <x-admin.sidebar-admin-category :categories="$categories" :article="$article" />
 
+<!-- SEO -->
+<x-admin.sidebar-admin-seo :article="$article" />
+
 <!-- Featured Image -->
 <x-admin.sidebar-admin-featured :categories="$categories" :article="$article" />
 

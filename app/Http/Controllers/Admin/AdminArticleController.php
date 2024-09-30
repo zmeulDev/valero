@@ -94,6 +94,7 @@ class AdminArticleController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|max:255',
+            'excerpt' => 'nullable|max:255',
             'content' => 'required',
             'category_id' => 'required|exists:categories,id',
             'featured_image' => 'nullable|image|max:2048',
@@ -115,6 +116,17 @@ class AdminArticleController extends Controller
             }
         }
 
+        $article->seo->updateOrCreate([
+            'model_id' => $article->id,
+            'model_type' => Article::class,
+            'title' => $article->title,
+            'description' => $article->excerpt,
+            'image' => $article->featured_image,
+            'author' => auth()->user()->name,
+            'robots' => 'index, follow',
+            'canonical_url' => route('articles.index', $article->slug),
+        ]);
+
         return redirect()->route('admin.articles.edit', $article)->with('success', 'Article updated successfully.');
     }
 
@@ -130,6 +142,7 @@ class AdminArticleController extends Controller
         }
 
         $article->delete();
+        $article->seo->delete();
 
         return redirect()->route('admin.articles.index')->with('success', 'Article deleted successfully.');
     }

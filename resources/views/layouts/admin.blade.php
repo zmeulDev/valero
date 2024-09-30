@@ -30,6 +30,9 @@
     <x-admin.navigation-admin />
   </header>
 
+  <!-- Flash Message Component -->
+  <x-flash-message />
+
   <!-- Main Content -->
   <div class="container mx-auto mt-6">
     {{ $slot }}

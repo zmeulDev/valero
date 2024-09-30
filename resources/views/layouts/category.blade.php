@@ -24,6 +24,7 @@
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
   <x-navigation />
 
+
   <!-- Main Content -->
   <main class="container mx-auto">
     <div class="container mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
