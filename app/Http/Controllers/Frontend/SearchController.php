@@ -9,43 +9,34 @@ use App\Models\Category;
 
 class SearchController extends Controller
 {
-    /**
-     * Handle the search request and display results.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
-     */
-    public function index(Request $request)
+    public function search(Request $request)
     {
-           // Validate the search query
-           $request->validate([
-               'query' => 'required|string|max:255',
-               'category' => 'nullable|integer|exists:categories,id', // If implementing category filter
-           ]);
+        $query = $request->input('query');
+        $category = $request->input('category');
 
-           $query = $request->input('query');
-           $category = $request->input('category');
+        $articlesQuery = Article::with(['user', 'category'])
+            ->when($query, function ($q) use ($query) {
+                return $q->where('title', 'LIKE', "%{$query}%")
+                         ->orWhere('content', 'LIKE', "%{$query}%");
+            })
+            ->when($category, function ($q) use ($category) {
+                return $q->where('category_id', $category);
+            })
+            ->latest(); // Order by latest first
 
-           // Initialize the query builder
-           $articlesQuery = Article::query();
+        $articles = $articlesQuery->paginate(10);
 
-           // Apply search terms
-           $articlesQuery->where(function($q) use ($query) {
-               $q->where('title', 'LIKE', "%{$query}%")
-                 ->orWhere('content', 'LIKE', "%{$query}%");
-           });
+        return response()->json([
+            'data' => $articles->items(),
+            'links' => $articles->links()->toHtml(),
+            'current_page' => $articles->currentPage(),
+            'last_page' => $articles->lastPage(),
+        ]);
+    }
 
-           // Apply category filter if selected (Optional)
-           if ($category) {
-               $articlesQuery->where('category_id', $category);
-           }
-
-           // Execute the query with pagination
-           $articles = $articlesQuery->paginate(10)->appends([
-               'query' => $query,
-               'category' => $category,
-           ]);
-
-           return view('search.results', compact('articles', 'query', 'category'));
-       }
+    public function categories()
+    {
+        $categories = Category::all();
+        return response()->json($categories);
+    }
 }

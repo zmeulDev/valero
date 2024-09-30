@@ -1,14 +1,7 @@
 <x-admin-layout>
   <x-slot name="title">Articles</x-slot>
 
-  <div x-data="{ 
-        showDeleteModal: false, 
-        articleToDelete: null,
-        openDeleteModal(articleId) {
-            this.showDeleteModal = true;
-            this.articleToDelete = articleId;
-        }
-    }" class="bg-gray-100 min-h-screen">
+  <div x-data="articleSearch()" x-init="init()" class="min-h-screen bg-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="mb-8 sm:flex sm:items-center sm:justify-between">
         <div>
@@ -24,12 +17,18 @@
       </div>
 
       <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <div class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gray-50">
+        <div
+          class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
           <h2 class="text-lg font-medium text-gray-900">All Articles</h2>
+          <div class="relative w-full sm:w-64">
+            <x-input type="text" placeholder="Search title and content..." x-model="query" @input.debounce.300ms="search()"
+              class="w-full text-sm border border-gray-300 rounded-md pr-10" />
+            <button x-show="query.length > 0" @click="query = ''; search();"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500">
+              <x-lucide-x class="w-4 h-4" />
+            </button>
+          </div>
         </div>
-        @if ($articles->isEmpty())
-        <x-nothing-found />
-        @else
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -55,52 +54,59 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              @foreach ($articles as $article)
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  @if($article->featured_image)
-                  <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}"
-                    class="h-10 w-10 rounded-full object-cover">
-                  @else
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">No
-                    Image</span>
-                  @endif
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">{{ $article->title }}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                  <div class="text-sm text-gray-900">{{ $article->user->name }}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                  <div class="text-sm text-gray-900">{{ $article->created_at->format('M d, Y') }}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
-                  <div class="text-sm text-gray-900">{{ $article->scheduled_at ?? 'Published' }}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap hidden xl:table-cell">
-                  <div class="text-sm text-gray-900">{{ $article->category->name ?? 'N/A' }}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div class="flex space-x-2">
-                    <a href="{{ route('admin.articles.show', $article->id) }}"
-                      class="text-indigo-600 hover:text-indigo-900">Preview</a>
-                    <a href="{{ route('admin.articles.edit', $article->id) }}"
-                      class="text-blue-600 hover:text-blue-900">Edit</a>
-                    <button @click.prevent="openDeleteModal({{ $article->id }})"
-                      class="text-red-600 hover:text-red-900">Delete</button>
-                  </div>
-                </td>
-              </tr>
-              @endforeach
+              <template x-if="articles.length === 0">
+                <tr>
+                  <td colspan="7" class="px-6 py-4 text-center text-gray-500">No articles found</td>
+                </tr>
+              </template>
+              <template x-for="article in articles" :key="article.id">
+                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <img :src="article.featured_image ? '/storage/' + article.featured_image : ''" :alt="article.title"
+                      class="h-10 w-10 rounded-full object-cover">
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900" x-text="article.title"></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                    <div class="text-sm text-gray-900" x-text="article.user ? article.user.name : 'N/A'"></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
+                    <div class="text-sm text-gray-900" x-text="formatDate(article.created_at)"></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
+                    <div class="text-sm text-gray-900" x-text="article.scheduled_at || 'Published'"></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap hidden xl:table-cell">
+                    <div class="text-sm text-gray-900" x-text="article.category ? article.category.name : 'N/A'"></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div class="flex space-x-2">
+                      <a :href="`/admin/articles/${article.id}`"
+                        class="text-indigo-600 hover:text-indigo-900 flex items-center">
+                        <x-lucide-eye class="w-5 h-5 mr-1" />
+
+                      </a>
+                      <a :href="`/admin/articles/${article.id}/edit`"
+                        class="text-blue-600 hover:text-blue-900 flex items-center">
+                        <x-lucide-pencil class="w-5 h-5 mr-1" />
+
+                      </a>
+                      <button @click="openDeleteModal(article.id)"
+                        class="text-red-600 hover:text-red-900 flex items-center">
+                        <x-lucide-trash class="w-5 h-5 mr-1" />
+
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
-        @endif
       </div>
       <div class="mt-4">
-        {{ $articles->links() }}
+        <nav x-html="paginationLinks"></nav>
       </div>
     </div>
 
@@ -160,4 +166,46 @@
       </div>
     </div>
   </div>
+
+  <script>
+  function articleSearch() {
+    return {
+      query: '',
+      articles: [],
+      paginationLinks: '',
+      articleToDelete: null,
+      showDeleteModal: false,
+      currentPage: 1,
+      lastPage: 1,
+      init() {
+        this.search();
+      },
+      async search(page = 1) {
+        try {
+          const response = await fetch(`/search?query=${this.query}&page=${page}`);
+          if (!response.ok) throw new Error('Failed to fetch articles');
+          const data = await response.json();
+          this.articles = data.data;
+          this.paginationLinks = data.links;
+          this.currentPage = data.current_page;
+          this.lastPage = data.last_page;
+          console.log('Articles:', this.articles); // Debugging line
+        } catch (error) {
+          console.error('Error searching articles:', error);
+        }
+      },
+      formatDate(dateString) {
+        return new Date(dateString).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      },
+      openDeleteModal(articleId) {
+        this.articleToDelete = articleId;
+        this.showDeleteModal = true;
+      }
+    }
+  }
+  </script>
 </x-admin-layout>

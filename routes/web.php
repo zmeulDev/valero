@@ -15,7 +15,8 @@ use App\Http\Controllers\Frontend\ShowCategoryController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/articles/{slug}', [ShowArticleController::class, 'index'])->name('articles.index');
 Route::get('/category/{slug}', [ShowCategoryController::class, 'index'])->name('category.index');
-Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/categories', [SearchController::class, 'categories'])->name('categories');
 
 // Protected Routes (for logged-in users)
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
