@@ -30,9 +30,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p class="text-sm text-yellow-700">
-                  No categories found. Create a new category to get started.
-                </p>
+                <x-nothing-found />
               </div>
             </div>
             @else
@@ -99,11 +97,10 @@
 
               <!-- Submit Button -->
               <div>
-                <button type="submit"
-                  class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-full shadow-sm transition duration-150 ease-in-out flex items-center justify-center">
+                <x-button type="submit" class="w-full">
                   <x-lucide-plus class="w-5 h-5 mr-2" />
                   Create Category
-                </button>
+                </x-button>
               </div>
             </form>
           </div>
