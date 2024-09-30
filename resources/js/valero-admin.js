@@ -33,8 +33,10 @@ function updateCharCount(elementId, limit = null) {
 document.addEventListener('DOMContentLoaded', function () {
   ['title', 'excerpt'].forEach(id => {
     const element = document.getElementById(id);
-    element.addEventListener('input', () => updateCharCount(id, id === 'title' ? 60 : 160));
-    updateCharCount(id, id === 'title' ? 60 : 160);
+    if (element) {
+      element.addEventListener('input', () => updateCharCount(id, id === 'title' ? 60 : 160));
+      updateCharCount(id, id === 'title' ? 60 : 160);
+    }
   });
   // Content character count will be updated by TinyMCE setup
 });
