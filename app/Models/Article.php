@@ -8,6 +8,9 @@ use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Facades\SEO;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
 
 class Article extends Model
 {
@@ -34,6 +37,7 @@ class Article extends Model
         return $this->hasMany(Image::class);
     }
 
+
     public function scopePublished($query)
     {
         return $query->where(function($q) {
@@ -49,14 +53,22 @@ class Article extends Model
 
     public function getDynamicSEOData(): SEOData
     {
+        \Log::info('getDynamicSEOData called for Article ID: ' . $this->id);
+        
         return new SEOData(
-            title: $this->title,
             description: $this->excerpt,
+            title: $this->title,
             image: $this->featured_image,
-            published_time: $this->created_at,
             author: $this->user->name,
+            robots: 'index, follow',
+            canonical_url: route('articles.index', $this->slug),
             schema: SchemaCollection::make()->addArticle(),
         );
+    } 
+
+    public function isAdmin()
+    {
+        return $this->is_admin === true;
     }
 
 }

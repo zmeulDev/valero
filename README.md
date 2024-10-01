@@ -1,41 +1,47 @@
-# Valero - Bloging Platform
+# Valero - Blogging Platform
 
 Valero is an open-source article-sharing platform built with **Laravel 10** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, and galleries. The admin interface includes full CRUD operations for managing articles, categories, and a modal-based category creation interface.
 
-## Features
+![Valero Logo](valero_kit/logo_light/web/icon-192.png)
 
-- Article management with image uploads, galleries, and scheduling.
-- Category management with dynamic modal creation.
-- Admin panel for managing articles, categories, and users.
-- Integration with **Livewire** for dynamic, real-time components.
-- Responsive and clean design with **Tailwind CSS**.
-- A **minimalistic UI** for a modern user experience.
-- SEO optimization with the **RalphJSmit/Laravel/SEO** package.
-- Dark mode support.
-- Reading time estimation.
-- View count for articles.
-  
+## 📦 Features
+
+- **Article Management**: Create, edit, schedule, and publish articles with image uploads and galleries.
+- **Category Management**: Dynamically create and manage categories via a Livewire-powered modal.
+- **Admin Panel**: Full CRUD operations for managing articles, categories, and users with a clean and responsive interface.
+- **Livewire Integration**: Dynamic, real-time components for a seamless user experience.
+- **Tailwind CSS**: Modern and responsive design with utility-first CSS framework.
+- **Minimalistic UI**: Clean and intuitive interface for both admin and public users.
+- **SEO Optimization**: Integrated with the **RalphJSmit/Laravel/SEO** package for enhanced search engine visibility.
+- **Dark Mode Support**: Toggle between light and dark themes for user comfort.
+- **Reading Time Estimation**: Displays estimated reading time for articles.
+- **View Count**: Tracks and displays the number of views for each article.
+- **Responsive Design**: Optimized for all screen sizes, ensuring a consistent experience across devices.
+
+![Valero Screenshot](valero_kit/screenshots/Valero_MainPage.png)
+More screenshots in the [valero_kit/screenshots](valero_kit/screenshots) folder.
+
 ---
 
-## Installation
+## 🚀 Installation
 
-To set up the project locally, follow these steps:
+Follow these steps to set up the project locally:
 
-1. **Clone the repository:**
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/your-repository/valero.git
 cd valero
 ```
 
-2. **Install dependencies:**
+### 2. Install Dependencies
 
 ```bash
 composer install
 npm install
 ```
 
-3. **Set up environment variables:**
+### 3. Set Up Environment Variables
 
 Create a `.env` file by copying `.env.example`:
 
@@ -45,39 +51,68 @@ cp .env.example .env
 
 Update the `.env` file with your database credentials and other environment-specific values (like `APP_NAME`).
 
-4. **Publish SEO package configuration and migrations:**
+### 4. Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+### 5. Publish SEO Package Configuration and Migrations
 
 ```bash
 php artisan vendor:publish --provider="RalphJSmit\Laravel\SEO\SEOServiceProvider"
 ```
 
-5. **Run migrations:**
+### 6. Run Migrations
 
 ```bash
 php artisan migrate
 ```
 
-6. **Run the application:**
+### 7. Create Storage Link
+
+Ensure that the storage is linked to serve uploaded images:
 
 ```bash
-php artisan serve
+php artisan storage:link
 ```
 
-For front-end assets, use:
+### 8. Seed the Database (Optional)
 
-```bash
-npm run dev
-```
-For demo purposes, you can use the following command to seed the database with some data:
+For demo purposes, seed the database with sample data:
 
 ```bash
 php artisan db:seed
 php artisan db:seed --class=ArticleSeeder
 ```
 
+### 9. Compile Front-End Assets
+
+For development:
+
+```bash
+npm run dev
+```
+
+For production:
+
+```bash
+npm run build
+```
+
+### 10. Run the Application
+
+Start the local development server:
+
+```bash
+php artisan serve
+```
+
+Visit [http://localhost:8000](http://localhost:8000) in your browser to access Valero.
+
 ---
 
-## Application Structure
+## 🗂 Application Structure
 
 The application follows the standard **Laravel** structure with a focus on component-based architecture using **Livewire**.
 
@@ -141,7 +176,7 @@ The project uses the **RalphJSmit/Laravel/SEO** package to handle SEO-related fu
 
 ---
 
-## UI and UX Enhancements
+## 🎨 UI and UX Enhancements
 
 The UI follows a **minimalist design** with modern, interactive elements using **Tailwind CSS**. Hover effects, shadows, and transitions have been applied to buttons and table rows for a clean and intuitive user experience.
 
@@ -152,7 +187,7 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 
 ---
 
-## Future Enhancements
+## 🔮 Future Enhancements
 
 - **User Authentication and Roles**: Further define roles (admin, editor, user) and manage access permissions.
 - **SEO Enhancements**: Improve the existing SEO functionality by adding more meta tags and optimizing social media previews.
@@ -161,23 +196,23 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 
 ---
 
-## Design
+## 🎨 Design
 
 - **Logo font**: Protest Guerrilla.
 - **Icons**: Lucide. https://lucide.dev/icons/
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
 ---
 
-## License
+## 📝 License
 
 This project is open-source and licensed under the [MIT license](LICENSE).
 
 ---
 
-### Thanks for checking out **Valero**! Happy coding!
+### ❤️ Thanks for checking out **Valero**! Happy coding!
