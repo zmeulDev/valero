@@ -2,7 +2,7 @@
 
 Valero is an open-source article-sharing platform built with **Laravel 10** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, and galleries. The admin interface includes full CRUD operations for managing articles, categories, and a modal-based category creation interface.
 
-![Valero Logo](path/to/logo.png) <!-- Add a logo image if available -->
+![Valero Logo](valero_kit/logo_light/web/icon-192.png)
 
 ## 📦 Features
 
@@ -17,6 +17,8 @@ Valero is an open-source article-sharing platform built with **Laravel 10** and 
 - **Reading Time Estimation**: Displays estimated reading time for articles.
 - **View Count**: Tracks and displays the number of views for each article.
 - **Responsive Design**: Optimized for all screen sizes, ensuring a consistent experience across devices.
+
+![Valero Screenshot](valero_kit/screenshots/valero_home.png)
 
 ---
 
