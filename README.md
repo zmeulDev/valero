@@ -18,7 +18,7 @@ Valero is an open-source article-sharing platform built with **Laravel 10** and 
 - **View Count**: Tracks and displays the number of views for each article.
 - **Responsive Design**: Optimized for all screen sizes, ensuring a consistent experience across devices.
 
-![Valero Screenshot](valero_kit/screenshots/valero_mainpage.png)
+![Valero Screenshot](valero_kit/screenshots/Valero_MainPage.png)
 More screenshots in the [valero_kit/screenshots](valero_kit/screenshots) folder.
 
 ---
