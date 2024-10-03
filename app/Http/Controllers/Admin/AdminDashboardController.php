@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class AdminDashboardController extends Controller
 {
