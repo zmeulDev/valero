@@ -7,7 +7,7 @@
         class="w-8 h-8 rounded-full mr-3">
       <span>{{ $article->user->name }}</span>
       <span class="mx-2">·</span>
-      <span>Last update: {{ $article->updated_at->format('M d, Y') }}</span>
+      <span>Update: {{ $article->updated_at->format('M d, Y') }}</span>
       <span class="mx-2">·</span>
       <span>{{ $readingTime }} min read</span>
     </div>

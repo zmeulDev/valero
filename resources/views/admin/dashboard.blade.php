@@ -5,7 +5,7 @@
     <div class="container mx-auto px-4 lg:px-8">
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl font-bold text-gray-900">Admin Dashboard</h1>
-        <span id="version" class="text-sm text-gray-500">{{ config('app.version') }}</span>
+        <span id="version" class="text-sm text-gray-500">v.{{ config('app.version') }}</span>
       </div>
 
       <!-- Dashboard statistics -->
