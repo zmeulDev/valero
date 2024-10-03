@@ -5,7 +5,7 @@
         <!-- Logo -->
         <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
           <x-application-logo class="block h-8 w-auto" />
-          <span class="ml-3 text-xl font-bold text-gray-900 dark:text-white">Admin | {{ config('app.name') }}</span>
+          <span class="ml-3 text-xl font-bold text-gray-900 dark:text-white">Admin | {{ config('app_name') }} </span>
         </a>
 
         <!-- Primary Navigation Menu -->
@@ -23,6 +23,10 @@
             class="inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 ease-in-out">
             {{ __('Articles') }}
           </x-nav-link>
+          <x-nav-link href="{{ route('admin.settings.index') }}" :active="request()->routeIs('admin.settings.index')"
+            class="inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 ease-in-out">
+            {{ __('Settings') }}
+          </x-nav-link>
         </div>
       </div>
 
@@ -33,9 +37,9 @@
             <x-slot name="trigger">
               <button
                 class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white focus:outline-none transition duration-150 ease-in-out">
-                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}"
-                  alt="{{ Auth::user()->name }}" />
-                <span class="ml-2">{{ Auth::user()->name }}</span>
+                <img class="h-8 w-8 rounded-full object-cover" src="{{ auth()->user()->profile_photo_url }}"
+                  alt="{{ auth()->user()->name }}" />
+                <span class="ml-2">{{ auth()->user()->name }}</span>
                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                   fill="currentColor">
                   <path fill-rule="evenodd"
@@ -92,18 +96,21 @@
         :active="request()->routeIs('admin.articles.index')">
         {{ __('Articles') }}
       </x-responsive-nav-link>
+      <x-responsive-nav-link href="{{ route('admin.settings.index') }}" :active="request()->routeIs('admin.settings.index')">
+        {{ __('Settings') }}
+      </x-responsive-nav-link>
     </div>
 
     <!-- Responsive Settings Options -->
     <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-700">
       <div class="flex items-center px-4">
         <div class="flex-shrink-0">
-          <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
-            alt="{{ Auth::user()->name }}" />
+          <img class="h-10 w-10 rounded-full" src="{{ auth()->user()->profile_photo_url }}"
+            alt="{{ auth()->user()->name }}" />
         </div>
         <div class="ml-3">
-          <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-          <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+          <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ auth()->user()->name }}</div>
+          <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
         </div>
       </div>
 

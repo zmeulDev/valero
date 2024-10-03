@@ -10,6 +10,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShowArticleController;
 use App\Http\Controllers\Frontend\ShowCategoryController;
+use App\Http\Controllers\Admin\SettingController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -40,4 +41,8 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::post('articles/{article}/images', [AdminImageController::class, 'store'])->name('articles.images.store');
     Route::delete('articles/{article}/images/{image}', [AdminImageController::class, 'destroy'])->name('articles.images.destroy');
     Route::post('articles/{article}/featured-image', [AdminImageController::class, 'updateFeatured'])->name('articles.featured-image.update');
+
+    // Settings
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
 });

@@ -7,7 +7,7 @@
           <a href="{{ route('home') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <x-application-logo class="h-8 w-8 sm:h-12 sm:w-12 text-gray-800 dark:text-white" />
             <span
-              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ config('app.name') }}</span>
+              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ config('app_name') }}</span>
           </a>
           <button @click="open = !open" type="button"
             class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
