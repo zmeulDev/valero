@@ -2,5 +2,5 @@
   <a href="/">
     <img src="{{ asset('brand/logo.png') }}" alt="Valero Logo" {{ $attributes }}>
   </a>
-  <h1 class="text-2xl font-bold text-gray-800">{{ config('app.name') }}.</h1>
+  <h1 class="text-2xl font-bold text-gray-800">{{ config('app_name') }}.</h1>
 </div>

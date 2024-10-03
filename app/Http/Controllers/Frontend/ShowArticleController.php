@@ -22,9 +22,10 @@ class ShowArticleController extends Controller
         $readingTime = ceil($wordCount / 200);
 
         $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
+        $relatedArticles = Article::orderBy('category_id', 'desc')->take(3)->get();
         $categories = Category::all();
 
-        return view('layouts.article', compact('article', 'latestArticles', 'popularArticles', 'categories', 'readingTime'));
+        return view('layouts.article', compact('article', 'latestArticles', 'popularArticles', 'relatedArticles', 'categories', 'readingTime'));
     }
 
     public function create()

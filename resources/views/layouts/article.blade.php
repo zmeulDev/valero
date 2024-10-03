@@ -47,8 +47,8 @@
               <!-- Gallery -->
               <x-article.gallery :article="$article" />
 
-              <!-- Author Bio and Category -->
-              <x-article.metadata :article="$article" />
+              <!-- Related articles based on category -->
+              <x-article.related :relatedArticles="$relatedArticles" />
 
             </div>
           </article>
