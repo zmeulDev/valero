@@ -22,6 +22,7 @@ class AdminSettingController extends Controller
             'app_name' => 'required|string|max:255',
             'app_url' => 'required|url',
             'app_timezone' => 'required|string',
+            'app_tinymce' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             // Add more validation rules for other settings
         ]);
