@@ -24,15 +24,7 @@
               <h2 class="text-xl font-semibold text-gray-800">All Categories</h2>
             </div>
             @if ($categories->isEmpty())
-            <div class="p-6">
-              <div class="flex items-center justify-center p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-md">
-                <svg class="h-8 w-8 text-yellow-400 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <x-nothing-found />
-              </div>
-            </div>
+             <x-nothing-found />
             @else
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">

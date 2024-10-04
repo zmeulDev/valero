@@ -46,7 +46,7 @@
             </p>
           </div>
           @if ($articles->isEmpty())
-          <p class="text-gray-600">No articles found.</p>
+            <x-nothing-found/>
           @else
           <div class="relative overflow-x-auto sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

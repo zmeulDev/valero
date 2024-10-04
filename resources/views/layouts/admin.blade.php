@@ -17,7 +17,7 @@
   <!-- Alpine.js for interactivity -->
   <script src="//unpkg.com/alpinejs" defer></script>
   <!-- Add TinyMCE from CDN -->
-  <script src="https://cdn.tiny.cloud/1/bv93eolog256rjjmx5j999y08i8co7rb78h3ow8lxcmgbt5n/tinymce/6/tinymce.min.js"
+  <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
 
 

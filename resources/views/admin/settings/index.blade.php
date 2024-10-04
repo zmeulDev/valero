@@ -30,6 +30,10 @@
                                 <x-input id="app_timezone" name="app_timezone" type="text" class="mt-1 block w-full" :value="$settings['app_timezone'] ?? ''" required />
                             </div>
                             <div>
+                                <x-label for="app_tinymce" value="{{ __('App TinyMCE') }} ( API: https://www.tiny.cloud/my-account/integrate/#more )" />
+                                <x-input id="app_tinymce" name="app_tinymce" type="text" class="mt-1 block w-full" :value="$settings['app_tinymce'] ?? ''" required />
+                            </div>
+                            <div>
                                 <x-label for="logo" value="{{ __('Logo') }}" />
                                 <input id="logo" name="logo" type="file" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" accept="image/*" />
                                 

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class SettingController extends Controller
+class AdminSettingController extends Controller
 {
     public function index()
     {
@@ -22,6 +22,7 @@ class SettingController extends Controller
             'app_name' => 'required|string|max:255',
             'app_url' => 'required|url',
             'app_timezone' => 'required|string',
+            'app_tinymce' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             // Add more validation rules for other settings
         ]);
@@ -53,10 +54,10 @@ class SettingController extends Controller
             }
 
             // Update the logo path in settings
-            Setting::set('logo_path', 'storage/brand/logo.png');
+            Setting::set('app_logo_path', 'storage/brand/logo.png');
 
             // Increment logo version
-            Setting::set('logo_version', (int)Setting::get('logo_version', '1') + 1);
+            Setting::set('app_logo_version', (int)Setting::get('app_logo_version', '1') + 1);
         }
 
         return redirect()->route('admin.settings.index')->with('success', 'Settings updated successfully.');

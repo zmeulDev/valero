@@ -27,6 +27,9 @@
   </div>
 
   @livewireScripts
+
+    <!-- Custom Valero Admin JS -->
+  @vite('resources/js/valero-admin.js')
 </body>
 
 </html>

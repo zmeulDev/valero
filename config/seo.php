@@ -91,7 +91,7 @@ return [
          * where we don't have a description set via an associated ->seo model or via
          * the ->getDynamicSEOData() method.
          */
-        'fallback' => env('APP_NAME'),
+        'fallback' => env('APP_NAME') . ': A blog sharing insights on life, tech, and work. Explore practical tips, latest trends, and personal reflections for a balanced and informed lifestyle.',
     ],
 
     'image' => [
@@ -109,7 +109,7 @@ return [
          * Use this setting to specify a fallback author, which will be used on places where you
          * don't have an author set via an associated ->seo model or via the ->getDynamicSEOData() method.
          */
-        'fallback' => 'User Tokyo Valero',
+        'fallback' => env('APP_NAME'),
     ],
 
     'twitter' => [

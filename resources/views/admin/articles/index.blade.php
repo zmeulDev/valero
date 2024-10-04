@@ -56,7 +56,7 @@
             <tbody class="bg-white divide-y divide-gray-200">
               <template x-if="articles.length === 0">
                 <tr>
-                  <td colspan="7" class="px-6 py-4 text-center text-gray-500">No articles found</td>
+                  <td colspan="7" class="px-6 py-4 text-center text-gray-500">No articles found.</td>
                 </tr>
               </template>
               <template x-for="article in articles" :key="article.id">

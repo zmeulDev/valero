@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,15 +19,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'), 
             'is_admin' => true,
         ]);
-        
-        // call seeder for categories
-        $this->call([
-            CategorySeeder::class,
-        ]);
 
-        // call seeder for articles
         $this->call([
-            ArticleSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }
