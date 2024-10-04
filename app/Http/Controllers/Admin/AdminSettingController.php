@@ -49,6 +49,7 @@ class AdminSettingController extends Controller
             
             try {
                 File::move($file->getRealPath(), $path);
+                chmod($path, 0644);
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Failed to update logo: ' . $e->getMessage());
             }
