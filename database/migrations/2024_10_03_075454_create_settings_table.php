@@ -15,7 +15,6 @@ return new class extends Migration
         $table->id();
         $table->string('key')->unique();
         $table->text('value')->nullable();
-        $table->string('logo_path')->nullable();
         $table->timestamps();
     });
 }

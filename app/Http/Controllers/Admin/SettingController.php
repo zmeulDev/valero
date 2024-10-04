@@ -53,10 +53,10 @@ class SettingController extends Controller
             }
 
             // Update the logo path in settings
-            Setting::set('logo_path', 'storage/brand/logo.png');
+            Setting::set('app_logo_path', 'storage/brand/logo.png');
 
             // Increment logo version
-            Setting::set('logo_version', (int)Setting::get('logo_version', '1') + 1);
+            Setting::set('app_logo_version', (int)Setting::get('app_logo_version', '1') + 1);
         }
 
         return redirect()->route('admin.settings.index')->with('success', 'Settings updated successfully.');
