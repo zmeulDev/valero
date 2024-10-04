@@ -2,7 +2,7 @@
   <div class="font-[sans-serif] min-h-screen flex items-center justify-center py-6 px-4 bg-cover bg-center">
     <div class="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
       <div class="hidden md:block lg:h-[600px] md:h-[600px]">
-        <img src="/brand/auth_background.png" class="w-full h-full object-cover" alt="Authentication Background" />
+        <img src="storage/brand/auth_background.png" class="w-full h-full object-cover" alt="Authentication Background" />
       </div>
       <div
         class="border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto bg-white">
