@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class SettingController extends Controller
+class AdminSettingController extends Controller
 {
     public function index()
     {

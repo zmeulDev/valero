@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ $title ?? 'Valero' }} - {{ config('app.name', 'Valero') }}</title>
+  {!! seo() !!}
   <link rel="icon" href="{{ asset('images/favicon.ico') }}">
   <!-- Include CSS -->
   @vite('resources/css/app.css')
