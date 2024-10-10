@@ -8,7 +8,7 @@
   <!-- SEO -->
   {!! seo(isset($article) ? $article : null) !!}
 
-  <link rel="icon" href="{{ asset('images/favicon.ico') }}">
+  <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}">
   <!-- Include CSS -->
   @vite('resources/css/app.css')
 
