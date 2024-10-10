@@ -33,7 +33,7 @@
         </dt>
         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
           <img
-            src="{{ $article && $article->seo && $article->seo->image ? asset('storage/' . $article->seo->image) : asset('brand/logo.png') }}"
+            src="{{ $article && $article->seo && $article->seo->image ? asset('storage/' . $article->seo->image) : asset('storage/brand/logo.png') }}"
             alt="Featured Image" class="w-32 h-32 object-cover">
         </dd>
       </div>
