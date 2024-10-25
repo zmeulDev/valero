@@ -20,6 +20,7 @@ class SettingSeeder extends Seeder
             ['key' => 'app_timezone', 'value' => 'EST', 'created_at' => $now, 'updated_at' => $now],
             ['key' => 'app_logo_path', 'value' => 'storage/brand/logo.png', 'created_at' => $now, 'updated_at' => $now],
             ['key' => 'app_logo_version', 'value' => '1', 'created_at' => $now, 'updated_at' => $now],
+            ['key' => 'app_googlesearchmeta', 'value' => 'https://search.google.com/search-console/ownership', 'created_at' => $now, 'updated_at' => $now],
         ];
 
         foreach ($settings as $setting) {
