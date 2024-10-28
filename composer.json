@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
         "mallardduck/blade-lucide-icons": "^1.23",
-        "ralphjsmit/laravel-seo": "^1.6"
+        "ralphjsmit/laravel-seo": "^1.6",
+        "spatie/laravel-sitemap": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

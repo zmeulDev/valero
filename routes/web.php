@@ -11,7 +11,9 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShowArticleController;
 use App\Http\Controllers\Frontend\ShowCategoryController;
-
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
+use App\Http\Controllers\SitemapController;
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -46,4 +48,14 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Settings
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+});
+
+// Protected route for generating sitemap
+Route::get('/admin/generate-sitemap', [SitemapController::class, 'generate'])
+    ->middleware(['auth'])
+    ->name('sitemap.generate');
+
+// Public route for accessing sitemap
+Route::get('sitemap.xml', function() {
+    return response()->file(public_path('sitemap.xml'));
 });
