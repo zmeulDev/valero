@@ -22,3 +22,4 @@ yarn-error.log
 .DS_Store
 .nvmrc
 public/sitemap.xml
+public/robots.txt
