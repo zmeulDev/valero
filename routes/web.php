@@ -18,6 +18,7 @@ use App\Http\Controllers\SitemapController;
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/articles/{slug}', [ShowArticleController::class, 'index'])->name('articles.index');
+Route::post('/articles/{article}/like', [ShowArticleController::class, 'like'])->name('articles.like');
 Route::get('/category/{slug}', [ShowCategoryController::class, 'index'])->name('category.index');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/categories', [SearchController::class, 'categories'])->name('categories');

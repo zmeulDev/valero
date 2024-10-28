@@ -1,30 +1,61 @@
-<div class="relative bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl overflow-hidden mb-8 shadow-lg">
-  <div class="absolute inset-0 bg-black opacity-50"></div>
-  <div class="relative z-1 p-6 sm:p-8 flex flex-col sm:flex-row items-center">
-    <div class="sm:w-1/3 mb-6 sm:mb-0 sm:mr-8">
-      <img
-        class="w-full h-48 sm:h-64 object-cover object-center rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300"
-        src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" />
+<div class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl overflow-hidden mb-8 shadow-lg group">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+    
+    <div class="relative z-10 p-8 sm:p-10 flex flex-col sm:flex-row items-center gap-8">
+        <!-- Image Section -->
+        <div class="sm:w-2/5">
+            <div class="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+                <img class="w-full h-full object-cover object-center transform transition-transform duration-500 group-hover:scale-105"
+                    src="{{ asset('storage/' . $article->featured_image) }}" 
+                    alt="{{ $article->title }}" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="sm:w-3/5 space-y-6">
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 text-xs font-semibold bg-yellow-400 text-gray-900 rounded-full">
+                    FEATURED
+                </span>
+                <a href="{{ route('category.index', $article->category->slug) }}" 
+                   class="px-3 py-1 text-xs font-medium text-white/90 hover:text-white bg-white/10 rounded-full transition-colors duration-200">
+                    {{ $article->category->name }}
+                </a>
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
+                <a href="{{ route('articles.index', $article->slug) }}"
+                   class="hover:text-yellow-400 transition-colors duration-200">
+                    {{ $article->title }}
+                </a>
+            </h2>
+
+            <p class="text-gray-300 leading-relaxed line-clamp-3">
+                {{ $article->excerpt }}
+            </p>
+
+            <div class="flex items-center justify-between pt-6 border-t border-white/10">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <img class="w-10 h-10 rounded-full ring-2 ring-white/20"
+                            src="{{ $article->user->profile_photo_url }}"
+                            alt="{{ $article->user->name }}">
+                        <div class="space-y-0.5">
+                            <div class="text-white font-medium">{{ $article->user->name }}</div>
+                            <div class="text-white/60 text-sm">{{ $article->created_at->format('M d, Y') }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <x-button-action href="{{ route('articles.index', $article->slug) }}"
+                    class="group/btn inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-xl font-medium transition-all duration-200">
+                    Read Article
+                    <svg class="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </x-button-action>
+            </div>
+        </div>
     </div>
-    <div class="sm:w-2/3">
-      <span class="inline-block bg-yellow-400 text-gray-900 text-xs font-bold px-3 py-1 rounded-lg mb-4">FEATURED</span>
-      <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4 leading-tight">
-        <a href="{{ route('articles.index', $article->slug) }}"
-          class="hover:text-yellow-400 transition-colors duration-150">{{ $article->title }}</a>
-      </h2>
-      <p class="text-gray-200 mb-6">{{ Str::limit($article->excerpt, 120) }}</p>
-      <div class="flex items-center text-gray-200">
-        <img class="w-8 h-8 rounded-full mr-3"
-          src="{{ $article->user->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($article->user->name) }}"
-          alt="{{ $article->user->name }}">
-        <span>{{ $article->user->name }}</span>
-        <span class="mx-2">•</span>
-        <span>{{ $article->created_at->format('M d, Y') }}</span>
-      </div>
-    </div>
-  </div>
-  <x-button-action href="{{ route('articles.index', $article->slug) }}"
-    class="absolute bottom-4 right-4 border border-yellow-400 bg-yellow-400 text-gray-900 px-4 py-2 font-bold hover:bg-yellow-300">
-    Read Now
-  </x-button-action>
 </div>

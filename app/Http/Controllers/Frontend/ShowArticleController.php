@@ -55,4 +55,17 @@ class ShowArticleController extends Controller
     {
         //
     }
+
+    public function like(Request $request, Article $article)
+    {
+        if ($request->liked) {
+            $article->increment('likes_count');
+        } else {
+            $article->decrement('likes_count');
+        }
+        
+        return response()->json([
+            'likes_count' => $article->likes_count
+        ]);
+    }
 }
