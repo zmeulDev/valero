@@ -1,6 +1,6 @@
 # Valero - Blogging Platform
 
-Valero is an open-source article-sharing platform built with **Laravel 10** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, and galleries. The admin interface includes full CRUD operations for managing articles, categories, and a modal-based category creation interface.
+Valero is an open-source article-sharing platform built with **Laravel 10** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, galleries, and SEO optimization.
 
 ![Valero Logo](valero_kit/logo_light/web/icon-192.png)
 
@@ -11,19 +11,71 @@ Valero is an open-source article-sharing platform built with **Laravel 10** and 
 - **Admin Panel**: Full CRUD operations for managing articles, categories, and users with a clean and responsive interface.
 - **Livewire Integration**: Dynamic, real-time components for a seamless user experience.
 - **Tailwind CSS**: Modern and responsive design with utility-first CSS framework.
-- **Minimalistic UI**: Clean and intuitive interface for both admin and public users.
 - **SEO Optimization**: Integrated with the **RalphJSmit/Laravel/SEO** package for enhanced search engine visibility.
 - **Dark Mode Support**: Toggle between light and dark themes for user comfort.
 - **Reading Time Estimation**: Displays estimated reading time for articles.
 - **View Count**: Tracks and displays the number of views for each article.
 - **Responsive Design**: Optimized for all screen sizes, ensuring a consistent experience across devices.
+- **Comments System**: Nested comments with real-time updates and moderation capabilities.
+- **User Profiles**: Customizable user profiles with avatars and social links.
+- **Social Sharing**: Built-in social media sharing functionality.
+- **Article Likes**: User engagement through article likes system.
+- **Popular Articles**: Sidebar widget showing most viewed articles.
+- **Search Functionality**: Search articles by title and content.
 
-![Valero Screenshot](valero_kit/screenshots/Valero_MainPage.png)
-More screenshots in the [valero_kit/screenshots](valero_kit/screenshots) folder.
+## 🗂 Application Structure
+
+### Key Components:
+
+- **Frontend Controllers**: Handle public-facing article display and interactions
+- **Admin Controllers**: Manage CRUD operations for articles, categories, and settings
+- **Livewire Components**: Handle real-time interactions and dynamic content updates
+- **Blade Components**: Reusable UI components for consistent design
+- **SEO Integration**: Automatic meta tags and sitemap generation
+
+### Views Structure:
+
+1. **Layouts**:
+   - `home.blade.php`: Main public layout
+   - `article.blade.php`: Article display layout
+   - `admin.blade.php`: Admin panel layout
+   - `category.blade.php`: Category view layout
+
+2. **Components**:
+   - Article components (header, gallery, related articles)
+   - Sidebar components (search, popular articles, sharing)
+   - Admin components (forms, modals, tables)
+   - Common UI components (navigation, footer, buttons)
+
+3. **Admin Views**:
+   - Article management (CRUD operations)
+   - Category management
+   - Settings management
+   - User profile management
+
+### Features Implementation:
+
+1. **Article System**:
+   - Featured image handling
+   - Gallery management
+   - Reading time calculation
+   - View counting
+   - Like system
+   - Scheduled publishing
+
+2. **SEO Features**:
+   - Meta tags generation
+   - Social media previews
+   - Sitemap generation
+   - Google Search Console integration
+
+3. **User System**:
+   - Profile management
+   - Avatar uploads
+   - Social media links
+   - Two-factor authentication support
 
 ---
-
-
 
 ## 🚀 Installation
 
@@ -111,70 +163,6 @@ php artisan serve
 ```
 
 Visit [http://localhost:8000](http://localhost:8000) in your browser to access Valero.
-
----
-
-## 🗂 Application Structure
-
-The application follows the standard **Laravel** structure with a focus on component-based architecture using **Livewire**.
-
-### Key Components:
-
-- **Article Management**: Articles can be created, edited, scheduled, and published, with options for adding featured images and gallery images.
-- **Category Management**: Categories can be dynamically created via a Livewire modal and are used to organize articles.
-- **Admin Panel**: The admin interface allows full CRUD operations on articles and categories, with optimized UI for usability and a modern look.
-
-### Blade Components and Layouts:
-
-- `resources/views/layouts/admin.blade.php`: The main layout used in the admin panel for managing articles, categories, and users.
-- `resources/views/livewire/create-category-modal.blade.php`: A Livewire-powered modal for creating categories.
-
-### Routes:
-
-Key routes for the application are defined in `routes/web.php`. Some important routes include:
-
-- `/admin/articles`: CRUD routes for managing articles.
-- `/admin/categories`: CRUD routes for managing categories.
-- `/admin/articles/{article}/images/{image}`: Route for deleting images from an article's gallery.
-- `/articles/{article}`: Public route for viewing an article.
-- `/categories/{category}`: Public route for viewing articles in a category.
-
-### Livewire Components:
-
-1. **`CreateCategoryModal`**:
-   - A dynamic modal for creating categories.
-   - Triggered by emitting Livewire events from other Blade files.
-   - Provides real-time feedback and form validation.
-
-### Example Routes
-
-- **Admin Articles Routes:**
-  - `GET /admin/articles`: List of all articles.
-  - `GET /admin/articles/create`: Form for creating a new article.
-  - `POST /admin/articles`: Store a new article.
-  - `GET /admin/articles/{id}/edit`: Edit an article.
-  - `PUT /admin/articles/{id}`: Update an article.
-  - `DELETE /admin/articles/{id}`: Delete an article.
-
-- **Category Routes:**
-  - `GET /admin/categories`: List of all categories.
-  - `POST /admin/categories`: Store a new category via modal or form.
-
-### Article Model
-
-The `Article` model represents a blog article and includes the following relationships:
-
-- `category`: Belongs to a category.
-- `images`: Has many images.
-- `tags`: Belongs to many tags.
-
-### SEO Implementation
-
-The project uses the **RalphJSmit/Laravel/SEO** package to handle SEO-related functionality. This package provides features such as:
-
-- Automatic generation of meta tags based on article data.
-- Social media previews for articles.
-- Sitemap generation.
 
 ---
 
