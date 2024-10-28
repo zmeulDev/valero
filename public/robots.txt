@@ -1,2 +1,10 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /search
+Allow: /articles/
+Allow: /category/
+Allow: /categories
+Allow: /
+
+Sitemap: https://valero.test/sitemap.xml
