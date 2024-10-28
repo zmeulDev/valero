@@ -70,7 +70,7 @@
             </div>
 
             <x-button-action href="{{ route('articles.index', $article->slug) }}"
-                class="group/btn inline-flex items-center gap-2 text-sm font-semibold">
+                class="group/btn inline-flex items-center gap-2 text-sm font-semibold transition-colors duration-200">
                 Read More
                 <x-lucide-arrow-right class="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
             </x-button-action>

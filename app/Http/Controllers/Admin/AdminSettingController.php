@@ -25,7 +25,11 @@ class AdminSettingController extends Controller
             'app_tinymce' => 'required|string',
             'app_googlesearchmeta' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            // Add more validation rules for other settings
+            'app_socialinstagram' => 'nullable|url',
+            'app_socialfacebook' => 'nullable|url',
+            'app_socialtwitter' => 'nullable|url',
+            'app_sociallinkedin' => 'nullable|url',
+            'app_socialgithub' => 'nullable|url',
         ]);
 
         foreach ($validatedData as $key => $value) {

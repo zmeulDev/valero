@@ -9,30 +9,19 @@
   </div>
 
   <!-- Search Form -->
-  <div class="p-6">
-    <form @submit.prevent="search" class="space-y-4">
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <x-input type="text" 
-                 x-model="query" 
-                 placeholder="Search articles..." 
-                 class="pl-10 w-full bg-gray-50 dark:bg-gray-900/50" />
-      </div>
-
-      <x-button type="submit" 
-                class="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700">
-        <span>Search Articles</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </x-button>
-    </form>
+    <div class="p-6">
+      <form @submit.prevent="search" class="max-w-md mx-auto">
+          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+          <div class="relative">
+            <x-input type="search" 
+                    x-model="query" 
+                    placeholder="Type and hit enter..."
+                    class="block w-full p-4 ps-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <x-button type="submit" class="absolute end-2.5 bottom-2.5 top-2.5">
+                <x-lucide-search class="w-5 h-5" />
+            </x-button>
+          </div>
+      </form>
 
     <!-- Search Results -->
     <div class="mt-6" x-show="articles.length > 0">
