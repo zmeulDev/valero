@@ -21,7 +21,10 @@
 
 </head>
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+  x-data="{ scrolled: false }"
+  @scroll.window="scrolled = (window.pageYOffset > 20)"
+>
   <x-navigation />
 
 
@@ -59,6 +62,9 @@
 
   <!-- Footer -->
   <x-footer />
+
+  <!-- Back to top button -->
+  <x-scroll-top />
 
   <!-- Custom Valero Frontend JS -->
   @vite('resources/js/valero-frontend.js')

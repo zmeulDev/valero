@@ -17,7 +17,7 @@ class Article extends Model
     use HasFactory, HasSEO;
 
     protected $fillable = [
-        'user_id', 'title', 'slug', 'excerpt', 'content', 'featured_image', 'scheduled_at', 'views', 'category_id'
+        'user_id', 'title', 'slug', 'excerpt', 'content', 'featured_image', 'scheduled_at', 'views', 'category_id', 'likes_count'
     ];
 
     protected $dates = ['scheduled_at'];

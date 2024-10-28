@@ -22,11 +22,13 @@
   <!-- Alpine.js for interactivity -->
   <script src="//unpkg.com/alpinejs" defer></script>
 
-
-
 </head>
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<body 
+    class="font-sans antialiased min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 selection:bg-indigo-500/20"
+    x-data="{ scrolled: false }"
+    @scroll.window="scrolled = (window.pageYOffset > 20)"
+>
   <x-navigation />
 
   <!-- Flash Message Component -->
@@ -40,8 +42,12 @@
   <!-- Footer -->
   <x-footer />
 
+  <!-- Back to top button -->
+  <x-scroll-top />
+
   <!-- Custom Valero Frontend JS -->
   @vite('resources/js/valero-frontend.js')
+  @livewireScripts
 
 </body>
 

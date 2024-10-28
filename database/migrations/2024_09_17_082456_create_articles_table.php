@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('excerpt')->nullable();
             $table->longText('content');
             $table->string('featured_image')->nullable();
+            $table->unsignedBigInteger('likes_count')->default(0);
             $table->timestamp('scheduled_at')->nullable();
             $table->unsignedBigInteger('views')->default(0);
             $table->timestamps();

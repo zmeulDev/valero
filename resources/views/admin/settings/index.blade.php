@@ -87,6 +87,83 @@
                                         :value="$settings['app_googlesearchmeta'] ?? ''" required />
                                 </div>
                             </div>
+
+                            <!-- Social Media Links -->
+                            <div class="border-t border-gray-200 pt-8 space-y-6">
+                                <h4 class="text-lg font-medium text-gray-900 mb-4">Social Media Links</h4>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <!-- Instagram -->
+                                    <div>
+                                        <x-label for="app_socialinstagram" value="{{ __('Instagram Profile URL') }}" class="text-base" />
+                                        <div class="mt-1.5 relative rounded-lg">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <x-lucide-instagram class="h-5 w-5 text-gray-400" />
+                                            </div>
+                                            <x-input id="app_socialinstagram" name="app_socialinstagram" type="url" 
+                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                :value="$settings['app_socialinstagram'] ?? ''" 
+                                                placeholder="https://instagram.com/username" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Facebook -->
+                                    <div>
+                                        <x-label for="app_socialfacebook" value="{{ __('Facebook Profile URL') }}" class="text-base" />
+                                        <div class="mt-1.5 relative rounded-lg">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <x-lucide-facebook class="h-5 w-5 text-gray-400" />
+                                            </div>
+                                            <x-input id="app_socialfacebook" name="app_socialfacebook" type="url" 
+                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                :value="$settings['app_socialfacebook'] ?? ''" 
+                                                placeholder="https://facebook.com/username" />
+                                        </div>
+                                    </div>
+
+                                    <!-- GitHub -->
+                                    <div>
+                                        <x-label for="app_socialgithub" value="{{ __('Github Profile URL') }}" class="text-base" />
+                                        <div class="mt-1.5 relative rounded-lg">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <x-lucide-github class="h-5 w-5 text-gray-400" />
+                                            </div>
+                                            <x-input id="app_socialgithub" name="app_socialgithub" type="url" 
+                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                :value="$settings['app_socialgithub'] ?? ''" 
+                                                placeholder="https://github.com/username" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Twitter -->
+                                    <div>
+                                        <x-label for="app_socialtwitter" value="{{ __('Twitter Profile URL') }}" class="text-base" />
+                                        <div class="mt-1.5 relative rounded-lg">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <x-lucide-twitter class="h-5 w-5 text-gray-400" />
+                                            </div>
+                                            <x-input id="app_socialtwitter" name="app_socialtwitter" type="url" 
+                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                :value="$settings['app_socialtwitter'] ?? ''" 
+                                                placeholder="https://twitter.com/username" />
+                                        </div>
+                                    </div>
+
+                                    <!-- LinkedIn -->
+                                    <div>
+                                        <x-label for="app_sociallinkedin" value="{{ __('LinkedIn Profile URL') }}" class="text-base" />
+                                        <div class="mt-1.5 relative rounded-lg">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <x-lucide-twitter class="h-5 w-5 text-gray-400" />
+                                            </div>
+                                            <x-input id="app_sociallinkedin" name="app_sociallinkedin" type="url" 
+                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                                :value="$settings['app_sociallinkedin'] ?? ''" 
+                                                placeholder="https://linkedin.com/in/username" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flex items-center justify-end mt-6 pt-6 border-t border-gray-200">
