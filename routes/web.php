@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware; 
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminCategoryController;
@@ -22,6 +23,7 @@ Route::post('/articles/{article}/like', [ShowArticleController::class, 'like'])-
 Route::get('/category/{slug}', [ShowCategoryController::class, 'index'])->name('category.index');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/categories', [SearchController::class, 'categories'])->name('categories');
+Route::get('sitemap.xml', function() {return response()->file(public_path('sitemap.xml'));});
 
 // Protected Routes (for logged-in users)
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -49,14 +51,15 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Settings
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
-});
 
-// Protected route for generating sitemap
-Route::get('/admin/generate-sitemap', [SitemapController::class, 'generate'])
-    ->middleware(['auth'])
-    ->name('sitemap.generate');
+    // Sitemap generation (moved inside admin group)
+    Route::get('generate-sitemap', [SitemapController::class, 'generate'])->name('sitemap.generate');
 
-// Public route for accessing sitemap
-Route::get('sitemap.xml', function() {
-    return response()->file(public_path('sitemap.xml'));
+    // Clear cache route
+    Route::get('/optimize-clear', function(){
+        Artisan::call('optimize:clear');
+        Artisan::call('cache:clear');
+        Artisan::call('view:clear');
+        return redirect()->back()->with('success', 'Cache cleared successfully!');
+    })->name('optimize-clear');
 });

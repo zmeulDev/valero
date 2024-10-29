@@ -16,7 +16,7 @@ $color = $colors[$type];
   x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-300"
   x-transition:leave-start="opacity-100 transform translate-y-0"
   x-transition:leave-end="opacity-0 transform translate-y-2"
-  class="fixed top-0 left-0 right-0 px-4 py-2 mt-4 mx-auto w-full sm:w-96 z-50" style="z-index: 9999;" role="alert">
+  class="fixed bottom-5 right-5 px-4 py-2 mt-4 mx-auto w-full sm:w-96 z-50" style="z-index: 9999;" role="alert">
   <div class="bg-{{ $color }}-100 border-l-4 border-{{ $color }}-500 text-{{ $color }}-700 p-4 rounded-md shadow-md">
     <div class="flex items-center justify-between">
       <div class="flex items-center">
