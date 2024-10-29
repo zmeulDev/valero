@@ -10,6 +10,7 @@ use RalphJSmit\Laravel\SEO\SchemaCollection;
 use RalphJSmit\Laravel\SEO\Facades\SEO;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 class Article extends Model
@@ -20,7 +21,11 @@ class Article extends Model
         'user_id', 'title', 'slug', 'excerpt', 'content', 'featured_image', 'scheduled_at', 'views', 'category_id', 'likes_count'
     ];
 
-    protected $dates = ['scheduled_at'];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i',
+        'updated_at' => 'datetime:Y-m-d H:i',
+        'scheduled_at' => 'datetime:Y-m-d H:i',
+    ];
 
     public function user()
     {

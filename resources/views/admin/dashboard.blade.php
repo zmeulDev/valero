@@ -66,7 +66,7 @@
                     Author</th>
                   <th scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Published At</th>
+                    Created At</th>
 
                   <th scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -99,7 +99,7 @@
                     <div class="text-sm text-gray-500">{{ $article->user->name }}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">{{ $article->created_at->format('Y-m-d') }}
+                    <div class="text-sm text-gray-500">{{ $article->created_at }}
                     </div>
                   </td>
 
