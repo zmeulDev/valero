@@ -31,7 +31,7 @@
   </header>
 
   <!-- Flash Message Component -->
-  <x-flash-message />
+  <x-notification />
 
   <!-- Main Content -->
   <div class="container mx-auto mt-6">

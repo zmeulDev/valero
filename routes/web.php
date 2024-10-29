@@ -8,13 +8,14 @@ use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminSettingController;
+use App\Http\Controllers\Admin\AdminSitemapController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShowArticleController;
 use App\Http\Controllers\Frontend\ShowCategoryController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
-use App\Http\Controllers\SitemapController;
+
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -53,7 +54,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
 
     // Sitemap generation (moved inside admin group)
-    Route::get('generate-sitemap', [SitemapController::class, 'generate'])->name('sitemap.generate');
+    Route::get('generate-sitemap', [AdminSitemapController::class, 'generate'])->name('sitemap.generate');
 
     // Clear cache route
     Route::get('/optimize-clear', function(){

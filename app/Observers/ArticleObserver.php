@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Article;
-use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\Admin\AdminSitemapController;
 
 class ArticleObserver
 {
@@ -24,7 +24,7 @@ class ArticleObserver
 
     private function regenerateSitemap()
     {
-        app(SitemapController::class)->generate();
+        app(AdminSitemapController::class)->generate();
     }
 }
 

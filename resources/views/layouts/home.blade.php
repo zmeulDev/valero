@@ -29,10 +29,10 @@
     x-data="{ scrolled: false }"
     @scroll.window="scrolled = (window.pageYOffset > 20)"
 >
-  <x-navigation />
+  <x-header :categories="$categories" :isAdmin="$isAdmin" />
 
   <!-- Flash Message Component -->
-  <x-flash-message />
+   <x-notification />
 
   <!-- Main Content -->
   <main class="container mx-auto">
