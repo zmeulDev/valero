@@ -24,9 +24,10 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-  
+  x-data="{ scrolled: false }"
+  @scroll.window="scrolled = (window.pageYOffset > 20)"
 >
-  <x-navigation />
+  <x-header :categories="$categories" :isAdmin="$isAdmin" />
 
   <!-- Main Content -->
   <main class="container mx-auto">
