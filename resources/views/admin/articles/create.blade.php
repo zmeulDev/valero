@@ -1,60 +1,86 @@
 <x-admin-layout>
   <x-slot name="title">Create New Article</x-slot>
 
-  <div class="bg-gray-100 min-h-screen">
+  <div class="min-h-screen bg-gray-50/50 dark:bg-gray-900">
     <div class="container mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-6">Create New Article</h1>
-
-      @if ($errors->any())
-      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
-        <p class="font-bold">Please correct the following errors:</p>
-        <ul class="list-disc pl-5">
-          @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-          @endforeach
-        </ul>
+      <!-- Header Section -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Create New Article</h1>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              Create and publish your new article
+            </p>
+          </div>
+          <a href="{{ route('admin.articles.index') }}" 
+             class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+            <x-lucide-arrow-left class="w-4 h-4 mr-2" />
+            Back to Articles
+          </a>
+        </div>
       </div>
-      @endif
 
       <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="flex flex-col lg:flex-row gap-8">
           <!-- Main Content -->
-          <div class="w-full lg:w-2/3 order-2 lg:order-1">
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
-              <div class="p-6 space-y-6">
-                <!-- Title -->
-                <div>
-                  <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
-                    Title <span class="text-red-500">*</span>
-                  </label>
-                  <input type="text" id="title" name="title"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    value="{{ old('title') }}" required>
-                  <p class="mt-1 text-sm text-gray-500">Recommended: 60 characters maximum</p>
-                  <p class="text-sm text-gray-500">Characters: <span id="title-char-count">0</span></p>
+          <div class="w-full lg:w-2/3 order-2 lg:order-1 space-y-6">
+            <!-- Title Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+              <div class="p-6">
+                <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Title <span class="text-red-500">*</span>
+                </label>
+                <input type="text" 
+                       id="title" 
+                       name="title"
+                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+                       value="{{ old('title') }}" 
+                       required
+                       x-data="{ charCount: $el.value.length }"
+                       x-on:input="charCount = $el.value.length"
+                       maxlength="60">
+                <div class="mt-2 flex items-center justify-between text-sm">
+                  <p class="text-gray-500 dark:text-gray-400">Recommended: 60 characters maximum</p>
+                  <p x-text="charCount + '/60'" 
+                     :class="{ 'text-red-500': charCount > 60, 'text-gray-500': charCount <= 60 }"
+                     class="dark:text-gray-400"></p>
                 </div>
+              </div>
+            </div>
 
-                <!-- Excerpt -->
-                <div>
-                  <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">
-                    Excerpt (description)
-                  </label>
-                  <textarea id="excerpt" name="excerpt"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    rows="3">{{ old('excerpt') }}</textarea>
-                  <p class="mt-1 text-sm text-gray-500">Recommended: 160 characters maximum</p>
-                  <p class="text-sm text-gray-500">Characters: <span id="excerpt-char-count">0</span></p>
+            <!-- Excerpt Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+              <div class="p-6">
+                <label for="excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Excerpt (Meta Description)
+                </label>
+                <textarea id="excerpt" 
+                         name="excerpt"
+                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+                         rows="3"
+                         x-data="{ charCount: $el.value.length }"
+                         x-on:input="charCount = $el.value.length"
+                         maxlength="160">{{ old('excerpt') }}</textarea>
+                <div class="mt-2 flex items-center justify-between text-sm">
+                  <p class="text-gray-500 dark:text-gray-400">Recommended: 160 characters maximum</p>
+                  <p x-text="charCount + '/160'" 
+                     :class="{ 'text-red-500': charCount > 160, 'text-gray-500': charCount <= 160 }"
+                     class="dark:text-gray-400"></p>
                 </div>
+              </div>
+            </div>
 
-                <!-- Content (with TinyMCE) -->
-                <div>
-                  <label for="content" class="block text-sm font-medium text-gray-700 mb-1">
-                    Content <span class="text-red-500">*</span>
-                  </label>
-                  <textarea id="content" name="content" class="w-full">{{ old('content') }}</textarea>
-                </div>
+            <!-- Content Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+              <div class="p-6">
+                <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Content <span class="text-red-500">*</span>
+                </label>
+                <textarea id="content" 
+                         name="content"
+                         class="w-full">{{ old('content') }}</textarea>
               </div>
             </div>
           </div>
@@ -63,11 +89,12 @@
           <div class="w-full lg:w-1/3 order-1 lg:order-2 space-y-6">
             <x-admin.sidebar-admin :categories="$categories" />
 
-            <!-- Submit Button -->
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <!-- Submit Button Card -->
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 sticky top-6">
               <div class="p-6">
                 <button type="submit"
-                  class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-md shadow-md transition duration-150 ease-in-out">
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-sm transition duration-150 ease-in-out flex items-center justify-center">
+                  <x-lucide-plus class="w-5 h-5 mr-2" />
                   Create Article
                 </button>
               </div>
@@ -77,4 +104,21 @@
       </form>
     </div>
   </div>
+
+  @push('scripts')
+  <script>
+    // Initialize TinyMCE
+    tinymce.init({
+      selector: '#content',
+      height: 500,
+      plugins: 'link image code table lists media',
+      toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
+      content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }',
+      menubar: false,
+      branding: false,
+      skin: document.documentElement.classList.contains('dark') ? 'oxide-dark' : 'oxide',
+      content_css: document.documentElement.classList.contains('dark') ? 'dark' : 'default'
+    });
+  </script>
+  @endpush
 </x-admin-layout>

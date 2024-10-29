@@ -18,8 +18,16 @@ class AdminArticleController extends Controller
 {
     public function index()
     {
-        $articles = Article::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.articles.index', compact('articles'));
+        $selectedCategory = request()->get('category');
+        $categories = Category::all();
+        $articles = Article::with(['user', 'category'])
+            ->when($selectedCategory, function ($query) use ($selectedCategory) {
+                $query->where('category_id', $selectedCategory);
+            })
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.articles.index', compact('articles', 'categories', 'selectedCategory'));
     }
 
     public function create()
@@ -99,6 +107,7 @@ class AdminArticleController extends Controller
             'category_id' => 'required|exists:categories,id',
             'featured_image' => 'nullable|image|max:2048',
             'gallery_images.*' => 'nullable|image|max:2048',
+            'scheduled_at' => 'nullable|date',
         ]);
 
         $article->update($validatedData);

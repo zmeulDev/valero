@@ -14,19 +14,47 @@ class ShowArticleController extends Controller
 {
     public function index($slug)
     {  
-        $latestArticles = Article::latest()->paginate(8);
+        $latestArticles = Article::where(function($query) {
+            $query->whereNull('scheduled_at')
+                  ->orWhere('scheduled_at', '<=', now());
+        })->latest()->paginate(8);
 
-        $article = Article::where('slug', $slug)->firstOrFail();
+        $article = Article::where('slug', $slug)
+            ->where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })->firstOrFail();
         $article->incrementViews(); // views count
         
         $wordCount = str_word_count(strip_tags($article->content));
         $readingTime = ceil($wordCount / 200);
 
-        $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
-        $relatedArticles = Article::orderBy('category_id', 'desc')->take(3)->get();
+        $popularArticles = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->orderBy('views', 'desc')
+            ->take(5)
+            ->get();
+
+        $relatedArticles = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->orderBy('category_id', 'desc')
+            ->take(3)
+            ->get();
+
         $categories = Category::all();
 
-        return view('layouts.article', compact('article', 'latestArticles', 'popularArticles', 'relatedArticles', 'categories', 'readingTime'));
+        return view('layouts.article', compact(
+            'article', 
+            'latestArticles', 
+            'popularArticles', 
+            'relatedArticles', 
+            'categories', 
+            'readingTime'
+        ));
     }
 
     public function create()

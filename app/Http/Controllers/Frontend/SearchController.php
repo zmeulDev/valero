@@ -17,14 +17,20 @@ class SearchController extends Controller
         $category = $request->input('category');
 
         $articlesQuery = Article::with(['user', 'category'])
+            ->where(function($q) {
+                $q->whereNull('scheduled_at')
+                  ->orWhere('scheduled_at', '<=', now());
+            })
             ->when($query, function ($q) use ($query) {
-                return $q->where('title', 'LIKE', "%{$query}%")
-                         ->orWhere('content', 'LIKE', "%{$query}%");
+                $q->where(function($subQuery) use ($query) {
+                    $subQuery->where('title', 'LIKE', "%{$query}%")
+                            ->orWhere('content', 'LIKE', "%{$query}%");
+                });
             })
             ->when($category, function ($q) use ($category) {
-                return $q->where('category_id', $category);
+                $q->where('category_id', $category);
             })
-            ->latest(); // Order by latest first
+            ->latest();
 
         $articles = $articlesQuery->paginate(10);
 

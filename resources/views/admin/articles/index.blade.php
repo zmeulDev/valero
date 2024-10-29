@@ -1,116 +1,170 @@
 <x-admin-layout>
-  <x-slot name="title">Articles</x-slot>
-
-  <div x-data="articleSearch()" x-init="init()" class="min-h-screen bg-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="mb-8 sm:flex sm:items-center sm:justify-between">
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900">Articles</h1>
-          <p class="mt-2 text-sm text-gray-600">Manage your content articles</p>
-        </div>
-        <div class="mt-4 sm:mt-0">
-          <x-button-action href="{{ route('admin.articles.create') }}">
-            <x-lucide-plus class="w-4 h-4 mr-2" />
-            Add Article
-          </x-button-action>
-        </div>
-      </div>
-
-      <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <div
-          class="px-4 py-5 sm:px-6 border-b border-gray-200 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-          <h2 class="text-lg font-medium text-gray-900">All Articles</h2>
-          <div class="relative w-full sm:w-64">
-            <x-input type="text" placeholder="Search title and content..." x-model="query" @input.debounce.300ms="search()"
-              class="w-full text-sm border border-gray-300 rounded-md pr-10" />
-            <button x-show="query.length > 0" @click="query = ''; search();"
-              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-500">
-              <x-lucide-x class="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Thumbnail</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Title</th>
-                <th scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
-                  Author</th>
-                <th scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                  Created At</th>
-                <th scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
-                  Scheduled At</th>
-                <th scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden xl:table-cell">
-                  Category</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <template x-if="articles.length === 0">
-                <tr>
-                  <td colspan="7" class="px-6 py-4 text-center text-gray-500">No articles found.</td>
-                </tr>
-              </template>
-              <template x-for="article in articles" :key="article.id">
-                <tr class="hover:bg-gray-50 transition-colors duration-200">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <img :src="article.featured_image ? '/storage/' + article.featured_image : ''" :alt="article.title"
-                      class="h-10 w-10 rounded-full object-cover">
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900" x-text="article.title"></div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                    <div class="text-sm text-gray-900" x-text="article.user ? article.user.name : 'N/A'"></div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                    <div class="text-sm text-gray-900" x-text="formatDate(article.created_at)"></div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
-                    <div class="text-sm text-gray-900" x-text="article.scheduled_at || 'Published'"></div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap hidden xl:table-cell">
-                    <div class="text-sm text-gray-900" x-text="article.category ? article.category.name : 'N/A'"></div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div class="flex space-x-2">
-                      <a :href="`/admin/articles/${article.id}`"
-                        class="text-indigo-600 hover:text-indigo-900 flex items-center">
-                        <x-lucide-eye class="w-5 h-5 mr-1" />
-
-                      </a>
-                      <a :href="`/admin/articles/${article.id}/edit`"
-                        class="text-blue-600 hover:text-blue-900 flex items-center">
-                        <x-lucide-pencil class="w-5 h-5 mr-1" />
-
-                      </a>
-                      <button @click="openDeleteModal(article.id)"
-                        class="text-red-600 hover:text-red-900 flex items-center">
-                        <x-lucide-trash class="w-5 h-5 mr-1" />
-
-                      </button>
+    <div x-data="articleManager()">
+        <div class="py-6 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+            <!-- Header Section -->
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                            Articles
+                        </h2>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                            Manage and organize your articles
+                        </p>
                     </div>
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="mt-4">
-        <nav x-html="paginationLinks"></nav>
-      </div>
-    </div>
+                    <div class="mt-4 sm:mt-0">
+                        <a href="{{ route('admin.articles.create') }}" 
+                           class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                            <x-lucide-plus-circle class="h-5 w-5 mr-2" />
+                            New Article
+                        </a>
+                    </div>
+                </div>
 
-    <!-- Custom Delete Confirmation Modal -->
+                <!-- Search and Filter Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-6">
+                    <div class="p-4 sm:p-6 space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
+                        <!-- Category Filter -->
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" 
+                                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                <x-lucide-filter class="h-5 w-5 mr-2 text-gray-400" />
+                                <span>
+                                    @if($selectedCategory)
+                                        {{ $categories->find($selectedCategory)->name }}
+                                    @else
+                                        All Categories
+                                    @endif
+                                </span>
+                                <x-lucide-chevron-down class="h-5 w-5 ml-2 text-gray-400" />
+                            </button>
+
+                            <div x-show="open" 
+                                 @click.away="open = false"
+                                 class="absolute z-10 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5">
+                                <div class="py-1" role="menu">
+                                    <a href="{{ route('admin.articles.index') }}" 
+                                       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        All Categories
+                                    </a>
+                                    @foreach($categories as $category)
+                                        <a href="{{ route('admin.articles.index', ['category' => $category->id]) }}" 
+                                           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 {{ $selectedCategory == $category->id ? 'bg-gray-100 dark:bg-gray-600' : '' }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div class="relative flex-1 max-w-md ml-0 sm:ml-4">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <x-lucide-search class="h-5 w-5 text-gray-400" />
+                            </div>
+                            <input type="text"
+                                   name="search"
+                                   value="{{ request('search') }}"
+                                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
+                                   placeholder="Search articles...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Articles Table -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Thumbnail
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Title
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Category
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                        Date
+                                    </th>
+                                    <th scope="col" class="relative px-6 py-3">
+                                        <span class="sr-only">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                @foreach($articles as $article)
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="h-10 w-10 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-600">
+                                            @if($article->featured_image)
+                                                <img src="{{ asset('storage/' . $article->featured_image) }}" 
+                                                     alt="{{ $article->title }}"
+                                                     class="h-full w-full object-cover">
+                                            @else
+                                                <div class="h-full w-full flex items-center justify-center">
+                                                    <x-lucide-image class="h-6 w-6 text-gray-400" />
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ $article->title }}
+                                        </div>
+                                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                                            By {{ $article->user->name }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $article->category ? 'bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-400' : 'bg-gray-100 text-gray-800 dark:bg-gray-800/20 dark:text-gray-400' }}">
+                                            {{ $article->category?->name ?? 'Uncategorized' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $article->scheduled_at ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800/20 dark:text-yellow-400' : 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400' }}">
+                                            {{ $article->scheduled_at ? 'Scheduled' : 'Published' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        {{ $article->created_at->format('M d, Y') }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex items-center justify-end space-x-3">
+                                            <a href="{{ route('admin.articles.show', $article) }}" 
+                                               class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                                <x-lucide-eye class="h-5 w-5" />
+                                            </a>
+                                            <a href="{{ route('admin.articles.edit', $article) }}" 
+                                               class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">
+                                                <x-lucide-pencil class="h-5 w-5" />
+                                            </a>
+                                            <button @click="openDeleteModal({{ $article->id }})"
+                                              class="text-red-600 hover:text-red-900 flex items-center">
+                                              <x-lucide-trash class="w-5 h-5 mr-1" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-700 sm:px-6">
+                        {{ $articles->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Delete Confirmation Modal -->
     <div x-show="showDeleteModal" class="fixed inset-0 overflow-y-auto z-50" x-cloak>
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div x-show="showDeleteModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
@@ -167,45 +221,17 @@
     </div>
   </div>
 
-  <script>
-  function articleSearch() {
-    return {
-      query: '',
-      articles: [],
-      paginationLinks: '',
-      articleToDelete: null,
-      showDeleteModal: false,
-      currentPage: 1,
-      lastPage: 1,
-      init() {
-        this.search();
-      },
-      async search(page = 1) {
-        try {
-          const response = await fetch(`/search?query=${this.query}&page=${page}`);
-          if (!response.ok) throw new Error('Failed to fetch articles');
-          const data = await response.json();
-          this.articles = data.data;
-          this.paginationLinks = data.links;
-          this.currentPage = data.current_page;
-          this.lastPage = data.last_page;
-          console.log('Articles:', this.articles); // Debugging line
-        } catch (error) {
-          console.error('Error searching articles:', error);
+    <script>
+    function articleManager() {
+        return {
+            showDeleteModal: false,
+            articleToDelete: null,
+
+            openDeleteModal(articleId) {
+                this.articleToDelete = articleId;
+                this.showDeleteModal = true;
+            },
         }
-      },
-      formatDate(dateString) {
-        return new Date(dateString).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        });
-      },
-      openDeleteModal(articleId) {
-        this.articleToDelete = articleId;
-        this.showDeleteModal = true;
-      }
     }
-  }
-  </script>
+    </script>
 </x-admin-layout>

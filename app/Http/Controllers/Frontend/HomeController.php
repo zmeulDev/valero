@@ -9,9 +9,27 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $articles = Article::latest()->paginate(8);
-        $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
-        $featuredArticle = Article::latest()->first();
+        $articles = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->latest()
+            ->paginate(8);
+
+        $popularArticles = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->orderBy('views', 'desc')
+            ->take(5)
+            ->get();
+
+        $featuredArticle = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->latest()
+            ->first();
 
         return view('frontend.home', compact(
             'featuredArticle', 
