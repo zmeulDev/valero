@@ -26,6 +26,7 @@ class ArticleFactory extends Factory
             'featured_image' => 'images/article_image.png',
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('created_at', 'now'),
+            'scheduled_at' => $this->faker->dateTimeBetween('now', '+1 month'),
         ];
     } 
 }

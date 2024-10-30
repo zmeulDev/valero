@@ -1,5 +1,103 @@
 <x-admin-layout>
-  <x-slot name="title">Categories</x-slot>
+  <x-slot name="header">
+        <div class="bg-white">
+            <div class="border-b border-t border-gray-200">
+                <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Left side -->
+                        <div class="flex-1 flex items-center">
+                            <x-lucide-folder class="w-8 h-8 text-indigo-600 mr-3" />
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 leading-7">
+                                    {{ __('Categories') }}
+                                </h2>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Manage and organize your content categories
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Right side -->
+                        <div class="flex items-center space-x-4">
+                            <a href="{{ route('admin.dashboard') }}" 
+                               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <x-lucide-arrow-left class="w-4 h-4 mr-2" />
+                                Back to Dashboard
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Breadcrumbs -->
+                    <div class="py-4">
+                        <nav class="flex" aria-label="Breadcrumb">
+                            <ol role="list" class="flex items-center space-x-4">
+                                <li>
+                                    <div>
+                                        <a href="{{ route('admin.dashboard') }}" class="text-gray-400 hover:text-gray-500">
+                                            <x-lucide-home class="flex-shrink-0 h-5 w-5" />
+                                            <span class="sr-only">Home</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="flex items-center">
+                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                        <span class="ml-4 text-sm font-medium text-indigo-600">Categories</span>
+                                    </div>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
+                        <!-- Total Categories -->
+                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                                    <x-lucide-folder class="h-6 w-6 text-indigo-600" />
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-500">Total Categories</div>
+                                    <div class="text-lg font-semibold text-gray-900">{{ $categories->count() }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Total Articles -->
+                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                                    <x-lucide-book-open class="h-6 w-6 text-indigo-600" />
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-500">Total Articles</div>
+                                    <div class="text-lg font-semibold text-gray-900">
+                                        {{ $categories->sum('articles_count') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Average Articles per Category -->
+                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                                    <x-lucide-bar-chart-2 class="h-6 w-6 text-indigo-600" />
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-500">Avg. Articles/Category</div>
+                                    <div class="text-lg font-semibold text-gray-900">
+                                        {{ $categories->count() ? round($categories->sum('articles_count') / $categories->count(), 1) : 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </x-slot>
 
   <div x-data="{ 
         showDeleteModal: false, 
@@ -11,11 +109,6 @@
         }
     }" class="bg-gray-100 min-h-screen">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Categories</h1>
-        <p class="mt-2 text-sm text-gray-600">Manage your content categories</p>
-      </div>
-
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Categories List -->
         <div class="md:col-span-2">

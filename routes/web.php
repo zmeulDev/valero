@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\AdminMiddleware; 
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Middleware\AdminMiddleware; 
 use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminSitemapController;
+use App\Http\Controllers\Admin\AdminTeamController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShowArticleController;
@@ -63,4 +64,9 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
         Artisan::call('view:clear');
         return redirect()->back()->with('success', 'Cache cleared successfully!');
     })->name('optimize-clear');
+
+    // Teams
+    Route::resource('teams', AdminTeamController::class)->parameters([
+        'teams' => 'user'
+    ]);
 });

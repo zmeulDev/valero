@@ -1,4 +1,4 @@
-@props(['categories', 'isAdmin' => false])
+@props(['categories', 'role' => false])
 
 <header class="mb-0">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,7 +49,7 @@
                 </div>
               </li>
               @auth
-              @if($isAdmin)
+              @if($role)
               <li>
                 <x-button-action href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
                   Admin Panel

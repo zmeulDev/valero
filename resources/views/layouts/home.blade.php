@@ -29,7 +29,7 @@
     x-data="{ scrolled: false }"
     @scroll.window="scrolled = (window.pageYOffset > 20)"
 >
-  <x-header :categories="$categories" :isAdmin="$isAdmin" />
+  <x-header :categories="$categories" :role="$role" />
 
   <!-- Flash Message Component -->
    <x-notification />

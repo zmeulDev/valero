@@ -73,7 +73,7 @@ class Article extends Model
 
     public function isAdmin()
     {
-        return $this->is_admin === true;
+        return $this->role === 'admin';
     }
 
 }

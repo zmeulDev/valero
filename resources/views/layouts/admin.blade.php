@@ -19,7 +19,9 @@
   <!-- Add TinyMCE from CDN -->
   <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
-
+<style>
+    [x-cloak] { display: none !important; }
+</style>
 
 </head>
 
@@ -32,6 +34,11 @@
 
   <!-- Flash Message Component -->
   <x-notification />
+
+  <!-- Page Heading -->
+  @if (isset($header))
+      {{ $header }}
+  @endif
 
   <!-- Main Content -->
   <div class="container mx-auto mt-6">

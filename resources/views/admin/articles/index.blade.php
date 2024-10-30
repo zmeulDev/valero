@@ -1,27 +1,109 @@
 <x-admin-layout>
-    <div x-data="articleManager()">
-        <div class="py-6 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
-            <!-- Header Section -->
-            <div class="max-w-7xl mx-auto">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-                            Articles
-                        </h2>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                            Manage and organize your articles
-                        </p>
+    <x-slot name="header">
+        <div class="bg-white">
+            <div class="border-b border-t border-gray-200">
+                <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Left side -->
+                        <div class="flex-1 flex items-center">
+                            <x-lucide-book-open class="w-8 h-8 text-indigo-600 mr-3" />
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 leading-7">
+                                    {{ __('Articles') }}
+                                </h2>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Manage and organize your articles
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Right side -->
+                        <div class="flex items-center space-x-4">
+                            <a href="{{ route('admin.articles.create') }}" 
+                               class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                <x-lucide-plus-circle class="w-4 h-4 mr-2" />
+                                New Article
+                            </a>
+                        </div>
                     </div>
-                    <div class="mt-4 sm:mt-0">
-                        <a href="{{ route('admin.articles.create') }}" 
-                           class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                            <x-lucide-plus-circle class="h-5 w-5 mr-2" />
-                            New Article
-                        </a>
+
+                    <!-- Breadcrumbs -->
+                    <div class="py-4">
+                        <nav class="flex" aria-label="Breadcrumb">
+                            <ol role="list" class="flex items-center space-x-4">
+                                <li>
+                                    <div>
+                                        <a href="{{ route('admin.dashboard') }}" class="text-gray-400 hover:text-gray-500">
+                                            <x-lucide-home class="flex-shrink-0 h-5 w-5" />
+                                            <span class="sr-only">Home</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="flex items-center">
+                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                        <span class="ml-4 text-sm font-medium text-indigo-600">Articles</span>
+                                    </div>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
+                        <!-- Total Articles -->
+                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                                    <x-lucide-book-open class="h-6 w-6 text-indigo-600" />
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-500">Total Articles</div>
+                                    <div class="text-lg font-semibold text-gray-900">{{ $totalArticles }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Published Articles (null schedule or past schedule) -->
+                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                                    <x-lucide-check-circle class="h-6 w-6 text-green-600" />
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-500">Published</div>
+                                    <div class="text-lg font-semibold text-gray-900">
+                                        {{ $publishedArticles }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scheduled Articles (future schedule) -->
+                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-yellow-100 rounded-md p-3">
+                                    <x-lucide-clock class="h-6 w-6 text-yellow-600" />
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-500">Scheduled</div>
+                                    <div class="text-lg font-semibold text-gray-900">
+                                        {{ $scheduledArticles }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </x-slot>
 
-                <!-- Search and Filter Section -->
+    <div x-data="articleManager()">
+        <div class="py-6 px-4 sm:px-6 lg:px-8 dark:bg-gray-900 min-h-screen">
+            <!-- Header Section -->
+            <div class="max-w-7xl mx-auto">
+                 <!-- Search and Filter Section -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-6">
                     <div class="p-4 sm:p-6 space-y-4 sm:space-y-0 sm:flex sm:items-center sm:justify-between">
                         <!-- Category Filter -->
@@ -132,7 +214,6 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                        
                                         {{ $article->scheduled_at ? $article->scheduled_at : $article->created_at }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

@@ -13,13 +13,13 @@ class NavigationComposer
         try {
             $view->with([
                 'categories' => Category::orderBy('name')->get(),
-                'isAdmin' => auth()->check() && auth()->user()->is_admin,
+                'role' => auth()->check() && auth()->user()->role === 'admin',
             ]);
         } catch (Exception $e) {
             report($e);
             $view->with([
                 'categories' => collect(),
-                'isAdmin' => false,
+                'role' => false,
             ]);
         }
     }

@@ -25,7 +25,7 @@ class Navigation extends Component
     {
         $categories = Category::all();
         return view('components.header', [
-            'isAdmin' => Auth::check() && Auth::user()->is_admin,
+            'role' => Auth::check() && Auth::user()->role === 'admin',
             'categories' => $categories
         ]);
     }

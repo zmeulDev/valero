@@ -27,6 +27,10 @@
             class="inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 ease-in-out">
             {{ __('Settings') }}
           </x-nav-link>
+          <x-nav-link href="{{ route('admin.teams.index') }}" :active="request()->routeIs('admin.teams.index')"
+            class="inline-flex items-center px-1 pt-1 text-sm font-medium transition duration-150 ease-in-out">
+            {{ __('Teams') }}
+          </x-nav-link>
         </div>
       </div>
 
