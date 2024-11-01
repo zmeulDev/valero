@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-notification />
     <x-slot name="header">
         <x-admin.page-header
             icon="settings"

@@ -5,9 +5,11 @@
             <div class="flex items-center">
                 <!-- Logo -->
                 <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
-                    <x-application-logo class="block h-8 w-auto" />
+                    <img src="{{ asset(config('app_logo')) }}?v={{ config('app_logo_version', '1') }}" 
+                         class="block h-8 w-auto" 
+                         alt="{{ config('app_name') ?? config('app.name') }}" />
                     <span class="ml-3 text-lg font-semibold text-gray-900 dark:text-white">
-                        Admin<span class="text-gray-400 dark:text-gray-500 mx-2">|</span>{{ config('app.name') }}
+                        Admin<span class="text-gray-400 dark:text-gray-500 mx-2">|</span>{{ config('app_name') ?? config('app.name') }}
                     </span>
                 </a>
 

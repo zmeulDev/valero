@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 class AdminSettingController extends Controller
 {
@@ -41,70 +40,98 @@ class AdminSettingController extends Controller
 
     public function index()
     {
-        $settings = Setting::all()->pluck('value', 'key');
-        $socialPlatforms = $this->socialPlatforms;
-        
-        return view('admin.settings.index', compact('settings', 'socialPlatforms'));
+        return view('admin.settings.index', [
+            'settings' => Setting::getAllSettings(),
+            'socialPlatforms' => $this->socialPlatforms
+        ]);
     }
 
     public function update(Request $request)
     {
-        $validatedData = $request->validate([
-            'app_name' => 'required|string|max:255',
-            'app_url' => 'required|url',
-            'app_timezone' => 'required|string|in:' . implode(',', timezone_identifiers_list()),
-            'app_tinymce' => 'required|string',
-            'app_googlesearchmeta' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'app_socialinstagram' => 'nullable|url',
-            'app_socialfacebook' => 'nullable|url',
-            'app_socialtwitter' => 'nullable|url',
-            'app_sociallinkedin' => 'nullable|url',
-            'app_socialgithub' => 'nullable|url',
-        ]);
+        try {
+            // Validate basic settings
+            $validatedData = $request->validate([
+                'app_name' => 'required|string|max:255',
+                'app_url' => 'required|url',
+                'app_timezone' => 'required|string|in:' . implode(',', timezone_identifiers_list()),
+                'app_tinymce' => 'required|string',
+                'app_googlesearchmeta' => 'required|string',
+                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ], [
+                'app_name.required' => 'The application name is required.',
+                'app_url.url' => 'Please enter a valid URL.',
+                'app_timezone.in' => 'Please select a valid timezone.',
+                'logo.image' => 'The logo must be an image.',
+                'logo.max' => 'The logo must not be larger than 2MB.',
+            ]);
 
-        // Save all settings except logo
-        foreach ($validatedData as $key => $value) {
-            if ($key !== 'logo') {
-                Setting::set($key, $value);
+            // Validate social media URLs
+            foreach ($this->socialPlatforms as $platform => $data) {
+                $validatedData['app_social' . $platform] = $request->validate([
+                    'app_social' . $platform => 'nullable|url'
+                ])['app_social' . $platform] ?? null;
             }
-        }
 
-        // Handle logo upload
-        if ($request->hasFile('logo')) {
-            $file = $request->file('logo');
+            // Save all settings except logo
+            foreach ($validatedData as $key => $value) {
+                if ($key !== 'logo') {
+                    Setting::set($key, $value);
+                }
+            }
+
+            // Handle logo upload
+            if ($request->hasFile('logo')) {
+                $this->handleLogoUpload($request->file('logo'));
+            }
+
+            // Clear cache
+            Artisan::call('optimize:clear');
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => __('Settings updated successfully'),
+                    'refresh' => true
+                ]);
+            }
+
+            return redirect()
+                ->route('admin.settings.index')
+                ->with('success', __('Settings updated successfully'));
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 422);
+            }
+
+            return redirect()
+                ->route('admin.settings.index')
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    protected function handleLogoUpload($file)
+    {
+        try {
             $path = 'brand/logo.png';
             
-            // Create backup of existing file if it exists
+            // Backup existing logo if it exists
             if (Storage::disk('public')->exists($path)) {
                 $timestamp = now()->format('Y-m-d_H-i-s');
                 $backupPath = 'brand/backups/logo_' . $timestamp . '.png';
                 Storage::disk('public')->copy($path, $backupPath);
             }
             
-            // Store the new file
+            // Store new logo
             Storage::disk('public')->putFileAs(dirname($path), $file, basename($path));
             
             // Update settings
             Setting::set('app_logo', 'storage/' . $path);
-            $currentVersion = intval(Setting::get('app_logo_version', 0));
-            Setting::set('app_logo_version', $currentVersion + 1);
+            Setting::set('app_logo_version', (int)Setting::get('app_logo_version', 0) + 1);
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to upload logo: ' . $e->getMessage());
         }
-
-        // Force cache clear and refresh for all settings updates
-        \Artisan::call('optimize:clear');
-        
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Settings updated successfully',
-                'refresh' => true
-            ]);
-        }
-
-        return redirect()
-            ->route('admin.settings.index')
-            ->with('success', 'Settings updated successfully')
-            ->with('refresh', true);
     }
 }
