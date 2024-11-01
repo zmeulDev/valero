@@ -1,6 +1,6 @@
 <!-- resources/views/components/admin-layout.blade.php -->
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 
 <head>
   <meta charset="UTF-8">
@@ -25,7 +25,7 @@
 
 </head>
 
-<body class="bg-gray-100">
+<body class="h-full bg-gray-100 dark:bg-gray-900">
 
   <!-- Navigation Component -->
     <x-admin.navigation-admin />
@@ -39,7 +39,7 @@
   @endif
 
   <!-- Main Content -->
-  <div class="container mx-auto mt-6">
+  <div class="container mx-auto mt-6 px-4 sm:px-6 lg:px-8">
     {{ $slot }}
   </div>
 
@@ -51,6 +51,9 @@
 
   <!-- Custom Valero Admin JS -->
   @vite('resources/js/valero-admin.js')
+
+  <!-- Additional Scripts -->
+  @stack('scripts')
 
 </body>
 

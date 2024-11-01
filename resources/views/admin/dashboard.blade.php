@@ -6,7 +6,7 @@
             description="Overview of your site's performance and content"
         >
             <x-slot:actions>
-                <span class="text-sm text-gray-500">v.{{ config('app.version') }}</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">v.{{ config('app.version') }}</span>
                 <a href="{{ route('admin.articles.create') }}" 
                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                     <x-lucide-plus-circle class="w-4 h-4 mr-2" />
@@ -21,10 +21,10 @@
                     :value="$articleCount"
                 />
                 <x-admin.stats-card
-                    icon="eye"
-                    iconColor="blue"
-                    label="Total Views"
-                    :value="$totalViews"
+                    icon="trending-up"
+                    iconColor="purple"
+                    label="Avg. Views/Article"
+                    :value="$articleCount ? round($totalViews / $articleCount, 1) : 0"
                 />
                 <x-admin.stats-card
                     icon="users"
@@ -32,12 +32,7 @@
                     label="Active Users (last 7 days)"
                     :value="$activeUsers"
                 />
-                <x-admin.stats-card
-                    icon="trending-up"
-                    iconColor="purple"
-                    label="Avg. Views/Article"
-                    :value="$articleCount ? round($totalViews / $articleCount, 1) : 0"
-                />
+                
             </x-slot:stats>
         </x-admin.page-header>
     </x-slot>
@@ -46,12 +41,12 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Latest Articles Section -->
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-semibold text-gray-900">Latest Articles</h2>
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Latest Articles</h2>
                         <a href="{{ route('admin.articles.index') }}" 
-                           class="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-900">
+                           class="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                             View All
                             <x-lucide-chevron-right class="w-4 h-4 ml-1" />
                         </a>
@@ -61,50 +56,50 @@
                         <x-nothing-found />
                     @else
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead>
                                     <tr>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-                                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Image</th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Category</th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Title</th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Author</th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Created At</th>
+                                        <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                     @foreach ($articles as $article)
-                                        <tr class="hover:bg-gray-50">
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if($article->featured_image)
                                                     <img src="{{ asset('storage/' . $article->featured_image) }}" 
                                                          alt="{{ $article->title }}"
                                                          class="h-10 w-10 rounded-lg object-cover">
                                                 @else
-                                                    <div class="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                                                        <x-lucide-image class="h-6 w-6 text-gray-400" />
+                                                    <div class="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                                                        <x-lucide-image class="h-6 w-6 text-gray-400 dark:text-gray-500" />
                                                     </div>
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200">
                                                     {{ $article->category->name ?? 'Uncategorized' }}
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4">
-                                                <div class="text-sm font-medium text-gray-900">{{ $article->title }}</div>
+                                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $article->title }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-500">{{ $article->user->name }}</div>
+                                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $article->user->name }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-500">
+                                                <div class="text-sm text-gray-500 dark:text-gray-400">
                                                     {{ $article->created_at->format('M d, Y') }}
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 <a href="{{ route('admin.articles.edit', $article->id) }}" 
-                                                   class="text-indigo-600 hover:text-indigo-900">
+                                                   class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                                                     Edit
                                                 </a>
                                             </td>

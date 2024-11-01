@@ -7,16 +7,16 @@
     'stats' => null
 ])
 
-<div class="bg-white">
-    <div class="border-b border-t border-gray-200">
+<div class="bg-white dark:bg-gray-900">
+    <div class="border-b border-t border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="flex justify-between items-center h-16">
                 <div class="flex-1 flex items-center">
-                    <x-dynamic-component :component="'lucide-'.$icon" class="w-8 h-8 text-indigo-600 mr-3" />
+                    <x-dynamic-component :component="'lucide-'.$icon" class="w-8 h-8 text-indigo-600 dark:text-indigo-400 mr-3" />
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900 leading-7">{{ $title }}</h2>
-                        <p class="mt-1 text-sm text-gray-500">{{ $description }}</p>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white leading-7">{{ $title }}</h2>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $description }}</p>
                     </div>
                 </div>
 
