@@ -28,12 +28,10 @@
 <body class="bg-gray-100">
 
   <!-- Navigation Component -->
-  <header>
     <x-admin.navigation-admin />
-  </header>
 
   <!-- Flash Message Component -->
-  <x-notification />
+    <x-notification />
 
   <!-- Page Heading -->
   @if (isset($header))
