@@ -12,6 +12,76 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  // Add logo refresh handler
+  if (window.location.pathname.includes('/admin/settings')) {
+    const form = document.getElementById('settings-form');
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        const fileInput = document.querySelector('input[name="logo"]');
+        if (fileInput && fileInput.files.length > 0) {
+          e.preventDefault();
+
+          const formData = new FormData(form);
+
+          fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                // Force refresh all logo images on the page
+                const logoImages = document.querySelectorAll('img[src*="brand/logo.png"]');
+                logoImages.forEach(img => {
+                  const currentSrc = img.src.split('?')[0];
+                  img.src = `${currentSrc}?v=${Date.now()}`;
+                });
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              // If there's an error, submit the form normally
+              form.submit();
+            });
+        }
+      });
+    }
+  }
+
+  ['title', 'excerpt'].forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.addEventListener('input', () => updateCharCount(id, id === 'title' ? 60 : 160));
+      updateCharCount(id, id === 'title' ? 60 : 160);
+    }
+  });
+  // Content character count will be updated by TinyMCE setup
+
+  const settingsForm = document.getElementById('settings-form');
+  if (settingsForm) {
+    settingsForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(settingsForm);
+      
+      fetch(settingsForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.refresh) {
+          window.location.reload(true);
+        }
+      });
+    });
+  }
 });
 
 function updateCharCount(elementId, limit = null) {
@@ -33,14 +103,3 @@ function updateCharCount(elementId, limit = null) {
     charCount.classList.remove('text-red-500');
   }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  ['title', 'excerpt'].forEach(id => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.addEventListener('input', () => updateCharCount(id, id === 'title' ? 60 : 160));
-      updateCharCount(id, id === 'title' ? 60 : 160);
-    }
-  });
-  // Content character count will be updated by TinyMCE setup
-});

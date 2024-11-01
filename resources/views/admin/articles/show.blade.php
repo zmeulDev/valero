@@ -1,109 +1,27 @@
 <x-admin-layout>
     <x-slot name="header">
-        <div class="bg-white">
-            <div class="border-b border-t border-gray-200">
-                <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-16">
-                        <!-- Left side -->
-                        <div class="flex-1 flex items-center">
-                            <x-lucide-book-open class="w-8 h-8 text-indigo-600 mr-3" />
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-900 leading-7">
-                                    {{ __('Article Preview') }}
-                                </h2>
-                                <p class="mt-1 text-sm text-gray-500">
-                                    Preview and manage article details
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Right side -->
-                        <div class="flex items-center space-x-4">
-                            <a href="{{ route('admin.articles.edit', $article->id) }}" 
-                               class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                                <x-lucide-pencil class="w-4 h-4 mr-2" />
-                                Edit Article
-                            </a>
-                            <a href="{{ route('admin.articles.index') }}" 
-                               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <x-lucide-arrow-left class="w-4 h-4 mr-2" />
-                                Back to Articles
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Breadcrumbs -->
-                    <div class="py-4">
-                        <nav class="flex" aria-label="Breadcrumb">
-                            <ol role="list" class="flex items-center space-x-4">
-                                <li>
-                                    <div>
-                                        <a href="{{ route('admin.dashboard') }}" class="text-gray-400 hover:text-gray-500">
-                                            <x-lucide-home class="flex-shrink-0 h-5 w-5" />
-                                            <span class="sr-only">Home</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                        <a href="{{ route('admin.articles.index') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Articles</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                        <span class="ml-4 text-sm font-medium text-indigo-600">Preview</span>
-                                    </div>
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
-
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 py-4">
-                        <!-- Status -->
-                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
-                                    <x-lucide-check-circle class="h-6 w-6 text-indigo-600" />
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-500">Status</div>
-                                    <div class="text-lg font-semibold text-gray-900">{{ $status }}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Category -->
-                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
-                                    <x-lucide-folder class="h-6 w-6 text-indigo-600" />
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-500">Category</div>
-                                    <div class="text-lg font-semibold text-gray-900">{{ $article->category->name ?? 'Uncategorized' }}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Read Time -->
-                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
-                                    <x-lucide-clock class="h-6 w-6 text-indigo-600" />
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-500">Read Time</div>
-                                    <div class="text-lg font-semibold text-gray-900">{{ $article->read_time ?? '0' }} min</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-admin.page-header
+            icon="book-open"
+            title="{{ __('Article Preview') }}"
+            description="Preview and manage article details"
+            :breadcrumbs="[
+                ['label' => 'Articles', 'url' => route('admin.articles.index')],
+                ['label' => 'Preview']
+            ]"
+        >
+            <x-slot:actions>
+                <a href="{{ route('admin.articles.edit', $article->id) }}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                    <x-lucide-pencil class="w-4 h-4 mr-2" />
+                    Edit Article
+                </a>
+                <a href="{{ route('admin.articles.index') }}" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <x-lucide-arrow-left class="w-4 h-4 mr-2" />
+                    Back to Articles
+                </a>
+            </x-slot:actions>
+        </x-admin.page-header>
     </x-slot>
 
     <div class="min-h-screen dark:bg-gray-900">

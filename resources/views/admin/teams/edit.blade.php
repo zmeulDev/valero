@@ -215,83 +215,22 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <dialog id="confirmDelete" 
-            class="rounded-lg shadow-xl p-0 w-full max-w-lg mx-auto overflow-hidden">
-        <div class="bg-white px-6 py-4">
-            <div class="flex items-center justify-between border-b border-gray-200 pb-3">
-                <h3 class="text-lg font-semibold text-gray-900">Confirm Deletion</h3>
-                <button type="button" 
-                        onclick="window.confirmDelete.close()"
-                        class="text-gray-400 hover:text-gray-500">
-                    <x-lucide-x class="w-5 h-5" />
-                </button>
-            </div>
+    <x-admin.modal-confirm-delete 
+        x-bind:show="showDeleteModal"
+        :action="route('admin.teams.destroy', $user->id)"
+        :name="$user->email"
+        type="team member"
+    />
 
-            <div class="py-4">
-                <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
-                        <img class="h-12 w-12 rounded-full" 
-                             src="{{ $user->profile_photo_url }}" 
-                             alt="{{ $user->name }}">
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-gray-900">{{ $user->name }}</p>
-                        <p class="text-sm text-gray-500">{{ $user->email }}</p>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <p class="text-sm text-gray-500">
-                        Are you sure you want to delete this team member? This action cannot be undone.
-                        All of their data will be permanently removed from the system.
-                    </p>
-                </div>
-            </div>
-
-            <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
-                <button type="button"
-                        onclick="window.confirmDelete.close()"
-                        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Cancel
-                </button>
-                <form action="{{ route('admin.teams.destroy', $user) }}" 
-                      method="POST" 
-                      class="inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" 
-                            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                        <x-lucide-trash-2 class="w-4 h-4 mr-2" />
-                        Delete Member
-                    </button>
-                </form>
-            </div>
-        </div>
-    </dialog>
-
-    <!-- Modal Backdrop -->
-    <div id="modalBackdrop" 
-         class="fixed inset-0 bg-black bg-opacity-50 hidden"
-         onclick="window.confirmDelete.close()">
-    </div>
-
-    <!-- Modal Script -->
+    <!-- Add Alpine data -->
     <script>
-        const modal = document.getElementById('confirmDelete');
-        const backdrop = document.getElementById('modalBackdrop');
-
-        modal.addEventListener('close', () => {
-            backdrop.classList.add('hidden');
-        });
-
-        window.confirmDelete = {
-            showModal() {
-                modal.showModal();
-                backdrop.classList.remove('hidden');
-            },
-            close() {
-                modal.close();
+        function deleteManager() {
+            return {
+                showDeleteModal: false,
+                openDeleteModal() {
+                    this.showDeleteModal = true;
+                }
             }
-        };
+        }
     </script>
 </x-admin-layout>

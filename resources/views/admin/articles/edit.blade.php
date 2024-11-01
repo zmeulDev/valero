@@ -1,62 +1,22 @@
 <x-admin-layout>
   <x-slot name="header">
-    <div class="bg-white">
-      <div class="border-b border-t border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center h-16">
-            <!-- Left side -->
-            <div class="flex-1 flex items-center">
-              <x-lucide-book-open class="w-8 h-8 text-indigo-600 mr-3" />
-              <div>
-                <h2 class="text-2xl font-bold text-gray-900 leading-7">
-                  {{ __('Edit Article') }}
-                </h2>
-                <p class="mt-1 text-sm text-gray-500">
-                  Update your article content and settings
-                </p>
-              </div>
-            </div>
-
-            <!-- Right side -->
-            <div class="flex items-center space-x-4">
-              <a href="{{ route('admin.articles.index') }}" 
-                 class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <x-lucide-arrow-left class="w-4 h-4 mr-2" />
-                Back to Articles
-              </a>
-            </div>
-          </div>
-
-          <!-- Breadcrumbs -->
-          <div class="py-4">
-            <nav class="flex" aria-label="Breadcrumb">
-              <ol role="list" class="flex items-center space-x-4">
-                <li>
-                  <div>
-                    <a href="{{ route('admin.dashboard') }}" class="text-gray-400 hover:text-gray-500">
-                      <x-lucide-home class="flex-shrink-0 h-5 w-5" />
-                      <span class="sr-only">Home</span>
-                    </a>
-                  </div>
-                </li>
-                <li>
-                  <div class="flex items-center">
-                    <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                    <a href="{{ route('admin.articles.index') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Articles</a>
-                  </div>
-                </li>
-                <li>
-                  <div class="flex items-center">
-                    <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                    <span class="ml-4 text-sm font-medium text-indigo-600">Edit</span>
-                  </div>
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
+    <x-admin.page-header
+      icon="book-open"
+      title="{{ __('Edit Article') }}"
+      description="Update your article content and settings"
+      :breadcrumbs="[
+        ['label' => 'Articles', 'url' => route('admin.articles.index')],
+        ['label' => 'Edit']
+      ]"
+    >
+      <x-slot:actions>
+        <a href="{{ route('admin.articles.index') }}" 
+           class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <x-lucide-arrow-left class="w-4 h-4 mr-2" />
+          Back to Articles
+        </a>
+      </x-slot:actions>
+    </x-admin.page-header>
   </x-slot>
 
   <div class="min-h-screen dark:bg-gray-900">

@@ -1,92 +1,45 @@
 <x-admin-layout>
     <x-slot name="header">
-        <div class="bg-white">
-            <div class="border-b border-t border-gray-200">
-                <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-16">
-                        <!-- Left side -->
-                        <div class="flex-1 flex items-center">
-                            <x-lucide-layout-dashboard class="w-8 h-8 text-indigo-600 mr-3" />
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-900 leading-7">
-                                    {{ __('Dashboard') }}
-                                </h2>
-                                <p class="mt-1 text-sm text-gray-500">
-                                    Overview of your site's performance and content
-                                </p>
-                            </div>
-                        </div>
+        <x-admin.page-header
+            icon="layout-dashboard"
+            title="{{ __('Dashboard') }}"
+            description="Overview of your site's performance and content"
+        >
+            <x-slot:actions>
+                <span class="text-sm text-gray-500">v.{{ config('app.version') }}</span>
+                <a href="{{ route('admin.articles.create') }}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                    <x-lucide-plus-circle class="w-4 h-4 mr-2" />
+                    New Article
+                </a>
+            </x-slot:actions>
 
-                        <!-- Right side -->
-                        <div class="flex items-center space-x-4">
-                            <span class="text-sm text-gray-500">v.{{ config('app.version') }}</span>
-                            <a href="{{ route('admin.articles.create') }}" 
-                               class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                                <x-lucide-plus-circle class="w-4 h-4 mr-2" />
-                                New Article
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 py-4">
-                        <!-- Total Articles -->
-                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
-                                    <x-lucide-book-open class="h-6 w-6 text-indigo-600" />
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-500">Total Articles</div>
-                                    <div class="text-lg font-semibold text-gray-900">{{ $articleCount }}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Total Users -->
-                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
-                                    <x-lucide-users class="h-6 w-6 text-green-600" />
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-500">Total Users</div>
-                                    <div class="text-lg font-semibold text-gray-900">{{ $userCount }}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Total Views -->
-                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                    <x-lucide-eye class="h-6 w-6 text-blue-600" />
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-500">Total Views</div>
-                                    <div class="text-lg font-semibold text-gray-900">{{ $totalViews }}</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Average Views -->
-                        <div class="bg-gray-50 px-4 py-3 rounded-lg">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
-                                    <x-lucide-trending-up class="h-6 w-6 text-purple-600" />
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-500">Avg. Views/Article</div>
-                                    <div class="text-lg font-semibold text-gray-900">
-                                        {{ $articleCount ? round($totalViews / $articleCount, 1) : 0 }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <x-slot:stats>
+                <x-admin.stats-card
+                    icon="book-open"
+                    label="Total Articles"
+                    :value="$articleCount"
+                />
+                <x-admin.stats-card
+                    icon="eye"
+                    iconColor="blue"
+                    label="Total Views"
+                    :value="$totalViews"
+                />
+                <x-admin.stats-card
+                    icon="users"
+                    iconColor="green"
+                    label="Active Users (last 7 days)"
+                    :value="$activeUsers"
+                />
+                <x-admin.stats-card
+                    icon="trending-up"
+                    iconColor="purple"
+                    label="Avg. Views/Article"
+                    :value="$articleCount ? round($totalViews / $articleCount, 1) : 0"
+                />
+            </x-slot:stats>
+        </x-admin.page-header>
     </x-slot>
 
     <!-- Main Content -->
