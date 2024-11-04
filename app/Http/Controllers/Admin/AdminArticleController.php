@@ -17,24 +17,35 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of articles.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $selectedCategory = request()->get('category');
-        $categories = Category::all();
-        
-        $articles = Article::with(['user', 'category'])
-            ->when($selectedCategory, function ($query) use ($selectedCategory) {
-                $query->where('category_id', $selectedCategory);
-            })
-            ->latest()
-            ->paginate(10);
+        $query = Article::with(['user', 'category']);
 
+        // Handle category filter
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Handle search
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%")
+                  ->orWhereHas('category', function($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $articles = $query->latest()->paginate(10)->withQueryString();
         $stats = $this->getArticleStats();
+        $categories = Category::orderBy('name')->get();
 
         return view('admin.articles.index', [
             'articles' => $articles,
             'categories' => $categories,
-            'selectedCategory' => $selectedCategory,
+            'selectedCategory' => $request->category,
             'totalArticles' => $stats['total'],
             'publishedArticles' => $stats['published'],
             'scheduledArticles' => $stats['scheduled']
@@ -153,16 +164,15 @@ class AdminArticleController extends Controller
      */
     private function getArticleStats(): array
     {
+        $now = now();
+        
         return [
             'total' => Article::count(),
-            'published' => Article::query()
-                ->whereNull('scheduled_at')
-                ->orWhere('scheduled_at', '<=', now())
-                ->count(),
-            'scheduled' => Article::query()
-                ->whereNotNull('scheduled_at')
-                ->where('scheduled_at', '>', now())
-                ->count()
+            'published' => Article::where(function($query) use ($now) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', $now);
+            })->count(),
+            'scheduled' => Article::where('scheduled_at', '>', $now)->count()
         ];
     }
 
@@ -234,7 +244,9 @@ class AdminArticleController extends Controller
      */
     private function deleteArticleImages(Article $article): void
     {
-        $this->deleteOldFeaturedImage($article);
+        if ($article->featured_image) {
+            Storage::disk('public')->delete($article->featured_image);
+        }
 
         foreach ($article->images as $image) {
             Storage::disk('public')->delete($image->image_path);
@@ -247,18 +259,20 @@ class AdminArticleController extends Controller
      */
     private function updateSEO(Article $article): void
     {
-        $article->seo->updateOrCreate(
+        $article->seo()->updateOrCreate(
             [
                 'model_id' => $article->id,
                 'model_type' => Article::class,
             ],
             [
                 'title' => $article->title,
-                'description' => $article->excerpt,
-                'image' => $article->featured_image,
-                'author' => auth()->user()->name,
+                'description' => $article->excerpt ?? Str::limit(strip_tags($article->content), 160),
+                'image' => $article->featured_image ? asset('storage/' . $article->featured_image) : null,
+                'author' => $article->user->name,
                 'robots' => 'index, follow',
                 'canonical_url' => route('articles.index', $article->slug),
+                'published_time' => $article->scheduled_at ?? $article->created_at,
+                'modified_time' => $article->updated_at,
             ]
         );
     }

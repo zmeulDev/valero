@@ -8,6 +8,15 @@
                 ['label' => 'Categories']
             ]"
         >
+            <x-slot:actions>
+                <button type="button" 
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+                        onclick="document.getElementById('name').focus()">
+                    <x-lucide-plus-circle class="w-4 h-4 mr-2" />
+                    New Category
+                </button>
+            </x-slot:actions>
+
             <x-slot:stats>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <x-admin.stats-card
@@ -42,87 +51,53 @@
         }
     }" class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <!-- Create Category Form -->
-                <div class="md:col-span-1">
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
-                        <div class="px-4 py-5 sm:p-6">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-                                Create New Category
-                            </h3>
-                            <form action="{{ route('admin.categories.store') }}" method="POST">
-                                @csrf
-                                <div class="space-y-1">
-                                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        Category Name
-                                    </label>
-                                    <input type="text"
-                                           name="name"
-                                           id="name"
-                                           required
-                                           maxlength="50"
-                                           x-on:input="charCount = $event.target.value.length"
-                                           placeholder="Enter category name"
-                                           class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                                    <p class="text-sm mt-1" :class="{ 'text-red-500': charCount > 50, 'text-gray-500': charCount <= 50 }">
-                                        <span x-text="charCount"></span>/50 characters
-                                    </p>
-                                </div>
-                                <div class="mt-4">
-                                    <button type="submit"
-                                            class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                                        <x-lucide-plus class="w-5 h-5 mr-2" />
-                                        Create Category
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 <!-- Categories List -->
-                <div class="md:col-span-3">
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
-                        <div class="px-4 py-5 sm:p-6">
-                            <div class="sm:flex sm:items-center">
-                                <div class="sm:flex-auto">
-                                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                        All Categories
-                                    </h3>
+                <div class="lg:col-span-3">
+                    <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <div class="sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">Categories</h3>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                        A list of all categories in your blog
+                                    </p>
                                 </div>
                             </div>
                             
-                            <div class="mt-4">
+                            <div class="mt-6">
                                 @if ($categories->isEmpty())
                                     <x-nothing-found />
                                 @else
-                                    <div class="overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                            <thead>
+                                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                                        <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
+                                            <thead class="bg-gray-50 dark:bg-gray-800">
                                                 <tr>
-                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">Name</th>
-                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">Slug</th>
-                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">Articles</th>
+                                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">Name</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">Slug</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">Articles</th>
                                                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                                         <span class="sr-only">Actions</span>
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
                                                 @foreach ($categories as $category)
-                                                    <tr>
-                                                        <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                                                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-white sm:pl-6">
                                                             {{ $category->name }}
                                                         </td>
                                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                                                             {{ $category->slug }}
                                                         </td>
                                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                                            {{ $category->articles_count }}
+                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $category->articles_count > 0 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200' }}">
+                                                                {{ $category->articles_count }}
+                                                            </span>
                                                         </td>
                                                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                             <button @click="openDeleteModal({{ $category->id }})"
-                                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-md"
                                                                     title="Delete category">
                                                                 <x-lucide-trash-2 class="w-5 h-5" />
                                                                 <span class="sr-only">Delete {{ $category->name }}</span>
@@ -139,6 +114,47 @@
                     </div>
 
                     <x-admin.modal-confirm-delete type="category" />
+                </div>
+            
+                <!-- Create Category Form -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">
+                                    New Category
+                                </h3>
+                                <x-lucide-plus-circle class="h-5 w-5 text-gray-400" />
+                            </div>
+                            <form action="{{ route('admin.categories.store') }}" method="POST">
+                                @csrf
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Name
+                                        </label>
+                                        <div class="mt-1 relative rounded-md shadow-sm">
+                                            <input type="text"
+                                                name="name"
+                                                id="name"
+                                                required
+                                                maxlength="50"
+                                                x-on:input="charCount = $event.target.value.length"
+                                                placeholder="Enter category name"
+                                                class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        </div>
+                                        <p class="mt-1 text-xs" :class="{ 'text-red-500': charCount > 50, 'text-gray-500': charCount <= 50 }">
+                                            <span x-text="charCount"></span>/50 characters
+                                        </p>
+                                    </div>
+                                    <button type="submit"
+                                            class="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                        Create Category
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
