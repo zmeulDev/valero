@@ -5,54 +5,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ $title ?? 'Admin Panel' }} - {{ config('app.name', 'Laravel') }}</title>
   <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}">
 
-  <!-- Include CSS -->
+  <!-- Styles -->
   @vite('resources/css/app.css')
-
-  <!-- Livewire Styles -->
   @livewireStyles
 
-  <!-- Alpine.js for interactivity -->
-  <script src="//unpkg.com/alpinejs" defer></script>
-  <!-- Add TinyMCE from CDN -->
-  <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js"
-    referrerpolicy="origin"></script>
-<style>
-    [x-cloak] { display: none !important; }
-</style>
+  <style>[x-cloak] { display: none !important; }</style>
 
 </head>
 
-<body class="h-full bg-gray-100 dark:bg-gray-900">
+<body class="min-h-screen bg-gray-50 dark:bg-gray-900">
 
-  <!-- Navigation Component -->
+  <div class="flex flex-col min-h-screen">
+    <!-- Navigation -->
     <x-admin.navigation-admin />
 
-  <!-- Flash Message Component -->
+    <!-- Flash Messages -->
     <x-notification />
 
-  <!-- Page Heading -->
-  @if (isset($header))
-      {{ $header }}
-  @endif
+    <!-- Page Header -->
+    @if (isset($header))
+        {{ $header }}
+    @endif
 
-  <!-- Main Content -->
-  <div class="container mx-auto mt-6 px-4 sm:px-6 lg:px-8">
-    {{ $slot }}
+    <!-- Main Content -->
+    <main class="flex-grow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {{ $slot }}
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <x-footer />
   </div>
 
-  <!-- Footer -->
-  <x-footer />
-
-  <!-- Livewire Scripts -->
-  @livewireScripts
-
-  <!-- Custom Valero Admin JS -->
+  <!-- Scripts -->
+  <script src="//unpkg.com/alpinejs" defer></script>
+  <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
   @vite('resources/js/valero-admin.js')
-
-  <!-- Additional Scripts -->
+  @livewireScripts
   @stack('scripts')
 
 </body>

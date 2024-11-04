@@ -87,7 +87,6 @@ class AdminTeamController extends Controller
             return back()->with('error', 'You cannot delete your own account.');
         }
 
-        // Prevent deleting super admin if you're not one
         if ($user->role === 'admin' && auth()->user()->role !== 'admin') {
             return back()->with('error', 'You cannot delete admin users.');
         }

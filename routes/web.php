@@ -66,7 +66,8 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     })->name('optimize-clear');
 
     // Teams
-    Route::resource('teams', AdminTeamController::class)->parameters([
+    Route::delete('teams/{user}', [AdminTeamController::class, 'destroy'])->name('teams.destroy');
+    Route::resource('teams', AdminTeamController::class)->except(['destroy'])->parameters([
         'teams' => 'user'
     ]);
 });
