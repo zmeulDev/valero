@@ -1,10 +1,9 @@
 <x-admin-layout>
     <x-slot name="header">
-        <div class="bg-white">
-            <div class="border-b border-t border-gray-200">
+        <div class="bg-white shadow">
+            <div class="border-b border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-16">
-                        <!-- Left side -->
                         <div class="flex-1 flex items-center">
                             <x-lucide-user-cog class="w-8 h-8 text-indigo-600 mr-3" />
                             <div>
@@ -16,8 +15,6 @@
                                 </p>
                             </div>
                         </div>
-
-                        <!-- Right side -->
                         <div class="flex items-center space-x-4">
                             <a href="{{ route('admin.teams.index') }}" 
                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
@@ -26,8 +23,6 @@
                             </a>
                         </div>
                     </div>
-
-                    <!-- Breadcrumbs -->
                     <div class="py-4">
                         <nav class="flex" aria-label="Breadcrumb">
                             <ol role="list" class="flex items-center space-x-4">
@@ -61,8 +56,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xs sm:rounded-lg">
-                <!-- User Profile Header -->
+            <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                 <div class="border-b border-gray-200 bg-gray-50 p-6">
                     <div class="flex items-center space-x-6">
                         <div class="flex-shrink-0">
@@ -91,7 +85,6 @@
                     @method('PUT')
                     
                     <div class="p-8">
-                        <!-- Basic Information Section -->
                         <div class="mb-8">
                             <div class="flex items-center mb-4">
                                 <x-lucide-user class="w-5 h-5 mr-2 text-gray-500" />
@@ -124,7 +117,6 @@
                             </div>
                         </div>
 
-                        <!-- Security Section -->
                         <div class="mb-8">
                             <div class="flex items-center mb-4">
                                 <x-lucide-lock class="w-5 h-5 mr-2 text-gray-500" />
@@ -145,7 +137,6 @@
                             </div>
                         </div>
 
-                        <!-- Role & Status Section -->
                         <div class="mb-8">
                             <div class="flex items-center mb-4">
                                 <x-lucide-shield class="w-5 h-5 mr-2 text-gray-500" />
@@ -184,22 +175,8 @@
                         </div>
                     </div>
 
-                    <!-- Form Actions -->
                     <div class="px-8 py-4 bg-gray-50 flex items-center justify-between">
-                        <!-- Delete Button -->
-                        @if($user->id !== auth()->id())
-                            <button type="button" 
-                                    onclick="window.confirmDelete.showModal()"
-                                    class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                                <x-lucide-trash-2 class="w-4 h-4 mr-2" />
-                                Delete Member
-                            </button>
-                        @else
-                            <div></div>
-                        @endif
-
-                        <!-- Save/Cancel Buttons -->
-                        <div class="flex items-center space-x-3">
+                         <div class="flex items-center space-x-3">
                             <a href="{{ route('admin.teams.index') }}" 
                                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Cancel
@@ -215,24 +192,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Delete Confirmation Modal -->
-    <x-admin.modal-confirm-delete 
-        x-bind:show="showDeleteModal"
-        :action="route('admin.teams.destroy', $user->id)"
-        :name="$user->email"
-        type="team member"
-    />
-
-    <!-- Add Alpine data -->
-    <script>
-        function deleteManager() {
-            return {
-                showDeleteModal: false,
-                openDeleteModal() {
-                    this.showDeleteModal = true;
-                }
-            }
-        }
-    </script>
 </x-admin-layout>
