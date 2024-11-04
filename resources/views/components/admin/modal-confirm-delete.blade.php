@@ -35,15 +35,20 @@
                             Delete {{ ucfirst($type) }}
                         </h3>
                         <div class="mt-2">
-                            <p class="text-sm text-gray-500 dark:text-gray-400" x-text="'Are you sure you want to delete ' + (itemToDelete ? users.find(u => u.id === itemToDelete)?.name : '') + '? This action cannot be undone.'">
-                            </p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400" x-text="
+                                itemToDelete ? 
+                                    'Are you sure you want to delete ' + 
+                                    (items.find(item => item.id === itemToDelete)?.name || '') + 
+                                    '? This action cannot be undone.' : 
+                                    ''
+                            "></p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <form method="POST" x-bind:action="itemToDelete ? `{{ url('/admin/' . ($type === 'team member' ? 'teams' : 'articles')) }}/${itemToDelete}` : ''">
+                <form method="POST" x-bind:action="itemToDelete ? `{{ route('admin.' . ($type === 'team member' ? 'teams' : ($type === 'category' ? 'categories' : $type . 's')) . '.destroy', '') }}/${itemToDelete}` : ''">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
