@@ -3,22 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Admin\ImageController;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class AdminArticleController extends Controller
 {
     /**
      * Display a listing of articles.
-     *
-     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -46,8 +43,6 @@ class AdminArticleController extends Controller
 
     /**
      * Show the form for creating a new article.
-     *
-     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -58,9 +53,6 @@ class AdminArticleController extends Controller
 
     /**
      * Store a newly created article in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -69,6 +61,8 @@ class AdminArticleController extends Controller
         $article = new Article($validated);
         $article->user_id = auth()->id();
         $article->slug = Str::slug($validated['title']);
+        
+        $this->handleScheduling($article, $request->scheduled_at);
         
         if ($request->hasFile('featured_image')) {
             $article->featured_image = $this->handleFeaturedImage($request);
@@ -89,30 +83,20 @@ class AdminArticleController extends Controller
 
     /**
      * Display the specified article.
-     *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\View\View
      */
     public function show(Article $article)
     {
-        $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
-        $readingTime = ceil(str_word_count(strip_tags($article->content)) / 200);
-        $status = $article->scheduled_at ? 'Scheduled' : 'Published';
-
         return view('admin.articles.show', [
             'article' => $article,
-            'popularArticles' => $popularArticles,
+            'popularArticles' => Article::orderBy('views', 'desc')->take(5)->get(),
             'categories' => Category::all(),
-            'readingTime' => $readingTime,
-            'status' => $status
+            'readingTime' => ceil(str_word_count(strip_tags($article->content)) / 200),
+            'status' => $article->scheduled_at ? 'Scheduled' : 'Published'
         ]);
     }
 
     /**
      * Show the form for editing the specified article.
-     *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\View\View
      */
     public function edit(Article $article)
     {
@@ -124,17 +108,17 @@ class AdminArticleController extends Controller
 
     /**
      * Update the specified article in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Article $article)
     {
         $validated = $this->validateArticle($request, $article);
+        
+        $this->handleScheduling($article, $request->scheduled_at);
+        
         $article->update($validated);
 
         if ($request->hasFile('featured_image')) {
+            $this->deleteOldFeaturedImage($article);
             $article->featured_image = $this->handleFeaturedImage($request);
             $article->save();
         }
@@ -152,9 +136,6 @@ class AdminArticleController extends Controller
 
     /**
      * Remove the specified article from storage.
-     *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Article $article)
     {
@@ -169,8 +150,6 @@ class AdminArticleController extends Controller
 
     /**
      * Get article statistics.
-     *
-     * @return array
      */
     private function getArticleStats(): array
     {
@@ -188,11 +167,20 @@ class AdminArticleController extends Controller
     }
 
     /**
+     * Handle article scheduling.
+     */
+    private function handleScheduling(Article $article, ?string $scheduledAt): void
+    {
+        if ($scheduledAt) {
+            $scheduledAt = Carbon::parse($scheduledAt);
+            $article->scheduled_at = $scheduledAt->isFuture() ? $scheduledAt : null;
+        } else {
+            $article->scheduled_at = null;
+        }
+    }
+
+    /**
      * Validate article request data.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article|null  $article
-     * @return array
      */
     private function validateArticle(Request $request, ?Article $article = null): array
     {
@@ -214,9 +202,6 @@ class AdminArticleController extends Controller
 
     /**
      * Handle featured image upload.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string
      */
     private function handleFeaturedImage(Request $request): string
     {
@@ -224,11 +209,17 @@ class AdminArticleController extends Controller
     }
 
     /**
+     * Delete old featured image.
+     */
+    private function deleteOldFeaturedImage(Article $article): void
+    {
+        if ($article->featured_image) {
+            Storage::disk('public')->delete($article->featured_image);
+        }
+    }
+
+    /**
      * Handle gallery images upload.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article  $article
-     * @return void
      */
     private function handleGalleryImages(Request $request, Article $article): void
     {
@@ -239,10 +230,20 @@ class AdminArticleController extends Controller
     }
 
     /**
+     * Delete all article images.
+     */
+    private function deleteArticleImages(Article $article): void
+    {
+        $this->deleteOldFeaturedImage($article);
+
+        foreach ($article->images as $image) {
+            Storage::disk('public')->delete($image->image_path);
+            $image->delete();
+        }
+    }
+
+    /**
      * Update article SEO data.
-     *
-     * @param  \App\Models\Article  $article
-     * @return void
      */
     private function updateSEO(Article $article): void
     {
@@ -260,23 +261,5 @@ class AdminArticleController extends Controller
                 'canonical_url' => route('articles.index', $article->slug),
             ]
         );
-    }
-
-    /**
-     * Delete article images.
-     *
-     * @param  \App\Models\Article  $article
-     * @return void
-     */
-    private function deleteArticleImages(Article $article): void
-    {
-        if ($article->featured_image) {
-            Storage::disk('public')->delete($article->featured_image);
-        }
-
-        foreach ($article->images as $image) {
-            Storage::disk('public')->delete($image->image_path);
-            $image->delete();
-        }
     }
 }
