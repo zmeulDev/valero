@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div x-data="dataManager()">
+    <x-admin.data-manager :items="$users->items()">
         <x-slot name="header">
             <x-admin.page-header
                 icon="users"
@@ -8,17 +8,33 @@
                 :breadcrumbs="[['label' => 'Teams']]"
             >
                 <x-slot:actions>
-                    <a href="{{ route('admin.teams.create') }}" 
-                       class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <x-lucide-user-plus class="w-4 h-4 mr-2" />
-                        Add Member
-                    </a>
+                    <div class="flex items-center space-x-3">
+                        <a href="{{ route('admin.teams.create') }}" 
+                           class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                            <x-lucide-user-plus class="w-4 h-4 mr-2" />
+                            Add Member
+                        </a>
+                    </div>
                 </x-slot:actions>
 
                 <x-slot:stats>
-                    <x-admin.stats-card icon="users" label="Total Members" :value="$users->total()" />
-                    <x-admin.stats-card icon="shield" label="Admins" :value="$users->where('role', 'admin')->count()" />
-                    <x-admin.stats-card icon="user" label="Regular Users" :value="$users->where('role', 'user')->count()" />
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <x-admin.stats-card 
+                            icon="users" 
+                            label="Total Members" 
+                            :value="$users->total()" 
+                        />
+                        <x-admin.stats-card 
+                            icon="shield" 
+                            label="Admins" 
+                            :value="$users->where('role', 'admin')->count()" 
+                        />
+                        <x-admin.stats-card 
+                            icon="user" 
+                            label="Regular Users" 
+                            :value="$users->where('role', 'user')->count()" 
+                        />
+                    </div>
                 </x-slot:stats>
             </x-admin.page-header>
         </x-slot>
@@ -81,11 +97,6 @@
         </div>
 
         <!-- Delete Modal -->
-        <x-admin.modal-confirm-delete 
-            x-bind:action="itemToDelete ? `{{ route('admin.teams.destroy', '') }}/${itemToDelete}` : ''"
-            type="team member"
-        />
-    </div>
-
-    <x-admin.data-manager :items="$users->items()" />
+        <x-admin.modal-confirm-delete type="team member" />
+    </x-admin.data-manager>
 </x-admin-layout>

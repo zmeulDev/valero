@@ -1,5 +1,14 @@
 <x-admin-layout>
-    <div x-data="dataManager()">
+    <div x-data="{
+        showDeleteModal: false,
+        itemToDelete: null,
+        items: {{ $articles->items() ? json_encode($articles->items()) : '[]' }},
+        
+        openDeleteModal(id) {
+            this.itemToDelete = id;
+            this.showDeleteModal = true;
+        }
+    }">
         <x-slot name="header">
             <x-admin.page-header
                 icon="book-open"
@@ -191,8 +200,10 @@
         </div>
 
         <!-- Delete Modal -->
-        <x-admin.modal-confirm-delete type="article" />
+        <x-admin.modal-confirm-delete 
+            type="article"
+            x-show="showDeleteModal"
+            @click.away="showDeleteModal = false"
+        />
     </div>
-
-    <x-admin.data-manager :items="$articles->items()" />
 </x-admin-layout>

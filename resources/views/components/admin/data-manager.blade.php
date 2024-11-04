@@ -1,16 +1,14 @@
-@props(['items'])
+@props(['items' => []])
 
-<script>
-function dataManager() {
-    return {
-        showDeleteModal: false,
-        itemToDelete: null,
-        users: @json($items),
-
-        openDeleteModal(id) {
-            this.itemToDelete = id;
-            this.showDeleteModal = true;
-        }
+<div x-data="{
+    showDeleteModal: false,
+    itemToDelete: null,
+    items: {{ json_encode($items) }},
+    
+    openDeleteModal(id) {
+        this.itemToDelete = id;
+        this.showDeleteModal = true;
     }
-}
-</script> 
+}">
+    {{ $slot }}
+</div> 
