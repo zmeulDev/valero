@@ -1,187 +1,143 @@
 <x-admin-layout>
     <x-slot name="header">
-        <div class="bg-white">
-            <div class="border-b border-t border-gray-200">
-                <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-16">
-                        <!-- Left side -->
-                        <div class="flex-1 flex items-center">
-                            <x-lucide-user-plus class="w-8 h-8 text-indigo-600 mr-3" />
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-900 leading-7">
-                                    {{ __('Add Team Member') }}
-                                </h2>
-                                <p class="mt-1 text-sm text-gray-500">
-                                    Add a new member to your team
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Right side -->
-                        <div class="flex items-center space-x-4">
-                            <a href="{{ route('admin.teams.index') }}" 
-                               class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
-                                <x-lucide-arrow-left class="w-4 h-4 mr-2" />
-                                Back to Team
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Breadcrumbs -->
-                    <div class="py-4">
-                        <nav class="flex" aria-label="Breadcrumb">
-                            <ol role="list" class="flex items-center space-x-4">
-                                <li>
-                                    <div>
-                                        <a href="{{ route('admin.dashboard') }}" class="text-gray-400 hover:text-gray-500">
-                                            <x-lucide-home class="flex-shrink-0 h-5 w-5" />
-                                            <span class="sr-only">Home</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                        <a href="{{ route('admin.teams.index') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Team Management</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                        <span class="ml-4 text-sm font-medium text-indigo-600">Add Member</span>
-                                    </div>
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-admin.page-header
+            icon="user-plus"
+            title="{{ __('Add Team Member') }}"
+            description="Create a new team member account"
+            :breadcrumbs="[
+                ['label' => 'Teams', 'url' => route('admin.teams.index')],
+                ['label' => 'Add Member']
+            ]"
+        >
+            <x-slot:actions>
+                <a href="{{ route('admin.teams.index') }}" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <x-lucide-arrow-left class="w-4 h-4 mr-2" />
+                    Back to Team
+                </a>
+            </x-slot:actions>
+        </x-admin.page-header>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xs sm:rounded-lg">
-                <!-- New Member Profile Header -->
-                <div class="border-b border-gray-200 bg-gray-50 p-6">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+                <!-- Header -->
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
                     <div class="flex items-center space-x-6">
                         <div class="flex-shrink-0">
-                            <div class="h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center">
-                                <x-lucide-user-plus class="h-12 w-12 text-gray-400" />
+                            <div class="h-24 w-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                <x-lucide-user-plus class="h-12 w-12 text-gray-400 dark:text-gray-500" />
                             </div>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-gray-900">New Team Member</h3>
-                            <div class="mt-1 text-sm text-gray-500">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">New Team Member</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                 Fill in the information below to create a new team member account
-                            </div>
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <form action="{{ route('admin.teams.store') }}" method="POST">
+                <form action="{{ route('admin.teams.store') }}" method="POST" class="divide-y divide-gray-200 dark:divide-gray-700">
                     @csrf
                     
-                    <div class="p-8">
-                        <!-- Basic Information Section -->
-                        <div class="mb-8">
-                            <div class="flex items-center mb-4">
-                                <x-lucide-user class="w-5 h-5 mr-2 text-gray-500" />
-                                <h3 class="text-lg font-medium text-gray-900">Basic Information</h3>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                    <input type="text" 
-                                           name="name" 
-                                           id="name" 
-                                           value="{{ old('name') }}" 
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @error('name')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                    <input type="email" 
-                                           name="email" 
-                                           id="email" 
-                                           value="{{ old('email') }}" 
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @error('email')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Security Section -->
-                        <div class="mb-8">
-                            <div class="flex items-center mb-4">
-                                <x-lucide-lock class="w-5 h-5 mr-2 text-gray-500" />
-                                <h3 class="text-lg font-medium text-gray-900">Security</h3>
-                            </div>
+                    <!-- Basic Information -->
+                    <div class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div>
-                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                                <input type="password" 
-                                       name="password" 
-                                       id="password" 
-                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                @error('password')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                                <input type="text" 
+                                       name="name" 
+                                       id="name" 
+                                       value="{{ old('name') }}" 
+                                       class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                       required>
+                                @error('name')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                                <input type="email" 
+                                       name="email" 
+                                       id="email" 
+                                       value="{{ old('email') }}" 
+                                       class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                       required>
+                                @error('email')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Role & Status Section -->
-                        <div class="mb-8">
-                            <div class="flex items-center mb-4">
-                                <x-lucide-shield class="w-5 h-5 mr-2 text-gray-500" />
-                                <h3 class="text-lg font-medium text-gray-900">Role & Status</h3>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                                    <select name="role" 
-                                            id="role" 
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
-                                        <option value="editor" {{ old('role') == 'editor' ? 'selected' : '' }}>Editor</option>
-                                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                    </select>
-                                    @error('role')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
+                    <!-- Security -->
+                    <div class="p-6 space-y-6">
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                            <div class="mt-1 relative rounded-lg shadow-sm">
+                                <input type="password" 
+                                       name="password" 
+                                       id="password" 
+                                       class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white pr-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                       required>
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <x-lucide-lock class="h-5 w-5 text-gray-400" />
                                 </div>
+                            </div>
+                            @error('password')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
 
-                                <div class="flex items-center">
-                                    <label class="inline-flex items-center">
-                                        <input type="checkbox" 
-                                               name="is_active" 
-                                               value="1"
-                                               {{ old('is_active', true) ? 'checked' : '' }}
-                                               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                        <span class="ml-2 text-sm text-gray-700">Active Account</span>
-                                    </label>
-                                    @error('is_active')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
+                    <!-- Role & Status -->
+                    <div class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                            <div>
+                                <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
+                                <select name="role" 
+                                        id="role" 
+                                        class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        required>
+                                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                                    <option value="editor" {{ old('role') == 'editor' ? 'selected' : '' }}>Editor</option>
+                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                </select>
+                                @error('role')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div class="flex items-center">
+                                <div class="flex items-center h-5">
+                                    <input type="checkbox" 
+                                           name="is_active" 
+                                           id="is_active"
+                                           value="1" 
+                                           {{ old('is_active', true) ? 'checked' : '' }}
+                                           class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                                </div>
+                                <div class="ml-3">
+                                    <label for="is_active" class="text-sm font-medium text-gray-700 dark:text-gray-300">Active Account</label>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Allow this user to access the system</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Form Actions -->
-                    <div class="px-8 py-4 bg-gray-50 flex items-center justify-end space-x-3">
+                    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 flex items-center justify-between">
                         <a href="{{ route('admin.teams.index') }}" 
-                           class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                           class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Cancel
                         </a>
                         <button type="submit" 
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <x-lucide-user-plus class="w-4 h-4 mr-2" />
-                            Create Team Member
+                            Create Member
                         </button>
                     </div>
                 </form>

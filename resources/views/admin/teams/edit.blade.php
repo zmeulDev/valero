@@ -1,72 +1,38 @@
 <x-admin-layout>
     <x-slot name="header">
-        <div class="bg-white shadow">
-            <div class="border-b border-gray-200">
-                <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-16">
-                        <div class="flex-1 flex items-center">
-                            <x-lucide-user-cog class="w-8 h-8 text-indigo-600 mr-3" />
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-900 leading-7">
-                                    {{ __('Edit Team Member') }}
-                                </h2>
-                                <p class="mt-1 text-sm text-gray-500">
-                                    Update team member information and permissions
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <a href="{{ route('admin.teams.index') }}" 
-                               class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
-                                <x-lucide-arrow-left class="w-4 h-4 mr-2" />
-                                Back to Team
-                            </a>
-                        </div>
-                    </div>
-                    <div class="py-4">
-                        <nav class="flex" aria-label="Breadcrumb">
-                            <ol role="list" class="flex items-center space-x-4">
-                                <li>
-                                    <div>
-                                        <a href="{{ route('admin.dashboard') }}" class="text-gray-400 hover:text-gray-500">
-                                            <x-lucide-home class="flex-shrink-0 h-5 w-5" />
-                                            <span class="sr-only">Home</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                        <a href="{{ route('admin.teams.index') }}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Team Management</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                        <x-lucide-chevron-right class="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                        <span class="ml-4 text-sm font-medium text-indigo-600">Edit Member</span>
-                                    </div>
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <x-admin.page-header
+            icon="user-cog"
+            title="{{ __('Edit Team Member') }}"
+            description="Update team member information and permissions"
+            :breadcrumbs="[
+                ['label' => 'Teams', 'url' => route('admin.teams.index')],
+                ['label' => 'Edit Member']
+            ]"
+        >
+            <x-slot:actions>
+                <a href="{{ route('admin.teams.index') }}" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <x-lucide-arrow-left class="w-4 h-4 mr-2" />
+                    Back to Team
+                </a>
+            </x-slot:actions>
+        </x-admin.page-header>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-                <div class="border-b border-gray-200 bg-gray-50 p-6">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+                <!-- User Profile Header -->
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
                     <div class="flex items-center space-x-6">
                         <div class="flex-shrink-0">
-                            <img class="h-24 w-24 rounded-full object-cover border-4 border-white shadow" 
+                            <img class="h-24 w-24 rounded-full object-cover border-4 border-white shadow-md dark:border-gray-800" 
                                  src="{{ $user->profile_photo_url }}" 
                                  alt="{{ $user->name }}">
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-gray-900">{{ $user->name }}</h3>
-                            <div class="mt-1 text-sm text-gray-500 space-y-1">
+                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $user->name }}</h3>
+                            <div class="mt-1 text-sm text-gray-500 dark:text-gray-400 space-y-1">
                                 <div class="flex items-center">
                                     <x-lucide-calendar class="w-4 h-4 mr-2" />
                                     Member since {{ $user->created_at->format('M d, Y') }}
@@ -80,113 +46,134 @@
                     </div>
                 </div>
 
-                <form action="{{ route('admin.teams.update', $user) }}" method="POST">
+                <form action="{{ route('admin.teams.update', $user) }}" method="POST" class="divide-y divide-gray-200 dark:divide-gray-700">
                     @csrf
                     @method('PUT')
                     
-                    <div class="p-8">
-                        <div class="mb-8">
-                            <div class="flex items-center mb-4">
-                                <x-lucide-user class="w-5 h-5 mr-2 text-gray-500" />
-                                <h3 class="text-lg font-medium text-gray-900">Basic Information</h3>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                    <input type="text" 
-                                           name="name" 
-                                           id="name" 
-                                           value="{{ old('name', $user->name) }}" 
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @error('name')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div>
-                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                    <input type="email" 
-                                           name="email" 
-                                           id="email" 
-                                           value="{{ old('email', $user->email) }}" 
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @error('email')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-8">
-                            <div class="flex items-center mb-4">
-                                <x-lucide-lock class="w-5 h-5 mr-2 text-gray-500" />
-                                <h3 class="text-lg font-medium text-gray-900">Security</h3>
-                            </div>
+                    <!-- Basic Information -->
+                    <div class="p-6 space-y-6">
+                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div>
-                                <label for="password" class="block text-sm font-medium text-gray-700">
-                                    Password
-                                    <span class="text-gray-500 text-xs">(leave blank to keep current)</span>
-                                </label>
-                                <input type="password" 
-                                       name="password" 
-                                       id="password" 
-                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                @error('password')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                                <input type="text" 
+                                       name="name" 
+                                       id="name" 
+                                       value="{{ old('name', $user->name) }}" 
+                                       class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                @error('name')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
-                        </div>
 
-                        <div class="mb-8">
-                            <div class="flex items-center mb-4">
-                                <x-lucide-shield class="w-5 h-5 mr-2 text-gray-500" />
-                                <h3 class="text-lg font-medium text-gray-900">Role & Status</h3>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                                    <select name="role" 
-                                            id="role" 
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                        <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
-                                        <option value="editor" {{ old('role', $user->role) == 'editor' ? 'selected' : '' }}>Editor</option>
-                                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                    </select>
-                                    @error('role')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="flex items-center">
-                                    <input type="hidden" name="is_active" value="0">
-                                    <label class="inline-flex items-center">
-                                        <input type="checkbox" 
-                                               name="is_active" 
-                                               value="1" 
-                                               {{ old('is_active', $user->is_active) ? 'checked' : '' }}
-                                               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                        <span class="ml-2 text-sm text-gray-700">Active Account</span>
-                                    </label>
-                                    @error('is_active')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                                <input type="email" 
+                                       name="email" 
+                                       id="email" 
+                                       value="{{ old('email', $user->email) }}" 
+                                       class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                @error('email')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>
 
-                    <div class="px-8 py-4 bg-gray-50 flex items-center justify-between">
-                         <div class="flex items-center space-x-3">
-                            <a href="{{ route('admin.teams.index') }}" 
-                               class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Cancel
-                            </a>
-                            <button type="submit" 
-                                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                                <x-lucide-check class="w-4 h-4 mr-2" />
-                                Update Team Member
-                            </button>
+                    <!-- Security & Role Section -->
+<div class="p-6 space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Security Card -->
+        <div class="bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+            <div class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">Security</h4>
+                    <x-lucide-lock class="w-4 h-4 text-gray-400" />
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="space-y-4">
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Password
+                            @if(isset($user))
+                                <span class="text-gray-500 text-xs ml-1">(leave blank to keep current)</span>
+                            @endif
+                        </label>
+                        <div class="mt-1 relative rounded-lg shadow-sm">
+                            <input type="password" 
+                                   name="password" 
+                                   id="password" 
+                                   class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 dark:text-white pr-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                   {{ !isset($user) ? 'required' : '' }}>
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <x-lucide-key class="h-5 w-5 text-gray-400" />
+                            </div>
                         </div>
+                        @error('password')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Role & Status Card -->
+        <div class="bg-white dark:bg-gray-800/50 rounded-lg border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+            <div class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">Role & Access</h4>
+                    <x-lucide-shield class="w-4 h-4 text-gray-400" />
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="space-y-4">
+                    <!-- Role Select -->
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
+                        <select name="role" 
+                                id="role" 
+                                class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700/50 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                required>
+                            <option value="user" {{ (isset($user) && old('role', $user->role) == 'user') || (!isset($user) && old('role') == 'user') ? 'selected' : '' }}>User</option>
+                            <option value="editor" {{ (isset($user) && old('role', $user->role) == 'editor') || (!isset($user) && old('role') == 'editor') ? 'selected' : '' }}>Editor</option>
+                            <option value="admin" {{ (isset($user) && old('role', $user->role) == 'admin') || (!isset($user) && old('role') == 'admin') ? 'selected' : '' }}>Admin</option>
+                        </select>
+                        @error('role')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Active Status Toggle -->
+                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                        <div>
+                            <label for="is_active" class="text-sm font-medium text-gray-700 dark:text-gray-300">Account Status</label>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Allow user to access the system</p>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   name="is_active" 
+                                   id="is_active"
+                                   value="1" 
+                                   {{ (isset($user) && old('is_active', $user->is_active)) || (!isset($user) && old('is_active', true)) ? 'checked' : '' }}
+                                   class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 flex items-center justify-between">
+                        <a href="{{ route('admin.teams.index') }}" 
+                           class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Cancel
+                        </a>
+                        <button type="submit" 
+                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <x-lucide-save class="w-4 h-4 mr-2" />
+                            Update Member
+                        </button>
                     </div>
                 </form>
             </div>

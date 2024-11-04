@@ -8,14 +8,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class AdminTeamController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('name')
-            ->withCount('articles')
-            ->paginate(10);
+        $query = User::query()->orderBy('name');
+
+        // Handle search
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('role', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->withCount('articles')->paginate(10)->withQueryString();
+
         return view('admin.teams.index', compact('users'));
     }
 
@@ -60,27 +72,49 @@ class AdminTeamController extends Controller
             return back()->with('error', 'You cannot update admin users.');
         }
 
+        // Validate the request
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user)],
-            'password' => ['nullable', Password::defaults()],
+            'password' => ['nullable', 'string', 'min:8'],
             'role' => ['required', Rule::in(['admin', 'editor', 'user'])],
             'is_active' => ['nullable', 'boolean'],
         ]);
 
-        if (isset($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            unset($validated['password']);
+        try {
+            // Start a database transaction
+            DB::beginTransaction();
+
+            // Prepare update data
+            $updateData = [
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'role' => $validated['role'],
+                'is_active' => $request->boolean('is_active', false),
+            ];
+
+            // Only update password if provided
+            if (!empty($validated['password'])) {
+                $updateData['password'] = Hash::make($validated['password']);
+            }
+
+            // Update user
+            $user->update($updateData);
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()
+                ->route('admin.teams.index')
+                ->with('success', 'Team member updated successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of error
+            DB::rollBack();
+            
+            return back()
+                ->with('error', 'Failed to update team member: ' . $e->getMessage())
+                ->withInput();
         }
-
-        // Set is_active based on the request
-        $validated['is_active'] = $request->boolean('is_active', false);
-
-        $user->update($validated);
-
-        return redirect()->route('admin.teams.index')
-            ->with('success', 'Team member updated successfully.');
     }
 
     public function destroy(User $user)

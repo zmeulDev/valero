@@ -81,7 +81,20 @@
                         </div>
 
                         <!-- Search Bar -->
-                        <form method="GET" action="{{ route('admin.articles.index') }}" class="relative flex-1 max-w-md ml-0 sm:ml-4">
+                        <form method="GET" action="{{ route('admin.articles.index') }}" 
+                              x-data="{ 
+                                  query: '{{ request('search') }}',
+                                  updateSearch: function(value) {
+                                      this.query = value;
+                                      // Add debounce to prevent too many requests
+                                      clearTimeout(this.timeout);
+                                      this.timeout = setTimeout(() => {
+                                          this.$refs.searchForm.submit();
+                                      }, 300);
+                                  }
+                              }" 
+                              x-ref="searchForm"
+                              class="relative flex-1 max-w-md ml-0 sm:ml-4">
                             @if($selectedCategory)
                                 <input type="hidden" name="category" value="{{ $selectedCategory }}">
                             @endif
@@ -90,11 +103,11 @@
                             </div>
                             <input type="text"
                                    name="search"
-                                   value="{{ request('search') }}"
+                                   x-model="query"
+                                   @input="updateSearch($event.target.value)"
                                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
                                    placeholder="Search articles..."
-                                   x-ref="searchInput"
-                                   @keydown.enter="$event.target.form.submit()">
+                                   x-ref="searchInput">
                             @if(request('search'))
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                                     <a href="{{ route('admin.articles.index', array_filter(['category' => $selectedCategory])) }}" 

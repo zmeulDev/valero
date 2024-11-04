@@ -1,39 +1,75 @@
-<x-form-section submit="updatePassword">
-    <x-slot name="title">
-        {{ __('Update Password') }}
-    </x-slot>
+<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
+    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
+                    {{ __('Update Password') }}
+                </h3>
+                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                    {{ __('Ensure your account is using a long, random password to stay secure.') }}
+                </p>
+            </div>
+            <div class="flex-shrink-0">
+                <x-lucide-lock class="w-8 h-8 text-gray-400" />
+            </div>
+        </div>
+    </div>
 
-    <x-slot name="description">
-        {{ __('Ensure your account is using a long, random password to stay secure.') }}
-    </x-slot>
-
-    <x-slot name="form">
-        <div class="col-span-6 sm:col-span-4">
+    <form wire:submit="updatePassword" class="p-6 space-y-6">
+        <div>
             <x-label for="current_password" value="{{ __('Current Password') }}" />
-            <x-input id="current_password" type="password" class="mt-1 block w-full" wire:model="state.current_password" autocomplete="current-password" />
+            <div class="relative">
+                <x-input id="current_password" 
+                        type="password" 
+                        class="mt-1 block w-full" 
+                        wire:model="state.current_password" 
+                        autocomplete="current-password" />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <x-lucide-key class="w-5 h-5 text-gray-400" />
+                </div>
+            </div>
             <x-input-error for="current_password" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-4">
+        <div>
             <x-label for="password" value="{{ __('New Password') }}" />
-            <x-input id="password" type="password" class="mt-1 block w-full" wire:model="state.password" autocomplete="new-password" />
+            <div class="relative">
+                <x-input id="password" 
+                        type="password" 
+                        class="mt-1 block w-full" 
+                        wire:model="state.password" 
+                        autocomplete="new-password" />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <x-lucide-lock class="w-5 h-5 text-gray-400" />
+                </div>
+            </div>
             <x-input-error for="password" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-4">
+        <div>
             <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-            <x-input id="password_confirmation" type="password" class="mt-1 block w-full" wire:model="state.password_confirmation" autocomplete="new-password" />
+            <div class="relative">
+                <x-input id="password_confirmation" 
+                        type="password" 
+                        class="mt-1 block w-full" 
+                        wire:model="state.password_confirmation" 
+                        autocomplete="new-password" />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <x-lucide-check class="w-5 h-5 text-gray-400" />
+                </div>
+            </div>
             <x-input-error for="password_confirmation" class="mt-2" />
         </div>
-    </x-slot>
 
-    <x-slot name="actions">
-        <x-action-message class="me-3" on="saved">
-            {{ __('Saved.') }}
-        </x-action-message>
+        <div class="flex items-center justify-end">
+            <x-action-message class="mr-3" on="saved">
+                {{ __('Saved.') }}
+            </x-action-message>
 
-        <x-button>
-            {{ __('Save') }}
-        </x-button>
-    </x-slot>
-</x-form-section>
+            <x-button>
+                <x-lucide-save class="w-4 h-4 mr-2" />
+                {{ __('Save') }}
+            </x-button>
+        </div>
+    </form>
+</div>
