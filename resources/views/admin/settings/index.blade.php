@@ -103,8 +103,7 @@
                                             name="app_social{{ $platform }}"
                                             :label="$data['label']"
                                             :value="$settings['app_social'.$platform] ?? ''"
-                                            :placeholder="'https://' . $data['url'] . '/username'"
-                                        >
+                                            :placeholder="'https://' . $data['url'] . '/username'">
                                             <x-slot:prefix>
                                                 <x-dynamic-component 
                                                     :component="'lucide-' . $data['icon']"

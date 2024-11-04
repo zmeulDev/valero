@@ -109,6 +109,7 @@
                 </div>
 
                 <!-- Articles Table -->
+                @if($articles->count() > 0)
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -191,6 +192,10 @@
                         </table>
                     </div>
                 </div>
+                @else
+                    <x-nothing-found />
+                @endif
+                    
 
                 <!-- Pagination -->
                 <div class="mt-6">

@@ -23,6 +23,7 @@
                 id="{{ $name }}"
                 name="{{ $name }}"
                 rows="{{ $rows }}"
+                :placeholder="$placeholder"
                 x-data="{ charCount: $el.value.length }"
                 x-on:input="charCount = $el.value.length"
                 {{ $maxlength ? "maxlength=$maxlength" : '' }}
@@ -35,6 +36,7 @@
                 id="{{ $name }}"
                 name="{{ $name }}"
                 value="{{ $value }}"
+                placeholder="{{ $placeholder }}"
                 x-data="{ charCount: $el.value.length }"
                 x-on:input="charCount = $el.value.length"
                 {{ $maxlength ? "maxlength=$maxlength" : '' }}

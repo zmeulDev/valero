@@ -55,6 +55,7 @@ class AdminTeamController extends Controller
 
     public function update(Request $request, User $user)
     {
+        // Prevent editing super admin if you're not one
         if ($user->role === 'admin' && auth()->user()->role !== 'admin') {
             return back()->with('error', 'You cannot update admin users.');
         }
@@ -73,7 +74,8 @@ class AdminTeamController extends Controller
             unset($validated['password']);
         }
 
-        $validated['is_active'] = $request->has('is_active');
+        // Set is_active based on the request
+        $validated['is_active'] = $request->boolean('is_active', false);
 
         $user->update($validated);
 
