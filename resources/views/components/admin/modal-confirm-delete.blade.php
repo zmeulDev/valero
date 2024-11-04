@@ -1,4 +1,4 @@
-@props(['action' => '', 'type' => ''])
+@props(['type' => ''])
 
 <div x-show="showDeleteModal" class="fixed inset-0 overflow-y-auto z-50" x-cloak>
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -43,7 +43,7 @@
             </div>
 
             <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <form method="POST" x-bind:action="itemToDelete ? `{{ route('admin.teams.destroy', '') }}/${itemToDelete}` : ''">
+                <form method="POST" x-bind:action="itemToDelete ? `{{ url('/admin/' . ($type === 'team member' ? 'teams' : 'articles')) }}/${itemToDelete}` : ''">
                     @csrf
                     @method('DELETE')
                     <button type="submit"

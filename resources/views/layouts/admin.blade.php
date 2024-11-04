@@ -10,7 +10,7 @@
   <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}">
 
   <!-- Styles -->
-  @vite('resources/css/app.css')
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
   @livewireStyles
 
   <style>[x-cloak] { display: none !important; }</style>
@@ -43,7 +43,6 @@
   </div>
 
   <!-- Scripts -->
-  <script src="//unpkg.com/alpinejs" defer></script>
   <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
   @vite('resources/js/valero-admin.js')
   @livewireScripts

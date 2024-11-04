@@ -3,6 +3,36 @@ document.addEventListener('DOMContentLoaded', function () {
   const darkIcon = document.getElementById('theme-toggle-dark-icon');
   const lightIcon = document.getElementById('theme-toggle-light-icon');
   
+  if (themeToggleBtn && darkIcon && lightIcon) {
+    function applyTheme() {
+      if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+        '(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+      }
+    }
+
+    applyTheme();
+
+    themeToggleBtn.addEventListener('click', function () {
+      darkIcon.classList.toggle('hidden');
+      lightIcon.classList.toggle('hidden');
+
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+      }
+    });
+  }
+
   if (typeof tinymce !== 'undefined') {
     tinymce.init({
       selector: '#content',
@@ -17,79 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Function to apply the theme based on local storage
-  function applyTheme() {
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
-      '(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      lightIcon.classList.remove('hidden');
-      darkIcon.classList.add('hidden');
-    } else {
-      document.documentElement.classList.remove('dark');
-      darkIcon.classList.remove('hidden');
-      lightIcon.classList.add('hidden');
-    }
-  }
-
-  // Apply theme on page load
-  applyTheme();
-
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', function () {
-      // Toggle icons inside button
-      darkIcon.classList.toggle('hidden');
-      lightIcon.classList.toggle('hidden');
-
-      // Toggle dark mode class and update local storage
-      if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('color-theme', 'light');
-      } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('color-theme', 'dark');
-      }
-    });
-  }
-
-  // Add logo refresh handler
-  if (window.location.pathname.includes('/admin/settings')) {
-    const form = document.getElementById('settings-form');
-    if (form) {
-      form.addEventListener('submit', function (e) {
-        const fileInput = document.querySelector('input[name="logo"]');
-        if (fileInput && fileInput.files.length > 0) {
-          e.preventDefault();
-
-          const formData = new FormData(form);
-
-          fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest'
-            }
-          })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                // Force refresh all logo images on the page
-                const logoImages = document.querySelectorAll('img[src*="brand/logo.png"]');
-                logoImages.forEach(img => {
-                  const currentSrc = img.src.split('?')[0];
-                  img.src = `${currentSrc}?v=${Date.now()}`;
-                });
-              }
-            })
-            .catch(error => {
-              console.error('Error:', error);
-              // If there's an error, submit the form normally
-              form.submit();
-            });
-        }
-      });
-    }
-  }
-
   ['title', 'excerpt'].forEach(id => {
     const element = document.getElementById(id);
     if (element) {
@@ -97,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function () {
       updateCharCount(id, id === 'title' ? 60 : 160);
     }
   });
-  // Content character count will be updated by TinyMCE setup
 
   const settingsForm = document.getElementById('settings-form');
   if (settingsForm) {
@@ -124,15 +80,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function updateCharCount(elementId, limit = null) {
   let content;
-  if (elementId === 'content') {
+  if (elementId === 'content' && typeof tinymce !== 'undefined') {
     content = tinymce.get('content').getContent({
       format: 'text'
     });
   } else {
     const element = document.getElementById(elementId);
+    if (!element) return;
     content = element.value;
   }
   const charCount = document.getElementById(elementId + '-char-count');
+  if (!charCount) return;
+  
   charCount.textContent = content.length;
 
   if (limit && content.length > limit) {
