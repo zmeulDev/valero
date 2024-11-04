@@ -1,184 +1,128 @@
 <x-admin-layout>
-  <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      {{ __('Application Settings') }}
-    </h2>
-  </x-slot>
-  
+    <x-notification />
+    <x-slot name="header">
+        <x-admin.page-header
+            icon="settings"
+            title="{{ __('Settings') }}"
+            description="Configure your application settings"
+            :breadcrumbs="[['label' => 'Settings']]"
+        >
+            <x-slot:actions>
+                <button type="submit" form="settings-form"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <x-lucide-save class="w-4 h-4 mr-2" />
+                    Save Changes
+                </button>
+            </x-slot:actions>
+        </x-admin.page-header>
+    </x-slot>
 
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
-      <p class="mt-2 text-sm text-gray-600">Manage your app settings</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <!-- Main Settings (3 columns) -->
-        <div class="md:col-span-3">
-            <div class="bg-white border border-gray-200 shadow-xs rounded-lg overflow-hidden">
-                <div class="border-b border-gray-200 bg-gray-50 px-4 py-3">
-                    <h3 class="text-lg font-medium text-gray-900">General Settings</h3>
-                </div>
-
-                <div class="p-6">
-                    <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <form id="settings-form" action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="space-y-8">
-                            <!-- Logo and App Name side by side -->
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                <!-- Logo -->
-                                <div class="space-y-3">
-                                    <x-label for="logo" value="{{ __('Brand Logo') }}" class="text-base" />
-                                    <div class="p-4 bg-gray-50 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors duration-200">
-                                        <img src="{{ asset('storage/brand/logo.png') }}" alt="Current Logo"
-                                            class="h-32 w-32 object-cover rounded-lg shadow-sm mx-auto">
+                        <div class="space-y-6">
+                            <!-- Brand Settings Card -->
+                            <x-admin.card>
+                                <x-slot:header>
+                                    <div class="flex items-center">
+                                        <x-lucide-briefcase class="w-5 h-5 text-indigo-500 mr-2" />
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Brand Settings</h3>
                                     </div>
-                                    <input id="logo" name="logo" type="file"
-                                        class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer"
-                                        accept="image/*" />
-                                </div>
+                                </x-slot:header>
 
-                                <!-- Settings -->
-                                <div class="md:col-span-2 space-y-6">
-                                    <!-- App Name -->
-                                    <div>
-                                        <x-label for="app_name" value="{{ __('App Name') }}" class="text-base" />
-                                        <x-input id="app_name" name="app_name" type="text" 
-                                            class="mt-1.5 block w-full bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                            :value="$settings['app_name'] ?? ''" required />
+                                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                    <x-admin.form.text-input
+                                        name="app_name"
+                                        label="Application Name"
+                                        :value="$settings['app_name'] ?? ''"
+                                        required
+                                    />
+                                    <x-admin.form.text-input
+                                        name="app_url"
+                                        label="Application URL"
+                                        :value="$settings['app_url'] ?? ''"
+                                        required
+                                    />
+                                    <x-admin.form.select-input
+                                        name="app_timezone"
+                                        label="Timezone"
+                                        :value="$settings['app_timezone'] ?? 'UTC'"
+                                        :options="timezone_identifiers_list()"
+                                        required
+                                    />
+                                    <x-admin.form.file-input
+                                        name="logo"
+                                        label="Logo"
+                                        :currentImage="asset($settings['app_logo'] ?? 'storage/brand/logo.png') . '?v=' . ($settings['app_logo_version'] ?? '1')"
+                                    />
+                                </div>
+                            </x-admin.card>
+
+                            <!-- API Settings Card -->
+                            <x-admin.card>
+                                <x-slot:header>
+                                    <div class="flex items-center">
+                                        <x-lucide-key class="w-5 h-5 text-indigo-500 mr-2" />
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">API Settings</h3>
                                     </div>
+                                </x-slot:header>
 
-                                    <!-- URL and Timezone -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                        <div>
-                                            <x-label for="app_url" value="{{ __('App URL') }}" class="text-base" />
-                                            <x-input id="app_url" name="app_url" type="url" 
-                                                class="mt-1.5 block w-full bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                                :value="$settings['app_url'] ?? ''" required />
-                                        </div>
-                                        <div>
-                                            <x-label for="app_timezone" value="{{ __('Timezone') }}" class="text-base" />
-                                            <x-input id="app_timezone" name="app_timezone" type="text" 
-                                                class="mt-1.5 block w-full bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                                :value="$settings['app_timezone'] ?? ''" required />
-                                        </div>
+                                <div class="grid grid-cols-1 gap-6">
+                                    <x-admin.form.text-input
+                                        name="app_tinymce"
+                                        label="TinyMCE API Key"
+                                        :value="$settings['app_tinymce'] ?? ''"
+                                        required
+                                    />
+                                    <x-admin.form.text-input
+                                        name="app_googlesearchmeta"
+                                        label="Google Search Console Meta"
+                                        :value="$settings['app_googlesearchmeta'] ?? ''"
+                                        required
+                                    />
+                                </div>
+                            </x-admin.card>
+
+                            <!-- Social Media Card -->
+                            <x-admin.card>
+                                <x-slot:header>
+                                    <div class="flex items-center">
+                                        <x-lucide-share-2 class="w-5 h-5 text-indigo-500 mr-2" />
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Social Media</h3>
                                     </div>
-                                </div>
-                            </div>
+                                </x-slot:header>
 
-                            <!-- API Integrations -->
-                            <div class="border-t border-gray-200 pt-8 space-y-6">
-                                <h4 class="text-lg font-medium text-gray-900 mb-4">API Integrations</h4>
-                                
-                                <!-- TinyMCE -->
-                                <div>
-                                    <x-label for="app_tinymce" value="{{ __('TinyMCE API Key') }}" class="text-base" />
-                                    <x-input id="app_tinymce" name="app_tinymce" type="text" 
-                                        class="mt-1.5 block w-full bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                        :value="$settings['app_tinymce'] ?? ''" required />
-                                    <p class="mt-1.5 text-sm text-gray-500">Get your API key from <a href="https://www.tiny.cloud/my-account/integrate/#more" class="text-indigo-600 hover:text-indigo-800" target="_blank">TinyMCE Dashboard</a></p>
-                                </div>
-
-                                <!-- Google Search Console -->
-                                <div>
-                                    <x-label for="app_googlesearchmeta" value="{{ __('Google Search Console Meta Tag') }}" class="text-base" />
-                                    <x-input id="app_googlesearchmeta" name="app_googlesearchmeta" type="text" 
-                                        class="mt-1.5 block w-full bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                        :value="$settings['app_googlesearchmeta'] ?? ''" required />
-                                </div>
-                            </div>
-
-                            <!-- Social Media Links -->
-                            <div class="border-t border-gray-200 pt-8 space-y-6">
-                                <h4 class="text-lg font-medium text-gray-900 mb-4">Social Media Links</h4>
-                                
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <!-- Instagram -->
-                                    <div>
-                                        <x-label for="app_socialinstagram" value="{{ __('Instagram Profile URL') }}" class="text-base" />
-                                        <div class="mt-1.5 relative rounded-lg">
-                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <x-lucide-instagram class="h-5 w-5 text-gray-400" />
-                                            </div>
-                                            <x-input id="app_socialinstagram" name="app_socialinstagram" type="url" 
-                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                                :value="$settings['app_socialinstagram'] ?? ''" 
-                                                placeholder="https://instagram.com/username" />
-                                        </div>
-                                    </div>
-
-                                    <!-- Facebook -->
-                                    <div>
-                                        <x-label for="app_socialfacebook" value="{{ __('Facebook Profile URL') }}" class="text-base" />
-                                        <div class="mt-1.5 relative rounded-lg">
-                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <x-lucide-facebook class="h-5 w-5 text-gray-400" />
-                                            </div>
-                                            <x-input id="app_socialfacebook" name="app_socialfacebook" type="url" 
-                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                                :value="$settings['app_socialfacebook'] ?? ''" 
-                                                placeholder="https://facebook.com/username" />
-                                        </div>
-                                    </div>
-
-                                    <!-- GitHub -->
-                                    <div>
-                                        <x-label for="app_socialgithub" value="{{ __('Github Profile URL') }}" class="text-base" />
-                                        <div class="mt-1.5 relative rounded-lg">
-                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <x-lucide-github class="h-5 w-5 text-gray-400" />
-                                            </div>
-                                            <x-input id="app_socialgithub" name="app_socialgithub" type="url" 
-                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                                :value="$settings['app_socialgithub'] ?? ''" 
-                                                placeholder="https://github.com/username" />
-                                        </div>
-                                    </div>
-
-                                    <!-- Twitter -->
-                                    <div>
-                                        <x-label for="app_socialtwitter" value="{{ __('Twitter Profile URL') }}" class="text-base" />
-                                        <div class="mt-1.5 relative rounded-lg">
-                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <x-lucide-twitter class="h-5 w-5 text-gray-400" />
-                                            </div>
-                                            <x-input id="app_socialtwitter" name="app_socialtwitter" type="url" 
-                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                                :value="$settings['app_socialtwitter'] ?? ''" 
-                                                placeholder="https://twitter.com/username" />
-                                        </div>
-                                    </div>
-
-                                    <!-- LinkedIn -->
-                                    <div>
-                                        <x-label for="app_sociallinkedin" value="{{ __('LinkedIn Profile URL') }}" class="text-base" />
-                                        <div class="mt-1.5 relative rounded-lg">
-                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <x-lucide-twitter class="h-5 w-5 text-gray-400" />
-                                            </div>
-                                            <x-input id="app_sociallinkedin" name="app_sociallinkedin" type="url" 
-                                                class="block w-full pl-10 bg-gray-50 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                                                :value="$settings['app_sociallinkedin'] ?? ''" 
-                                                placeholder="https://linkedin.com/in/username" />
-                                        </div>
-                                    </div>
+                                    @foreach ($socialPlatforms as $platform => $data)
+                                        <x-admin.form.text-input
+                                            type="url"
+                                            name="app_social{{ $platform }}"
+                                            :label="$data['label']"
+                                            :value="$settings['app_social'.$platform] ?? ''"
+                                            :placeholder="'https://' . $data['url'] . '/username'">
+                                            <x-slot:prefix>
+                                                <x-dynamic-component 
+                                                    :component="'lucide-' . $data['icon']"
+                                                    class="h-5 w-5 text-gray-400"
+                                                />
+                                            </x-slot:prefix>
+                                        </x-admin.form.text-input>
+                                    @endforeach
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-end mt-6 pt-6 border-t border-gray-200">
-                            <x-button class="ml-4">
-                                {{ __('Save Settings') }}
-                            </x-button>
+                            </x-admin.card>
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
 
-        <!-- SEO Sidebar (1 column) -->
-        <div class="md:col-span-1">
-            @include('admin.settings.partials.seo-sidebar')
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    @include('admin.settings.partials.seo-sidebar')
+                </div>
+            </div>
         </div>
     </div>
 </x-admin-layout>

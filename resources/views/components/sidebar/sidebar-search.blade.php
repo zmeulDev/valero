@@ -1,10 +1,11 @@
+@if($categories->count() > 0) 
 <!-- Search Form with Category Filter -->
 <div x-data="sidebarSearch()" x-init="init()"
   class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
   <!-- Search Header -->
   <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
     <h3 class="text-xl font-bold text-gray-900 dark:text-white">
-      Search Articles
+      Search
     </h3>
   </div>
 
@@ -87,3 +88,5 @@ function sidebarSearch() {
   }
 }
 </script>
+
+@endif

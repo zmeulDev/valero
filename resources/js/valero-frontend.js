@@ -37,6 +37,45 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  // Logo refresh handler for settings page
+  if (window.location.pathname.includes('/admin/settings')) {
+    const form = document.getElementById('settings-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        const fileInput = document.querySelector('input[name="logo"]');
+        if (fileInput && fileInput.files.length > 0) {
+          e.preventDefault();
+          
+          const formData = new FormData(form);
+          
+          fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // Force refresh all logo images on the page
+              const logoImages = document.querySelectorAll('img[src*="brand/logo.png"]');
+              logoImages.forEach(img => {
+                const currentSrc = img.src.split('?')[0];
+                img.src = `${currentSrc}?v=${Date.now()}`;
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // If there's an error, submit the form normally
+            form.submit();
+          });
+        }
+      });
+    }
+  }
 });
 
 // Gallery

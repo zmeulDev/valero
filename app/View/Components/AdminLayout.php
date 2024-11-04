@@ -3,9 +3,12 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use App\Models\Setting;
 
 class AdminLayout extends Component
 {
+    public $settings;
+
     /**
      * Create a new component instance.
      *
@@ -13,7 +16,7 @@ class AdminLayout extends Component
      */
     public function __construct()
     {
-        //
+        $this->settings = Setting::getAllSettings();
     }
 
     /**
@@ -23,6 +26,8 @@ class AdminLayout extends Component
      */
     public function render()
     {
-        return view('layouts.admin');
+        return view('layouts.admin', [
+            'settings' => $this->settings
+        ]);
     }
 }

@@ -12,12 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Add user admin and set is_admin to true
+        // Add user admin and set role to admin
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('password'), 
-            'is_admin' => true,
+            'role' => 'admin',
         ]);
 
         $this->call([

@@ -9,16 +9,29 @@ return new class extends Migration
     public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
+            // Primary key
             $table->id();
+            
+            // Foreign keys
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            
+            // Core article information
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('excerpt')->nullable();
             $table->longText('content');
+            
+            // Media
             $table->string('featured_image')->nullable();
-            $table->unsignedBigInteger('likes_count')->default(0);
-            $table->timestamp('scheduled_at')->nullable();
+            
+            // Metrics and stats
             $table->unsignedBigInteger('views')->default(0);
+            $table->unsignedBigInteger('likes_count')->default(0);
+            
+            // Publishing
+            $table->timestamp('scheduled_at')->nullable();
+            
+            // Timestamps
             $table->timestamps();
         });
     }

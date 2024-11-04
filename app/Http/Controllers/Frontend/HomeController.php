@@ -4,46 +4,37 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
-use App\Models\Category;
-use App\Models\Setting;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $articles = Article::latest()->paginate(8);
-        $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
-        $featuredArticle = Article::latest()->first();
-        $categories = Category::all();
+        $articles = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->latest()
+            ->paginate(8);
 
-        return view('frontend.home', compact('featuredArticle', 'articles', 'popularArticles', 'categories'));
-    }
+        $popularArticles = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->orderBy('views', 'desc')
+            ->take(5)
+            ->get();
 
-    public function create()
-    {
-        //
-    }
+        $featuredArticle = Article::where(function($query) {
+                $query->whereNull('scheduled_at')
+                      ->orWhere('scheduled_at', '<=', now());
+            })
+            ->latest()
+            ->first();
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($slug)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
+        return view('frontend.home', compact(
+            'featuredArticle', 
+            'articles', 
+            'popularArticles'
+        ));
     }
 }

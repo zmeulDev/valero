@@ -33,4 +33,9 @@ class Setting extends Model
     {
         static::updateOrCreate(['key' => 'logo'], ['logo_path' => $path]);
     }
+
+    public static function getAllSettings()
+    {
+        return static::all()->pluck('value', 'key')->toArray();
+    }
 }

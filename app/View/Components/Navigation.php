@@ -24,8 +24,8 @@ class Navigation extends Component
     public function render(): View|Closure|string
     {
         $categories = Category::all();
-        return view('components.navigation', [
-            'isAdmin' => Auth::check() && Auth::user()->is_admin,
+        return view('components.header', [
+            'role' => Auth::check() && Auth::user()->role === 'admin',
             'categories' => $categories
         ]);
     }

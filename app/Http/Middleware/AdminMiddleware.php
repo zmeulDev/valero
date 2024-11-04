@@ -20,7 +20,7 @@ class AdminMiddleware
             ]);
 
             // Check if the authenticated user is an admin.
-            if (Auth::user()->is_admin) {
+            if (Auth::user()->role === 'admin') {
                 return $next($request); // User is admin, proceed with the request.
             }
 

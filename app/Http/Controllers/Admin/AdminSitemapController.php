@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Article;
 use Illuminate\Routing\Controller;
+use App\Models\Article;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
-class SitemapController extends Controller
+class AdminSitemapController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function generate()
     {
         $sitemap = Sitemap::create();
@@ -35,6 +30,9 @@ class SitemapController extends Controller
 
         $sitemap->writeToFile(public_path('sitemap.xml'));
         
-        return redirect()->back()->with('success', 'Sitemap generated successfully!');
+        if (request()->is('admin/generate-sitemap')) {
+            return redirect()->back()->with('success', 'Sitemap generated successfully!');
+        }
+        return redirect()->back();
     }
 }

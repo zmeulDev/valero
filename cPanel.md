@@ -64,3 +64,15 @@ require __DIR__.'/../repositories/valero/vendor/autoload.php';
 (require_once __DIR__.'/../repositories/valero/bootstrap/app.php')
     ->handleRequest(Request::capture());
 ```
+
+# Route chache
+
+```
+use Illuminate\Support\Facades\Artisan;
+Route::get('/optimize-clear', function(){
+    Artisan::call('optimize:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    echo 'Cache cleared successfully!';
+});
+```
