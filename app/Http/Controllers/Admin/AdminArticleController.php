@@ -267,12 +267,12 @@ class AdminArticleController extends Controller
             [
                 'title' => $article->title,
                 'description' => $article->excerpt ?? Str::limit(strip_tags($article->content), 160),
-                'image' => $article->featured_image ? asset('storage/' . $article->featured_image) : null,
+                'image' => $article->featured_image,
                 'author' => $article->user->name,
                 'robots' => 'index, follow',
                 'canonical_url' => route('articles.index', $article->slug),
-                'published_time' => $article->scheduled_at ?? $article->created_at,
-                'modified_time' => $article->updated_at,
+                'created_at' => $article->scheduled_at ?? $article->created_at,
+                'updated_at' => $article->updated_at,
             ]
         );
     }

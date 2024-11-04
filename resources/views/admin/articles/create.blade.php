@@ -60,7 +60,7 @@
 
           <!-- Sidebar -->
           <div class="w-full lg:w-1/3 order-1 lg:order-2 space-y-6">
-            <x-admin.sidebar-admin :categories="$categories" />
+            <x-admin.article-sidebar :categories="$categories" />
 
             <!-- Submit Button Card -->
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 sticky top-6">
