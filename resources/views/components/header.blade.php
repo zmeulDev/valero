@@ -8,8 +8,7 @@
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="{{ route('home') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <x-application-logo class="h-8 w-8 sm:h-12 sm:w-12 text-gray-800 dark:text-white" />
-            <span
-              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ config('app_name') }}</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">{{ config('app_name') }}</span>
           </a>
           <button @click="open = !open" type="button"
             class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -18,19 +17,20 @@
             <x-lucide-menu class="w-5 h-5" />
           </button>
           <div :class="{'block': open, 'hidden': !open}" class="w-full md:block md:w-auto" id="navbar-dropdown">
-            <ul
-              class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 dark:border-gray-700">
+            <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 dark:border-gray-700">
               <li>
                 <x-button-action href="{{ route('home') }}" :active="request()->routeIs('home')">
+                  <x-lucide-home class="w-4 h-4 mr-2" />
                   Home
                 </x-button-action>
               </li>
+              @if($categories->count() > 0)
               <li x-data="{ open: false }" @click.away="open = false" class="relative">
-                <button @click="open = !open" type="button" class="inline-flex items-center py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                <button @click="open = !open" type="button" class="flex items-center rounded-md border border-transparent py-2 px-4 text-center text-sm transition-all text-slate-600 hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                  <x-lucide-folder class="w-4 h-4 mr-2" />
                   Categories
                   <x-lucide-chevron-down class="ml-2 -mr-1 w-4 h-4" />
                 </button>
-                <!-- Dropdown menu -->
                 <div x-show="open" x-transition:enter="transition ease-out duration-100"
                   x-transition:enter-start="transform opacity-0 scale-95"
                   x-transition:enter-end="transform opacity-100 scale-100"
@@ -42,24 +42,30 @@
                     @foreach($categories as $category)
                     <li>
                       <a href="{{ route('category.index', $category->slug) }}"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ $category->name }}</a>
+                        class="flex items-center block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <x-lucide-tag class="w-4 h-4 mr-2" />
+                        {{ $category->name }}
+                      </a>
                     </li>
                     @endforeach
                   </ul>
                 </div>
               </li>
+              @endif
               @auth
               @if($role)
               <li>
                 <x-button-action href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
+                  <x-lucide-layout-dashboard class="w-4 h-4 mr-2" />
                   Admin Panel
                 </x-button-action>
               </li>
               @endif
               <li>
-                <form action="{{ route('logout') }}" method="POST" class="inline">
+                <form action="{{ route('logout') }}" method="POST">
                   @csrf
                   <x-button-action type="submit">
+                    <x-lucide-log-out class="w-4 h-4 mr-2" />
                     Logout
                   </x-button-action>
                 </form>
@@ -67,11 +73,11 @@
               @else
               <li>
                 <x-button-action href="{{ route('login') }}">
+                  <x-lucide-log-in class="w-4 h-4 mr-2" />
                   Login
                 </x-button-action>
               </li>
               @endauth
-              <!-- Theme toggle button -->
               <li>
                 <x-button-action id="theme-toggle">
                   <x-lucide-sun class="w-5 h-5" id="theme-toggle-light-icon" />

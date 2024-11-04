@@ -1,3 +1,4 @@
+@if($popularArticles->count() > 0)
 <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
   <h3 class="text-xl font-bold text-gray-900 dark:text-white px-6 py-4 border-b border-gray-200 dark:border-gray-700">
     Popular Articles
@@ -41,3 +42,4 @@
     @endforeach
   </ul>
 </div>
+@endif

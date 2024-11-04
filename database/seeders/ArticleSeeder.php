@@ -14,6 +14,6 @@ class ArticleSeeder extends Seeder
     {
         // generate 20 random article no duplicate slug
         Article::factory()->count(20)->create();  
-        User::factory()->count(20)->create();  
+        User::factory()->count(4)->create();  
     }
 }

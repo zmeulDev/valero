@@ -1,5 +1,6 @@
-<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-<div class="p-6 space-y-6">
+@if(!request()->routeIs('home'))
+<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg">
+    <div class="p-6 space-y-6">
         <!-- Header -->
         <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
@@ -115,3 +116,4 @@
         </div>
     </div>
 </div>
+@endif
