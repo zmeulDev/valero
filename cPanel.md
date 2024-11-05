@@ -76,3 +76,22 @@ Route::get('/optimize-clear', function(){
     echo 'Cache cleared successfully!';
 });
 ```
+
+
+### Cpanel layout
+
+@php
+    $cwd = getcwd();
+    $cssPath = glob($cwd . '/build/assets/*.css');
+    $jsPath = glob($cwd . '/build/assets/*.js');
+
+    $css = $cssPath ? asset('build/assets/' . basename($cssPath[0])) : null;
+    $js = $jsPath ? asset('build/assets/' . basename($jsPath[0])) : null;
+@endphp
+
+@if ($css)
+    <link rel="stylesheet" href="{{ trim($css) }}" id="css">
+@endif
+@if ($js)
+    <script src="{{ trim($js) }}" id="js" type="module"></script>
+@endif

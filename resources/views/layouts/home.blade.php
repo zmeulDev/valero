@@ -23,6 +23,8 @@
   <!-- Alpine.js for interactivity -->
   <script src="//unpkg.com/alpinejs" defer></script>
 
+  <!-- Cookie Consent Scripts -->
+  @cookieconsentscripts
 </head>
 
 <body 
@@ -49,10 +51,12 @@
 
     <!-- Back to top button -->
     <x-scroll-top />
+
+    <!-- Cookie Consent Banner -->
+    @include('frontend.cookies.consent')
   </div>
 
   <!-- Scripts -->
-  <script src="//unpkg.com/alpinejs" defer></script>
   @vite('resources/js/valero-frontend.js')
   @livewireScripts
   @stack('scripts')

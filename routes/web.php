@@ -26,6 +26,7 @@ Route::get('/category/{slug}', [ShowCategoryController::class, 'index'])->name('
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/categories', [SearchController::class, 'categories'])->name('categories');
 Route::get('sitemap.xml', function() {return response()->file(public_path('sitemap.xml'));});
+Route::view('/cookie-policy', 'frontend.cookies.policy')->name('cookies.policy');
 
 // Protected Routes (for logged-in users)
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
