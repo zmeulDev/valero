@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminSitemapController;
 use App\Http\Controllers\Admin\AdminTeamController;
+use App\Http\Controllers\Admin\AdminPartnersController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShowArticleController;
@@ -54,6 +55,14 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Settings
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+
+    // Partners Routes
+    Route::resource('partners', AdminPartnersController::class);
+    Route::post('partners/{partner}/archive', [AdminPartnersController::class, 'archive'])->name('partners.archive');
+    Route::post('partners/{partner}/restore', [AdminPartnersController::class, 'restore'])->name('partners.restore');
+    Route::delete('partners/{partner}/force-delete', [AdminPartnersController::class, 'forceDelete'])
+        ->name('partners.force-delete');
+
 
     // Sitemap generation (moved inside admin group)
     Route::get('generate-sitemap', [AdminSitemapController::class, 'generate'])->name('sitemap.generate');

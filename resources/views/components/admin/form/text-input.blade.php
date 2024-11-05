@@ -2,56 +2,27 @@
     'name',
     'label',
     'value' => '',
-    'required' => false,
-    'maxlength' => null,
     'type' => 'text',
-    'placeholder' => '',
-    'rows' => null
+    'required' => false,
+    'placeholder' => ''
 ])
 
-<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-    <div class="p-6">
-        <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            {{ $label }}
-            @if($required)
-                <span class="text-red-500">*</span>
-            @endif
-        </label>
-
-        @if($rows)
-            <textarea
-                id="{{ $name }}"
-                name="{{ $name }}"
-                rows="{{ $rows }}"
-                :placeholder="$placeholder"
-                x-data="{ charCount: $el.value.length }"
-                x-on:input="charCount = $el.value.length"
-                {{ $maxlength ? "maxlength=$maxlength" : '' }}
-                {{ $required ? 'required' : '' }}
-                {{ $attributes->merge(['class' => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white']) }}
-            >{{ $value }}</textarea>
-        @else
-            <input
-                type="{{ $type }}"
-                id="{{ $name }}"
-                name="{{ $name }}"
-                value="{{ $value }}"
-                placeholder="{{ $placeholder }}"
-                x-data="{ charCount: $el.value.length }"
-                x-on:input="charCount = $el.value.length"
-                {{ $maxlength ? "maxlength=$maxlength" : '' }}
-                {{ $required ? 'required' : '' }}
-                {{ $attributes->merge(['class' => 'w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white']) }}
-            >
+<div>
+    <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        {{ $label }}
+        @if($required)
+            <span class="text-red-500">*</span>
         @endif
-
-        @if($maxlength)
-            <div class="mt-2 flex items-center justify-between text-sm">
-                <p class="text-gray-500 dark:text-gray-400">Recommended: {{ $maxlength }} characters maximum</p>
-                <p x-text="charCount + '/{{ $maxlength }}'"
-                   :class="{ 'text-red-500': charCount > {{ $maxlength }}, 'text-gray-500': charCount <= {{ $maxlength }} }"
-                   class="dark:text-gray-400"></p>
-            </div>
-        @endif
-    </div>
+    </label>
+    <input 
+        type="{{ $type }}"
+        name="{{ $name }}"
+        id="{{ $name }}"
+        value="{{ $value }}"
+        placeholder="{{ $placeholder }}"
+        {{ $required ? 'required' : '' }}
+        {{ $attributes->merge(['class' => 'mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm']) }}>
+    @error($name)
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+    @enderror
 </div>

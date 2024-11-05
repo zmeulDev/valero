@@ -1,6 +1,12 @@
 @props(['type' => ''])
 
-<div x-show="showDeleteModal" class="fixed inset-0 overflow-y-auto z-50" x-cloak>
+<div x-data="{ 
+    showDeleteModal: false,
+    itemToDelete: null
+}" 
+     x-show="showDeleteModal" 
+     class="fixed inset-0 overflow-y-auto z-50" 
+     x-cloak>
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <!-- Modal backdrop -->
         <div x-show="showDeleteModal" 
@@ -44,11 +50,11 @@
             </div>
 
             <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <form method="POST" x-bind:action="`{{ url('/admin/' . ($type === 'team member' ? 'teams' : ($type === 'category' ? 'categories' : $type . 's'))) }}/${itemToDelete}`">
+                <form method="POST" :action="`{{ url('/admin/' . ($type === 'team member' ? 'teams' : ($type === 'category' ? 'categories' : $type . 's'))) }}/${itemToDelete}`">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Delete
                     </button>
                 </form>
@@ -60,4 +66,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>

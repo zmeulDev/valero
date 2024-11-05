@@ -42,6 +42,12 @@
                             <x-lucide-settings class="w-4 h-4 mr-2" />
                             {{ __('Settings') }}
                         </x-nav-link>
+
+                        <x-nav-link href="{{ route('admin.partners.index') }}" :active="request()->routeIs('admin.partners.index')"
+                            class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-150">
+                            <x-lucide-users class="w-4 h-4 mr-2" />
+                            {{ __('Partners') }}
+                        </x-nav-link>
                     </div>
                 </div>
 
