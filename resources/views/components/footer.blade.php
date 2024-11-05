@@ -51,6 +51,19 @@
         @endif
     </div>
 
+    <!-- Links -->
+    <div class="flex justify-center space-x-4 mb-4 text-sm">
+        <a href="{{ route('cookies.policy') }}" 
+           class="text-gray-400 hover:text-white transition-colors">
+            Cookie Policy
+        </a>
+        <span class="text-gray-600">|</span>
+        <button onclick="resetCookieConsent()" 
+                class="text-gray-400 hover:text-white transition-colors">
+            Reset Cookie Settings
+        </button>
+    </div>
+
     <!-- Copyright -->
     <div class="text-sm">
         &copy; {{ date('Y') }} {{ config('app_name') ?: env('APP_NAME', 'Valero') }}. Made with <a href="https://valero.app" target="_blank" class="text-indigo-400 hover:text-indigo-300">Valero</a>. All Rights Reserved.
