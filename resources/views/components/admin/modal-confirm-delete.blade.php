@@ -4,6 +4,10 @@
     showDeleteModal: false,
     itemToDelete: null
 }" 
+     @open-delete-modal.window="
+        itemToDelete = $event.detail;
+        showDeleteModal = true;
+     "
      x-show="showDeleteModal" 
      class="fixed inset-0 overflow-y-auto z-50" 
      x-cloak>
