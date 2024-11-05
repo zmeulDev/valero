@@ -2,8 +2,6 @@
 
 Valero is an open-source article-sharing platform built with **Laravel 10** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, galleries, and SEO optimization.
 
-![Valero Logo](valero_kit/logo_light/web/icon-192.png)
-
 ## 📦 Features
 
 - **Article Management**: Create, edit, schedule, and publish articles with image uploads and galleries.
@@ -27,53 +25,96 @@ Valero is an open-source article-sharing platform built with **Laravel 10** and 
 
 ### Key Components:
 
-- **Frontend Controllers**: Handle public-facing article display and interactions
-- **Admin Controllers**: Manage CRUD operations for articles, categories, and settings
-- **Livewire Components**: Handle real-time interactions and dynamic content updates
-- **Blade Components**: Reusable UI components for consistent design
-- **SEO Integration**: Automatic meta tags and sitemap generation
+```
+/app
+├── Actions
+│   ├── Fortify
+│   │   ├── CreateNewUser.php - Handles user registration
+│   │   ├── PasswordValidationRules.php - Defines password validation rules
+│   │   ├── ResetUserPassword.php - Handles password reset functionality
+│   │   ├── UpdateUserPassword.php - Handles password updates
+│   │   └── UpdateUserProfileInformation.php - Manages profile updates
+│   └── Jetstream
+│       └── DeleteUser.php - Handles user account deletion
+├── Console
+│   └── Kernel.php - Defines scheduled tasks
+├── Http
+│   ├── Controllers
+│   │   ├── Admin
+│   │   │   ├── AdminArticleController.php - Manages articles (CRUD)
+│   │   │   ├── AdminCategoryController.php - Manages categories (CRUD)
+│   │   │   ├── AdminDashboardController.php - Handles admin dashboard stats/display
+│   │   │   ├── AdminImageController.php - Handles image uploads/management
+│   │   │   ├── AdminPartnersController.php - Manages partner ads (CRUD + status management)
+│   │   │   ├── AdminSettingController.php - Handles site settings
+│   │   │   ├── AdminSitemapController.php - Generates sitemap
+│   │   │   └── AdminTeamController.php - Manages team members
+│   │   └── Frontend
+│   │       ├── HomeController.php - Handles homepage display
+│   │       ├── SearchController.php - Manages search functionality
+│   │       ├── ShowArticleController.php - Displays individual articles
+│   │       └── ShowCategoryController.php - Shows category-specific articles
+│   └── Middleware
+│       ├── AdminMiddleware.php - Controls access to admin area based on roles
+│       └── AdminOnlyMiddleware.php - Ensures only admins can access certain routes
+├── Models
+│   ├── Article.php - Article data model with relationships
+│   ├── Category.php - Category data model
+│   └── Image.php - Image data model for article galleries
+```
 
-### Views Structure:
+### Database Structure:
 
-1. **Layouts**:
-   - `home.blade.php`: Main public layout
-   - `article.blade.php`: Article display layout
-   - `admin.blade.php`: Admin panel layout
-   - `category.blade.php`: Category view layout
+```
+/database
+├── migrations
+│   ├── 0001_01_01_000000_create_users_table.php - Creates users table
+│   ├── 2024_09_17_082456_create_articles_table.php - Creates articles table
+│   ├── 2024_09_17_083239_create_images_table.php - Creates images table
+│   ├── 2024_09_17_120026_create_categories_table.php - Creates categories table
+│   ├── 2024_09_26_125810_create_seo_table.php - Creates SEO table
+│   ├── 2024_10_03_075454_create_settings_table.php - Creates settings table
+│   └── 2024_11_05_114007_create_partners_table.php - Creates partners table
+├── seeders
+│   ├── DatabaseSeeder.php - Main seeder to run all other seeders
+│   ├── ArticleSeeder.php - Seeds articles
+│   ├── CategorySeeder.php - Seeds categories
+│   └── SettingSeeder.php - Seeds application settings
+```
 
-2. **Components**:
-   - Article components (header, gallery, related articles)
-   - Sidebar components (search, popular articles, sharing)
-   - Admin components (forms, modals, tables)
-   - Common UI components (navigation, footer, buttons)
+### Explanation of Key Database Files:
 
-3. **Admin Views**:
-   - Article management (CRUD operations)
-   - Category management
-   - Settings management
-   - User profile management
+1. **Migrations**: Define the structure of the database tables, including users, articles, categories, images, and settings.
+2. **Seeders**: Populate the database with initial data for testing and development.
 
-### Features Implementation:
+### Frontend Structure:
 
-1. **Article System**:
-   - Featured image handling
-   - Gallery management
-   - Reading time calculation
-   - View counting
-   - Like system
-   - Scheduled publishing
+```
+/resources
+├── views
+│   ├── auth - Handles user authentication (login, registration, password reset)
+│   ├── components - Reusable UI components (buttons, forms, modals)
+│   ├── layouts - Main layout files for the application (admin layout, guest layout)
+│   ├── admin - Manage articles, categories, partners, and settings
+│   └── frontend - Display articles and categories to the public
+```
 
-2. **SEO Features**:
-   - Meta tags generation
-   - Social media previews
-   - Sitemap generation
-   - Google Search Console integration
+### Explanation of Key View Files:
 
-3. **User System**:
-   - Profile management
-   - Avatar uploads
-   - Social media links
-   - Two-factor authentication support
+1. **Auth Views**: Handle user authentication (login, registration, password reset).
+2. **Components**: Reusable UI components for consistent design.
+3. **Layouts**: Main layout files for the application.
+4. **Admin Views**: Manage articles, categories, partners, and settings.
+5. **Frontend Views**: Display articles and categories to the public.
+
+### Configuration Files:
+
+- **`tailwind.config.js`**: Configuration for Tailwind CSS, defining custom styles and themes.
+- **`app/Providers/CookiesServiceProvider.php`**: Handles cookie consent and management.
+
+### Conclusion
+
+This structure allows for a clear separation of concerns, making the application easier to maintain and extend. Each component, controller, and model has a specific role, contributing to the overall functionality of the Valero blogging platform.
 
 ---
 
