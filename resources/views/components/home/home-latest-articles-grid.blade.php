@@ -10,7 +10,7 @@
            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
            loading="lazy">
       @else
-      <img src="{{ asset('images/default-placeholder.png') }}" 
+      <img src="{{ asset('storage/brand/no-image.jpg') }}" 
            alt="Default Image"
            class="w-full h-full object-cover bg-gray-100 dark:bg-gray-700 transition-transform duration-500 group-hover:scale-105" 
            loading="lazy">

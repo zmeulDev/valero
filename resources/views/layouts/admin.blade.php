@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ $title ?? 'Admin Panel' }} - {{ config('app.name', 'Laravel') }}</title>
-  <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}">
+  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 
   <!-- Styles -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -43,11 +43,10 @@
   </div>
 
   <!-- Scripts -->
-  <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+   <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
   @vite('resources/js/valero-admin.js')
   @livewireScripts
   @stack('scripts')
-
 </body>
 
 </html>

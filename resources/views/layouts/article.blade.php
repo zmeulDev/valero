@@ -8,7 +8,7 @@
   <!-- SEO -->
   {!! seo(isset($article) ? $article : null) !!}
 
-  <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}">
+  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
   <!-- Include CSS -->
   @vite('resources/css/app.css')
 
@@ -35,10 +35,8 @@
       <div class="container mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
         <main class="lg:col-span-3">
           <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-            <!-- Featured Image with Metadata -->
-            <x-article.feature :article="$article" :readingTime="$readingTime" />
-
             <div class="px-6 pb-8">
+              
               <!-- Article Header -->
               <x-article.header :article="$article" />
 

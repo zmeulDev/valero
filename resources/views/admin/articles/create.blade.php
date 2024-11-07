@@ -27,35 +27,37 @@
         <div class="flex flex-col lg:flex-row gap-8">
           <!-- Main Content -->
           <div class="w-full lg:w-2/3 order-2 lg:order-1 space-y-6">
-            <!-- Title Input -->
-            <x-admin.form.text-input
-              name="title"
-              label="Title"
-              :value="old('title')"
-              required
-              maxlength="60"
-            />
+            <!-- Title -->
+                <div>
+                  <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
+                    Title <span class="text-red-500">*</span>
+                  </label>
+                  <input type="text" id="title" name="title"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    value="{{ old('title') }}" required>
+                  <p class="mt-1 text-sm text-gray-500">Recommended: 60 characters maximum</p>
+                  <p class="text-sm text-gray-500">Characters: <span id="title-char-count">0</span></p>
+                </div>
 
-            <!-- Excerpt Input -->
-            <x-admin.form.text-input
-              name="excerpt"
-              label="Excerpt (Meta Description)"
-              :value="old('excerpt')"
-              maxlength="160"
-              rows="3"
-            />
+                <!-- Excerpt -->
+                <div>
+                  <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">
+                    Excerpt (description)
+                  </label>
+                  <textarea id="excerpt" name="excerpt"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    rows="3">{{ old('excerpt') }}</textarea>
+                  <p class="mt-1 text-sm text-gray-500">Recommended: 160 characters maximum</p>
+                  <p class="text-sm text-gray-500">Characters: <span id="excerpt-char-count">0</span></p>
+                </div>
 
-            <!-- Content Editor -->
-            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-              <div class="p-6">
-                <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Content <span class="text-red-500">*</span>
-                </label>
-                <textarea id="content" 
-                         name="content"
-                         class="w-full">{{ old('content') }}</textarea>
-              </div>
-            </div>
+            <!-- Content (with TinyMCE) -->
+                <div>
+                  <label for="content" class="block text-sm font-medium text-gray-700 mb-1">
+                    Content <span class="text-red-500">*</span>
+                  </label>
+                  <textarea id="content" name="content" class="w-full">{{ old('content') }}</textarea>
+                </div>
           </div>
 
           <!-- Sidebar -->
@@ -77,21 +79,4 @@
       </form>
     </div>
   </div>
-
-  @push('scripts')
-  <script>
-    // Initialize TinyMCE
-    tinymce.init({
-      selector: '#content',
-      height: 500,
-      plugins: 'link image code table lists media',
-      toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-      content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }',
-      menubar: false,
-      branding: false,
-      skin: document.documentElement.classList.contains('dark') ? 'oxide-dark' : 'oxide',
-      content_css: document.documentElement.classList.contains('dark') ? 'dark' : 'default'
-    });
-  </script>
-  @endpush
 </x-admin-layout>

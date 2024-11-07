@@ -112,21 +112,4 @@
       </form>
     </div>
   </div>
-
-  @push('scripts')
-  <script>
-    // Initialize TinyMCE
-    tinymce.init({
-      selector: '#content',
-      height: 500,
-      plugins: 'link image code table lists media',
-      toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-      content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }',
-      menubar: false,
-      branding: false,
-      skin: document.documentElement.classList.contains('dark') ? 'oxide-dark' : 'oxide',
-      content_css: document.documentElement.classList.contains('dark') ? 'dark' : 'default'
-    });
-  </script>
-  @endpush
 </x-admin-layout>

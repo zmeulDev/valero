@@ -54,6 +54,10 @@
                                     </div>
                                 </div>
                             </div>
+                        @else
+                            <div class="relative aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                                <x-lucide-image class="w-16 h-16 text-gray-400 mx-auto mt-8" />
+                            </div>
                         @endif
 
                         <div class="p-6">
