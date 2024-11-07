@@ -2,17 +2,9 @@
     <!-- Featured Image -->
     <div class="relative overflow-hidden rounded-2xl aspect-[16/9]">
     @if($article->featured_image)
-        <img 
-            src="{{ asset('storage/' . $article->featured_image) }}" 
-            alt="{{ $article->title }}"
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        >
+        <x-article.has-image :article="$article" />
         @else
-        <img 
-            src="{{ asset('storage/brand/no-image.jpg') }}" 
-            alt="Default Image"
-            class="w-full h-full object-cover bg-gray-100 dark:bg-gray-700 transition-transform duration-700 group-hover:scale-105"
-        >
+        <x-article.no-image />
         @endif
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>

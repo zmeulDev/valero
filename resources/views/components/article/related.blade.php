@@ -13,13 +13,9 @@
                     <!-- Image Container -->
                     <div class="relative aspect-[16/9] overflow-hidden">
                         @if($relatedArticle->featured_image)
-                        <img src="{{ asset('storage/' . $relatedArticle->featured_image) }}" 
-                             alt="{{ $relatedArticle->title }}"
-                             class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:saturate-150">
+                            <x-article.has-image :article="$relatedArticle" />
                         @else
-                        <img src="{{ asset('storage/brand/no-image.jpg') }}" 
-                             alt="Default Image"
-                             class="w-full h-full object-cover bg-gray-100 dark:bg-gray-700 transition-all duration-500 group-hover:scale-110 group-hover:saturate-150">
+                            <x-article.no-image />
                         @endif
                         <!-- Gradient Overlay -->
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

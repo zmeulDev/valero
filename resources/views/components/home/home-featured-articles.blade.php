@@ -5,11 +5,11 @@
         <!-- Image Section -->
         <div class="sm:w-2/5">
             <div class="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10">
-                <img class="w-full h-full object-cover object-center transform transition-transform duration-500 group-hover:scale-105"
-                    src="{{ $article->feature_image ? asset('storage/' . $article->feature_image) : asset('storage/brand/no-image.jpg') }}" 
-                    alt="{{ $article->title }}" 
-                    loading="lazy"
-                />
+                @if($article->featured_image)
+                <x-article.has-image :article="$article" />
+                @else
+                <x-article.no-image />
+                @endif
                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
         </div>
