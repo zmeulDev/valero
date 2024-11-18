@@ -17,7 +17,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: {
@@ -26,7 +26,6 @@ export default {
                     500: '#0ea5e9',
                     700: '#0369a1',
                 },
-                // Add more custom colors as needed
             },
         },
         screens: {
