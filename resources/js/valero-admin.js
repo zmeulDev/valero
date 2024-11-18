@@ -38,17 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
       directionality: 'ltr',
       body_class: 'ltr',
       selector: '#content',
-      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount code paste',
+      plugins: 'anchor autolink charmap code codesample emoticons image link lists media paste preview searchreplace table visualblocks  wordcount ',
       toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat code',
-      height: 500,
+      height: 650,
       menubar: true,
       convert_urls: false,
       paste_as_text: true,
-      content_style: `
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; line-height: 1.6; direction: ltr !important; text-align: left !important; }
-        code { background: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
-        blockquote { border-left: 4px solid #ddd; margin-left: 0; padding-left: 1em; }
-      `,
+      smart_paste: true,
       setup: function (editor) {
         editor.on('input', function () {
           updateCharCount('content');
@@ -59,11 +55,12 @@ document.addEventListener('DOMContentLoaded', function () {
           content = content.replace(/```([a-z]*)\n([\s\S]*?)```/gm, function(match, language, code) {
               // If a language is specified, add it as a class
               const languageClass = language ? ` class="language-${language}"` : '';
-              return `<pre><code${languageClass}>${code.trim()}</code></pre>`;
+            return `<pre${languageClass}><code>${code.trim()}</code></pre>`;
           });
 
           return content
               // Headers
+              .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
               .replace(/^### (.*$)/gim, '<h3>$1</h3>')
               .replace(/^## (.*$)/gim, '<h2>$1</h2>')
               .replace(/^# (.*$)/gim, '<h1>$1</h1>')
