@@ -12,7 +12,7 @@
   <!-- Styles -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   @livewireStyles
-<script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
   <style>[x-cloak] { display: none !important; }</style>
 
 </head>
