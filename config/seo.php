@@ -12,7 +12,7 @@ return [
     /**
      * Use this setting to specify the site name that will be used in OpenGraph tags.
      */
-    'site_name' => env('APP_NAME'),
+    'site_name' => config('app.name'),
 
     /**
      * Use this setting to specify the path to the sitemap of your website. This exact path will outputted, so
@@ -23,7 +23,7 @@ return [
      * to the root domain and not relative to the current URL. The `spatie/laravel-sitemap` package
      * is a great package to generate sitemaps for your application.
      */
-    'sitemap' => null,
+    'sitemap' => '/sitemap.xml',
 
     /**
      * Use this setting to specify whether you want self-referencing `<link rel="canonical" href="$url">` tags to
@@ -43,7 +43,7 @@ return [
          * See https://developers.google.com/search/docs/advanced/robots/robots_meta_tag
          * Default: 'max-snippet:-1, max-image-preview:large, max-video-preview:-1'
          */
-        'default' => 'max-snippet:-1,max-image-preview:large,max-video-preview:-1',
+        'default' => 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1',
 
         /**
          * Force set the robots `default` value and make it impossible to overwrite it. (e.g. via SEOData->robots)
@@ -59,7 +59,7 @@ return [
      *
      * You can use the following filetypes: ico, png, gif, jpeg, svg.
      */
-    'favicon' => null,
+    'favicon' => '/storage/brand/favicon.ico',
 
     'title' => [
         /**
@@ -75,7 +75,7 @@ return [
          * Use this setting to provide a suffix that will be added after the title on each page.
          * If you don't want a suffix, you should specify an empty string.
          */
-        'suffix' => ' | ' . env('APP_NAME'),
+        'suffix' => ' | ' . config('app.name'),
 
         /**
          * Use this setting to provide a custom title for the homepage. We will not use the suffix on the homepage,
@@ -91,7 +91,7 @@ return [
          * where we don't have a description set via an associated ->seo model or via
          * the ->getDynamicSEOData() method.
          */
-        'fallback' => env('APP_NAME') . ': A blog sharing insights on life, tech, and work. Explore practical tips, latest trends, and personal reflections for a balanced and informed lifestyle.',
+        'fallback' => 'Default site description here',
     ],
 
     'image' => [
@@ -101,7 +101,7 @@ return [
          * This should be a path to an image. The url to the path is generated using the `secure_url()` function
          * (`secure_url($yourProvidedPath)`), so make sure the image is accessible from the public folder.
          */
-        'fallback' => null,
+        'fallback' => 'storage/brand/default-article.jpg',
     ],
 
     'author' => [
@@ -109,7 +109,7 @@ return [
          * Use this setting to specify a fallback author, which will be used on places where you
          * don't have an author set via an associated ->seo model or via the ->getDynamicSEOData() method.
          */
-        'fallback' => env('APP_NAME'),
+        'fallback' => config('app.name'),
     ],
 
     'twitter' => [

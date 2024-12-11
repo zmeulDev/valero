@@ -4,23 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <!-- SEO -->
-  {!! seo(isset($article) ? $article : null) !!}
+  {!! seo()->for($article) !!}
 
-  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
-  <!-- Include CSS -->
   @vite('resources/css/app.css')
-
-
-  <!-- End SEO -->
-
-  <!-- Livewire Styles -->
   @livewireStyles
 
   <!-- Alpine.js for interactivity -->
   <script src="//unpkg.com/alpinejs" defer></script>
-
+  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"

@@ -203,6 +203,7 @@ class AdminArticleController extends Controller
             'title' => $titleRule,
             'excerpt' => 'nullable|max:255',
             'content' => 'required',
+            'tags' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -267,6 +268,7 @@ class AdminArticleController extends Controller
             [
                 'title' => $article->title,
                 'description' => $article->excerpt ?? Str::limit(strip_tags($article->content), 160),
+                'tags' => $article->tags,
                 'image' => $article->featured_image,
                 'author' => $article->user->name,
                 'robots' => 'index, follow',

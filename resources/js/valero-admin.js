@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const themeToggleBtn = document.getElementById('theme-toggle');
   const darkIcon = document.getElementById('theme-toggle-dark-icon');
   const lightIcon = document.getElementById('theme-toggle-light-icon');
-  
+
   if (themeToggleBtn && darkIcon && lightIcon) {
     function applyTheme() {
       if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
@@ -52,39 +52,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function convertMarkdownToHtml(content) {
           // First handle fenced code blocks (```) to prevent interference with inline code
-          content = content.replace(/```([a-z]*)\n([\s\S]*?)```/gm, function(match, language, code) {
-              // If a language is specified, add it as a class
-              const languageClass = language ? ` class="language-${language}"` : '';
+          content = content.replace(/```([a-z]*)\n([\s\S]*?)```/gm, function (match, language, code) {
+            // If a language is specified, add it as a class
+            const languageClass = language ? ` class="language-${language}"` : '';
             return `<pre${languageClass}><code>${code.trim()}</code></pre>`;
           });
 
           return content
-              // Headers
-              .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
-              .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-              .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-              .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-              
-              // Bold and Italic
-              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-              .replace(/\*(.*?)\*/g, '<em>$1</em>')
-              
-              // Lists
-              .replace(/^\- (.*)/gm, '<ul><li>$1</li></ul>')
-              .replace(/^\* (.*)/gm, '<ul><li>$1</li></ul>')
-              .replace(/^\d\. (.*)/gm, '<ol><li>$1</li></ol>')
-              
-              // Links
-              .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
-              
-              // Inline code (single backticks)
-              .replace(/`([^`]+)`/g, '<code>$1</code>')
-              
-              // Blockquotes
-              .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+            // Headers
+            .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+
+            // Bold and Italic
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+
+            // Lists
+            .replace(/^\- (.*)/gm, '<ul><li>$1</li></ul>')
+            .replace(/^\* (.*)/gm, '<ul><li>$1</li></ul>')
+            .replace(/^\d\. (.*)/gm, '<ol><li>$1</li></ol>')
+
+            // Links
+            .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+
+            // Inline code (single backticks)
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+
+            // Blockquotes
+            .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
         }
 
-        editor.on('PastePreProcess', function(e) {
+        editor.on('PastePreProcess', function (e) {
           e.content = convertMarkdownToHtml(e.content);
         });
 
@@ -93,34 +93,34 @@ document.addEventListener('DOMContentLoaded', function () {
             let content = editor.getContent();
             let selection = editor.selection;
             let bookmarkId = 'marker_' + (new Date()).getTime();
-            
+
             // Add a bookmark to preserve cursor position
             selection.setContent('<span id="' + bookmarkId + '"></span>');
-            
+
             content = convertMarkdownToHtml(content);
             editor.setContent(content);
-            
+
             // Restore cursor position
             let bookmark = editor.getBody().querySelector('#' + bookmarkId);
             if (bookmark) {
-                selection.select(bookmark);
-                selection.collapse(false);
-                bookmark.remove();
+              selection.select(bookmark);
+              selection.collapse(false);
+              bookmark.remove();
             }
           }
         });
 
-        editor.on('paste', function(e) {
+        editor.on('paste', function (e) {
           e.preventDefault();
           const text = e.clipboardData.getData('text/plain');
           const convertedContent = convertMarkdownToHtml(text);
           editor.insertContent(convertedContent);
         });
       },
-      paste_preprocess: function(plugin, args) {
+      paste_preprocess: function (plugin, args) {
         args.content = convertMarkdownToHtml(args.content);
       },
-      paste_postprocess: function(plugin, args) {
+      paste_postprocess: function (plugin, args) {
         args.node.innerHTML = convertMarkdownToHtml(args.node.innerHTML);
       }
     });
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
     settingsForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const formData = new FormData(settingsForm);
-      
+
       fetch(settingsForm.action, {
         method: 'POST',
         body: formData,
@@ -147,12 +147,12 @@ document.addEventListener('DOMContentLoaded', function () {
           'X-Requested-With': 'XMLHttpRequest'
         }
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.refresh) {
-          window.location.reload(true);
-        }
-      });
+        .then(response => response.json())
+        .then(data => {
+          if (data.refresh) {
+            window.location.reload(true);
+          }
+        });
     });
   }
 });
@@ -170,7 +170,7 @@ function updateCharCount(elementId, limit = null) {
   }
   const charCount = document.getElementById(elementId + '-char-count');
   if (!charCount) return;
-  
+
   charCount.textContent = content.length;
 
   if (limit && content.length > limit) {

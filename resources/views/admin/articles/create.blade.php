@@ -51,6 +51,14 @@
                   <p class="text-sm text-gray-500">Characters: <span id="excerpt-char-count">0</span></p>
                 </div>
 
+                <!-- Tags -->
+                <div>
+                  <label for="tags" class="block text-sm font-medium text-gray-700 mb-1">
+                    Keywords / Tags (comma separated)
+                  </label>
+                  <input type="text" id="tags" name="tags" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" value="{{ old('tags') }}">
+                </div>
+
             <!-- Content (with TinyMCE) -->
                 <div>
                   <label for="content" class="block text-sm font-medium text-gray-700 mb-1">
