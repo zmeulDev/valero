@@ -1,6 +1,6 @@
 # Valero - Blogging Platform
 
-Valero is an open-source article-sharing platform built with **Laravel 10** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, galleries, and SEO optimization.
+Valero is an open-source article-sharing platform built with **Laravel 11** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, galleries, and SEO optimization.
 
 ## 📦 Features
 
@@ -20,6 +20,12 @@ Valero is an open-source article-sharing platform built with **Laravel 10** and 
 - **Article Likes**: User engagement through article likes system.
 - **Popular Articles**: Sidebar widget showing most viewed articles.
 - **Search Functionality**: Search articles by title and content.
+- **User Authentication**: 
+  - Email verification for new users
+  - Two-factor authentication support
+  - Password reset functionality
+  - Remember me option
+  - Profile management
 
 ## 🗂 Application Structure
 
@@ -29,7 +35,7 @@ Valero is an open-source article-sharing platform built with **Laravel 10** and 
 /app
 ├── Actions
 │   ├── Fortify
-│   │   ├── CreateNewUser.php - Handles user registration
+│   │   ├── CreateNewUser.php - Handles user registration with email verification
 │   │   ├── PasswordValidationRules.php - Defines password validation rules
 │   │   ├── ResetUserPassword.php - Handles password reset functionality
 │   │   ├── UpdateUserPassword.php - Handles password updates
@@ -112,6 +118,20 @@ Valero is an open-source article-sharing platform built with **Laravel 10** and 
 - **`tailwind.config.js`**: Configuration for Tailwind CSS, defining custom styles and themes.
 - **`app/Providers/CookiesServiceProvider.php`**: Handles cookie consent and management.
 
+### Authentication Features:
+
+1. **Email Verification**:
+   - Mandatory email verification for new users
+   - Resend verification email functionality
+   - Email verification status indicator
+   - Secure verification links
+
+2. **User Management**:
+   - Secure password hashing
+   - Profile photo upload
+   - Two-factor authentication
+   - Session management
+
 ### Conclusion
 
 This structure allows for a clear separation of concerns, making the application easier to maintain and extend. Each component, controller, and model has a specific role, contributing to the overall functionality of the Valero blogging platform.
@@ -144,7 +164,18 @@ Create a `.env` file by copying `.env.example`:
 cp .env.example .env
 ```
 
-Update the `.env` file with your database credentials and other environment-specific values (like `APP_NAME`).
+Update the `.env` file with your database credentials and mail settings:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=your-smtp-host
+MAIL_PORT=587
+MAIL_USERNAME=your-username
+MAIL_PASSWORD=your-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="noreply@yourapp.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
 
 ### 4. Generate Application Key
 
@@ -220,7 +251,14 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 
 ## 🔮 Future Enhancements
 
-- **User Authentication and Roles**: Further define roles (admin, editor, user) and manage access permissions.
+- **Enhanced User Authentication**: 
+  - Social login integration
+  - OAuth2 support
+  - Advanced role permissions
+- **Email Customization**: 
+  - Customizable email templates
+  - HTML email support
+  - Multiple language support for emails
 - **SEO Enhancements**: Improve the existing SEO functionality by adding more meta tags and optimizing social media previews.
 - **Article Search**: Add a search functionality to find articles based on title or content.
 - **Dashboard Statistics**: Implement more detailed statistics on articles and categories in the admin dashboard.
@@ -231,6 +269,17 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 
 - **Logo font**: Protest Guerrilla.
 - **Icons**: Lucide. https://lucide.dev/icons/
+- **Email Templates**: Custom HTML templates with dark mode support
+
+---
+
+## Current Version
+
+**Version 0.32517**
+- Added email verification for new users
+- Improved authentication flow
+- Enhanced security measures
+- Dark mode support for email templates
 
 ---
 
