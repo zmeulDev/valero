@@ -24,7 +24,7 @@
         </div>
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-medium">
             <x-lucide-clock class="w-4 h-4" />
-            <span class="text-sm font-medium">{{ $article->reading_time ?? '5 min read' }}</span>
+            <span class="text-sm font-medium">{{ $article->reading_time ?? 'As long as you need.' }}</span>
         </div>
     </div>
 </div>
