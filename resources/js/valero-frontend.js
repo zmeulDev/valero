@@ -87,9 +87,19 @@ document.addEventListener('DOMContentLoaded', function () {
   const closeButton = document.getElementById('closeButton');
   const galleryImages = document.querySelectorAll('.gallery-image');
 
+  // show gallery only on article page
+  if (!window.location.pathname.includes('/article')) {
+    return;
+  }
+
   // Check if gallery elements exist
   if (!galleryModal || !galleryImage || !prevButton || !nextButton || !closeButton || galleryImages.length === 0) {
     console.log('Gallery elements not found. Skipping gallery initialization.');
+    return;
+  }
+
+  // gallery only on article page
+  if (!window.location.pathname.includes('/article')) {
     return;
   }
 

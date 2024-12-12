@@ -40,14 +40,11 @@
     </x-slot>
 
     <div x-data="{ 
-        showDeleteModal: false,
-        itemToDelete: null,
         items: {{ $categories->toJson() }},
         charCount: 0,
         
         openDeleteModal(id) {
-            this.itemToDelete = id;
-            this.showDeleteModal = true;
+            $dispatch('open-delete-modal', id);
         }
     }" class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

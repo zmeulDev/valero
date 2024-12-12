@@ -7,24 +7,19 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}" />
   {!! seo() !!}
-  <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}">
-  <!-- Include CSS -->
-  @vite('resources/css/app.css')
-
-  <!-- Livewire Styles -->
+  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
+  
+  <!-- Assets -->
+  <x-vite-assets />
   @livewireStyles
 
   <style>
-  [x-cloak] {
-    display: none !important;
-  }
+    [x-cloak] { display: none !important; }
   </style>
-
-  <!-- Alpine.js for interactivity -->
-  <script src="//unpkg.com/alpinejs" defer></script>
 
   <!-- Cookie Consent Scripts -->
   @cookieconsentscripts
+
 </head>
 
 <body 

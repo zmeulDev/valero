@@ -125,4 +125,7 @@
             </div>
         </div>
     </div>
+
+    <!-- Add the modal component at the bottom if needed -->
+    <x-admin.modal-confirm-delete type="setting" />
 </x-admin-layout>

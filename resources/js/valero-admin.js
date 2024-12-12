@@ -1,8 +1,10 @@
+import tinymceConfig from './tinymce-config';
+
 document.addEventListener('DOMContentLoaded', function () {
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const darkIcon = document.getElementById('theme-toggle-dark-icon');
-  const lightIcon = document.getElementById('theme-toggle-light-icon');
-  
+  const themeToggleBtn = document.getElementById('theme-toggle-admin');
+  const darkIcon = document.getElementById('theme-toggle-dark-icon-admin');
+  const lightIcon = document.getElementById('theme-toggle-light-icon-admin');
+
   if (themeToggleBtn && darkIcon && lightIcon) {
     function applyTheme() {
       if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
@@ -33,18 +35,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  if (typeof tinymce !== 'undefined') {
-    tinymce.init({
-      selector: '#content',
-      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-      height: 500,
-      setup: function (editor) {
-        editor.on('input', function () {
-          updateCharCount('content');
-        });
-      }
-    });
+  if (document.querySelector('#content')) {
+    tinymce.init(tinymceConfig);
   }
 
   ['title', 'excerpt'].forEach(id => {
@@ -60,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     settingsForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const formData = new FormData(settingsForm);
-      
+
       fetch(settingsForm.action, {
         method: 'POST',
         body: formData,
@@ -68,12 +60,12 @@ document.addEventListener('DOMContentLoaded', function () {
           'X-Requested-With': 'XMLHttpRequest'
         }
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.refresh) {
-          window.location.reload(true);
-        }
-      });
+        .then(response => response.json())
+        .then(data => {
+          if (data.refresh) {
+            window.location.reload(true);
+          }
+        });
     });
   }
 });
@@ -91,7 +83,7 @@ function updateCharCount(elementId, limit = null) {
   }
   const charCount = document.getElementById(elementId + '-char-count');
   if (!charCount) return;
-  
+
   charCount.textContent = content.length;
 
   if (limit && content.length > limit) {

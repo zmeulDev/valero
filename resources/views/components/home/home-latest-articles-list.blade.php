@@ -6,9 +6,11 @@
       <!-- Image Container -->
       <div class="sm:w-[280px] mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
         <div class="relative aspect-[4/3] overflow-hidden rounded-xl border border-gray-100 dark:border-gray-700">
-          <img src="{{ asset('storage/' . $article->featured_image) }}" 
-               alt="{{ $article->title }}"
-               class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
+        @if($article->featured_image)
+          <x-article.has-image :article="$article" />
+        @else
+          <x-article.no-image />
+        @endif
         </div>
       </div>
 

@@ -5,15 +5,9 @@
     <!-- Image Container -->
     <div class="relative aspect-[16/9] overflow-hidden border-b border-gray-100 dark:border-gray-700">
       @if($article->featured_image)
-      <img src="{{ asset('storage/' . $article->featured_image) }}" 
-           alt="{{ $article->title }}"
-           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-           loading="lazy">
+      <x-article.has-image :article="$article" />
       @else
-      <img src="{{ asset('images/default-placeholder.png') }}" 
-           alt="Default Image"
-           class="w-full h-full object-cover bg-gray-100 dark:bg-gray-700 transition-transform duration-500 group-hover:scale-105" 
-           loading="lazy">
+      <x-article.no-image />
       @endif
     </div>
 

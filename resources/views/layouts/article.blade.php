@@ -4,23 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <!-- SEO -->
-  {!! seo(isset($article) ? $article : null) !!}
+  {!! seo()->for($article) !!}
 
-  <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}">
-  <!-- Include CSS -->
-  @vite('resources/css/app.css')
+  <!-- Assets -->
+  <x-vite-assets />
 
-
-  <!-- End SEO -->
-
-  <!-- Livewire Styles -->
-  @livewireStyles
-
-  <!-- Alpine.js for interactivity -->
+  <!-- Alpine.js -->
   <script src="//unpkg.com/alpinejs" defer></script>
+  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 
+  <!-- Additional Scripts -->
+  @vite('resources/js/valero-frontend.js')
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
@@ -35,10 +30,8 @@
       <div class="container mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
         <main class="lg:col-span-3">
           <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-            <!-- Featured Image with Metadata -->
-            <x-article.feature :article="$article" :readingTime="$readingTime" />
-
             <div class="px-6 pb-8">
+              
               <!-- Article Header -->
               <x-article.header :article="$article" />
 

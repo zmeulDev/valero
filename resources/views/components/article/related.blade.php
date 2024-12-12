@@ -12,9 +12,11 @@
                    class="group relative flex flex-col bg-gray-50 dark:bg-gray-900/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-black/30 border border-gray-100 dark:border-gray-800">
                     <!-- Image Container -->
                     <div class="relative aspect-[16/9] overflow-hidden">
-                        <img src="{{ asset('storage/' . $relatedArticle->featured_image) }}" 
-                             alt="{{ $relatedArticle->title }}"
-                             class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110 group-hover:saturate-150">
+                        @if($relatedArticle->featured_image)
+                            <x-article.has-image :article="$relatedArticle" />
+                        @else
+                            <x-article.no-image />
+                        @endif
                         <!-- Gradient Overlay -->
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
@@ -36,16 +38,11 @@
                         <!-- Date and Reading Time -->
                         <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                             <time datetime="{{ $relatedArticle->created_at }}" class="flex items-center gap-1.5">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
+                                <x-lucide-calendar class="w-4 h-4" />
                                 {{ $relatedArticle->created_at->format('M d, Y') }}
                             </time>
                             <span class="flex items-center gap-1.5">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <x-lucide-clock class="w-4 h-4" />
                                 </svg>
                                 {{ $relatedArticle->reading_time ?? '5 min read' }}
                             </span>

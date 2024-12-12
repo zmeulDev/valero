@@ -5,9 +5,11 @@
         <!-- Image Section -->
         <div class="sm:w-2/5">
             <div class="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10">
-                <img class="w-full h-full object-cover object-center transform transition-transform duration-500 group-hover:scale-105"
-                    src="{{ asset('storage/' . $article->featured_image) }}" 
-                    alt="{{ $article->title }}" />
+                @if($article->featured_image)
+                <x-article.has-image :article="$article" />
+                @else
+                <x-article.no-image />
+                @endif
                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
         </div>
@@ -27,12 +29,12 @@
             <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
                 <a href="{{ route('articles.index', $article->slug) }}"
                    class="hover:text-yellow-400 transition-colors duration-200">
-                    {{ $article->title }}
+                    {{ Str::limit($article->title, 100) }}
                 </a>
             </h2>
 
             <p class="text-gray-300 leading-relaxed line-clamp-3">
-                {{ $article->excerpt }}
+                {{ $article->excerpt ?? Str::limit(strip_tags($article->content), 160) }}
             </p>
 
             <div class="flex items-center justify-between pt-6 border-t border-white/10">
@@ -40,10 +42,13 @@
                     <div class="flex items-center gap-3">
                         <img class="w-10 h-10 rounded-full ring-2 ring-white/20"
                             src="{{ $article->user->profile_photo_url }}"
-                            alt="{{ $article->user->name }}">
+                            alt="{{ $article->user->name }}"
+                            loading="lazy">
                         <div class="space-y-0.5">
                             <div class="text-white font-medium">{{ $article->user->name }}</div>
-                            <div class="text-white/60 text-sm">{{ $article->created_at->format('M d, Y') }}</div>
+                            <div class="text-white/60 text-sm">
+                                {{ $article->scheduled_at ? $article->scheduled_at->format('M d, Y') : $article->created_at->format('M d, Y') }}
+                            </div>
                         </div>
                     </div>
                 </div>

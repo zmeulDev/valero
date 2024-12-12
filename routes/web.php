@@ -17,6 +17,8 @@ use App\Http\Controllers\Frontend\ShowArticleController;
 use App\Http\Controllers\Frontend\ShowCategoryController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 
 // Public Routes
@@ -67,17 +69,39 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Sitemap generation (moved inside admin group)
     Route::get('generate-sitemap', [AdminSitemapController::class, 'generate'])->name('sitemap.generate');
 
-    // Clear cache route
+    // System-wide cache clear (development/maintenance only)
     Route::get('/optimize-clear', function(){
-        Artisan::call('optimize:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('view:clear');
-        return redirect()->back()->with('success', 'Cache cleared successfully!');
-    })->name('optimize-clear');
+        if (app()->environment('local', 'development')) {
+            Artisan::call('optimize:clear');
+            Artisan::call('cache:clear');
+            Artisan::call('view:clear');
+            return redirect()->back()->with('success', 'System cache cleared successfully!');
+        }
+        return redirect()->back()->with('error', 'This action is not allowed in production.');
+    })->name('optimize-clear')->middleware(['auth', 'admin']);
 
     // Teams
     Route::delete('teams/{user}', [AdminTeamController::class, 'destroy'])->name('teams.destroy');
     Route::resource('teams', AdminTeamController::class)->except(['destroy'])->parameters([
         'teams' => 'user'
     ]);
+
+    // Clear cache route
+    Route::post('clear-cache', [AdminDashboardController::class, 'clearCache'])
+        ->name('clear-cache');
 });
+
+// Email Verification Routes
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home')->with('status', 'Email verified!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');

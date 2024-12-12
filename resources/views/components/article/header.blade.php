@@ -1,3 +1,33 @@
+<div class="relative w-full mb-8 mt-8 group">
+    <!-- Featured Image -->
+    <div class="relative overflow-hidden rounded-2xl aspect-[16/9]">
+    @if($article->featured_image)
+        <x-article.has-image :article="$article" />
+        @else
+        <x-article.no-image />
+        @endif
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+    </div>
+
+    <!-- Category Badge and Views -->
+        <div class="absolute bottom-6 left-6 flex items-center gap-3">
+        <a href="{{ route('category.index', $article->category->slug) }}" 
+           class="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-medium transition-all duration-300 hover:bg-white hover:scale-105">
+            <x-lucide-tag class="w-4 h-4" />
+            {{ $article->category->name }}
+        </a>
+
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-medium">
+            <x-lucide-eye class="w-4 h-4" />
+            {{ number_format($article->views) }} views
+        </div>
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-medium">
+            <x-lucide-clock class="w-4 h-4" />
+            <span class="text-sm font-medium">{{ $article->reading_time ?? 'As long as you need.' }}</span>
+        </div>
+    </div>
+</div>
 <header class="relative max-w-4xl mx-auto px-4 pt-12 pb-16">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="flex flex-col md:flex-row gap-8">
@@ -25,10 +55,7 @@
             <div class="space-y-6">
                 <!-- Date -->
                 <div class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+                    <x-lucide-calendar class="w-5 h-5" />
                     <time datetime="{{ $article->created_at }}" class="text-sm font-medium">
                         {{ $article->created_at->format('M d, Y') }}
                     </time>
@@ -39,22 +66,15 @@
                     data-article-id="{{ $article->id }}"
                     class="like-button group w-full inline-flex items-center justify-center gap-3 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-rose-50 dark:hover:bg-rose-900/10 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-rose-200 dark:hover:border-rose-700 transition-all duration-300 shadow-sm hover:shadow-md"
                 >
-                    <svg id="likeIcon-{{ $article->id }}" 
-                         class="w-5 h-5 text-gray-400 group-hover:text-rose-500 dark:text-gray-500 dark:group-hover:text-rose-400 transition-colors duration-300" 
-                         fill="none" 
-                         stroke="currentColor" 
-                         viewBox="0 0 24 24">
-                        <path stroke-linecap="round" 
-                              stroke-linejoin="round" 
-                              stroke-width="1.5" 
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
+                    <x-lucide-heart class="w-5 h-5 text-gray-400 group-hover:text-rose-500 dark:text-gray-500 dark:group-hover:text-rose-400 transition-colors duration-300" />
                     <span id="likeCount-{{ $article->id }}" 
                           class="text-sm font-semibold text-gray-700 group-hover:text-rose-600 dark:text-gray-300 dark:group-hover:text-rose-400 transition-colors duration-300">
                         {{ number_format($article->likes_count ?? 0) }}
                     </span>
                 </button>
             </div>
+
+        
         </div>
 
         <!-- Main Content -->

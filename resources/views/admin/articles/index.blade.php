@@ -5,8 +5,7 @@
         items: {{ $articles->items() ? json_encode($articles->items()) : '[]' }},
         
         openDeleteModal(id) {
-            this.itemToDelete = id;
-            this.showDeleteModal = true;
+            $dispatch('open-delete-modal', id);
         }
     }">
         <x-slot name="header">
@@ -218,10 +217,6 @@
         </div>
 
         <!-- Delete Modal -->
-        <x-admin.modal-confirm-delete 
-            type="article"
-            x-show="showDeleteModal"
-            @click.away="showDeleteModal = false"
-        />
+        <x-admin.modal-confirm-delete type="article" />
     </div>
 </x-admin-layout>

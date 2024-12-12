@@ -10,7 +10,21 @@ class Image extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['article_id', 'image_path'];
+    protected $fillable = [
+        'article_id',
+        'image_path',
+        'filename',
+        'mime_type',
+        'size',
+        'variants',
+        'dimensions',
+        'alt_text'
+    ];
+
+    protected $casts = [
+        'variants' => 'array',
+        'dimensions' => 'array'
+    ];
 
     public function article()
     {

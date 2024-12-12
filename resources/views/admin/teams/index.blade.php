@@ -6,8 +6,7 @@
         items: {{ $users->items() ? json_encode($users->items()) : '[]' }},
         
         openDeleteModal(id) {
-            this.itemToDelete = id;
-            this.showDeleteModal = true;
+            $dispatch('open-delete-modal', id);
         }
     }">
 
@@ -212,10 +211,6 @@
         </div>
 
         <!-- Delete Modal -->
-        <x-admin.modal-confirm-delete 
-            type="team member"
-            x-show="showDeleteModal"
-            @click.away="showDeleteModal = false"
-        />
+        <x-admin.modal-confirm-delete type="team member" />
 
 </x-admin-layout>
