@@ -8,23 +8,23 @@
   <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}" />
   {!! seo() !!}
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
-  <!-- Include CSS -->
-  @vite('resources/css/app.css')
-
-  <!-- Livewire Styles -->
+  
+  <!-- Assets -->
+  <x-vite-assets />
   @livewireStyles
 
   <style>
-  [x-cloak] {
-    display: none !important;
-  }
+    [x-cloak] { display: none !important; }
   </style>
 
-  <!-- Alpine.js for interactivity -->
+  <!-- Alpine.js -->
   <script src="//unpkg.com/alpinejs" defer></script>
 
   <!-- Cookie Consent Scripts -->
   @cookieconsentscripts
+
+  <!-- Additional Scripts -->
+  @vite('resources/js/valero-frontend.js')
 </head>
 
 <body 

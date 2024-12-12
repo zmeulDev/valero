@@ -7,8 +7,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/js/valero-admin.js',
                 'resources/js/valero-frontend.js',
+                'resources/js/valero-admin.js'
             ],
             refresh: true,
         }),

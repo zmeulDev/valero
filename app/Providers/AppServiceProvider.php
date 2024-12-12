@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\View;
 use App\View\Composers\NavigationComposer;
 use App\Models\Article;
 use App\Observers\ArticleObserver;
+use App\View\Components\ViteAssets;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Register Article observer
         Article::observe(ArticleObserver::class);
+
+        Blade::component('vite-assets', ViteAssets::class);
     }
 
     /**

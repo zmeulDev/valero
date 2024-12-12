@@ -9,12 +9,15 @@
   <title>{{ $title ?? 'Admin Panel' }} - {{ config('app.name', 'Laravel') }}</title>
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 
-  <!-- Styles -->
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <!-- Assets -->
+  <x-vite-assets />
   @livewireStyles
+  
   <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
   <style>[x-cloak] { display: none !important; }</style>
 
+  <!-- Additional Scripts -->
+  @vite('resources/js/valero-admin.js')
 </head>
 
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -43,7 +46,6 @@
   </div>
 
   <!-- Scripts -->
-  @vite('resources/js/valero-admin.js')
   @livewireScripts
   @stack('scripts')
 </body>
