@@ -84,9 +84,9 @@
 
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <!-- Dark Mode Toggle -->
-                    <x-button-action id="theme-toggle" class="border-none">
-                        <x-lucide-sun class="w-5 h-5" id="theme-toggle-light-icon" />
-                        <x-lucide-moon class="w-5 h-5" id="theme-toggle-dark-icon" />
+                    <x-button-action id="theme-toggle-admin" class="border-none">
+                        <x-lucide-sun class="w-5 h-5" id="theme-toggle-light-icon-admin" />
+                        <x-lucide-moon class="w-5 h-5" id="theme-toggle-dark-icon-admin" />
                     </x-button-action>
 
                     <!-- Settings Dropdown -->

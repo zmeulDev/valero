@@ -1,9 +1,9 @@
 import tinymceConfig from './tinymce-config';
 
 document.addEventListener('DOMContentLoaded', function () {
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const darkIcon = document.getElementById('theme-toggle-dark-icon');
-  const lightIcon = document.getElementById('theme-toggle-light-icon');
+  const themeToggleBtn = document.getElementById('theme-toggle-admin');
+  const darkIcon = document.getElementById('theme-toggle-dark-icon-admin');
+  const lightIcon = document.getElementById('theme-toggle-light-icon-admin');
 
   if (themeToggleBtn && darkIcon && lightIcon) {
     function applyTheme() {
