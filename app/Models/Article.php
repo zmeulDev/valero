@@ -174,4 +174,19 @@ class Article extends Model
         return $this->role === 'admin';
     }
 
+    protected static function booted()
+    {
+        static::created(function ($article) {
+            increment_cache_version();
+        });
+
+        static::updated(function ($article) {
+            increment_cache_version();
+        });
+
+        static::deleted(function ($article) {
+            increment_cache_version();
+        });
+    }
+
 }

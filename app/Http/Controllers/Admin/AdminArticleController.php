@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
+use Illuminate\Support\Facades\Cache;
 
 class AdminArticleController extends Controller
 {
@@ -19,36 +20,48 @@ class AdminArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Article::with(['user', 'category']);
+        $cacheKey = 'admin_articles_' . 
+                    $request->get('page', 1) . '_' . 
+                    $request->get('category', '') . '_' . 
+                    $request->get('search', '') . '_' .
+                    cache_version();
 
-        // Handle category filter
-        if ($request->has('category')) {
-            $query->where('category_id', $request->category);
-        }
+        $data = Cache::remember($cacheKey, now()->addMinutes(5), function () use ($request) {
+            $query = Article::with(['user', 'category']);
 
-        // Handle search
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('content', 'like', "%{$search}%")
-                  ->orWhereHas('category', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
-                  });
-            });
-        }
+            // Handle category filter
+            if ($request->has('category')) {
+                $query->where('category_id', $request->category);
+            }
 
-        $articles = $query->latest()->paginate(10)->withQueryString();
-        $stats = $this->getArticleStats();
-        $categories = Category::orderBy('name')->get();
+            // Handle search
+            if ($request->has('search')) {
+                $search = $request->search;
+                $query->where(function($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('content', 'like', "%{$search}%")
+                      ->orWhereHas('category', function($q) use ($search) {
+                          $q->where('name', 'like', "%{$search}%");
+                      });
+                });
+            }
+
+            return [
+                'articles' => $query->latest()->paginate(10)->withQueryString(),
+                'stats' => $this->getArticleStats(),
+                'categories' => Cache::remember('all_categories_' . cache_version(), now()->addHours(1), function () {
+                    return Category::orderBy('name')->get();
+                })
+            ];
+        });
 
         return view('admin.articles.index', [
-            'articles' => $articles,
-            'categories' => $categories,
+            'articles' => $data['articles'],
+            'categories' => $data['categories'],
             'selectedCategory' => $request->category,
-            'totalArticles' => $stats['total'],
-            'publishedArticles' => $stats['published'],
-            'scheduledArticles' => $stats['scheduled']
+            'totalArticles' => $data['stats']['total'],
+            'publishedArticles' => $data['stats']['published'],
+            'scheduledArticles' => $data['stats']['scheduled']
         ]);
     }
 
@@ -89,6 +102,9 @@ class AdminArticleController extends Controller
         }
 
         $this->updateSEO($article);
+
+        // Clear relevant caches
+        $this->clearArticleCaches();
 
         return redirect()
             ->route('admin.articles.index')
@@ -143,6 +159,9 @@ class AdminArticleController extends Controller
 
         $this->updateSEO($article);
 
+        // Clear relevant caches
+        $this->clearArticleCaches();
+
         return redirect()
             ->route('admin.articles.edit', $article)
             ->with('success', 'Article updated successfully.');
@@ -157,6 +176,9 @@ class AdminArticleController extends Controller
         $article->delete();
         $article->seo->delete();
 
+        // Clear relevant caches
+        $this->clearArticleCaches();
+
         return redirect()
             ->route('admin.articles.index')
             ->with('success', 'Article deleted successfully.');
@@ -167,16 +189,17 @@ class AdminArticleController extends Controller
      */
     private function getArticleStats(): array
     {
-        $now = now();
-        
-        return [
-            'total' => Article::count(),
-            'published' => Article::where(function($query) use ($now) {
-                $query->whereNull('scheduled_at')
-                      ->orWhere('scheduled_at', '<=', $now);
-            })->count(),
-            'scheduled' => Article::where('scheduled_at', '>', $now)->count()
-        ];
+        return Cache::remember('article_stats', now()->addMinutes(5), function () {
+            $now = now();
+            return [
+                'total' => Article::count(),
+                'published' => Article::where(function($query) use ($now) {
+                    $query->whereNull('scheduled_at')
+                          ->orWhere('scheduled_at', '<=', $now);
+                })->count(),
+                'scheduled' => Article::where('scheduled_at', '>', $now)->count()
+            ];
+        });
     }
 
     /**
@@ -280,5 +303,12 @@ class AdminArticleController extends Controller
                 'updated_at' => $article->updated_at,
             ]
         );
+    }
+
+    private function clearArticleCaches(): void
+    {
+        increment_cache_version();
+        Cache::forget('article_stats');
+        Cache::forget('all_categories');
     }
 }

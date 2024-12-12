@@ -69,19 +69,26 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Sitemap generation (moved inside admin group)
     Route::get('generate-sitemap', [AdminSitemapController::class, 'generate'])->name('sitemap.generate');
 
-    // Clear cache route
+    // System-wide cache clear (development/maintenance only)
     Route::get('/optimize-clear', function(){
-        Artisan::call('optimize:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('view:clear');
-        return redirect()->back()->with('success', 'Cache cleared successfully!');
-    })->name('optimize-clear');
+        if (app()->environment('local', 'development')) {
+            Artisan::call('optimize:clear');
+            Artisan::call('cache:clear');
+            Artisan::call('view:clear');
+            return redirect()->back()->with('success', 'System cache cleared successfully!');
+        }
+        return redirect()->back()->with('error', 'This action is not allowed in production.');
+    })->name('optimize-clear')->middleware(['auth', 'admin']);
 
     // Teams
     Route::delete('teams/{user}', [AdminTeamController::class, 'destroy'])->name('teams.destroy');
     Route::resource('teams', AdminTeamController::class)->except(['destroy'])->parameters([
         'teams' => 'user'
     ]);
+
+    // Clear cache route
+    Route::post('clear-cache', [AdminDashboardController::class, 'clearCache'])
+        ->name('clear-cache');
 });
 
 // Email Verification Routes

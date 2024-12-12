@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class AdminDashboardController extends Controller
 {
@@ -82,5 +83,15 @@ class AdminDashboardController extends Controller
             'articles',
             'recentActivity'
         ));
+    }
+
+    public function clearCache()
+    {
+        increment_cache_version();
+        Cache::forget('article_stats');
+        Cache::forget('all_categories');
+        Cache::forget('frontend_categories_' . cache_version());
+        
+        return back()->with('success', 'Cache cleared successfully!');
     }
 }
