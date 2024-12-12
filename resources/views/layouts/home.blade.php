@@ -17,14 +17,9 @@
     [x-cloak] { display: none !important; }
   </style>
 
-  <!-- Alpine.js -->
-  <script src="//unpkg.com/alpinejs" defer></script>
-
   <!-- Cookie Consent Scripts -->
   @cookieconsentscripts
 
-  <!-- Additional Scripts -->
-  @vite('resources/js/valero-frontend.js')
 </head>
 
 <body 

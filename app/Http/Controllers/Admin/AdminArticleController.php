@@ -82,7 +82,10 @@ class AdminArticleController extends Controller
         $article->save();
 
         if ($request->hasFile('gallery_images')) {
-            $this->handleGalleryImages($request, $article);
+            foreach ($request->file('gallery_images') as $image) {
+                $path = $image->store('images', 'public');
+                $article->images()->create(['image_path' => $path]);
+            }
         }
 
         $this->updateSEO($article);
