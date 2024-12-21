@@ -11,8 +11,8 @@
 
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
   
-  <!-- Assets -->
-  <x-vite-assets />
+    <!-- Vite Assets -->
+    @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
   @livewireStyles
 
   <!-- Alpine.js -->
@@ -64,8 +64,6 @@
   <!-- Back to top button -->
   <x-scroll-top />
 
-  <!-- Custom Valero Frontend JS -->
-  @vite('resources/js/valero-frontend.js')
 </body>
 
 </html>

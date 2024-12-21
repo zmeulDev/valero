@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-  <!-- Scripts -->
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <!-- Vite Assets -->
+  @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
 
   <!-- Styles -->
   @livewireStyles
@@ -27,9 +27,6 @@
   </div>
 
   @livewireScripts
-
-    <!-- Custom Valero Admin JS -->
-  @vite('resources/js/valero-admin.js')
 </body>
 
 </html>

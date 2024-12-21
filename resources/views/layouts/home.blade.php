@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +7,11 @@
   <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}" />
   {!! seo() !!}
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
-  
-  <!-- Assets -->
-  <x-vite-assets />
+
+  <!-- Vite Assets -->
+  @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
+
+  <!-- Livewire Styles -->
   @livewireStyles
 
   <style>
@@ -19,7 +20,6 @@
 
   <!-- Cookie Consent Scripts -->
   @cookieconsentscripts
-
 </head>
 
 <body 
@@ -51,11 +51,9 @@
     @include('frontend.cookies.consent')
   </div>
 
-  <!-- Scripts -->
-  @vite('resources/js/valero-frontend.js')
+  <!-- Livewire Scripts -->
   @livewireScripts
   @stack('scripts')
 
 </body>
-
 </html>

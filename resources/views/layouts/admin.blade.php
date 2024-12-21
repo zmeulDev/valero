@@ -8,16 +8,14 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ $title ?? 'Admin Panel' }} - {{ config('app.name', 'Laravel') }}</title>
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
-
-  <!-- Assets -->
-  <x-vite-assets />
-  @livewireStyles
-  
   <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+
+  <!-- Vite Assets -->
+  @vite(['resources/css/app.css', 'resources/js/valero-admin.js'])
+  @livewireStyles
   <style>[x-cloak] { display: none !important; }</style>
 
-  <!-- Additional Scripts -->
-  @vite('resources/js/valero-admin.js')
 </head>
 
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900">

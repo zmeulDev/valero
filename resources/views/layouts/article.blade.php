@@ -7,15 +7,12 @@
   <!-- SEO -->
   {!! seo()->for($article) !!}
 
-  <!-- Assets -->
-  <x-vite-assets />
+  <!-- Vite Assets -->
+  @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
 
   <!-- Alpine.js -->
   <script src="//unpkg.com/alpinejs" defer></script>
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
-
-  <!-- Additional Scripts -->
-  @vite('resources/js/valero-frontend.js')
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
@@ -69,9 +66,6 @@
 
   <!-- Back to top button -->
   <x-scroll-top />
-
-  <!-- Custom Valero Frontend JS -->
-  @vite('resources/js/valero-frontend.js')
 </body>
 
 </html>
