@@ -78,9 +78,7 @@
                        maxlength="60">
                 <div class="mt-2 flex items-center justify-between text-sm">
                   <p class="text-gray-500 dark:text-gray-400">Recommended: 60 characters maximum</p>
-                  <p x-text="charCount + '/60'" 
-                     :class="{ 'text-red-500': charCount > 60, 'text-gray-500': charCount <= 60 }"
-                     class="dark:text-gray-400"></p>
+                  <p class="text-sm text-gray-500">Characters: <span id="title-char-count">0</span></p>
                 </div>
               </div>
             </div>
@@ -100,9 +98,7 @@
                          maxlength="160">{{ old('excerpt', $article->excerpt) }}</textarea>
                 <div class="mt-2 flex items-center justify-between text-sm">
                   <p class="text-gray-500 dark:text-gray-400">Recommended: 160 characters maximum</p>
-                  <p x-text="charCount + '/160'" 
-                     :class="{ 'text-red-500': charCount > 160, 'text-gray-500': charCount <= 160 }"
-                     class="dark:text-gray-400"></p>
+                  <p class="text-sm text-gray-500">Characters: <span id="excerpt-char-count">0</span></p>
                 </div>
               </div>
             </div>
