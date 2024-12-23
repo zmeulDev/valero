@@ -18,7 +18,7 @@ return new class extends Migration
             // Core article information
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('tags');
+            $table->string('tags')->nullable();
             $table->text('excerpt')->nullable();
             $table->longText('content');
             

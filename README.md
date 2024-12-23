@@ -2,30 +2,39 @@
 
 Valero is an open-source article-sharing platform built with **Laravel 11** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, galleries, and SEO optimization.
 
+[View Screenshots](./screenshots)
+
 ## 📦 Features
 
 - **Article Management**: Create, edit, schedule, and publish articles with image uploads and galleries.
 - **Category Management**: Dynamically create and manage categories via a Livewire-powered modal.
 - **Admin Panel**: Full CRUD operations for managing articles, categories, and users with a clean and responsive interface.
-- **Livewire Integration**: Dynamic, real-time components for a seamless user experience.
-- **Tailwind CSS**: Modern and responsive design with utility-first CSS framework.
+- **Rich Text Editor**: 
+  - TinyMCE 6 integration
+  - Markdown support
+  - Code block highlighting
+  - Image embedding
+  - Custom paste handling
+- **Image Management**:
+  - Gallery support with modal viewer
+  - Keyboard navigation for galleries
+  - Image optimization
+  - Drag-and-drop upload support
+  - Bulk image uploads
 - **SEO Optimization**: Integrated with the **RalphJSmit/Laravel/SEO** package for enhanced search engine visibility.
-- **Dark Mode Support**: Toggle between light and dark themes for user comfort.
-- **Reading Time Estimation**: Displays estimated reading time for articles.
-- **View Count**: Tracks and displays the number of views for each article.
-- **Responsive Design**: Optimized for all screen sizes, ensuring a consistent experience across devices.
-- **Comments System**: Nested comments with real-time updates and moderation capabilities.
-- **User Profiles**: Customizable user profiles with avatars and social links.
-- **Social Sharing**: Built-in social media sharing functionality.
-- **Article Likes**: User engagement through article likes system.
-- **Popular Articles**: Sidebar widget showing most viewed articles.
-- **Search Functionality**: Search articles by title and content.
+- **Dark Mode**: System preference detection with manual toggle and theme persistence
+- **Reading Time**: Automatic calculation of estimated reading time
+- **View Tracking**: Real-time view count tracking
+- **Character Limits**:
+  - Title (60 characters)
+  - Excerpt (160 characters)
+  - Real-time character counting
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **User Authentication**: 
-  - Email verification for new users
-  - Two-factor authentication support
-  - Password reset functionality
-  - Remember me option
+  - Email verification
+  - Two-factor authentication
   - Profile management
+  - Session handling
 
 ## 🗂 Application Structure
 
@@ -240,16 +249,39 @@ Visit [http://localhost:8000](http://localhost:8000) in your browser to access V
 
 ## 🎨 UI and UX Enhancements
 
-The UI follows a **minimalist design** with modern, interactive elements using **Tailwind CSS**. Hover effects, shadows, and transitions have been applied to buttons and table rows for a clean and intuitive user experience.
+The UI follows a **minimalist design** with modern, interactive elements using **Tailwind CSS**:
 
-- Buttons have hover effects and smooth transitions.
-- Form elements are styled for clarity and ease of use.
-- Tables in the admin panel have subtle row hover effects, making it easier to manage content.
-- Dark mode support for a more comfortable reading experience in low-light conditions.
+- Interactive components with hover effects and smooth transitions
+- Responsive tables with row hover effects
+- Dark mode with system preference detection and manual toggle
+- Modal image gallery with keyboard navigation
+- Real-time character counting for content fields
+- Drag-and-drop file upload zones
+- Toast notifications for user feedback
+
+## 🎨 Design & UI Components
+
+- **Logo font**: Protest Guerrilla
+- **Icons**: [Lucide Icons](https://lucide.dev/icons/)
+- **Rich Text Editor**: TinyMCE 6
+- **Image Gallery**: Custom modal viewer with keyboard navigation
+- **Dark Mode**: System preference detection with manual toggle
+- **Email Templates**: Custom HTML templates with dark mode support
+
+## Current Version
+
+**Version 0.39940**
+- Added TinyMCE rich text editor integration
+- Improved image gallery management
+- Enhanced dark mode persistence
+- Added character count limits
+- Implemented keyboard navigation for galleries
+- Added bulk image upload support
+- Improved admin panel UI/UX
 
 ---
 
-## 🔮 Future Enhancements
+## 🤝 Future Enhancements
 
 - **Enhanced User Authentication**: 
   - Social login integration
@@ -262,24 +294,6 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - **SEO Enhancements**: Improve the existing SEO functionality by adding more meta tags and optimizing social media previews.
 - **Article Search**: Add a search functionality to find articles based on title or content.
 - **Dashboard Statistics**: Implement more detailed statistics on articles and categories in the admin dashboard.
-
----
-
-## 🎨 Design
-
-- **Logo font**: Protest Guerrilla.
-- **Icons**: Lucide. https://lucide.dev/icons/
-- **Email Templates**: Custom HTML templates with dark mode support
-
----
-
-## Current Version
-
-**Version 0.32517**
-- Added email verification for new users
-- Improved authentication flow
-- Enhanced security measures
-- Dark mode support for email templates
 
 ---
 

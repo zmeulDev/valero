@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->longText('description')->nullable();
             $table->string('title')->nullable();
-            $table->string('tags');
+            $table->string('tags')->nullable();
             $table->string('image')->nullable();
             $table->string('author')->nullable();
             $table->string('robots')->nullable();
