@@ -216,11 +216,18 @@ php artisan storage:link
 
 For demo purposes, seed the database with sample data:
 User: admin@example.com
-Password: password  
+Password: password 
 
 ```bash
 php artisan db:seed
 php artisan db:seed --class=DemoSeeder
+```
+
+If you are not using seed option and prefer to manually register users, you need to manually update at least one user
+in the database and set the role to `admin`. 
+
+```bash
+update users set role='admin', email_verified_at=now() where id = 1;
 ```
 
 ### 9. Compile Front-End Assets

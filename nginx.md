@@ -45,12 +45,6 @@ server {
 
     error_log /var/log/nginx/citybrkro-error.log;
     access_log /var/log/nginx/citybrkro-access.log;
-
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/citybrk.ro/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/citybrk.ro/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }
 
 server {
@@ -139,6 +133,12 @@ To clone a GitHub repository, follow these steps:
    ```bash
    sudo chown -R $USER:$USER /var/www/citybrkro
    sudo chmod -R 755 /var/www/citybrkro
+   sudo chown -R www-data:www-data /var/www/citybrkro/public
+   sudo chmod 664 /var/www/citybrkro/public/sitemap.xml
+
+   sudo chown -R www-data:www-data /var/www/citybrkro/storage
+   sudo chown -R www-data:www-data /var/www/citybrkro/bootstrap/cache
+
    ```
 
 # Summary
