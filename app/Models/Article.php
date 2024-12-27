@@ -80,13 +80,20 @@ class Article extends Model
         // Get image URL with fallback
         $imageUrl = $this->featured_image
             ? Storage::url($this->featured_image)
-            : asset('storage/brand/default-article.jpg');
+            : asset('storage/brand/logo.png');
+
+        // Get the correct article URL
+        $articleUrl = route('articles.index', ['slug' => $this->slug]);
 
         // Get keywords array
-        $keywords = array_merge(
-            [$this->category->name],
-            $this->tags_array
-        );
+        $keywords = collect([
+            $this->category->name,
+            ...$this->tags_array,
+            config('app.name')
+        ])
+        ->filter()
+        ->unique()
+        ->join(', ');
 
         return new SEOData(
             title: $this->title,
@@ -97,25 +104,26 @@ class Article extends Model
             modified_time: $this->updated_at,
             section: $this->category->name,
             tags: $this->tags_array,
+            url: $articleUrl,
+            type: 'article',
             schema: SchemaCollection::make()
-                ->addArticle(function($schema) use ($imageUrl, $description, $readingTime, $wordCount, $keywords) {
+                ->addArticle(function($schema) use ($imageUrl, $description, $readingTime, $wordCount, $articleUrl) {
                     $schema->headline = $this->title;
                     $schema->description = $description;
                     $schema->image = $imageUrl;
                     $schema->datePublished = $this->created_at;
                     $schema->dateModified = $this->updated_at;
-                    $schema->inLanguage = app()->getLocale();
+                    $schema->author = $this->user->name;
+                    $schema->publisher = config('app.name');
                     $schema->articleBody = $this->content;
                     $schema->wordCount = $wordCount;
                     $schema->timeRequired = "PT{$readingTime}M";
-                    $schema->author = $this->user->name;
-                    $schema->publisher = config('app.name');
-                    $schema->mainEntityOfPage = route('articles.index', ['slug' => $this->slug]);
-                    $schema->keywords = implode(', ', $keywords);
+                    $schema->keywords = $this->tags_array;
+                    $schema->mainEntityOfPage = $articleUrl;
 
                     return $schema;
                 })
-                ->addBreadcrumbs(function($breadcrumbs, SEOData $SEOData) {
+                ->addBreadcrumbs(function($breadcrumbs) {
                     return $breadcrumbs
                         ->prependBreadcrumbs([
                             'Home' => route('home'),
@@ -123,11 +131,22 @@ class Article extends Model
                             $this->title => route('articles.index', ['slug' => $this->slug])
                         ]);
                 })
-                ->addFaqPage(function($faqPage, SEOData $SEOData) {
-                    // Extract questions and answers from content
+                ->addFaqPage(function($faqPage) {
                     $faqs = $this->extractFaqs();
                     
-                    // Add each FAQ to the schema
+                    // Set mainEntity for FAQ schema
+                    $faqPage->mainEntity = array_map(function($faq) {
+                        return [
+                            '@type' => 'Question',
+                            'name' => $faq['question'],
+                            'acceptedAnswer' => [
+                                '@type' => 'Answer',
+                                'text' => $faq['answer']
+                            ]
+                        ];
+                    }, $faqs);
+
+                    // Add questions for backward compatibility
                     foreach ($faqs as $faq) {
                         $faqPage->addQuestion(
                             name: $faq['question'],

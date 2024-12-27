@@ -107,7 +107,7 @@
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
               <div class="p-6">
                 <label for="tags" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Keywords / Tags (comma separated)
+                  Tags (comma separated)
                 </label>
                 <input type="text" id="tags" name="tags" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" value="{{ old('tags', $article->tags) }}">
               </div>

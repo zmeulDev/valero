@@ -215,10 +215,12 @@ php artisan storage:link
 ### 8. Seed the Database (Optional)
 
 For demo purposes, seed the database with sample data:
+User: admin@example.com
+Password: password  
 
 ```bash
 php artisan db:seed
-php artisan db:seed --class=ArticleSeeder
+php artisan db:seed --class=DemoSeeder
 ```
 
 ### 9. Compile Front-End Assets
