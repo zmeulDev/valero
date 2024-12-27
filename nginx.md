@@ -118,14 +118,16 @@ sudo systemctl reload nginx
 ## Step 9: Clone a GitHub Repository
 To clone a GitHub repository, follow these steps:
 
-1. Navigate to the directory where you want to clone the repository:
+1. Navigate to the directory where you want to clone the repository and remove public folder:
    ```bash
    cd /var/www/citybrkro
+   sudo rm -rf public/
    ```
+
 
 2. Clone the repository:
    ```bash
-   https://github.com/zmeulDev/valero.git
+   git clone https://github.com/zmeulDev/valero.git .
    ```
 
 3. Check the contents of the directory:
