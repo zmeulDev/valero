@@ -69,7 +69,7 @@
 
             <!-- Upload Form -->
             @if($article)
-                <form action="{{ route('admin.articles.featured-image.update', $article) }}" 
+                <form action="{{ route('admin.articles.featured-image.update', $article) }}"  
                       method="POST" 
                       enctype="multipart/form-data"
                       class="space-y-3">
@@ -93,7 +93,7 @@
                                     Click to upload or drag and drop
                                 </span>
                                 <span class="text-xs text-gray-500 dark:text-gray-400">
-                                    PNG, JPG, WebP up to 2MB
+                                    PNG, JPG up to 2MB
                                 </span>
                             </div>
                         </button>
@@ -126,7 +126,7 @@
                                 Click to upload or drag and drop
                             </span>
                             <span class="text-xs text-gray-500 dark:text-gray-400">
-                                PNG, JPG, WebP up to 2MB
+                                PNG, JPG up to 2MB
                             </span>
                         </div>
                     </button>
@@ -168,7 +168,7 @@ function initFeaturedImage() {
             if (!file) return;
 
             // Validate file type and size
-            const isValidType = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'].includes(file.type);
+            const isValidType = ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type);
             const isValidSize = file.size <= 2048 * 1024; // 2MB
 
             if (!isValidType || !isValidSize) {
