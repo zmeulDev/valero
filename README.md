@@ -1,151 +1,119 @@
 # Valero - Blogging Platform
 
-Valero is an open-source article-sharing platform built with **Laravel 11** and **Livewire**. It allows users to create, edit, and share blog-style articles with features such as categories, images, galleries, and SEO optimization.
+Valero is an open-source article-sharing platform built with **Laravel 11** and **Livewire**. It features a modern, responsive design with advanced media management and article organization capabilities.
 
-[View Screenshots](./screenshots)
+## 📦 Core Features
 
-## 📦 Features
+### Article Management
+- Full CRUD operations for articles
+- Rich text editor integration
+- Cover image designation
+- Multiple image galleries per article
+- Automatic reading time calculation
+- Related articles functionality
+- SEO optimization
+- Article scheduling and drafts
+- Category organization
 
-- **Article Management**: Create, edit, schedule, and publish articles with image uploads and galleries.
-- **Category Management**: Dynamically create and manage categories via a Livewire-powered modal.
-- **Admin Panel**: Full CRUD operations for managing articles, categories, and users with a clean and responsive interface.
-- **Rich Text Editor**: 
-  - TinyMCE 6 integration
-  - Markdown support
-  - Code block highlighting
-  - Image embedding
-  - Custom paste handling
-- **Image Management**:
-  - Gallery support with modal viewer
-  - Keyboard navigation for galleries
-  - Image optimization
-  - Drag-and-drop upload support
-  - Bulk image uploads
-- **SEO Optimization**: Integrated with the **RalphJSmit/Laravel/SEO** package for enhanced search engine visibility.
-- **Dark Mode**: System preference detection with manual toggle and theme persistence
-- **Reading Time**: Automatic calculation of estimated reading time
-- **View Tracking**: Real-time view count tracking
-- **Character Limits**:
-  - Title (60 characters)
-  - Excerpt (160 characters)
-  - Real-time character counting
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **User Authentication**: 
-  - Email verification
-  - Two-factor authentication
-  - Profile management
-  - Session handling
+### Media Management
+- Dedicated media library with grid view
+- Image metadata tracking:
+  - Dimensions
+  - File size
+  - Upload date
+  - Article association
+- Cover image designation
+- Gallery modal with navigation
+- Bulk image uploads
+- Image optimization
+- Drag-and-drop support
+
+### User Interface
+- Responsive design with Tailwind CSS
+- Dark mode support with system preference detection
+- Interactive components with hover effects
+- Modal galleries with keyboard navigation
+- Lazy loading for images
+- Toast notifications
+- Gradient text and backgrounds
+- Loading states
+
+### Layout Components
+- Featured articles showcase
+- Latest articles grid/list view
+- Article headers with cover images
+- Image galleries with modal viewer
+- Category badges and filters
+- Responsive sidebar
+- Related articles section
 
 ## 🗂 Application Structure
 
-### Key Components:
+### Key View Components
 
 ```
-/app
-├── Actions
-│   ├── Fortify
-│   │   ├── CreateNewUser.php - Handles user registration with email verification
-│   │   ├── PasswordValidationRules.php - Defines password validation rules
-│   │   ├── ResetUserPassword.php - Handles password reset functionality
-│   │   ├── UpdateUserPassword.php - Handles password updates
-│   │   └── UpdateUserProfileInformation.php - Manages profile updates
-│   └── Jetstream
-│       └── DeleteUser.php - Handles user account deletion
-├── Console
-│   └── Kernel.php - Defines scheduled tasks
-├── Http
-│   ├── Controllers
-│   │   ├── Admin
-│   │   │   ├── AdminArticleController.php - Manages articles (CRUD)
-│   │   │   ├── AdminCategoryController.php - Manages categories (CRUD)
-│   │   │   ├── AdminDashboardController.php - Handles admin dashboard stats/display
-│   │   │   ├── AdminImageController.php - Handles image uploads/management
-│   │   │   ├── AdminPartnersController.php - Manages partner ads (CRUD + status management)
-│   │   │   ├── AdminSettingController.php - Handles site settings
-│   │   │   ├── AdminSitemapController.php - Generates sitemap
-│   │   │   └── AdminTeamController.php - Manages team members
-│   │   └── Frontend
-│   │       ├── HomeController.php - Handles homepage display
-│   │       ├── SearchController.php - Manages search functionality
-│   │       ├── ShowArticleController.php - Displays individual articles
-│   │       └── ShowCategoryController.php - Shows category-specific articles
-│   └── Middleware
-│       ├── AdminMiddleware.php - Controls access to admin area based on roles
-│       └── AdminOnlyMiddleware.php - Ensures only admins can access certain routes
-├── Models
-│   ├── Article.php - Article data model with relationships
-│   ├── Category.php - Category data model
-│   └── Image.php - Image data model for article galleries
+/resources/views/components
+├── admin/
+│   ├── media/
+│   │   └── gallery.blade.php      # Media library management
+│   └── article/
+│       └── gallery-edit.blade.php # Article gallery editor
+├── article/
+│   ├── header.blade.php          # Article header with cover
+│   ├── gallery.blade.php         # Article image gallery
+│   ├── related.blade.php         # Related articles
+│   ├── has-image.blade.php       # Image display handler
+│   ├── no-image.blade.php        # Fallback for missing images
+│   └── fullgallery.blade.php     # Full-screen gallery modal
+└── home/
+    ├── home-featured-articles.blade.php
+    ├── home-latest-articles-grid.blade.php
+    └── home-latest-articles-list.blade.php
 ```
 
-### Database Structure:
-
+### Layouts
 ```
-/database
-├── migrations
-│   ├── 0001_01_01_000000_create_users_table.php - Creates users table
-│   ├── 2024_09_17_082456_create_articles_table.php - Creates articles table
-│   ├── 2024_09_17_083239_create_images_table.php - Creates images table
-│   ├── 2024_09_17_120026_create_categories_table.php - Creates categories table
-│   ├── 2024_09_26_125810_create_seo_table.php - Creates SEO table
-│   ├── 2024_10_03_075454_create_settings_table.php - Creates settings table
-│   └── 2024_11_05_114007_create_partners_table.php - Creates partners table
-├── seeders
-│   ├── DatabaseSeeder.php - Main seeder to run all other seeders
-│   ├── ArticleSeeder.php - Seeds articles
-│   ├── CategorySeeder.php - Seeds categories
-│   └── SettingSeeder.php - Seeds application settings
+/resources/views/layouts
+├── app.blade.php       # Main application layout
+├── admin.blade.php     # Admin panel layout
+├── article.blade.php   # Article display layout
+└── guest.blade.php     # Guest/public layout
 ```
 
-### Explanation of Key Database Files:
+## 🎨 Design System
 
-1. **Migrations**: Define the structure of the database tables, including users, articles, categories, images, and settings.
-2. **Seeders**: Populate the database with initial data for testing and development.
+### UI Components
+- **Typography**:
+  - Gradient text effects
+  - Responsive font sizing
+  - Custom prose styling for articles
 
-### Frontend Structure:
+- **Cards & Containers**:
+  - Hover effects with shadows
+  - Gradient borders
+  - Rounded corners with consistent spacing
+  - Dark mode variants
 
-```
-/resources
-├── views
-│   ├── auth - Handles user authentication (login, registration, password reset)
-│   ├── components - Reusable UI components (buttons, forms, modals)
-│   ├── layouts - Main layout files for the application (admin layout, guest layout)
-│   ├── admin - Manage articles, categories, partners, and settings
-│   └── frontend - Display articles and categories to the public
-```
+- **Images & Media**:
+  - Aspect ratio containers
+  - Cover/contain sizing options
+  - Lazy loading
+  - Hover zoom effects
+  - Modal previews
 
-### Explanation of Key View Files:
+- **Navigation**:
+  - Responsive header
+  - Sticky sidebar
+  - Category filters
+  - Breadcrumbs
 
-1. **Auth Views**: Handle user authentication (login, registration, password reset).
-2. **Components**: Reusable UI components for consistent design.
-3. **Layouts**: Main layout files for the application.
-4. **Admin Views**: Manage articles, categories, partners, and settings.
-5. **Frontend Views**: Display articles and categories to the public.
-
-### Configuration Files:
-
-- **`tailwind.config.js`**: Configuration for Tailwind CSS, defining custom styles and themes.
-- **`app/Providers/CookiesServiceProvider.php`**: Handles cookie consent and management.
-
-### Authentication Features:
-
-1. **Email Verification**:
-   - Mandatory email verification for new users
-   - Resend verification email functionality
-   - Email verification status indicator
-   - Secure verification links
-
-2. **User Management**:
-   - Secure password hashing
-   - Profile photo upload
-   - Two-factor authentication
-   - Session management
-
-### Conclusion
-
-This structure allows for a clear separation of concerns, making the application easier to maintain and extend. Each component, controller, and model has a specific role, contributing to the overall functionality of the Valero blogging platform.
-
----
+### Interactive Elements
+- Modal galleries with keyboard navigation
+- Grid/List view toggles
+- Image upload zones
+- Toast notifications
+- Loading states
+- Hover effects
 
 ## 🚀 Installation
 
@@ -192,19 +160,13 @@ MAIL_FROM_NAME="${APP_NAME}"
 php artisan key:generate
 ```
 
-### 5. Publish SEO Package Configuration and Migrations
-
-```bash
-php artisan vendor:publish --provider="RalphJSmit\Laravel\SEO\SEOServiceProvider"
-```
-
-### 6. Run Migrations
+### 5. Run Migrations
 
 ```bash
 php artisan migrate
 ```
 
-### 7. Create Storage Link
+### 6. Create Storage Link
 
 Ensure that the storage is linked to serve uploaded images:
 
@@ -212,7 +174,7 @@ Ensure that the storage is linked to serve uploaded images:
 php artisan storage:link
 ```
 
-### 8. Seed the Database (Optional)
+### 7. Seed the Database (Optional)
 
 For demo purposes, seed the database with sample data:
 User: admin@example.com
@@ -230,7 +192,7 @@ in the database and set the role to `admin`.
 update users set role='admin', email_verified_at=now() where id = 1;
 ```
 
-### 9. Compile Front-End Assets
+### 8. Compile Front-End Assets
 
 For development:
 
@@ -244,7 +206,7 @@ For production:
 npm run build
 ```
 
-### 10. Run the Application
+### 9. Run the Application
 
 Start the local development server:
 
@@ -253,6 +215,36 @@ php artisan serve
 ```
 
 Visit [http://localhost:8000](http://localhost:8000) in your browser to access Valero.
+
+## 🔄 Updates & Versioning
+
+**Current Version: 0.39940**
+- Enhanced media library management
+- Improved article gallery system
+- Added related articles functionality
+- Optimized image loading and display
+- Improved dark mode implementation
+
+## 🛠 Development
+
+### Prerequisites
+- PHP 8.2+
+- Node.js & NPM
+- Composer
+- MySQL 8.0+
+
+### Local Development
+We use Laravel Herd for local development but you can use any other local development tool.
+
+```bash
+npm run dev
+```
+
+### Production Build
+```bash
+npm run build
+php artisan optimize
+```
 
 ---
 
@@ -277,19 +269,6 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - **Dark Mode**: System preference detection with manual toggle
 - **Email Templates**: Custom HTML templates with dark mode support
 
-## Current Version
-
-**Version 0.39940**
-- Added TinyMCE rich text editor integration
-- Improved image gallery management
-- Enhanced dark mode persistence
-- Added character count limits
-- Implemented keyboard navigation for galleries
-- Added bulk image upload support
-- Improved admin panel UI/UX
-
----
-
 ## 🤝 Future Enhancements
 
 - **Enhanced User Authentication**: 
@@ -304,18 +283,12 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - **Article Search**: Add a search functionality to find articles based on title or content.
 - **Dashboard Statistics**: Implement more detailed statistics on articles and categories in the admin dashboard.
 
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
----
-
 ## 📝 License
 
 This project is open-source and licensed under the [MIT license](LICENSE).
-
----
 
 ### ❤️ Thanks for checking out **Valero**! Happy coding!
