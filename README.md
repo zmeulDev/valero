@@ -49,35 +49,129 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 
 ## 🗂 Application Structure
 
-### Key View Components
+### Models
+```
+/app/Models
+├── User.php                # User authentication and profile
+├── Article.php            # Article model with relationships
+├── Category.php          # Category management
+├── Media.php             # Media/image handling
+└── Comment.php           # Article comments (if implemented)
+```
 
+### Controllers
+```
+/app/Http/Controllers
+├── Admin/
+│   ├── AdminController.php           # Base admin functionality
+│   ├── ArticleController.php         # Article CRUD operations
+│   ├── CategoryController.php        # Category management
+│   ├── MediaController.php           # Media library management
+│   └── DashboardController.php       # Admin dashboard
+├── Auth/
+│   └── AuthenticatedSessionController.php  # Authentication
+├── ArticleController.php             # Public article display
+├── HomeController.php                # Homepage and listings
+└── ProfileController.php             # User profile management
+```
+
+### View Components
 ```
 /resources/views/components
 ├── admin/
 │   ├── media/
-│   │   └── gallery.blade.php      # Media library management
-│   └── article/
-│       └── gallery-edit.blade.php # Article gallery editor
+│   │   └── gallery.blade.php         # Media library management
+│   ├── article/
+│   │   └── gallery-edit.blade.php    # Article gallery editor
+│   ├── page-header.blade.php         # Admin page headers
+│   └── stats-card.blade.php          # Statistics display
 ├── article/
-│   ├── header.blade.php          # Article header with cover
-│   ├── gallery.blade.php         # Article image gallery
-│   ├── related.blade.php         # Related articles
-│   ├── has-image.blade.php       # Image display handler
-│   ├── no-image.blade.php        # Fallback for missing images
-│   └── fullgallery.blade.php     # Full-screen gallery modal
-└── home/
-    ├── home-featured-articles.blade.php
-    ├── home-latest-articles-grid.blade.php
-    └── home-latest-articles-list.blade.php
+│   ├── header.blade.php              # Article header with cover
+│   ├── gallery.blade.php             # Article image gallery
+│   ├── related.blade.php             # Related articles
+│   ├── has-image.blade.php           # Image display handler
+│   ├── no-image.blade.php            # Fallback for missing images
+│   └── fullgallery.blade.php         # Full-screen gallery modal
+├── home/
+│   ├── home-featured-articles.blade.php
+│   ├── home-latest-articles-grid.blade.php
+│   └── home-latest-articles-list.blade.php
+└── sidebar/
+    └── sidebar.blade.php             # Sidebar with categories
+```
+
+### Routes
+```
+/routes
+├── web.php                # Public web routes
+├── admin.php             # Admin panel routes
+└── auth.php              # Authentication routes
+```
+
+### Key Route Groups
+```php
+// Public Routes
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/articles/{slug}', [ArticleController::class, 'show']);
+Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+
+// Admin Routes (Prefix: /admin)
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::resource('articles', AdminArticleController::class);
+    Route::resource('categories', AdminCategoryController::class);
+    Route::resource('media', AdminMediaController::class);
+});
 ```
 
 ### Layouts
 ```
 /resources/views/layouts
-├── app.blade.php       # Main application layout
-├── admin.blade.php     # Admin panel layout
-├── article.blade.php   # Article display layout
-└── guest.blade.php     # Guest/public layout
+├── app.blade.php          # Main application layout
+├── admin.blade.php        # Admin panel layout
+├── article.blade.php      # Article display layout
+└── guest.blade.php        # Guest/public layout
+```
+
+### Assets Organization
+```
+/resources
+├── css/
+│   └── app.css           # Main stylesheet
+├── js/
+│   └── app.js            # Main JavaScript file
+└── views/
+    ├── admin/            # Admin panel views
+    ├── articles/         # Article views
+    ├── auth/             # Authentication views
+    ├── components/       # Blade components
+    └── layouts/          # Layout templates
+```
+
+### Database Structure
+```
+/database/migrations
+├── create_users_table.php
+├── create_articles_table.php
+├── create_categories_table.php
+├── create_media_table.php
+└── create_article_category_table.php
+```
+
+### Key Features Implementation
+- **Media Management**: Handles image uploads, optimization, and gallery management
+- **Article System**: Full CRUD with category management and media attachments
+- **Authentication**: User registration, login, and admin role management
+- **Frontend**: Responsive layouts with Tailwind CSS and Alpine.js
+- **SEO**: Meta tags, slugs, and optimized URLs
+- **Performance**: Image optimization, lazy loading, and caching
+
+### Service Providers
+```
+/app/Providers
+├── AppServiceProvider.php          # Application service bindings
+├── AuthServiceProvider.php         # Authentication policies
+├── RouteServiceProvider.php        # Route configurations
+└── ViewServiceProvider.php         # View composers and shared data
 ```
 
 ## 🎨 Design System
