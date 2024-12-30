@@ -22,10 +22,8 @@ return new class extends Migration
             $table->text('excerpt')->nullable();
             $table->longText('content');
             
-            // Media
-            $table->string('featured_image')->nullable();
-            
             // Metrics and stats
+            $table->boolean('is_featured')->default(false);
             $table->unsignedBigInteger('views')->default(0);
             $table->unsignedBigInteger('likes_count')->default(0);
             

@@ -5,13 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
-use App\Models\Image;
+use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use RalphJSmit\Laravel\SEO\Support\SEOData;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
 
 class AdminArticleController extends Controller
 {
@@ -80,35 +88,37 @@ class AdminArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $this->validateArticle($request);
-        
-        $article = new Article($validated);
-        $article->user_id = auth()->id();
-        $article->slug = Str::slug($validated['title']);
-        
-        $this->handleScheduling($article, $request->scheduled_at);
-        
-        if ($request->hasFile('featured_image')) {
-            $article->featured_image = $this->handleFeaturedImage($request);
-        }
+        try {
+            $validated = $this->validateArticle($request);
+            
+            $article = new Article($validated);
+            $article->user_id = auth()->id();
+            $article->slug = Str::slug($validated['title']);
+            
+            $this->handleScheduling($article, $request->scheduled_at);
 
-        $article->save();
+            $article->save();
 
-        if ($request->hasFile('gallery_images')) {
-            foreach ($request->file('gallery_images') as $image) {
-                $path = $image->store('images', 'public');
-                $article->images()->create(['image_path' => $path]);
+            // Handle gallery images with improved error handling
+            if ($request->hasFile('gallery_images')) {
+                $this->handleGalleryImages($request, $article);
             }
+
+            $this->updateSEO($article);
+            $this->clearArticleCaches();
+
+            return redirect()
+                ->route('admin.articles.index')
+                ->with('success', 'Article created successfully.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            Log::error('Article creation error: ' . $e->getMessage());
+            return back()
+                ->with('error', 'Failed to create article: ' . $e->getMessage());
         }
-
-        $this->updateSEO($article);
-
-        // Clear relevant caches
-        $this->clearArticleCaches();
-
-        return redirect()
-            ->route('admin.articles.index')
-            ->with('success', 'Article created successfully.');
     }
 
     /**
@@ -141,30 +151,46 @@ class AdminArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        $validated = $this->validateArticle($request, $article);
-        
-        $this->handleScheduling($article, $request->scheduled_at);
-        
-        $article->update($validated);
+        try {
+            $validated = $this->validateArticle($request, $article);
+            
+            // Begin transaction
+            DB::transaction(function() use ($request, $article, $validated) {
+                // Update article details
+                $this->handleScheduling($article, $request->scheduled_at);
+                $article->update($validated);
 
-        if ($request->hasFile('featured_image')) {
-            $this->deleteOldFeaturedImage($article);
-            $article->featured_image = $this->handleFeaturedImage($request);
-            $article->save();
+                // Handle gallery images if any are uploaded
+                if ($request->hasFile('gallery_images')) {
+                    $this->handleGalleryImages($request, $article);
+                }
+
+                // Update SEO
+                $this->updateSEO($article);
+            });
+
+            // Clear caches
+            $this->clearArticleCaches();
+
+            return redirect()
+                ->route('admin.articles.edit', $article)
+                ->with('success', 'Article updated successfully.');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            Log::error('Article update error', [
+                'article_id' => $article->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return back()
+                ->with('error', 'Failed to update article: ' . $e->getMessage())
+                ->withInput();
         }
-
-        if ($request->hasFile('gallery_images')) {
-            $this->handleGalleryImages($request, $article);
-        }
-
-        $this->updateSEO($article);
-
-        // Clear relevant caches
-        $this->clearArticleCaches();
-
-        return redirect()
-            ->route('admin.articles.edit', $article)
-            ->with('success', 'Article updated successfully.');
     }
 
     /**
@@ -172,7 +198,11 @@ class AdminArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $this->deleteArticleImages($article);
+        // Ensure all images are deleted before the article
+        foreach ($article->media as $media) {
+            $this->deleteArticleImages($article, $media);
+        }
+        
         $article->delete();
         $article->seo->delete();
 
@@ -223,36 +253,46 @@ class AdminArticleController extends Controller
         $titleRule = 'required|max:255';
         if (!$article) {
             $titleRule .= '|unique:articles';
+        } else {
+            $titleRule .= '|unique:articles,title,' . $article->id;
         }
 
-        return $request->validate([
+        $rules = [
             'title' => $titleRule,
             'excerpt' => 'nullable|max:255',
             'content' => 'required',
             'tags' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-    }
+        ];
 
-    /**
-     * Handle featured image upload.
-     */
-    private function handleFeaturedImage(Request $request): string
-    {
-        return $request->file('featured_image')->store('images', 'public');
-    }
+        // Only validate images if they are being uploaded
+        if ($request->hasFile('gallery_images')) {
+            $rules['gallery_images'] = 'array|max:12';
+            $rules['gallery_images.*'] = [
+                'image',
+                'mimes:jpeg,png,jpg,gif,webp',
+                'max:2048',
+                function ($attribute, $value, $fail) {
+                    $dimensions = getimagesize($value);
+                    if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
+                        $fail('Image dimensions should not exceed 4K (3840x2160)');
+                    }
+                }
+            ];
 
-    /**
-     * Delete old featured image.
-     */
-    private function deleteOldFeaturedImage(Article $article): void
-    {
-        if ($article->featured_image) {
-            Storage::disk('public')->delete($article->featured_image);
+            // Check total number of images (existing + new)
+            if ($article) {
+                $totalImages = $article->media->count() + count($request->file('gallery_images'));
+                if ($totalImages > 12) {
+                    throw ValidationException::withMessages([
+                        'gallery_images' => ['Maximum total of 12 images allowed. You can upload ' . (12 - $article->media->count()) . ' more images.']
+                    ]);
+                }
+            }
         }
+
+        return $request->validate($rules);
     }
 
     /**
@@ -260,24 +300,130 @@ class AdminArticleController extends Controller
      */
     private function handleGalleryImages(Request $request, Article $article): void
     {
-        foreach ($request->file('gallery_images') as $image) {
-            $path = $image->store('images', 'public');
-            $article->images()->create(['image_path' => $path]);
-        }
-    }
+        try {
+            // Enhanced logging
+            Log::info('Gallery Images Upload Started', [
+                'article_id' => $article->id,
+                'has_files' => $request->hasFile('gallery_images'),
+                'file_count' => $request->hasFile('gallery_images') ? count($request->file('gallery_images')) : 0,
+                'existing_count' => $article->media->count()
+            ]);
 
-    /**
-     * Delete all article images.
-     */
-    private function deleteArticleImages(Article $article): void
-    {
-        if ($article->featured_image) {
-            Storage::disk('public')->delete($article->featured_image);
-        }
+            // Validate file input explicitly
+            if (!$request->hasFile('gallery_images')) {
+                Log::warning('No gallery images found in request');
+                return;
+            }
 
-        foreach ($article->images as $image) {
-            Storage::disk('public')->delete($image->image_path);
-            $image->delete();
+            $files = $request->file('gallery_images');
+            
+            // Ensure we don't exceed the maximum number of images
+            $remainingSlots = 12 - $article->media->count();
+            if (count($files) > $remainingSlots) {
+                Log::warning('Too many files submitted', [
+                    'submitted' => count($files),
+                    'remaining_slots' => $remainingSlots
+                ]);
+                throw new \Exception("You can only upload {$remainingSlots} more images.");
+            }
+
+            // Initialize ImageManager once for all images
+            try {
+                $manager = new ImageManager(new Driver());
+            } catch (\Exception $e) {
+                Log::error('Failed to initialize ImageManager', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                throw new \Exception('Failed to initialize image processing: ' . $e->getMessage());
+            }
+
+            // Check if a cover image already exists
+            $hasCoverImage = $article->media()->where('is_cover', true)->exists();
+
+            // Process all files in a transaction
+            DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage) {
+                foreach ($files as $index => $imageFile) {
+                    try {
+                        // Store original image first
+                        $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                        $path = $imageFile->storeAs('images', $filename, 'public');
+
+                        // Create media record without processing first
+                        $mediaData = [
+                            'article_id' => $article->id,
+                            'image_path' => $path,
+                            'is_cover' => !$hasCoverImage,
+                            'filename' => $filename,
+                            'mime_type' => $imageFile->getMimeType(),
+                            'size' => $imageFile->getSize(),
+                            'alt_text' => $article->title
+                        ];
+
+                        // Create the media record
+                        $media = Media::create($mediaData);
+
+                        // Try to process the image
+                        try {
+                            $img = $manager->read($imageFile);
+                            $width = $img->width();
+                            $height = $img->height();
+                            
+                            if ($width > 1920) {
+                                $img->scale(width: 1920);
+                                $img->save(storage_path('app/public/' . $path));
+                            }
+
+                            // Update media record with dimensions
+                            $media->update([
+                                'dimensions' => [
+                                    'width' => $width,
+                                    'height' => $height
+                                ]
+                            ]);
+
+                        } catch (\Exception $e) {
+                            Log::warning('Failed to process image, but file was uploaded', [
+                                'media_id' => $media->id,
+                                'error' => $e->getMessage()
+                            ]);
+                        }
+
+                        // Update hasCoverImage flag after successful creation
+                        if ($media->is_cover) {
+                            $hasCoverImage = true;
+                        }
+
+                        Log::info('Media record created', [
+                            'media_id' => $media->id,
+                            'is_cover' => $media->is_cover,
+                            'image_path' => $path
+                        ]);
+
+                    } catch (\Exception $e) {
+                        Log::error('Image upload error', [
+                            'message' => $e->getMessage(),
+                            'file' => $e->getFile(),
+                            'line' => $e->getLine(),
+                            'trace' => $e->getTraceAsString()
+                        ]);
+                        throw $e;
+                    }
+                }
+            });
+
+            // Final logging
+            Log::info('Gallery Images Upload Completed', [
+                'article_id' => $article->id,
+                'total_media_count' => $article->media()->count()
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Gallery upload failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
         }
     }
 
@@ -286,6 +432,7 @@ class AdminArticleController extends Controller
      */
     private function updateSEO(Article $article): void
     {
+        $coverImage = $article->media->firstWhere('is_cover', true);
         $article->seo()->updateOrCreate(
             [
                 'model_id' => $article->id,
@@ -295,7 +442,7 @@ class AdminArticleController extends Controller
                 'title' => $article->title,
                 'description' => $article->excerpt ?? Str::limit(strip_tags($article->content), 160),
                 'tags' => $article->tags,
-                'image' => $article->featured_image,
+                'image' => $coverImage ? $coverImage->image_path : null,
                 'author' => $article->user->name,
                 'robots' => 'index, follow',
                 'canonical_url' => route('articles.index', $article->slug),
@@ -310,5 +457,238 @@ class AdminArticleController extends Controller
         increment_cache_version();
         Cache::forget('article_stats');
         Cache::forget('all_categories');
+    }
+
+    private function handleImageDeletion(Media $media): void
+    {
+        // Delete image files
+        if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
+            Storage::disk('public')->delete($media->image_path);
+        }
+        
+        // Delete variants if they exist
+        if (!empty($media->variants)) {
+            foreach ($media->variants as $variant) {
+                if ($variant && Storage::disk('public')->exists($variant)) {
+                    Storage::disk('public')->delete($variant);
+                }
+            }
+        }
+    }
+
+    /**
+     * Delete a specific article image.
+     */
+    public function deleteArticleImages(Article $article, Media $media)
+    {
+        // Check if request wants JSON response
+        $wantsJson = request()->ajax() || request()->wantsJson();
+
+        if (Auth::user()->id !== $article->user_id && !Auth::user()->isAdmin()) {
+            return $wantsJson 
+                ? response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403)
+                : redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        try {
+            DB::transaction(function() use ($article, $media) {
+                // Delete the image files
+                $this->handleImageDeletion($media);
+                
+                // Delete the media record
+                $media->delete();
+
+                // Update SEO data if needed
+                if ($media->is_cover) {
+                    $this->updateSEO($article);
+                }
+            });
+
+            // Return appropriate response based on request type
+            return $wantsJson 
+                ? response()->json([
+                    'success' => true,
+                    'message' => 'Image deleted successfully',
+                    'remainingImages' => $article->media->count()
+                ])
+                : redirect()->back()->with('success', 'Image deleted successfully');
+
+        } catch (\Exception $e) {
+            Log::error('Image deletion error', [
+                'message' => $e->getMessage(),
+                'article_id' => $article->id,
+                'media_id' => $media->id,
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return $wantsJson
+                ? response()->json(['success' => false, 'message' => 'Failed to delete image'], 400)
+                : redirect()->back()->with('error', 'Failed to delete image');
+        }
+    }
+
+    public function setCover(Article $article, Media $media)
+    {
+        // Validate that the media exists and is an image
+        if (!$media->exists() || !Str::startsWith($media->mime_type, 'image/')) {
+            return redirect()->back()->with('error', 'Invalid media item');
+        }
+
+        // Ensure the image belongs to the article
+        if ($media->article_id !== $article->id) {
+            return redirect()->back()->with('error', 'Invalid image for this article');
+        }
+
+        // Ensure the user has permission
+        if (Auth::user()->id !== $article->user_id && !Auth::user()->isAdmin()) {
+            return redirect()->back()->with('error', 'Unauthorized action');
+        }
+
+        try {
+            // Begin transaction to ensure atomic operation
+            DB::transaction(function () use ($article, $media) {
+                // Remove current cover
+                $article->media()->where('is_cover', true)->update(['is_cover' => false]);
+                
+                // Set new cover
+                $media->refresh(); // Refresh the model to ensure we have latest data
+                $media->is_cover = true;
+                $media->save();
+
+                // Update SEO data with new cover image
+                $this->updateSEO($article);
+            });
+
+            // Clear any relevant caches
+            $this->clearArticleCaches();
+
+            // Log the operation
+            Log::info('Cover image updated', [
+                'article_id' => $article->id,
+                'media_id' => $media->id,
+                'user_id' => Auth::id()
+            ]);
+
+            return redirect()->back()->with('success', 'Cover image updated successfully');
+        } catch (\Exception $e) {
+            Log::error('Failed to set cover image', [
+                'article_id' => $article->id,
+                'media_id' => $media->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return redirect()->back()->with('error', 'Failed to set cover image: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Store images for an article.
+     */
+    public function storeImages(Request $request, Article $article)
+    {
+        try {
+            // Enhanced logging
+            Log::info('Gallery Images Upload Started', [
+                'article_id' => $article->id,
+                'has_files' => $request->hasFile('gallery_images'),
+                'file_count' => $request->hasFile('gallery_images') ? count($request->file('gallery_images')) : 0,
+                'existing_count' => $article->media->count()
+            ]);
+
+            // Validate file input explicitly
+            if (!$request->hasFile('gallery_images')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No images found in request'
+                ], 400);
+            }
+
+            $files = $request->file('gallery_images');
+            
+            // Ensure we don't exceed the maximum number of images
+            $remainingSlots = 12 - $article->media->count();
+            if (count($files) > $remainingSlots) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "You can only upload {$remainingSlots} more images for this article."
+                ], 400);
+            }
+
+            // Initialize ImageManager
+            $manager = new ImageManager(new Driver());
+
+            // Check if a cover image already exists
+            $hasCoverImage = $article->media()->where('is_cover', true)->exists();
+
+            $uploadedImages = [];
+
+            // Process all files in a transaction
+            DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage, &$uploadedImages) {
+                foreach ($files as $imageFile) {
+                    // Generate unique filename
+                    $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                    $path = $imageFile->storeAs('images', $filename, 'public');
+
+                    try {
+                        // Process image
+                        $img = $manager->read($imageFile);
+                        $width = $img->width();
+                        $height = $img->height();
+                        
+                        if ($width > 1920) {
+                            $img->scale(width: 1920);
+                            $img->save(storage_path('app/public/' . $path));
+                        }
+
+                        // Create media record
+                        $media = $article->media()->create([
+                            'image_path' => $path,
+                            'is_cover' => !$hasCoverImage,
+                            'filename' => $filename,
+                            'mime_type' => $imageFile->getMimeType(),
+                            'size' => $imageFile->getSize(),
+                            'dimensions' => [
+                                'width' => $width,
+                                'height' => $height
+                            ],
+                            'alt_text' => $article->title
+                        ]);
+
+                        if ($media->is_cover) {
+                            $hasCoverImage = true;
+                        }
+
+                        $uploadedImages[] = [
+                            'id' => $media->id,
+                            'url' => asset('storage/' . $path),
+                            'filename' => $filename
+                        ];
+
+                    } catch (\Exception $e) {
+                        // If image processing fails, delete the stored file
+                        Storage::disk('public')->delete($path);
+                        throw $e;
+                    }
+                }
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => count($uploadedImages) . ' image(s) uploaded successfully',
+                'images' => $uploadedImages
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Gallery upload failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload images: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -1,8 +1,8 @@
-@if($article->images->count() > 0)
+@if($article->media->count() > 0)
 <div class="mt-12">
   <h3 class="text-2xl font-bold mb-4">Gallery</h3>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-    @foreach($article->images as $index => $image)
+    @foreach($article->media as $index => $image)
     <div class="relative aspect-square overflow-hidden rounded-lg">
       <img 
         src="{{ asset('storage/' . $image->image_path) }}" 

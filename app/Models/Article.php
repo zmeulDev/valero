@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Models\Media;
 
 
 
@@ -20,7 +21,7 @@ class Article extends Model
     use HasFactory, HasSEO;
 
     protected $fillable = [
-        'user_id', 'title', 'slug', 'tags', 'excerpt', 'content', 'featured_image', 'scheduled_at', 'views', 'category_id', 'likes_count'
+        'user_id', 'title', 'slug', 'tags', 'excerpt', 'content', 'is_featured', 'scheduled_at', 'views', 'category_id', 'likes_count'
     ];
 
     protected $casts = [
@@ -41,11 +42,20 @@ class Article extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function images()
+    public function media()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Media::class);
     }
 
+    public function coverImage()
+    {
+        return $this->hasOne(Media::class)->where('is_cover', true);
+    }
+
+    public function getCoverImageAttribute()
+    {
+        return $this->media()->where('is_cover', true)->first();
+    }
 
     public function scopePublished($query)
     {
@@ -53,6 +63,19 @@ class Article extends Model
             $q->where('scheduled_at', '<=', now())
             ->orWhereNull('scheduled_at');
         });
+    }
+
+    /**
+     * Get the reading time for the article.
+     *
+     * @return string
+     */
+    public function getReadingTimeAttribute()
+    {
+        $wordCount = str_word_count(strip_tags($this->content));
+        $minutes = ceil($wordCount / 200);
+        
+        return $minutes . ' min read';
     }
 
     public function incrementViews()
@@ -78,8 +101,8 @@ class Article extends Model
         $readingTime = ceil($wordCount / 200);
 
         // Get image URL with fallback
-        $imageUrl = $this->featured_image
-            ? Storage::url($this->featured_image)
+        $imageUrl = $this->media->firstWhere('is_cover', true)?->image_path
+            ? Storage::url($this->media->firstWhere('is_cover', true)->image_path)
             : asset('storage/brand/logo.png');
 
         // Get the correct article URL
@@ -193,8 +216,11 @@ class Article extends Model
         return $this->role === 'admin';
     }
 
-    protected static function booted()
+    protected static function boot()
     {
+        parent::boot();
+
+        // Only handle cache versioning
         static::created(function ($article) {
             increment_cache_version();
         });

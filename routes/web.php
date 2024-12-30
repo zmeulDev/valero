@@ -49,10 +49,15 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Articles
     Route::resource('articles', AdminArticleController::class);
     
-    // Image handling
-    Route::post('articles/{article}/images', [AdminImageController::class, 'store'])->name('articles.images.store');
-    Route::delete('articles/{article}/images/{image}', [AdminImageController::class, 'destroy'])->name('articles.images.destroy');
-    Route::post('articles/{article}/featured-image', [AdminImageController::class, 'updateFeatured'])->name('articles.featured-image.update');
+    // Image handling - all handled by AdminArticleController
+    Route::controller(AdminArticleController::class)->group(function () {
+        Route::post('articles/{article}/images', 'storeImages')
+            ->name('articles.images.store');
+        Route::delete('articles/{article}/images/{media}', 'deleteArticleImages')
+            ->name('articles.images.destroy');
+        Route::post('articles/{article}/images/{media}/set-cover', 'setCover')
+            ->name('articles.images.set-cover');
+    });
 
     // Settings
     Route::get('settings', [AdminSettingController::class, 'index'])->name('settings.index');
@@ -65,12 +70,18 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::delete('partners/{partner}/force-delete', [AdminPartnersController::class, 'forceDelete'])
         ->name('partners.force-delete');
 
+    // Teams
+    Route::delete('teams/{user}', [AdminTeamController::class, 'destroy'])->name('teams.destroy');
+    Route::resource('teams', AdminTeamController::class)->except(['destroy'])->parameters([
+        'teams' => 'user'
+    ]);
 
-    // Sitemap generation (moved inside admin group)
-    Route::get('generate-sitemap', [AdminSitemapController::class, 'generate'])->name('sitemap.generate');
-
-    // System-wide cache clear (development/maintenance only)
-    Route::get('/optimize-clear', function(){
+    // Cache and optimization
+    Route::post('clear-cache', [AdminDashboardController::class, 'clearCache'])
+        ->name('clear-cache');
+    Route::get('generate-sitemap', [AdminSitemapController::class, 'generate'])
+        ->name('sitemap.generate');
+    Route::get('/optimize-clear', function() {
         if (app()->environment('local', 'development')) {
             Artisan::call('optimize:clear');
             Artisan::call('cache:clear');
@@ -79,16 +90,6 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
         }
         return redirect()->back()->with('error', 'This action is not allowed in production.');
     })->name('optimize-clear')->middleware(['auth', 'admin']);
-
-    // Teams
-    Route::delete('teams/{user}', [AdminTeamController::class, 'destroy'])->name('teams.destroy');
-    Route::resource('teams', AdminTeamController::class)->except(['destroy'])->parameters([
-        'teams' => 'user'
-    ]);
-
-    // Clear cache route
-    Route::post('clear-cache', [AdminDashboardController::class, 'clearCache'])
-        ->name('clear-cache');
 });
 
 // Email Verification Routes

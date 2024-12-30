@@ -13,7 +13,7 @@ class ArticleSeeder extends Seeder
     public function run(): void
     {
         // generate 20 random article no duplicate slug
-        Article::factory()->count(20)->create();  
+        Article::factory()->count(5)->create();  
         User::factory()->count(4)->create();  
     }
 }

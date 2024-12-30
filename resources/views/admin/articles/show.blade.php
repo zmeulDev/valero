@@ -42,14 +42,14 @@
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Featured Image Card -->
                     <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-                        @if($article->featured_image)
+                        @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
                             <div class="relative aspect-video">
-                                <img src="{{ asset('storage/' . $article->featured_image) }}"
+                                <img src="{{ asset('storage/' . $article->media->firstWhere('is_cover', true)->image_path) }}"
                                      alt="{{ $article->title }}"
                                      class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
                                     <div class="absolute bottom-0 left-0 right-0 p-6">
-                                        <p class="text-sm text-white/80 mb-2">Featured Image</p>
+                                        <p class="text-sm text-white/80 mb-2">Cover Image</p>
                                         <h2 class="text-2xl font-bold text-white">{{ $article->title }}</h2>
                                     </div>
                                 </div>
@@ -80,14 +80,14 @@
                             </div>
 
                             <!-- Enhanced Gallery -->
-                            @if($article->images->count() > 0)
+                            @if($article->media->count() > 0)
                                 <div class="mt-12 border-t dark:border-gray-700 pt-8">
                                     <div class="flex items-center gap-2 mb-4">
                                         <x-lucide-image class="w-5 h-5 text-gray-400" />
                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Image Gallery</h3>
                                     </div>
                                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                        @foreach($article->images as $index => $image)
+                                        @foreach($article->media as $index => $image)
                                             <div class="relative aspect-square group rounded-lg overflow-hidden">
                                                 <img src="{{ asset('storage/' . $image->image_path) }}" 
                                                      alt="Gallery Image" 

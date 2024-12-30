@@ -142,8 +142,8 @@
                                         <td class="px-6 py-4">
                                             <div class="flex items-center">
                                                 <div class="h-10 w-10 flex-shrink-0">
-                                                    @if($article->featured_image)
-                                                        <img src="{{ asset('storage/' . $article->featured_image) }}" 
+                                                    @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
+                                                        <img src="{{ asset('storage/' . $article->media->firstWhere('is_cover', true)->image_path) }}" 
                                                              alt="{{ $article->title }}"
                                                              class="h-10 w-10 rounded-lg object-cover">
                                                     @else

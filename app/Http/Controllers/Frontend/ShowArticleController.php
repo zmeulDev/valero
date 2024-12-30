@@ -14,21 +14,18 @@ class ShowArticleController extends Controller
 {
     public function index($slug)
     {  
-        $latestArticles = Article::where(function($query) {
-            $query->whereNull('scheduled_at')
-                  ->orWhere('scheduled_at', '<=', now());
-        })->latest()->paginate(8);
-
         $article = Article::where('slug', $slug)
             ->where(function($query) {
                 $query->whereNull('scheduled_at')
                       ->orWhere('scheduled_at', '<=', now());
             })->firstOrFail();
         $article->incrementViews(); // views count
-        
-        $wordCount = str_word_count(strip_tags($article->content));
-        $readingTime = ceil($wordCount / 200);
 
+        $latestArticles = Article::where(function($query) {
+            $query->whereNull('scheduled_at')
+                  ->orWhere('scheduled_at', '<=', now());
+        })->latest()->paginate(8);
+        
         $popularArticles = Article::where(function($query) {
                 $query->whereNull('scheduled_at')
                       ->orWhere('scheduled_at', '<=', now());
@@ -52,8 +49,7 @@ class ShowArticleController extends Controller
             'latestArticles', 
             'popularArticles', 
             'relatedArticles', 
-            'categories', 
-            'readingTime'
+            'categories'
         ));
     }
 
@@ -87,14 +83,22 @@ class ShowArticleController extends Controller
 
     public function like(Request $request, Article $article)
     {
-        if ($request->liked) {
-            $article->increment('likes_count');
-        } else {
-            $article->decrement('likes_count');
+        try {
+            if ($request->liked) {
+                $article->increment('likes_count');
+            } else {
+                $article->decrement('likes_count');
+            }
+            
+            return response()->json([
+                'success' => true,
+                'likes_count' => $article->likes_count
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update like status'
+            ], 500);
         }
-        
-        return response()->json([
-            'likes_count' => $article->likes_count
-        ]);
     }
 }

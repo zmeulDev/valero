@@ -4,11 +4,11 @@
   <article class="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700">
     <!-- Image Container -->
     <div class="relative aspect-[16/9] overflow-hidden border-b border-gray-100 dark:border-gray-700">
-      @if($article->featured_image)
+    @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
       <x-article.has-image :article="$article" />
-      @else
+    @else
       <x-article.no-image />
-      @endif
+    @endif
     </div>
 
     <!-- Content -->
