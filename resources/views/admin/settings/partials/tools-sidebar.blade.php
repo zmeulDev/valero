@@ -29,7 +29,7 @@
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Last Updated</div>
-                    <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                    <div class="text-sm text-gray-900 dark:text-white">
                         {{ file_exists(public_path('sitemap.xml')) 
                             ? date('M d, Y H:i', filemtime(public_path('sitemap.xml'))) 
                             : 'Never' }}
@@ -37,7 +37,7 @@
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Indexed URLs</div>
-                    <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                    <div class="text-sm text-gray-900 dark:text-white">
                         {{ file_exists(public_path('sitemap.xml')) 
                             ? substr_count(file_get_contents(public_path('sitemap.xml')), '<url>') . ' URLs'
                             : '0 URLs' }}

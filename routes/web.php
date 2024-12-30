@@ -19,6 +19,7 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\AdminMediaController;
 
 
 // Public Routes
@@ -90,6 +91,12 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
         }
         return redirect()->back()->with('error', 'This action is not allowed in production.');
     })->name('optimize-clear')->middleware(['auth', 'admin']);
+
+    // Media
+    Route::controller(AdminMediaController::class)->group(function () {
+        Route::get('media', 'index')->name('media.index');
+        Route::get('media/{media}/download', 'download')->name('media.download')->whereNumber('media');
+    });
 });
 
 // Email Verification Routes

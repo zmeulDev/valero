@@ -120,7 +120,7 @@
 
                 <!-- Sidebar -->
                 <div class="lg:col-span-1">
-                    @include('admin.settings.partials.seo-sidebar')
+                    @include('admin.settings.partials.tools-sidebar')
                 </div>
             </div>
         </div>

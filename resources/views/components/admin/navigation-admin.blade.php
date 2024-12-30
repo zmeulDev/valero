@@ -19,17 +19,55 @@
                             {{ __('Dashboard') }}
                         </x-nav-link>
 
-                        <x-nav-link href="{{ route('admin.articles.index') }}" :active="request()->routeIs('admin.articles.*')"
-                            class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-150">
-                            <x-lucide-book-open class="w-4 h-4 mr-2" />
-                            {{ __('Articles') }}
-                        </x-nav-link>
+                        <!-- Publish Article -->
+                        @if(auth()->user()->isAdmin())
+                            <!-- dropdown with articles and categories -->
+                            <div class="relative" x-data="{ open: false }">
+                                <button @click="open = !open" 
+                                        class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-150">
+                                    <x-lucide-plus-circle class="w-4 h-4 mr-2" />
+                                    {{ __('Publish') }}
+                                    <x-lucide-chevron-down class="ml-2 h-4 w-4" />
+                                </button>
 
-                        <x-nav-link href="{{ route('admin.categories.index') }}" :active="request()->routeIs('admin.categories.*')"
-                            class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-150">
-                            <x-lucide-folder class="w-4 h-4 mr-2" />
-                            {{ __('Categories') }}
-                        </x-nav-link>
+                                <!-- Dropdown Menu -->
+                                <div x-show="open"
+                                     @click.away="open = false"
+                                     x-transition:enter="transition ease-out duration-100"
+                                     x-transition:enter-start="transform opacity-0 scale-95"
+                                     x-transition:enter-end="transform opacity-100 scale-100"
+                                     x-transition:leave="transition ease-in duration-75"
+                                     x-transition:leave-start="transform opacity-100 scale-100"
+                                     x-transition:leave-end="transform opacity-0 scale-95"
+                                     class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-50">
+                                    <div class="py-1">
+                                        <a href="{{ route('admin.articles.index') }}" 
+                                           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.settings.index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                            <div class="flex items-center">
+                                                <x-lucide-book-open class="w-4 h-4 mr-2" />
+                                                {{ __('Articles') }}
+                                            </div>
+                                        </a>
+
+                                        <a href="{{ route('admin.categories.index') }}" 
+                                           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.teams.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                            <div class="flex items-center">
+                                                <x-lucide-folder class="w-4 h-4 mr-2" />
+                                                {{ __('Categories') }}
+                                            </div>
+                                        </a>
+
+                                        <a href="{{ route('admin.media.index') }}" 
+                                           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.partners.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                            <div class="flex items-center">
+                                                <x-lucide-image class="w-4 h-4 mr-2" />
+                                                {{ __('Media') }}
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
 
                         <!-- Settings Dropdown -->
                         @if(auth()->user()->isAdmin())

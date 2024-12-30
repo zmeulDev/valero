@@ -1,8 +1,10 @@
-<div class="bg-white dark:bg-gray-800/50 backdrop-blur-xl rounded-3xl mt-8 border border-gray-100 dark:border-gray-700/50">
-    <div class="px-8 py-6 border-b border-gray-100 dark:border-gray-700/50">
+<div class="mt-12">
+    {{-- Section Header --}}
+    <div class="flex items-center justify-between mb-6">
         <h3 class="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
             Related Articles
         </h3>
+        <div class="h-[2px] flex-1 bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700 ml-6"></div>
     </div>
 
     <div class="p-8">
@@ -12,11 +14,11 @@
                    class="group relative flex flex-col bg-gray-50 dark:bg-gray-900/50 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-black/30 border border-gray-100 dark:border-gray-800">
                     <!-- Image Container -->
                     <div class="relative aspect-[16/9] overflow-hidden">
-                        @if($relatedArticle->featured_image)
-                            <x-article.has-image :article="$relatedArticle" />
-                        @else
-                            <x-article.no-image />
-                        @endif
+                    @if($relatedArticle->media->firstWhere('is_cover', true)->image_path ?? false)
+                <x-article.has-image :article="$relatedArticle" />
+                @else
+                <x-article.no-image />
+                @endif
                         <!-- Gradient Overlay -->
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
