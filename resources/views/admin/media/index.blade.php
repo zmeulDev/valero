@@ -36,7 +36,7 @@
             <x-slot name="actions">
                 <x-admin.form.search-filter 
                     :options="$statistics['by_type']->pluck('mime_type', 'mime_type')->map(function($type) {
-                        return explode('/', $type)[1];
+                        return explode('/', $type)[1] ?? $type;
                     })"
                     searchPlaceholder="Search files..."
                     filterLabel="All Types"

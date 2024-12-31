@@ -5,7 +5,7 @@
         <div class="relative group bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
             {{-- Image Container --}}
             <div class="aspect-square w-full">
-                <img src="{{ asset($item->image_path) }}" 
+                <img src="{{ asset('storage/' .$item->image_path) }}" 
                      alt="{{ $item->alt_text }}" 
                      class="w-full h-full object-cover"
                      data-modal-target="previewModal" 
@@ -24,7 +24,7 @@
                 <button type="button"
                         data-modal-target="default-modal" 
                         data-modal-toggle="default-modal"
-                        data-image-path="{{ asset($item->image_path) }}"
+                        data-image-path="{{ asset('storage/' . $item->image_path) }}"
                         data-download-link="{{ route('admin.media.download', $item) }}"
                         data-dimensions="{{ json_encode($item->dimensions) }}"
                         data-uploaded="{{ $item->created_at->format('M d, Y') }}"
