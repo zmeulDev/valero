@@ -154,6 +154,10 @@
                                            name="tags" 
                                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" 
                                            value="{{ old('tags', $article->tags) }}">
+                                    <div class="mt-2 flex items-center justify-between text-sm">
+                                        <p class="text-gray-500 dark:text-gray-400">Recommended: 10 tags maximum</p>
+                                        <p class="text-sm text-gray-500">Tags: <span id="tags-counter">0</span></p>
+                                    </div>
                                 </div>
                             </div>
 

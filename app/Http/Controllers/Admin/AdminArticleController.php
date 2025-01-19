@@ -261,7 +261,7 @@ class AdminArticleController extends Controller
             'title' => $titleRule,
             'excerpt' => 'nullable|max:255',
             'content' => 'required',
-            'tags' => 'nullable|string',
+            'tags' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
         ];
@@ -345,7 +345,7 @@ class AdminArticleController extends Controller
             DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage) {
                 foreach ($files as $index => $imageFile) {
                     try {
-                        // Store original image first
+                        // Store original image
                         $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
                         $path = $imageFile->storeAs('images', $filename, 'public');
 
@@ -638,12 +638,13 @@ class AdminArticleController extends Controller
                         
                         if ($width > 1920) {
                             $img->scale(width: 1920);
-                            $img->save(storage_path('app/public/' . $path));
+                            $img->save(storage_path('app/public/images/' . $filename));
                         }
 
                         // Create media record
-                        $media = $article->media()->create([
-                            'image_path' => $path,
+                        $media = Media::create([
+                            'article_id' => $article->id,
+                            'image_path' => 'images/' . $filename,
                             'is_cover' => !$hasCoverImage,
                             'filename' => $filename,
                             'mime_type' => $imageFile->getMimeType(),

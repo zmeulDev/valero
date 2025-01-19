@@ -47,6 +47,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  ['tags'].forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+        element.addEventListener('input', () => updateTagCount(id, 10, 100));
+        updateTagCount(id, 10, 100);
+    }
+});
+
   const settingsForm = document.getElementById('settings-form');
   if (settingsForm) {
     settingsForm.addEventListener('submit', function (e) {
@@ -91,4 +99,37 @@ function updateCharCount(elementId, limit = null) {
   } else {
     charCount.classList.remove('text-red-500');
   }
+}
+
+function updateTagCount(id, maxTags, maxChars) {
+    const element = document.getElementById(id);
+    const counter = document.getElementById(`${id}-counter`);
+    
+    if (element && counter) {
+        const value = element.value;
+        const totalChars = value.length;
+        const tags = value
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag.length > 0);
+            
+        const count = tags.length;
+        
+        // Update counter text with both limits
+        counter.textContent = `${count}/${maxTags} tags (${totalChars}/${maxChars} chars)`;
+        
+        // Visual feedback for exceeding either limit
+        if (count > maxTags || totalChars > maxChars) {
+            counter.classList.add('text-red-500');
+            counter.classList.remove('text-gray-500');
+        } else {
+            counter.classList.remove('text-red-500');
+            counter.classList.add('text-gray-500');
+        }
+        
+        // Optional: Truncate if exceeding character limit
+        if (totalChars > maxChars) {
+            element.value = value.substring(0, maxChars);
+        }
+    }
 }
