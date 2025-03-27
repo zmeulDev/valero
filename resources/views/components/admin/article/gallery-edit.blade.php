@@ -12,7 +12,7 @@
                         Gallery Images
                     </h3>
                     <p id="gallery-count" class="text-sm text-gray-500 dark:text-gray-400">
-                        {{ $article->media->count() }} of 12 images used
+                        {{ $article->media->count() }} of 20 images used
                     </p>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                 @endif
 
                 <!-- Upload Form -->
-                @if($article->media->count() < 12)
+                @if($article->media->count() < 20)
                     <form action="{{ route('admin.articles.images.store', $article) }}"
                           method="POST" 
                           enctype="multipart/form-data"
@@ -129,7 +129,13 @@
                                         Click to upload or drag and drop
                                     </span>
                                     <span class="text-xs text-gray-500 dark:text-gray-400">
-                                        PNG, JPG, WebP up to 2MB each ({{ 12 - $article->media->count() }} slots remaining)
+                                        PNG, JPG, WebP up to 5MB each
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">
+                                        Max dimensions: 3840x2160 pixels
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">
+                                        {{ 20 - $article->media->count() }} slots remaining
                                     </span>
                                 </div>
                             </button>
@@ -143,8 +149,19 @@
                                 </div>
                                 <template x-for="file in files" :key="file.name">
                                     <div class="flex items-center justify-between px-3 py-2 text-sm bg-gray-50 dark:bg-gray-900 rounded-md">
-                                        <span x-text="file.name" class="text-gray-700 dark:text-gray-300"></span>
-                                        <span x-text="file.size" class="text-gray-500 dark:text-gray-400"></span>
+                                        <div class="flex flex-col">
+                                            <span x-text="file.name" class="text-gray-700 dark:text-gray-300"></span>
+                                            <span x-text="file.size" class="text-xs text-gray-500 dark:text-gray-400"></span>
+                                            <span x-text="file.dimensions" class="text-xs text-gray-500 dark:text-gray-400"></span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span x-show="file.size > 5" class="text-red-500">
+                                                <x-lucide-alert-circle class="w-4 h-4" />
+                                            </span>
+                                            <span x-show="file.dimensions && (file.width > 3840 || file.height > 2160)" class="text-red-500">
+                                                <x-lucide-alert-circle class="w-4 h-4" />
+                                            </span>
+                                        </div>
                                     </div>
                                 </template>
                             </div>
@@ -168,7 +185,7 @@
                     </form>
                 @else
                     <div class="text-center py-3 text-gray-500 dark:text-gray-400">
-                        Maximum number of images (12) reached
+                        Maximum number of images (20) reached
                     </div>
                 @endif
             </div>
@@ -181,7 +198,7 @@ function galleryEdit() {
     return {
         uploading: false,
         files: [],
-        maxFiles: {{ 12 - ($article->media->count()) }},
+        maxFiles: {{ 20 - ($article->media->count()) }},
         article_title: "{{ $article->title }}",
 
         getRoutes() {
@@ -197,14 +214,59 @@ function galleryEdit() {
             const remainingSlots = this.maxFiles;
             
             if (selectedFiles.length > remainingSlots) {
-                alert(`You can only upload ${remainingSlots} more images. (Maximum total: 12)`);
+                alert(`You can only upload ${remainingSlots} more images. (Maximum total: 20)`);
                 event.target.value = '';
                 return;
+            }
+
+            // Check file sizes and dimensions
+            const maxFileSize = 5 * 1024 * 1024; // 5MB
+            const maxWidth = 3840;
+            const maxHeight = 2160;
+            
+            for (const file of selectedFiles) {
+                if (file.size > maxFileSize) {
+                    alert(`File "${file.name}" is too large. Maximum file size is 5MB.`);
+                    event.target.value = '';
+                    return;
+                }
+
+                // Create a promise to check image dimensions
+                const checkDimensions = new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        if (img.width > maxWidth || img.height > maxHeight) {
+                            reject(`File "${file.name}" dimensions (${img.width}x${img.height}) exceed the maximum allowed size of ${maxWidth}x${maxHeight} pixels.`);
+                        } else {
+                            resolve();
+                        }
+                    };
+                    img.onerror = () => reject(`Failed to load image "${file.name}" for dimension check.`);
+                    img.src = URL.createObjectURL(file);
+                });
+
+                // Wait for dimension check
+                checkDimensions.catch(error => {
+                    alert(error);
+                    event.target.value = '';
+                    return;
+                });
             }
             
             this.files = selectedFiles.map(file => ({
                 name: file.name,
-                size: (file.size / 1024).toFixed(1) + 'KB'
+                size: (file.size / 1024).toFixed(1) + 'MB',
+                dimensions: new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve({
+                            text: `${img.width}x${img.height} pixels`,
+                            width: img.width,
+                            height: img.height
+                        });
+                    };
+                    img.src = URL.createObjectURL(file);
+                })
             }));
         },
 
@@ -278,7 +340,7 @@ function galleryEdit() {
                     const countElement = document.getElementById('gallery-count');
                     const currentCount = parseInt(countElement.textContent);
                     const newCount = currentCount + data.images.length;
-                    countElement.textContent = `${newCount} of 12 images used`;
+                    countElement.textContent = `${newCount} of 20 images used`;
 
                     // Show success notification
                     const notification = document.createElement('div');
@@ -341,7 +403,7 @@ function galleryEdit() {
                     // Update the image count text using the ID
                     const countElement = document.getElementById('gallery-count');
                     if (countElement) {
-                        countElement.textContent = `${data.remainingImages} of 12 images used`;
+                        countElement.textContent = `${data.remainingImages} of 20 images used`;
                     }
                     
                     // Show success notification

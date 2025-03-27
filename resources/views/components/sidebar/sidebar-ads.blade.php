@@ -21,7 +21,7 @@
                class="block space-y-4 hover:opacity-90 transition-opacity">
                 
                 @if($partner->image)
-                    <div class="relative aspect-video rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-900">
+                    <div class="relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-900">
                         <img src="{{ asset('storage/' . $partner->image) }}" 
                              alt="{{ $partner->name }}" 
                              class="w-full h-full object-cover"

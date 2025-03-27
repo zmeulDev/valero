@@ -268,15 +268,21 @@ class AdminArticleController extends Controller
 
         // Only validate images if they are being uploaded
         if ($request->hasFile('gallery_images')) {
-            $rules['gallery_images'] = 'array|max:12';
+            $rules['gallery_images'] = 'array|max:20';
             $rules['gallery_images.*'] = [
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
-                'max:2048',
+                'max:5120', // 5MB in kilobytes
                 function ($attribute, $value, $fail) {
+                    // Check file size
+                    if ($value->getSize() > 5 * 1024 * 1024) {
+                        $fail("File {$value->getClientOriginalName()} is too large. Maximum file size is 5MB.");
+                    }
+
+                    // Check dimensions
                     $dimensions = getimagesize($value);
                     if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
-                        $fail('Image dimensions should not exceed 4K (3840x2160)');
+                        $fail("File {$value->getClientOriginalName()} dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
                     }
                 }
             ];
@@ -284,9 +290,12 @@ class AdminArticleController extends Controller
             // Check total number of images (existing + new)
             if ($article) {
                 $totalImages = $article->media->count() + count($request->file('gallery_images'));
-                if ($totalImages > 12) {
+                if ($totalImages > 20) {
                     throw ValidationException::withMessages([
-                        'gallery_images' => ['Maximum total of 12 images allowed. You can upload ' . (12 - $article->media->count()) . ' more images.']
+                        'gallery_images' => [
+                            "Maximum total of 20 images allowed. You currently have {$article->media->count()} images and are trying to upload " . 
+                            count($request->file('gallery_images')) . " more. You can only upload " . (20 - $article->media->count()) . " more images."
+                        ]
                     ]);
                 }
             }
@@ -318,13 +327,13 @@ class AdminArticleController extends Controller
             $files = $request->file('gallery_images');
             
             // Ensure we don't exceed the maximum number of images
-            $remainingSlots = 12 - $article->media->count();
+            $remainingSlots = 20 - $article->media->count();
             if (count($files) > $remainingSlots) {
                 Log::warning('Too many files submitted', [
                     'submitted' => count($files),
                     'remaining_slots' => $remainingSlots
                 ]);
-                throw new \Exception("You can only upload {$remainingSlots} more images.");
+                throw new \Exception("You can only upload {$remainingSlots} more images. (Maximum total: 20)");
             }
 
             // Initialize ImageManager once for all images
@@ -345,6 +354,12 @@ class AdminArticleController extends Controller
             DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage) {
                 foreach ($files as $index => $imageFile) {
                     try {
+                        // Validate image dimensions before processing
+                        $dimensions = getimagesize($imageFile);
+                        if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
+                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
+                        }
+
                         // Store original image
                         $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
                         $path = $imageFile->storeAs('images', $filename, 'public');
@@ -357,6 +372,10 @@ class AdminArticleController extends Controller
                             'filename' => $filename,
                             'mime_type' => $imageFile->getMimeType(),
                             'size' => $imageFile->getSize(),
+                            'dimensions' => [
+                                'width' => $dimensions[0],
+                                'height' => $dimensions[1]
+                            ],
                             'alt_text' => $article->title
                         ];
 
@@ -366,21 +385,11 @@ class AdminArticleController extends Controller
                         // Try to process the image
                         try {
                             $img = $manager->read($imageFile);
-                            $width = $img->width();
-                            $height = $img->height();
                             
-                            if ($width > 1920) {
+                            if ($dimensions[0] > 1920) {
                                 $img->scale(width: 1920);
                                 $img->save(storage_path('app/public/' . $path));
                             }
-
-                            // Update media record with dimensions
-                            $media->update([
-                                'dimensions' => [
-                                    'width' => $width,
-                                    'height' => $height
-                                ]
-                            ]);
 
                         } catch (\Exception $e) {
                             Log::warning('Failed to process image, but file was uploaded', [
@@ -607,11 +616,12 @@ class AdminArticleController extends Controller
             $files = $request->file('gallery_images');
             
             // Ensure we don't exceed the maximum number of images
-            $remainingSlots = 12 - $article->media->count();
+            $remainingSlots = 20 - $article->media->count();
             if (count($files) > $remainingSlots) {
                 return response()->json([
                     'success' => false,
-                    'message' => "You can only upload {$remainingSlots} more images for this article."
+                    'message' => "Maximum total of 20 images allowed. You currently have {$article->media->count()} images and are trying to upload " . 
+                                count($files) . " more. You can only upload {$remainingSlots} more images."
                 ], 400);
             }
 
@@ -626,32 +636,36 @@ class AdminArticleController extends Controller
             // Process all files in a transaction
             DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage, &$uploadedImages) {
                 foreach ($files as $imageFile) {
-                    // Generate unique filename
-                    $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
-                    $path = $imageFile->storeAs('images', $filename, 'public');
-
                     try {
+                        // Validate image dimensions before processing
+                        $dimensions = getimagesize($imageFile);
+                        if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
+                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
+                        }
+
+                        // Generate unique filename
+                        $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                        $path = $imageFile->storeAs('images', $filename, 'public');
+
                         // Process image
                         $img = $manager->read($imageFile);
-                        $width = $img->width();
-                        $height = $img->height();
                         
-                        if ($width > 1920) {
+                        if ($dimensions[0] > 1920) {
                             $img->scale(width: 1920);
-                            $img->save(storage_path('app/public/images/' . $filename));
+                            $img->save(storage_path('app/public/' . $path));
                         }
 
                         // Create media record
                         $media = Media::create([
                             'article_id' => $article->id,
-                            'image_path' => 'images/' . $filename,
+                            'image_path' => $path,
                             'is_cover' => !$hasCoverImage,
                             'filename' => $filename,
                             'mime_type' => $imageFile->getMimeType(),
                             'size' => $imageFile->getSize(),
                             'dimensions' => [
-                                'width' => $width,
-                                'height' => $height
+                                'width' => $dimensions[0],
+                                'height' => $dimensions[1]
                             ],
                             'alt_text' => $article->title
                         ]);
@@ -668,7 +682,9 @@ class AdminArticleController extends Controller
 
                     } catch (\Exception $e) {
                         // If image processing fails, delete the stored file
-                        Storage::disk('public')->delete($path);
+                        if (isset($path) && Storage::disk('public')->exists($path)) {
+                            Storage::disk('public')->delete($path);
+                        }
                         throw $e;
                     }
                 }

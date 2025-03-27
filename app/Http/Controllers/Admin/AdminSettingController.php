@@ -57,12 +57,14 @@ class AdminSettingController extends Controller
                 'app_tinymce' => 'required|string',
                 'app_googlesearchmeta' => 'required|string',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'app_profitshare' => 'nullable|string',
             ], [
                 'app_name.required' => 'The application name is required.',
                 'app_url.url' => 'Please enter a valid URL.',
                 'app_timezone.in' => 'Please select a valid timezone.',
                 'logo.image' => 'The logo must be an image.',
                 'logo.max' => 'The logo must not be larger than 2MB.',
+                'app_profitshare.string' => 'The profitshare ID must be a string.',
             ]);
 
             // Validate social media URLs

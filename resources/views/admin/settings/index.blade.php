@@ -114,6 +114,25 @@
                                     @endforeach
                                 </div>
                             </x-admin.card>
+
+                            <!-- Profitshare Card -->
+                            <x-admin.card>
+                                <x-slot:header>
+                                    <div class="flex items-center">
+                                        <x-lucide-dollar-sign class="w-5 h-5 text-indigo-500 mr-2" />
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Profitshare</h3>
+                                    </div>
+                                </x-slot:header>
+
+                                <div class="grid grid-cols-1 gap-6">
+                                    <x-admin.form.text-input    
+                                        name="app_profitshare"  
+                                        label="Profitshare.Ro ID"
+                                        :value="$settings['app_profitshare'] ?? ''"
+                                        required
+                                    />
+                                </div>
+                            </x-admin.card> 
                         </div>
                     </form>
                 </div>

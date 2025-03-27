@@ -9,7 +9,7 @@
                     Gallery Images
                 </h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                    0 of 12 images selected
+                    0 of 20 images selected
                 </p>
             </div>
         </div>
@@ -35,7 +35,13 @@
                             Click to upload or drag and drop
                         </span>
                         <span class="text-xs text-gray-500 dark:text-gray-400">
-                            PNG, JPG, WebP up to 2MB each (12 slots available)
+                            PNG, JPG, WebP up to 5MB each
+                        </span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            Max dimensions: 3840x2160 pixels
+                        </span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            20 slots available
                         </span>
                     </div>
                 </button>
@@ -49,8 +55,19 @@
                     </div>
                     <template x-for="file in files" :key="file.name">
                         <div class="flex items-center justify-between px-3 py-2 text-sm bg-gray-50 dark:bg-gray-900 rounded-md">
-                            <span x-text="file.name" class="text-gray-700 dark:text-gray-300"></span>
-                            <span x-text="file.size" class="text-gray-500 dark:text-gray-400"></span>
+                            <div class="flex flex-col">
+                                <span x-text="file.name" class="text-gray-700 dark:text-gray-300"></span>
+                                <span x-text="file.size" class="text-xs text-gray-500 dark:text-gray-400"></span>
+                                <span x-text="file.dimensions" class="text-xs text-gray-500 dark:text-gray-400"></span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span x-show="file.size > 5" class="text-red-500">
+                                    <x-lucide-alert-circle class="w-4 h-4" />
+                                </span>
+                                <span x-show="file.dimensions && (file.width > 3840 || file.height > 2160)" class="text-red-500">
+                                    <x-lucide-alert-circle class="w-4 h-4" />
+                                </span>
+                            </div>
                         </div>
                     </template>
                 </div>
@@ -63,7 +80,7 @@
 function galleryCreate() {
     return {
         files: [],
-        maxFiles: 12,
+        maxFiles: 20,
         handleFiles(event) {
             const selectedFiles = Array.from(event.target.files);
             if (selectedFiles.length > this.maxFiles) {
@@ -71,10 +88,55 @@ function galleryCreate() {
                 event.target.value = '';
                 return;
             }
+
+            // Check file sizes and dimensions
+            const maxFileSize = 5 * 1024 * 1024; // 5MB
+            const maxWidth = 3840;
+            const maxHeight = 2160;
+            
+            for (const file of selectedFiles) {
+                if (file.size > maxFileSize) {
+                    alert(`File "${file.name}" is too large. Maximum file size is 5MB.`);
+                    event.target.value = '';
+                    return;
+                }
+
+                // Create a promise to check image dimensions
+                const checkDimensions = new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        if (img.width > maxWidth || img.height > maxHeight) {
+                            reject(`File "${file.name}" dimensions (${img.width}x${img.height}) exceed the maximum allowed size of ${maxWidth}x${maxHeight} pixels.`);
+                        } else {
+                            resolve();
+                        }
+                    };
+                    img.onerror = () => reject(`Failed to load image "${file.name}" for dimension check.`);
+                    img.src = URL.createObjectURL(file);
+                });
+
+                // Wait for dimension check
+                checkDimensions.catch(error => {
+                    alert(error);
+                    event.target.value = '';
+                    return;
+                });
+            }
             
             this.files = selectedFiles.map(file => ({
                 name: file.name,
-                size: (file.size / 1024).toFixed(1) + 'KB'
+                size: (file.size / 1024).toFixed(1) + 'MB',
+                dimensions: new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve({
+                            text: `${img.width}x${img.height} pixels`,
+                            width: img.width,
+                            height: img.height
+                        });
+                    };
+                    img.src = URL.createObjectURL(file);
+                })
             }));
         }
     };

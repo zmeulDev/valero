@@ -6,17 +6,22 @@
             </url>
     <url>
         <loc>http://valero.test/articles/fdf</loc>
-        <lastmod>2025-01-01T15:46:21+00:00</lastmod>
+        <lastmod>2025-03-27T08:54:21+00:00</lastmod>
 
             </url>
     <url>
         <loc>http://valero.test/articles/article-in-the-feature</loc>
-        <lastmod>2025-01-19T12:51:31+00:00</lastmod>
+        <lastmod>2025-03-27T08:54:24+00:00</lastmod>
 
             </url>
     <url>
         <loc>http://valero.test/articles/fsda</loc>
-        <lastmod>2025-01-19T13:07:09+00:00</lastmod>
+        <lastmod>2025-03-27T08:54:12+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://valero.test/articles/fdsf</loc>
+        <lastmod>2025-03-27T08:45:17+00:00</lastmod>
 
             </url>
 </urlset>
