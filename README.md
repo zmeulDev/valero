@@ -14,6 +14,8 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 - SEO optimization
 - Article scheduling and drafts
 - Category organization
+- **Article preview system for scheduled content**
+- **Scheduled articles calendar view**
 
 ### Media Management
 - Dedicated media library with grid view
@@ -37,6 +39,8 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 - Toast notifications
 - Gradient text and backgrounds
 - Loading states
+- **Preview mode for scheduled articles**
+- **Device toggle (desktop/tablet/mobile) for previews**
 
 ### Layout Components
 - Featured articles showcase
@@ -46,6 +50,7 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 - Category badges and filters
 - Responsive sidebar
 - Related articles section
+- **Preview banner for scheduled articles**
 
 ## 🗂 Application Structure
 
@@ -82,7 +87,9 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 │   ├── media/
 │   │   └── gallery.blade.php         # Media library management
 │   ├── article/
-│   │   └── gallery-edit.blade.php    # Article gallery editor
+│   │   ├── gallery-edit.blade.php    # Article gallery editor
+│   │   ├── publish-option.blade.php  # Article publishing options
+│   │   └── schedule-option.blade.php # Scheduled articles calendar
 │   ├── page-header.blade.php         # Admin page headers
 │   └── stats-card.blade.php          # Statistics display
 ├── article/
@@ -114,10 +121,12 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/articles/{slug}', [ArticleController::class, 'show']);
 Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+Route::get('/preview/articles/{slug}', [ShowArticleController::class, 'preview'])->name('articles.preview');
 
 // Admin Routes (Prefix: /admin)
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('articles', AdminArticleController::class);
+    Route::get('articles/scheduled', [AdminArticleController::class, 'scheduled'])->name('articles.scheduled');
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('media', AdminMediaController::class);
 });
@@ -164,6 +173,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 - **Frontend**: Responsive layouts with Tailwind CSS and Alpine.js
 - **SEO**: Meta tags, slugs, and optimized URLs
 - **Performance**: Image optimization, lazy loading, and caching
+- **Article Preview**: Preview system for scheduled articles with admin-only access
+- **Scheduled Articles**: Calendar view and management for scheduled content
 
 ### Service Providers
 ```
@@ -208,6 +219,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 - Toast notifications
 - Loading states
 - Hover effects
+- **Preview mode toggle (desktop/tablet/mobile)**
+- **Scheduled articles calendar navigation**
 
 ## 🚀 Installation
 
@@ -312,7 +325,12 @@ Visit [http://localhost:8000](http://localhost:8000) in your browser to access V
 
 ## 🔄 Updates & Versioning
 
-**Current Version: 0.39940**
+**Current Version: 0.39941**
+- Added article preview system for scheduled content
+- Implemented scheduled articles calendar view
+- Enhanced admin article management with preview capabilities
+- Added device toggle for article previews (desktop/tablet/mobile)
+- Improved scheduled articles management interface
 - Enhanced media library management
 - Improved article gallery system
 - Added related articles functionality
@@ -353,6 +371,8 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - Real-time character counting for content fields
 - Drag-and-drop file upload zones
 - Toast notifications for user feedback
+- **Preview mode for scheduled articles with device toggle**
+- **Scheduled articles calendar with visual indicators**
 
 ## 🎨 Design & UI Components
 
@@ -362,6 +382,7 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - **Image Gallery**: Custom modal viewer with keyboard navigation
 - **Dark Mode**: System preference detection with manual toggle
 - **Email Templates**: Custom HTML templates with dark mode support
+- **Preview System**: Admin-only preview for scheduled articles
 
 ## 🤝 Future Enhancements
 
@@ -376,6 +397,9 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - **SEO Enhancements**: Improve the existing SEO functionality by adding more meta tags and optimizing social media previews.
 - **Article Search**: Add a search functionality to find articles based on title or content.
 - **Dashboard Statistics**: Implement more detailed statistics on articles and categories in the admin dashboard.
+- **Preview Sharing**: Allow sharing preview links with team members for review.
+- **Preview Comments**: Add commenting system for article previews.
+- **Preview Expiration**: Set expiration time for preview links for security.
 
 ## 🤝 Contributing
 
