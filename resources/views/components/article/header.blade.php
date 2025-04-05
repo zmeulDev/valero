@@ -23,7 +23,7 @@
 </div>
 
 <!-- Article Header Content -->
-<header class="relative mx-auto px-4 pt-6 pb-6">
+<header class="relative mx-auto pt-6 pb-6">
     <div class="flex flex-col md:flex-row gap-6">
         <!-- Author Card -->
         <div class="md:w-56 shrink-0">

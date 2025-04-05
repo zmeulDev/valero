@@ -92,6 +92,32 @@
                                     <span>Gallery</span>
                                 </div>
                             </button>
+
+                            <button type="button"
+                                    @click.prevent="activeTab = 'buying'"
+                                    :class="{ 
+                                        'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'buying',
+                                        'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'buying'
+                                    }"
+                                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
+                                <div class="flex items-center space-x-2">
+                                    <x-lucide-shopping-cart class="w-5 h-5" />
+                                    <span>Buying Options</span>
+                                </div>
+                            </button>
+
+                            <button type="button"
+                                    @click.prevent="activeTab = 'publish'"
+                                    :class="{ 
+                                        'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'publish',
+                                        'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'publish'
+                                    }"
+                                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
+                                <div class="flex items-center space-x-2">
+                                    <x-lucide-calendar class="w-5 h-5" />
+                                    <span>Publishing</span>
+                                </div>
+                            </button>
                         </nav>
                     </div>
 
@@ -179,6 +205,29 @@
                              x-transition:leave-end="opacity-0 translate-y-1"
                              class="p-6">
                             <x-admin.article.gallery-edit :article="$article" />
+                        </div>
+
+                        <!-- Buying Options Tab -->
+                        <div x-show="activeTab === 'buying'"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-1"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 translate-y-1"
+                             class="p-6">
+                            <x-admin.article.buying-option :article="$article" />
+                        </div>
+
+                        <!-- Publishing Tab -->
+                        <div x-show="activeTab === 'publish'"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 transform -translate-y-2"
+                             x-transition:enter-end="opacity-100 transform translate-y-0"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 transform translate-y-0"
+                             x-transition:leave-end="opacity-0 transform -translate-y-2">
+                            <x-admin.article.publish-option :article="$article" :categories="$categories" :scheduledArticles="$scheduledArticles" />
                         </div>
                     </div>
                 </div>

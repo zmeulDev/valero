@@ -21,13 +21,16 @@ class Article extends Model
     use HasFactory, HasSEO;
 
     protected $fillable = [
-        'user_id', 'title', 'slug', 'tags', 'excerpt', 'content', 'is_featured', 'scheduled_at', 'views', 'category_id', 'likes_count'
+        'user_id', 'title', 'slug', 'tags', 'excerpt', 'content', 'is_featured', 'scheduled_at', 'views', 'category_id', 'likes_count',
+        'amazon_link', 'ebay_link', 'local_store_link', 'lowest_price', 'average_price'
     ];
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i',
         'updated_at' => 'datetime:Y-m-d H:i',
         'scheduled_at' => 'datetime:Y-m-d H:i',
+        'lowest_price' => 'decimal:2',
+        'average_price' => 'decimal:2',
     ];
 
     protected $appends = ['tags_array'];

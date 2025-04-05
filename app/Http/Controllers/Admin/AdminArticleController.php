@@ -78,8 +78,14 @@ class AdminArticleController extends Controller
      */
     public function create()
     {
+        $scheduledArticles = Article::whereNotNull('scheduled_at')
+            ->where('scheduled_at', '>', now())
+            ->orderBy('scheduled_at', 'asc')
+            ->get();
+            
         return view('admin.articles.create', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'scheduledArticles' => $scheduledArticles
         ]);
     }
 
@@ -140,9 +146,15 @@ class AdminArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $scheduledArticles = Article::whereNotNull('scheduled_at')
+            ->where('scheduled_at', '>', now())
+            ->orderBy('scheduled_at', 'asc')
+            ->get();
+            
         return view('admin.articles.edit', [
             'article' => $article,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'scheduledArticles' => $scheduledArticles
         ]);
     }
 
@@ -264,6 +276,13 @@ class AdminArticleController extends Controller
             'tags' => 'nullable|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
+            
+            // Buying options validation
+            'amazon_link' => 'nullable|url|max:255',
+            'ebay_link' => 'nullable|url|max:255',
+            'local_store_link' => 'nullable|url|max:255',
+            'lowest_price' => 'nullable|numeric|min:0|max:999999.99',
+            'average_price' => 'nullable|numeric|min:0|max:999999.99',
         ];
 
         // Only validate images if they are being uploaded
@@ -289,13 +308,11 @@ class AdminArticleController extends Controller
 
             // Check total number of images (existing + new)
             if ($article) {
-                $totalImages = $article->media->count() + count($request->file('gallery_images'));
-                if ($totalImages > 20) {
+                $existingCount = $article->media()->count();
+                $newCount = count($request->file('gallery_images'));
+                if (($existingCount + $newCount) > 20) {
                     throw ValidationException::withMessages([
-                        'gallery_images' => [
-                            "Maximum total of 20 images allowed. You currently have {$article->media->count()} images and are trying to upload " . 
-                            count($request->file('gallery_images')) . " more. You can only upload " . (20 - $article->media->count()) . " more images."
-                        ]
+                        'gallery_images' => "Total number of images ({$existingCount} existing + {$newCount} new) exceeds the maximum limit of 20 images."
                     ]);
                 }
             }

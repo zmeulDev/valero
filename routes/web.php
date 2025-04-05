@@ -48,6 +48,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::resource('categories', AdminCategoryController::class);
     
     // Articles
+    
     Route::resource('articles', AdminArticleController::class);
     
     // Image handling - all handled by AdminArticleController
@@ -97,6 +98,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
         Route::get('media', 'index')->name('media.index');
         Route::get('media/{media}/download', 'download')->name('media.download')->whereNumber('media');
     });
+
 });
 
 // Email Verification Routes

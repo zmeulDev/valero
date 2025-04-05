@@ -38,7 +38,9 @@ class ShowArticleController extends Controller
                 $query->whereNull('scheduled_at')
                       ->orWhere('scheduled_at', '<=', now());
             })
-            ->orderBy('category_id', 'desc')
+            ->where('category_id', $article->category_id)
+            ->where('id', '!=', $article->id)
+            ->latest()
             ->take(3)
             ->get();
 

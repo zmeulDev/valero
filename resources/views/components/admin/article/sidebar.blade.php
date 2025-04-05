@@ -1,7 +1,4 @@
-@props(['article' => null, 'categories'])
-
-<!-- Category Select -->
-<x-admin.article.option :categories="$categories" :article="$article" />
+@props(['article' => null])
 
 <!-- SEO -->
 <x-admin.article.seo :article="$article" />
