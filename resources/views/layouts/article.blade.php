@@ -21,6 +21,16 @@
 >
   <x-header :categories="$categories" :role="$role" />
 
+  <!-- Preview Banner for Scheduled Articles -->
+  @if(isset($isPreview) && $isPreview)
+    <div class="bg-yellow-500 text-white py-2 px-4 text-center font-medium">
+      <div class="container mx-auto flex items-center justify-center">
+        <x-lucide-eye class="w-5 h-5 mr-2" />
+        <span>Preview Mode - This article is scheduled for {{ $article->scheduled_at ? $article->scheduled_at->format('F d, Y H:i') : 'future publication' }}</span>
+      </div>
+    </div>
+  @endif
+
   <!-- Main Content -->
   <main class="container mx-auto">
     <div class="bg-gray-100 dark:bg-gray-900 min-h-screen">

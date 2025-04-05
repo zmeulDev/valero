@@ -32,6 +32,11 @@ Route::get('/categories', [SearchController::class, 'categories'])->name('catego
 Route::get('sitemap.xml', function() {return response()->file(public_path('sitemap.xml'));});
 Route::view('/cookie-policy', 'frontend.cookies.policy')->name('cookies.policy');
 
+// Admin Preview Route for Scheduled Articles
+Route::get('/preview/articles/{slug}', [ShowArticleController::class, 'preview'])
+    ->name('articles.preview')
+    ->middleware(['auth', 'admin']);
+
 // Protected Routes (for logged-in users)
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', function () {
@@ -48,9 +53,19 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::resource('categories', AdminCategoryController::class);
     
     // Articles
-    
+    Route::get('articles/scheduled', [AdminArticleController::class, 'scheduled'])->name('articles.scheduled');
     Route::resource('articles', AdminArticleController::class);
     
+    // Article related routes
+    Route::controller(AdminArticleController::class)->group(function () {
+        Route::post('articles/{article}/images', 'storeImages')
+            ->name('articles.images.store');
+        Route::delete('articles/{article}/images/{media}', 'deleteArticleImages')
+            ->name('articles.images.destroy');
+        Route::post('articles/{article}/images/{media}/set-cover', 'setCover')
+            ->name('articles.images.set-cover');
+    });
+
     // Image handling - all handled by AdminArticleController
     Route::controller(AdminArticleController::class)->group(function () {
         Route::post('articles/{article}/images', 'storeImages')

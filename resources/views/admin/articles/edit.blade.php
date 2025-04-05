@@ -237,6 +237,16 @@
             <div class="w-full lg:w-1/3 space-y-6">
                 <x-admin.article.sidebar :article="$article" :categories="$categories" />
 
+                <!-- View Live -->
+                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 sticky top-6">
+                    <div class="p-6">
+                    <a href="{{ $article->scheduled_at && $article->scheduled_at->isFuture() ? route('articles.preview', $article->slug) : route('articles.index', $article->slug) }}" target="_blank" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50">
+                            <x-lucide-external-link class="w-4 h-4 mr-1.5" />
+                            Preview Article
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Submit Button Card -->
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 sticky top-6">
                     <div class="p-6">

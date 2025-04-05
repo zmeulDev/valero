@@ -22,6 +22,7 @@
                         New Article
                     </a>
                 </x-slot:actions>
+                
 
                 <x-slot:stats>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -207,6 +208,14 @@
                 @else
                     <x-nothing-found />
                 @endif
+
+                <!-- Scheduled Articles Link -->
+                <div class="mt-6">
+                    <a href="{{ route('admin.articles.scheduled') }}" 
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        Scheduled Articles
+                    </a>
+                </div>
                     
 
                 <!-- Pagination -->

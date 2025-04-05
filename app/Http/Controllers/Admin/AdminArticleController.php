@@ -725,4 +725,20 @@ class AdminArticleController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Display a listing of scheduled articles.
+     */
+    public function scheduled()
+    {
+        $scheduledArticles = Article::whereNotNull('scheduled_at')
+            ->where('scheduled_at', '>', now())
+            ->orderBy('scheduled_at', 'asc')
+            ->with(['user', 'category'])
+            ->get();
+
+        return view('admin.articles.scheduled', [
+            'articles' => $scheduledArticles
+        ]);
+    }
 }

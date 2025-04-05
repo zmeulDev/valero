@@ -26,146 +26,289 @@
 
     <div class="min-h-screen dark:bg-gray-900">
         <div class="container mx-auto px-4 py-8">
-            <!-- Enhanced Header Section -->
-            <div class="mb-8">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-3">
-                            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $article->title }}</h1>
+            <!-- Preview Mode Toggle -->
+            <div class="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <x-lucide-eye class="w-5 h-5 text-indigo-500" />
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">Preview Mode</h3>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">View as:</span>
+                            <div class="flex rounded-md shadow-sm">
+                                <button type="button" class="px-3 py-1.5 text-sm font-medium rounded-l-md bg-indigo-600 text-white">
+                                    Desktop
+                                </button>
+                                <button type="button" class="px-3 py-1.5 text-sm font-medium border-t border-b border-r border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    Tablet
+                                </button>
+                                <button type="button" class="px-3 py-1.5 text-sm font-medium border-t border-b border-r border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-r-md">
+                                    Mobile
+                                </button>
+                            </div>
                         </div>
+                        <a href="{{ $article->scheduled_at && $article->scheduled_at->isFuture() ? route('articles.preview', $article->slug) : route('articles.index', $article->slug) }}" target="_blank" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50">
+                            <x-lucide-external-link class="w-4 h-4 mr-1.5" />
+                            View Live
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 <!-- Main Content Column -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Featured Image Card -->
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-                        @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
-                            <div class="relative aspect-video">
-                                <img src="{{ asset('storage/' . $article->media->firstWhere('is_cover', true)->image_path) }}"
-                                     alt="{{ $article->title }}"
-                                     class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
-                                    <div class="absolute bottom-0 left-0 right-0 p-6">
-                                        <p class="text-sm text-white/80 mb-2">Cover Image</p>
-                                        <h2 class="text-2xl font-bold text-white">{{ $article->title }}</h2>
-                                    </div>
+                <div class="lg:col-span-3">
+                    <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                        <div class="px-6 pb-8">
+                            <!-- Article Header -->
+                            <div class="relative w-full mb-8 mt-8 group">
+                                <div class="relative overflow-hidden rounded-2xl aspect-[16/9] bg-gray-100 dark:bg-gray-800">
+                                    @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
+                                        <!-- Main Image -->
+                                        <img 
+                                            src="{{ asset('storage/' . $article->media->firstWhere('is_cover', true)->image_path) }}"
+                                            alt="{{ $article->title }}"
+                                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            loading="lazy"
+                                        >
+                                        
+                                        <!-- Subtle Gradient Overlay for Text Readability -->
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                    @else
+                                        <!-- Fallback when no image -->
+                                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
+                                            <x-lucide-image class="w-16 h-16 text-gray-400 dark:text-gray-600" />
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
-                        @else
-                            <div class="relative aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                                <x-lucide-image class="w-16 h-16 text-gray-400 mx-auto mt-8" />
-                            </div>
-                        @endif
 
-                        <div class="p-6">
-                            <!-- Enhanced Excerpt -->
-                            @if($article->excerpt)
-                                <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg mb-6 border border-gray-100 dark:border-gray-600">
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <x-lucide-quote class="w-5 h-5 text-gray-400" />
-                                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Article Excerpt</h3>
+                            <!-- Article Header Content -->
+                            <header class="relative mx-auto pt-6 pb-6">
+                                <div class="flex flex-col md:flex-row gap-6">
+                                    <!-- Author Card -->
+                                    <div class="md:w-56 shrink-0">
+                                        <div class="sticky top-8">
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
+                                                <!-- Author Profile - Horizontal Layout -->
+                                                <div class="flex items-center gap-3 mb-4">
+                                                    <div class="relative">
+                                                        <img src="{{ $article->user->profile_photo_url }}" 
+                                                             alt="{{ $article->user->name }}" 
+                                                             class="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-gray-700">
+                                                        <div class="absolute -bottom-0.5 -right-0.5 bg-green-500 w-3 h-3 rounded-full border-2 border-white dark:border-gray-800"></div>
+                                                    </div>
+                                                    <div>
+                                                        <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                                                            {{ $article->user->name }}
+                                                        </h3>
+                                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                                            {{ $article->author->title ?? 'Author' }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Compact Meta Info -->
+                                                <div class="space-y-2.5 text-sm border-t border-gray-100 dark:border-gray-700 pt-4">
+                                                    <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                                        <x-lucide-git-pull-request class="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                                                        <time datetime="{{ $article->created_at }}">
+                                                            Create: {{ $article->created_at->format('M d, Y') }}
+                                                        </time>
+                                                    </div>
+                                                    <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                                        <x-lucide-git-merge class="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                                                        <time datetime="{{ $article->updated_at }}">
+                                                           Update: {{ $article->updated_at->format('M d, Y') }}
+                                                        </time>
+                                                    </div>
+                                                    @if($article->scheduled_at)
+                                                    <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                                        <x-lucide-calendar class="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                                                        <time datetime="{{ $article->scheduled_at }}">
+                                                           Scheduled: {{ \Carbon\Carbon::parse($article->scheduled_at)->format('M d, Y') }}
+                                                        </time>
+                                                    </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p class="text-lg font-light text-gray-700 dark:text-gray-300">
-                                        {{ $article->excerpt }}
-                                    </p>
-                                </div>
-                            @endif
 
-                            <!-- Enhanced Content -->
-                            <div class="prose dark:prose-invert max-w-none">
+                                    <!-- Main Content - More Compact -->
+                                    <div class="flex-1 space-y-6">
+                                        <!-- Title and Category -->
+                                        <div class="space-y-3">
+                                            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+                                                {{ $article->title }}
+                                            </h1>
+                                            <div class="flex items-center gap-3">
+                                                <a href="{{ route('category.index', $article->category->slug) }}" 
+                                                   class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium">
+                                                    <x-lucide-tag class="w-3.5 h-3.5" />
+                                                    {{ $article->category->name }}
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Excerpt -->
+                                        @if($article->excerpt)
+                                            <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg border border-gray-100 dark:border-gray-600">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <x-lucide-quote class="w-5 h-5 text-gray-400" />
+                                                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Article Excerpt</h3>
+                                                </div>
+                                                <p class="text-lg font-light text-gray-700 dark:text-gray-300">
+                                                    {{ $article->excerpt }}
+                                                </p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </header>
+
+                            <!-- Article Content -->
+                            <div class="prose prose-lg max-w-none dark:prose-invert mb-12">
                                 {!! $article->content !!}
                             </div>
 
-                            <!-- Enhanced Gallery -->
+                            <!-- Gallery -->
                             @if($article->media->count() > 0)
-                                <div class="mt-12 border-t dark:border-gray-700 pt-8">
-                                    <div class="flex items-center gap-2 mb-4">
-                                        <x-lucide-image class="w-5 h-5 text-gray-400" />
-                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Image Gallery</h3>
+                                <div class="mt-12">
+                                    {{-- Section Header --}}
+                                    <div class="flex items-center justify-between mb-6">
+                                        <h3 class="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+                                            Gallery
+                                        </h3>
+                                        <div class="h-[2px] flex-1 bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700 ml-6"></div>
                                     </div>
                                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         @foreach($article->media as $index => $image)
-                                            <div class="relative aspect-square group rounded-lg overflow-hidden">
-                                                <img src="{{ asset('storage/' . $image->image_path) }}" 
-                                                     alt="Gallery Image" 
-                                                     class="w-full h-full object-cover transition duration-300 group-hover:scale-105 gallery-image"
-                                                     data-index="{{ $index }}">
-                                                <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                                                    <x-lucide-maximize-2 class="w-8 h-8 text-white drop-shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300" />
-                                                </div>
+                                            <div class="relative aspect-square overflow-hidden rounded-lg">
+                                                <img 
+                                                    src="{{ asset('storage/' . $image->image_path) }}" 
+                                                    alt="{{ $image->alt_text ?? 'Gallery Image' }}"
+                                                    class="w-full h-full object-cover cursor-pointer gallery-image hover:opacity-90 transition-opacity duration-300"
+                                                    data-index="{{ $index }}"
+                                                    loading="lazy"
+                                                >
                                             </div>
                                         @endforeach
                                     </div>
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Enhanced Sidebar -->
-                <div class="space-y-6">
-                    <!-- Article Details Card -->
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-                        <div class="p-6">
-                            <div class="flex items-center gap-2 mb-4">
-                                <x-lucide-info class="w-5 h-5 text-gray-400" />
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Article Details</h3>
-                            </div>
-                            <dl class="space-y-4 divide-y dark:divide-gray-700">
-                                
-                                <div class="pt-4 flex justify-between items-center">
-                                    <dt class="font-medium text-gray-500 dark:text-gray-400">Author</dt>
-                                    <dd class="text-gray-900 dark:text-white">{{ $article->user->name ?? 'Unknown' }}</dd>
+                <!-- Sidebar -->
+                <aside class="lg:col-span-1">
+                    <div class="sticky top-8 space-y-6">
+                        <!-- Article Details Card -->
+                        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <x-lucide-info class="w-5 h-5 text-gray-400" />
+                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Article Details</h3>
                                 </div>
-                                <div class="pt-4 flex justify-between items-center">
-                                    <dt class="font-medium text-gray-500 dark:text-gray-400">Created At</dt>
-                                    <dd class="text-gray-900 dark:text-white">
-                                        {{ $article->created_at ? $article->created_at->format('F d, Y H:i') : 'Not set' }}
-                                    </dd>
-                                </div>
-                                <div class="pt-4 flex justify-between items-center">
-                                    <dt class="font-medium text-gray-500 dark:text-gray-400">Updated At</dt>
-                                    <dd class="text-gray-900 dark:text-white">
-                                        {{ $article->updated_at ? $article->updated_at->format('F d, Y H:i') : 'Not set' }}
-                                    </dd>
-                                </div>
-                                <div class="pt-4 flex justify-between items-center">
-                                    <dt class="font-medium text-gray-500 dark:text-gray-400">Scheduled For</dt>
-                                    <dd class="text-gray-900 dark:text-white">
-                                        {{ $article->scheduled_at ? \Carbon\Carbon::parse($article->scheduled_at)->format('F d, Y H:i') : 'Not set' }}
-                                    </dd>
-                                </div>
-                                @if($article->meta_title || $article->meta_description)
-                                    <div class="pt-4">
-                                        <dt class="font-medium text-gray-500 dark:text-gray-400 mb-2">SEO Details</dt>
-                                        @if($article->meta_title)
-                                            <dd class="text-gray-900 dark:text-white mb-1">
-                                                <span class="text-sm text-gray-500 dark:text-gray-400">Title:</span> {{ $article->meta_title }}
-                                            </dd>
-                                        @endif
-                                        @if($article->meta_description)
-                                            <dd class="text-gray-900 dark:text-white">
-                                                <span class="text-sm text-gray-500 dark:text-gray-400">Description:</span> {{ $article->meta_description }}
-                                            </dd>
-                                        @endif
+                                <dl class="space-y-4 divide-y dark:divide-gray-700">
+                                    <div class="pt-4 flex justify-between items-center">
+                                        <dt class="font-medium text-gray-500 dark:text-gray-400">Author</dt>
+                                        <dd class="text-gray-900 dark:text-white">{{ $article->user->name ?? 'Unknown' }}</dd>
                                     </div>
-                                @endif
-                            </dl>
+                                    <div class="pt-4 flex justify-between items-center">
+                                        <dt class="font-medium text-gray-500 dark:text-gray-400">Created At</dt>
+                                        <dd class="text-gray-900 dark:text-white">
+                                            {{ $article->created_at ? $article->created_at->format('F d, Y H:i') : 'Not set' }}
+                                        </dd>
+                                    </div>
+                                    <div class="pt-4 flex justify-between items-center">
+                                        <dt class="font-medium text-gray-500 dark:text-gray-400">Updated At</dt>
+                                        <dd class="text-gray-900 dark:text-white">
+                                            {{ $article->updated_at ? $article->updated_at->format('F d, Y H:i') : 'Not set' }}
+                                        </dd>
+                                    </div>
+                                    <div class="pt-4 flex justify-between items-center">
+                                        <dt class="font-medium text-gray-500 dark:text-gray-400">Scheduled For</dt>
+                                        <dd class="text-gray-900 dark:text-white">
+                                            {{ $article->scheduled_at ? \Carbon\Carbon::parse($article->scheduled_at)->format('F d, Y H:i') : 'Not set' }}
+                                        </dd>
+                                    </div>
+                                    @if($article->meta_title || $article->meta_description)
+                                        <div class="pt-4">
+                                            <dt class="font-medium text-gray-500 dark:text-gray-400 mb-2">SEO Details</dt>
+                                            @if($article->meta_title)
+                                                <dd class="text-gray-900 dark:text-white mb-1">
+                                                    <span class="text-sm text-gray-500 dark:text-gray-400">Title:</span> {{ $article->meta_title }}
+                                                </dd>
+                                            @endif
+                                            @if($article->meta_description)
+                                                <dd class="text-gray-900 dark:text-white">
+                                                    <span class="text-sm text-gray-500 dark:text-gray-400">Description:</span> {{ $article->meta_description }}
+                                                </dd>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </dl>
+                            </div>
+                        </div>
+
+                        <!-- Preview Tools Card -->
+                        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <x-lucide-view class="w-5 h-5 text-gray-400" />
+                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">Preview Tools</h3>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Word Count</span>
+                                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ str_word_count(strip_tags($article->content)) }} words</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Reading Time</span>
+                                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ ceil(str_word_count(strip_tags($article->content)) / 200) }} min read</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Images</span>
+                                        <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $article->media->count() }} images</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SEO Preview Card -->
+                        <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <x-lucide-search class="w-5 h-5 text-gray-400" />
+                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white">SEO Preview</h3>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
+                                        <div class="text-sm font-medium text-blue-600 dark:text-blue-400 truncate">
+                                            {{ config('app.url') }}/articles/{{ $article->slug }}
+                                        </div>
+                                        <div class="text-lg font-medium text-gray-900 dark:text-white truncate">
+                                            {{ $article->meta_title ?? $article->title }}
+                                        </div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                            {{ $article->meta_description ?? Str::limit(strip_tags($article->excerpt ?? $article->content), 160) }}
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </aside>
             </div>
         </div>
 
         <!-- Gallery Modal -->
         <div id="galleryModal" 
-             class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 hidden"
-             x-data="{ show: false }"
-             x-show="show"
-             x-cloak>
+             class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 hidden">
             <div class="relative w-full h-full max-w-4xl max-h-full p-4">
                 <img id="galleryImage" src="" alt="Gallery Image" class="w-full h-full object-contain">
                 <button id="prevButton" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition duration-200">

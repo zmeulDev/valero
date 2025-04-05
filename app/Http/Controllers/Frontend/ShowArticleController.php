@@ -55,6 +55,37 @@ class ShowArticleController extends Controller
         ));
     }
 
+    /**
+     * Preview a scheduled article (admin only)
+     */
+    public function preview($slug)
+    {
+        // Find the article without scheduling restrictions
+        $article = Article::where('slug', $slug)->firstOrFail();
+        
+        // Get related data without scheduling restrictions
+        $latestArticles = Article::latest()->paginate(8);
+        $popularArticles = Article::orderBy('views', 'desc')->take(5)->get();
+        $relatedArticles = Article::where('category_id', $article->category_id)
+            ->where('id', '!=', $article->id)
+            ->latest()
+            ->take(3)
+            ->get();
+        $categories = Category::all();
+
+        // Add a preview banner to the view
+        $isPreview = true;
+
+        return view('layouts.article', compact(
+            'article', 
+            'latestArticles', 
+            'popularArticles', 
+            'relatedArticles', 
+            'categories',
+            'isPreview'
+        ));
+    }
+
     public function create()
     {
     }
