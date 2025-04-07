@@ -60,6 +60,7 @@
   </div>
 </div>
 
+<!-- TODO: Move search functionality to a Valero-Frontend.js file -->
 <script>
 function sidebarSearch() {
   return {

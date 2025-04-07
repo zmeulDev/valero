@@ -145,3 +145,80 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+// Article Like Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const likeButtons = document.querySelectorAll('.like-button');
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+  
+  if (!csrfToken) {
+    console.error('CSRF token not found');
+    return;
+  }
+  
+  likeButtons.forEach(button => {
+    let isProcessing = false;
+
+    button.addEventListener('click', function() {
+      if (isProcessing) return;
+      isProcessing = true;
+
+      const articleId = this.dataset.articleId;
+      const likeCount = document.getElementById(`likeCount-${articleId}`);
+      const likeIcon = document.getElementById(`likeIcon-${articleId}`);
+      const isLiked = likeIcon.classList.contains('text-rose-500');
+      
+      fetch(`/articles/${articleId}/like`, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ liked: !isLiked })
+      })
+      .then(async response => {
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to update like status');
+        }
+        return data;
+      })
+      .then(data => {
+        if (data.success) {
+          // Update like count with animation
+          likeCount.style.transition = 'transform 0.2s ease';
+          likeCount.style.transform = 'scale(1.2)';
+          likeCount.textContent = new Intl.NumberFormat().format(data.likes_count);
+          
+          // Toggle like icon state
+          if (isLiked) {
+            likeIcon.classList.remove('text-rose-500');
+            likeIcon.classList.add('text-gray-400');
+          } else {
+            likeIcon.classList.remove('text-gray-400');
+            likeIcon.classList.add('text-rose-500');
+          }
+          
+          // Reset scale after animation
+          setTimeout(() => {
+            likeCount.style.transform = 'scale(1)';
+          }, 200);
+        }
+      })
+      .catch(error => {
+        console.error('Like error:', error);
+        // Show error notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+        notification.textContent = error.message || 'An error occurred while updating like status';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+      })
+      .finally(() => {
+        isProcessing = false;
+      });
+    });
+  });
+});
