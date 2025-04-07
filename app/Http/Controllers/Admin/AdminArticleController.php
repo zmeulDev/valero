@@ -277,12 +277,10 @@ class AdminArticleController extends Controller
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
             
-            // Buying options validation
-            'amazon_link' => 'nullable|url|max:255',
-            'ebay_link' => 'nullable|url|max:255',
+            // Options validation
+            'youtube_link' => 'nullable|url|max:255',
+            'instagram_link' => 'nullable|url|max:255',
             'local_store_link' => 'nullable|url|max:255',
-            'lowest_price' => 'nullable|numeric|min:0|max:999999.99',
-            'average_price' => 'nullable|numeric|min:0|max:999999.99',
         ];
 
         // Only validate images if they are being uploaded

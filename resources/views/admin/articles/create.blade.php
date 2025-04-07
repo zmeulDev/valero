@@ -75,7 +75,7 @@
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
                       <x-lucide-file-text class="w-5 h-5" />
-                      <span>Content Editor</span>
+                      <span>Content</span>
                     </div>
                   </button>
                   
@@ -93,15 +93,15 @@
                   </button>
 
                   <button type="button"
-                          @click.prevent="activeTab = 'buying'"
+                          @click.prevent="activeTab = 'options'"
                           :class="{ 
-                              'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'buying',
-                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'buying'
+                              'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'options',
+                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'options'
                           }"
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
-                      <x-lucide-shopping-cart class="w-5 h-5" />
-                      <span>Buying Options</span>
+                      <x-lucide-settings class="w-5 h-5" />
+                      <span>Options</span>
                     </div>
                   </button>
 
@@ -114,7 +114,7 @@
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
                       <x-lucide-calendar class="w-5 h-5" />
-                      <span>Publishing</span>
+                      <span>Publish</span>
                     </div>
                   </button>
                 </nav>
@@ -189,8 +189,8 @@
                   <x-admin.article.gallery-create />
                 </div>
 
-                <!-- Buying Options Tab -->
-                <div x-show="activeTab === 'buying'"
+                <!-- Options Tab -->
+                <div x-show="activeTab === 'options'"
                      x-transition:enter="transition ease-out duration-200"
                      x-transition:enter-start="opacity-0 translate-y-1"
                      x-transition:enter-end="opacity-100 translate-y-0"
@@ -198,7 +198,7 @@
                      x-transition:leave-start="opacity-100 translate-y-0"
                      x-transition:leave-end="opacity-0 translate-y-1"
                      class="p-6">
-                  <x-admin.article.buying-option :article="null" />
+                  <x-admin.article.options :article="null" />
                 </div>
 
                 <!-- Publishing Tab -->

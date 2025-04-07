@@ -42,8 +42,8 @@
               <!-- Article Header -->
               <x-article.header :article="$article" />
 
-              <!-- Buying Options -->
-              <x-article.buying-options :article="$article" />
+              <!-- Options -->
+              <x-article.options :article="$article" />
 
               <!-- Article Content -->
               <div class="prose prose-lg max-w-none dark:prose-invert mb-12">

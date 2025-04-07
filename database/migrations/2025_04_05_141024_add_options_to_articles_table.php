@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::table('articles', function (Blueprint $table) {
             // Buying options links
-            $table->string('amazon_link')->nullable()->after('content');
-            $table->string('ebay_link')->nullable()->after('amazon_link');
-            $table->string('local_store_link')->nullable()->after('ebay_link');
-            
-            // Price information
-            $table->decimal('lowest_price', 10, 2)->nullable()->after('local_store_link');
-            $table->decimal('average_price', 10, 2)->nullable()->after('lowest_price');
+            $table->string('local_store_link')->nullable()->after('content');
+            $table->string('youtube_link')->nullable()->after('local_store_link');
+            $table->string('instagram_link')->nullable()->after('youtube_link');
         });
     }
 
@@ -30,11 +26,9 @@ return new class extends Migration
     {
         Schema::table('articles', function (Blueprint $table) {
             $table->dropColumn([
-                'amazon_link',
-                'ebay_link',
                 'local_store_link',
-                'lowest_price',
-                'average_price'
+                'youtube_link',
+                'instagram_link'
             ]);
         });
     }
