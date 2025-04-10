@@ -10,18 +10,18 @@
         <x-slot name="header">
             <x-admin.page-header
                 icon="users"
-                title="{{ __('Partners') }}"
-                description="Manage your partners and their advertisements"
+                title="{{ __('admin.partners.title') }}"
+                description="{{ __('admin.partners.description') }}"
                 :breadcrumbs="[
-                    ['label' => 'Settings', 'url' => route('admin.settings.index')],
-                    ['label' => 'Partners']
+                    ['label' => __('admin.settings.title'), 'url' => route('admin.settings.index')],
+                    ['label' => __('admin.partners.title')]
                 ]"
             >
                 <x-slot:actions>
                     <a href="{{ route('admin.partners.create') }}" 
                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <x-lucide-user-plus class="w-4 h-4 mr-2" />
-                        Add Partner
+                        {{ __('admin.partners.create') }}
                     </a>
                 </x-slot:actions>
             </x-admin.page-header>
@@ -44,7 +44,7 @@
                                            name="search"
                                            value="{{ request('search') }}"
                                            class="block w-full pl-10 pr-12 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                           placeholder="Search partners...">
+                                           placeholder="{{ __('admin.partners.search_partners') }}">
                                     @if(request('search'))
                                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                                             <a href="{{ route('admin.partners.index') }}" class="text-gray-400 hover:text-gray-500">
@@ -60,7 +60,7 @@
                                 <select name="status" 
                                         onchange="this.form.submit()"
                                         class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="">All Status</option>
+                                    <option value="">{{ __('admin.partners.all_status') }}</option>
                                     @foreach($statusOptions as $value => $label)
                                         <option value="{{ $value }}" {{ request('status') === $value ? 'selected' : '' }}>
                                             {{ $label }}
@@ -74,7 +74,7 @@
                                 <select name="position" 
                                         onchange="this.form.submit()"
                                         class="block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="">All Positions</option>
+                                    <option value="">{{ __('admin.partners.all_positions') }}</option>
                                     @foreach(\App\Http\Controllers\Admin\AdminPartnersController::POSITIONS as $value => $label)
                                         <option value="{{ $value }}" {{ request('position') === $value ? 'selected' : '' }}>
                                             {{ $label }}
@@ -250,7 +250,7 @@
                                         <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                                             <div class="flex flex-col items-center justify-center py-8">
                                                 <x-lucide-users class="w-12 h-12 mb-4 text-gray-400" />
-                                                <p class="text-sm">No partners found.</p>
+                                                <p class="text-sm">{{ __('admin.partners.no_partners') }}</p>
                                             </div>
                                         </td>
                                     </tr>

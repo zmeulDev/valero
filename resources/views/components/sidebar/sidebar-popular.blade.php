@@ -5,7 +5,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
-                    Popular Articles
+                    {{ __('frontend.sidebar.popular_articles') }}
                 </h3>
                 <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
                     {{ $popularArticles->count() }}
@@ -70,7 +70,7 @@
     <!-- Footer with view all link -->
     <div class="p-3 border-t border-gray-100/50 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/50">
         <a href="{{ route('home') }}" class="flex items-center justify-center gap-1.5 text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors duration-200">
-            Go back to home
+            {{ __('frontend.sidebar.go_back_to_home') }}
             <x-lucide-home class="w-3.5 h-3.5" />
         </a>
     </div>

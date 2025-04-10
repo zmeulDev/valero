@@ -44,8 +44,8 @@
     @empty
         <div class="col-span-full py-12 text-center">
             <x-lucide-image class="mx-auto h-12 w-12 text-gray-400" />
-            <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-200">No media files</h3>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Upload some images to get started.</p>
+            <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-200">{{ __('admin.media.no_media') }}</h3>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('admin.media.upload_media') }}</p>
         </div>
     @endforelse
 </div>
@@ -66,13 +66,13 @@
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Media Preview
+                    {{ __('admin.media.media_preview') }}
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
-                    <span class="sr-only">Close modal</span>
+                    <span class="sr-only">{{ __('admin.media.close_modal') }}</span>
                 </button>
             </div>
             
@@ -87,21 +87,21 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- File Information -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
-                        <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">File Information</h4>
+                        <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">{{ __('admin.media.file_information') }}</h4>
                         <div class="space-y-2 text-sm">
                             <div class="flex items-center text-gray-600 dark:text-gray-300">
                                 <x-lucide-file class="h-4 w-4 mr-2" />
-                                <span class="font-medium">Filename:</span>
+                                <span class="font-medium">{{ __('admin.media.filename') }}:</span>
                                 <span class="ml-2" id="modal-filename"></span>
                             </div>
                             <div class="flex items-center text-gray-600 dark:text-gray-300">
                                 <x-lucide-hard-drive class="h-4 w-4 mr-2" />
-                                <span class="font-medium">Size:</span>
+                                <span class="font-medium">{{ __('admin.media.size') }}:</span>
                                 <span class="ml-2" id="modal-filesize"></span>
                             </div>
                             <div class="flex items-center text-gray-600 dark:text-gray-300">
                                 <x-lucide-maximize class="h-4 w-4 mr-2" />
-                                <span class="font-medium">Dimensions:</span>
+                                <span class="font-medium">{{ __('admin.media.dimensions') }}:</span>
                                 <span class="ml-2" id="modal-dimensions"></span>
                             </div>
                         </div>
@@ -109,22 +109,22 @@
 
                     <!-- Additional Details -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
-                        <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Additional Details</h4>
+                        <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">{{ __('admin.media.additional_details') }}</h4>
                         <div class="space-y-2 text-sm">
                             <div class="flex items-center text-gray-600 dark:text-gray-300">
                                 <x-lucide-calendar class="h-4 w-4 mr-2" />
-                                <span class="font-medium">Uploaded:</span>
+                                <span class="font-medium">{{ __('admin.media.uploaded') }}:</span>
                                 <span class="ml-2" id="modal-uploaded"></span>
                             </div>
                             <div class="flex items-center text-gray-600 dark:text-gray-300">
                                 <x-lucide-newspaper class="h-4 w-4 mr-2" />
-                                <span class="font-medium">Article:</span>
+                                <span class="font-medium">{{ __('admin.media.article') }}:</span>
                                 <span class="ml-2" id="modal-article"></span>
                             </div>
                             @if($item->is_cover)
                             <div class="flex items-center text-yellow-600 dark:text-yellow-500">
                                 <x-lucide-star class="h-4 w-4 mr-2" />
-                                <span class="font-medium">Cover Image</span>
+                                <span class="font-medium">{{ __('admin.media.cover_image') }}</span>
                             </div>
                             @endif
                         </div>
@@ -147,7 +147,7 @@
                     <a href="#" id="download-link" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                         <div class="flex items-center">
                             <x-lucide-download class="h-4 w-4 mr-2" />
-                            Download
+                            {{ __('admin.media.download') }}
                         </div>
                     </a>
                 </div>

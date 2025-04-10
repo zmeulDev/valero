@@ -2,14 +2,14 @@
     <x-slot name="header">
         <x-admin.page-header
             icon="layout-dashboard"
-            title="{{ __('Dashboard') }}"
-            description="Overview of your site's performance and content"
+            title="{{ __('admin.dashboard.title') }}"
+            description="{{ __('admin.dashboard.description') }}"
         >
             <x-slot:actions>
                 <a href="{{ route('admin.articles.create') }}" 
                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                     <x-lucide-plus-circle class="w-4 h-4 mr-2" />
-                    New Article
+                    {{ __('admin.articles.new_article') }}
                 </a>
             </x-slot:actions>
 
@@ -17,25 +17,25 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <x-admin.stats-card 
                         icon="book-open" 
-                        label="Total Articles" 
+                        label="{{ __('admin.dashboard.total_articles') }}" 
                         :value="$articleCount" 
                     />
                     <x-admin.stats-card 
                         icon="check-circle" 
                         iconColor="green" 
-                        label="Published" 
+                        label="{{ __('admin.dashboard.published') }}" 
                         :value="$publishedArticles" 
                     />
                     <x-admin.stats-card 
                         icon="clock" 
                         iconColor="yellow" 
-                        label="Scheduled" 
+                        label="{{ __('admin.dashboard.scheduled') }}" 
                         :value="$scheduledArticles" 
                     />
                     <x-admin.stats-card 
                         icon="eye" 
                         iconColor="purple" 
-                        label="Total Views" 
+                        label="{{ __('admin.dashboard.total_views') }}" 
                         :value="$totalViews" 
                     />
                 </div>
@@ -52,11 +52,11 @@
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                                 <x-lucide-book-open class="w-5 h-5 mr-2 text-indigo-500" />
-                                Latest Articles
+                                {{ __('admin.dashboard.latest_articles') }}
                             </h2>
                             <a href="{{ route('admin.articles.index') }}" 
                                class="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
-                                View All
+                                {{ __('admin.common.view') }}
                                 <x-lucide-chevron-right class="w-4 h-4 ml-1" />
                             </a>
                         </div>
@@ -68,9 +68,15 @@
                                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                     <thead class="bg-gray-50 dark:bg-gray-700">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Title</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Author</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                {{ __('admin.common.title') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                {{ __('admin.dashboard.author') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                {{ __('admin.dashboard.status') }}
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -102,11 +108,11 @@
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     @if($article->scheduled_at && $article->scheduled_at->isFuture())
                                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/20 dark:text-yellow-400">
-                                                            Scheduled for {{ $article->scheduled_at->format('M d, Y H:i') }}
+                                                            {{ __('admin.status.scheduled') }}
                                                         </span>
                                                     @else
                                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400">
-                                                            {{ $article->scheduled_at && $article->scheduled_at->isPast() ? 'Published at ' . $article->scheduled_at->format('M d, Y H:i') : 'Published' }}
+                                                            {{ __('admin.status.published') }}
                                                         </span>
                                                     @endif
                                                 </td>
@@ -126,12 +132,12 @@
                         <div class="p-6">
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                                 <x-lucide-activity class="w-5 h-5 mr-2 text-indigo-500" />
-                                Quick Stats
+                                {{ __('admin.dashboard.quick_stats') }}
                             </h2>
                             <dl class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                                 <div class="px-4 py-5 bg-gray-50 dark:bg-gray-700/50 shadow rounded-lg overflow-hidden sm:p-6">
                                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                                        Avg. Views per Article
+                                        {{ __('admin.dashboard.avg_views_per_article') }}
                                     </dt>
                                     <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">
                                         {{ $avgViewsPerArticle }}
@@ -139,7 +145,7 @@
                                 </div>
                                 <div class="px-4 py-5 bg-gray-50 dark:bg-gray-700/50 shadow rounded-lg overflow-hidden sm:p-6">
                                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                                        Active Users (7d)
+                                        {{ __('admin.dashboard.active_users') }}
                                     </dt>
                                     <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">
                                         {{ $activeUsers }}
@@ -154,7 +160,7 @@
                         <div class="p-6">
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                                 <x-lucide-clock class="w-5 h-5 mr-2 text-indigo-500" />
-                                Recent Activity
+                                {{ __('admin.dashboard.recent_activity') }} 
                             </h2>
                             <div class="flow-root">
                                 <ul role="list" class="-mb-8">
@@ -178,7 +184,7 @@
                                                         <div>
                                                             <p class="text-sm text-gray-500 dark:text-gray-400">
                                                                 @if($activity['type'] === 'article_created')
-                                                                    New article 
+                                                                    {{ __('admin.dashboard.new_article') }}
                                                                     <a href="{{ $activity['url'] }}" class="font-medium text-gray-900 dark:text-white">
                                                                         "{{ $activity['title'] }}"
                                                                     </a> 
@@ -187,7 +193,7 @@
                                                                     <a href="{{ $activity['url'] }}" class="font-medium text-gray-900 dark:text-white">
                                                                         {{ $activity['user'] }}
                                                                     </a> 
-                                                                    logged in
+                                                                    {{ __('admin.dashboard.logged_in') }}
                                                                 @endif
                                                             </p>
                                                         </div>

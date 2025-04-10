@@ -24,7 +24,7 @@
           </time>
           <span class="flex items-center gap-1.5">
             <x-lucide-eye class="w-4 h-4" />
-            {{ number_format($article->views) }} views
+            {{ number_format($article->views) }} {{ __('frontend.common.views') }}
           </span>
         </div>
 
@@ -73,7 +73,7 @@
 
             <x-button-action href="{{ route('articles.index', $article->slug) }}"
                 class="group/btn inline-flex items-center gap-2 text-sm font-semibold transition-colors duration-200">
-                Read More
+                {{ __('frontend.article.read_more') }}
                 <x-lucide-arrow-right class="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
             </x-button-action>
         </div>

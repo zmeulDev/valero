@@ -68,13 +68,13 @@
                         <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                             <x-lucide-git-pull-request class="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                             <time datetime="{{ $article->created_at }}">
-                                Create: {{ $article->created_at->format('M d, Y') }}
+                                {{ __('frontend.common.created_at') }}: {{ $article->created_at->format('M d, Y') }}
                             </time>
                         </div>
                         <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                             <x-lucide-git-merge class="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                             <time datetime="{{ $article->updated_at }}">
-                               Update: {{ $article->updated_at->format('M d, Y') }}
+                                {{ __('frontend.common.updated_at') }}: {{ $article->updated_at->format('M d, Y') }}
                             </time>
                         </div>
                         
@@ -100,13 +100,13 @@
                     <a href="" 
                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium">
                         <x-lucide-eye class="w-3.5 h-3.5" />
-                        {{ number_format($article->views) }} views
+                        {{ number_format($article->views) }} {{ __('frontend.common.views') }}
                     </a>
 
                     <a href="" 
                        class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium">
                         <x-lucide-clock class="w-3.5 h-3.5" />
-                        {{ $article->reading_time }}
+                        {{ $article->reading_time }} {{ __('frontend.common.reading_time') }}
                     </a>
                 </div>
                 

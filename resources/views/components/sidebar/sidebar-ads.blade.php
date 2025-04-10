@@ -7,7 +7,7 @@
     <div class="p-4 border-b border-gray-200/50 dark:border-gray-700/50">
         <div class="flex items-center justify-between">
             <h3 class="text-sm font-medium text-gray-900 dark:text-white">
-                {{ $partner ? 'Featured Partner' : 'Partner Space' }}
+                {{ $partner ? __('frontend.sidebar.featured_partner') : __('frontend.sidebar.partner_space') }}
             </h3>
             <x-lucide-external-link class="w-4 h-4 text-gray-400" />
         </div>
@@ -48,7 +48,7 @@
                 <x-lucide-briefcase class="w-6 h-6 text-gray-400 dark:text-gray-500" />
             </div>
             <p class="text-sm text-gray-500 dark:text-gray-400">
-                This space is available for partnership
+                {{ __('frontend.sidebar.this_space_is_available_for_partnership') }}
             </p>
         </div>
     @endif

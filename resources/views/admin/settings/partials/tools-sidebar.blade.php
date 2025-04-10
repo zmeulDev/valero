@@ -3,7 +3,7 @@
     <div class="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 px-6 py-4">
         <h3 class="text-lg font-medium text-gray-900 dark:text-white flex items-center">
             <x-lucide-settings class="w-5 h-5 mr-2 text-indigo-500" />
-            Tools
+            {{ __('admin.settings.tools') }}
         </h3>
     </div>
 
@@ -14,21 +14,21 @@
             <div class="flex items-center justify-between mb-4">
                 <h4 class="text-sm font-medium text-gray-900 dark:text-white flex items-center">
                     <x-lucide-map class="w-4 h-4 mr-2 text-indigo-500" />
-                    Sitemap Management
+                    {{ __('admin.settings.sitemap_management') }}
                 </h4>
                 <span class="px-2.5 py-1 text-xs font-medium rounded-full {{ 
                     file_exists(public_path('sitemap.xml')) 
                         ? 'bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400' 
                         : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800/20 dark:text-yellow-400' 
                 }}">
-                    {{ file_exists(public_path('sitemap.xml')) ? 'Active' : 'Not Found' }}
+                    {{ file_exists(public_path('sitemap.xml')) ? __('admin.settings.active') : __('admin.settings.not_found') }}
                 </span>
             </div>
 
             <!-- Sitemap Stats -->
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Last Updated</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{{ __('admin.settings.last_updated') }}</div>
                     <div class="text-sm text-gray-900 dark:text-white">
                         {{ file_exists(public_path('sitemap.xml')) 
                             ? date('M d, Y H:i', filemtime(public_path('sitemap.xml'))) 
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
-                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Indexed URLs</div>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{{ __('admin.settings.indexed_urls') }}</div>
                     <div class="text-sm text-gray-900 dark:text-white">
                         {{ file_exists(public_path('sitemap.xml')) 
                             ? substr_count(file_get_contents(public_path('sitemap.xml')), '<url>') . ' URLs'
@@ -47,7 +47,7 @@
 
             <!-- Sitemap URL -->
             <div class="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-4">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Sitemap URL</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ __('admin.settings.sitemap_url') }}</label>
                 <div class="flex items-center space-x-2">
                     <input type="text" 
                            value="{{ url('sitemap.xml') }}" 
@@ -67,7 +67,7 @@
                 <button type="submit" 
                         class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                     <x-lucide-refresh-cw class="w-4 h-4 mr-2" />
-                    Regenerate Sitemap
+                    {{ __('admin.settings.regenerate_sitemap') }}
                 </button>
             </form>
         </div>
@@ -79,10 +79,10 @@
             <div class="flex items-center justify-between mb-4">
                 <h4 class="text-sm font-medium text-gray-900 dark:text-white flex items-center">
                     <x-lucide-database class="w-4 h-4 mr-2 text-indigo-500" />
-                    Cache Management
+                    {{ __('admin.settings.cache_management') }}
                 </h4>
                 <span class="px-2.5 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800/20 dark:text-blue-400">
-                    Cache v{{ cache_version() }}
+                    {{ __('admin.settings.cache_version', ['version' => cache_version()]) }}
                 </span>
             </div>
 
@@ -93,7 +93,7 @@
                     <button type="submit" 
                             class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                         <x-lucide-refresh-cw class="w-4 h-4 mr-2" />
-                        Clear Application Cache
+                        {{ __('admin.settings.clear_application_cache') }}
                     </button>
                 </form>
 
@@ -102,7 +102,7 @@
                     <a href="{{ route('admin.optimize-clear') }}" 
                        class="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
                         <x-lucide-trash class="w-4 h-4 mr-2" />
-                        Clear System Cache
+                        {{ __('admin.settings.clear_system_cache') }}
                     </a>
                 @endif
             </div>

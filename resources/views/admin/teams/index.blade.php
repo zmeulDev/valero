@@ -13,16 +13,16 @@
         <x-slot name="header">
             <x-admin.page-header
                 icon="users"
-                title="{{ __('Team Management') }}"
-                description="Manage your team members, their roles and permissions"
-                :breadcrumbs="[['label' => 'Teams']]"
+                title="{{ __('admin.teams.title') }}"
+                description="{{ __('admin.teams.description') }}"
+                :breadcrumbs="[['label' => __('admin.teams.title')]]"
             >
                 <x-slot:actions>
                     <div class="flex items-center space-x-3">
                         <a href="{{ route('admin.teams.create') }}" 
                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                             <x-lucide-user-plus class="w-4 h-4 mr-2" />
-                            Add Member
+                            {{ __('admin.teams.add_member') }}
                         </a>
                     </div>
                 </x-slot:actions>
@@ -31,17 +31,17 @@
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <x-admin.stats-card 
                             icon="users" 
-                            label="Total Members" 
+                            label="{{ __('admin.teams.total_members') }}" 
                             :value="$users->total()" 
                         />
                         <x-admin.stats-card 
                             icon="shield" 
-                            label="Admins" 
+                            label="{{ __('admin.teams.admins') }}" 
                             :value="$users->where('role', 'admin')->count()" 
                         />
                         <x-admin.stats-card 
                             icon="user" 
-                            label="Regular Users" 
+                            label="{{ __('admin.teams.regular_users') }}" 
                             :value="$users->where('role', 'user')->count()" 
                         />
                     </div>
@@ -76,7 +76,7 @@
                                    x-model="query"
                                    @input="updateSearch($event.target.value)"
                                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
-                                   placeholder="Search team members..."
+                                   placeholder="{{ __('admin.teams.search_team_members') }}"
                                    x-ref="searchInput">
                             @if(request('search'))
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -98,16 +98,16 @@
                             <thead class="bg-gray-50 dark:bg-gray-900/50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Member
+                                        {{ __('admin.teams.member') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Role & Status
+                                        {{ __('admin.teams.role_status') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Activity
+                                            {{ __('admin.teams.activity') }}
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
-                                        <span class="sr-only">Actions</span>
+                                        <span class="sr-only">{{ __('admin.teams.actions') }}</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -149,10 +149,10 @@
                                                 ])>
                                                     @if($user->is_active)
                                                         <x-lucide-check-circle class="w-3.5 h-3.5 mr-1" />
-                                                        Active
+                                                        {{ __('admin.teams.active') }}
                                                     @else
                                                         <x-lucide-x-circle class="w-3.5 h-3.5 mr-1" />
-                                                        Inactive
+                                                        {{ __('admin.teams.inactive') }}
                                                     @endif
                                                 </span>
                                             </div>
@@ -161,11 +161,11 @@
                                             <div class="flex flex-col gap-1">
                                                 <span class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400">
                                                     <x-lucide-book-open class="w-4 h-4 mr-1.5" />
-                                                    {{ $user->articles_count }} {{ Str::plural('Article', $user->articles_count) }}
+                                                    {{ $user->articles_count }} {{ __('admin.teams.articles') }}
                                                 </span>
                                                 <span class="inline-flex items-center text-xs text-gray-500 dark:text-gray-400">
                                                     <x-lucide-clock class="w-3.5 h-3.5 mr-1.5" />
-                                                    {{ $user->last_login_at ? 'Last active ' . $user->last_login_at->diffForHumans() : 'Never logged in' }}
+                                                    {{ $user->last_login_at ? __('admin.teams.last_active') . ' ' . $user->last_login_at->diffForHumans() : __('admin.teams.never_logged_in') }}
                                                 </span>
                                             </div>
                                         </td>
@@ -173,13 +173,13 @@
                                             <div class="flex items-center justify-end space-x-3">
                                                 <a href="{{ route('admin.teams.edit', $user) }}" 
                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
-                                                   title="Edit member">
+                                                   title="{{ __('admin.teams.edit_member') }}">
                                                     <x-lucide-pencil class="w-5 h-5" />
                                                 </a>
                                                 @if($user->id !== auth()->id())
                                                     <button @click="openDeleteModal({{ $user->id }})"
                                                             class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                                            title="Delete member">
+                                                            title="{{ __('admin.teams.delete_member') }}">
                                                         <x-lucide-trash class="w-5 h-5" />
                                                     </button>
                                                 @endif
@@ -191,7 +191,7 @@
                                         <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                                             <div class="flex flex-col items-center justify-center py-8">
                                                 <x-lucide-users class="w-12 h-12 mb-4 text-gray-400" />
-                                                <p class="text-sm">No team members found</p>
+                                                <p class="text-sm">{{ __('admin.teams.no_team_members_found') }}</p>
                                             </div>
                                         </td>
                                     </tr>

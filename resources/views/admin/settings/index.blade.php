@@ -3,15 +3,15 @@
     <x-slot name="header">
         <x-admin.page-header
             icon="settings"
-            title="{{ __('Settings') }}"
-            description="Configure your application settings"
-            :breadcrumbs="[['label' => 'Settings']]"
+            title="{{ __('admin.settings.title') }}"
+            description="{{ __('admin.settings.description') }}"
+            :breadcrumbs="[['label' => __('admin.settings.title')]]"
         >
             <x-slot:actions>
                 <button type="submit" form="settings-form"
                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <x-lucide-save class="w-4 h-4 mr-2" />
-                    Save Changes
+                    {{ __('admin.common.save') }}    
                 </button>
             </x-slot:actions>
         </x-admin.page-header>
@@ -120,14 +120,14 @@
                                 <x-slot:header>
                                     <div class="flex items-center">
                                         <x-lucide-dollar-sign class="w-5 h-5 text-indigo-500 mr-2" />
-                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Profitshare</h3>
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ __('admin.settings.profitshare') }}</h3>
                                     </div>
                                 </x-slot:header>
 
                                 <div class="grid grid-cols-1 gap-6">
                                     <x-admin.form.text-input    
                                         name="app_profitshare"  
-                                        label="Profitshare.Ro ID"
+                                        label="{{ __('admin.settings.profitshare_ro_id') }}"
                                         :value="$settings['app_profitshare'] ?? ''"
                                         required
                                     />

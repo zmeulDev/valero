@@ -18,7 +18,7 @@
         <div class="sm:w-3/5 space-y-6">
             <div class="flex items-center gap-3">
                 <span class="px-3 py-1 text-xs font-semibold bg-yellow-400 text-gray-900 rounded-full">
-                    FEATURED
+                    {{ __('frontend.common.featured') }}
                 </span>
                 <a href="{{ route('category.index', $article->category->slug) }}" 
                    class="px-3 py-1 text-xs font-medium text-white/90 hover:text-white bg-white/10 rounded-full transition-colors duration-200">
@@ -55,7 +55,7 @@
 
                 <x-button-action href="{{ route('articles.index', $article->slug) }}"
                     class="group/btn inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-xl font-medium transition-all duration-200">
-                    Read Article
+                    {{ __('frontend.common.read_article') }}
                     <svg class="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>

@@ -4,7 +4,7 @@
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
       <span class="inline-flex items-center gap-2">
         <x-lucide-newspaper class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-        Latest Articles
+        {{ __('frontend.common.latest_articles') }}  
       </span>
     </h2>
     

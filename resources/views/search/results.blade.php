@@ -8,6 +8,8 @@ return preg_replace("/({$term})/i", '<mark class="bg-yellow-300 dark:bg-yellow-5
 }
 @endphp
 
+<!-- TODO: review this page -->
+
 <x-home-layout>
   <x-slot name="title">Search Results for "{{ $query }}"</x-slot>
   <div class="container mx-auto px-4 lg:px-8 py-12">

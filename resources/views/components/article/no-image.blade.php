@@ -7,7 +7,7 @@
         <div class="p-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-sm">
             <x-lucide-image class="w-12 h-12 text-gray-400 dark:text-gray-500" />
         </div>
-        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">No image available</p>
+        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('frontend.article.no_image') }}</p>
     </div>
 
     <!-- Decorative Corner Elements -->

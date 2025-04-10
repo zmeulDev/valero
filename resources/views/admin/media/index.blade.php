@@ -2,32 +2,32 @@
     <x-slot name="header">
         <x-admin.page-header 
             icon="image" 
-            title="Media Library" 
-            description="Manage your media files and view statistics"
+            title="{{ __('admin.media.title') }}" 
+            description="{{ __('admin.media.description') }}"
         >
             <x-slot:stats>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <x-admin.stats-card 
                         icon="image" 
-                        label="Total Files" 
+                        label="{{ __('admin.media.total_files') }}" 
                         :value="$statistics['total_count']"
                     />
                     <x-admin.stats-card 
                         icon="hard-drive" 
                         iconColor="blue" 
-                        label="Total Size" 
+                        label="{{ __('admin.media.total_size') }}" 
                         :value="$statistics['total_size'] . ' MB'"
                     />
                     <x-admin.stats-card 
                         icon="star" 
                         iconColor="yellow" 
-                        label="Cover Images" 
+                        label="{{ __('admin.media.cover_images') }}" 
                         :value="$statistics['cover_images']"
                     />
                     <x-admin.stats-card 
                         icon="images" 
                         iconColor="purple" 
-                        label="Regular Images" 
+                        label="{{ __('admin.media.regular_images') }}" 
                         :value="$statistics['regular_images']"
                     />
                 </div>
@@ -38,8 +38,8 @@
                     :options="$statistics['by_type']->pluck('mime_type', 'mime_type')->map(function($type) {
                         return explode('/', $type)[1] ?? $type;
                     })"
-                    searchPlaceholder="Search files..."
-                    filterLabel="All Types"
+                    searchPlaceholder="{{ __('admin.media.search_files') }}"
+                    filterLabel="{{ __('admin.media.all_types') }}"
                 />
             </x-slot>
         </x-admin.page-header>

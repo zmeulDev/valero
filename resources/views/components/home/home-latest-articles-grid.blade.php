@@ -15,13 +15,18 @@
     <div class="p-6">
       <!-- Meta Information -->
       <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4 pb-3 border-b border-gray-50 dark:border-gray-700/50">
-        <time datetime="{{ $article->created_at }}" class="flex items-center gap-1.5">
+      <span class="flex items-center gap-1.5">
+      {{ $article->user->name }}
+      </span>
+      <div class="h-4 w-px bg-gray-100 dark:bg-gray-700"></div>
+      <time datetime="{{ $article->created_at }}" class="flex items-center gap-1.5">
           <x-lucide-calendar class="w-4 h-4" />
           {{ $article->created_at->format('M d, Y') }}
         </time>
+        <div class="h-4 w-px bg-gray-100 dark:bg-gray-700"></div>
         <span class="flex items-center gap-1.5">
           <x-lucide-eye class="w-4 h-4" />
-          {{ number_format($article->views) }} views
+          {{ number_format($article->views) }} {{ __('frontend.common.views') }}
         </span>
       </div>
 
@@ -37,18 +42,6 @@
 
       <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
         <div class="flex items-center gap-4">
-          <!-- Author -->
-          <div class="flex items-center gap-3">
-            <img src="{{ $article->user->profile_photo_url }}" 
-                 alt="{{ $article->user->name }}" 
-                 class="w-8 h-8 rounded-full object-cover ring-2 ring-white dark:ring-gray-700 border border-gray-100 dark:border-gray-600">
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
-              {{ $article->user->name }}
-            </span>
-          </div>
-
-          <!-- Divider -->
-          <div class="h-4 w-px bg-gray-100 dark:bg-gray-700"></div>
 
           <!-- Category -->
           <a href="{{ route('category.index', $article->category->slug) }}" 
@@ -63,7 +56,7 @@
 
         <x-button-action href="{{ route('articles.index', $article->slug) }}"
             class="group/btn inline-flex items-center gap-2 text-sm font-semibold transition-colors duration-200">
-            Read More
+            {{ __('frontend.article.read_more') }}
             <x-lucide-arrow-right class="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
         </x-button-action>
       </div>

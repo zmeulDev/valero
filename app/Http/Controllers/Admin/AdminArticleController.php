@@ -132,7 +132,7 @@ class AdminArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('admin.articles.show', [
+        return view('admin.articles.preview', [
             'article' => $article,
             'popularArticles' => Article::orderBy('views', 'desc')->take(5)->get(),
             'categories' => Category::all(),

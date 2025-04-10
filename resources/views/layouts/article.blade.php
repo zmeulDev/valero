@@ -26,7 +26,7 @@
     <div class="bg-yellow-500 text-white py-2 px-4 text-center font-medium">
       <div class="container mx-auto flex items-center justify-center">
         <x-lucide-eye class="w-5 h-5 mr-2" />
-        <span>Preview Mode - This article is scheduled for {{ $article->scheduled_at ? $article->scheduled_at->format('F d, Y H:i') : 'future publication' }}</span>
+        <span>{{ __('frontend.common.preview_mode') }} - {{ $article->scheduled_at ? $article->scheduled_at->format('F d, Y H:i') : __('frontend.common.future_publication') }}</span>
       </div>
     </div>
   @endif

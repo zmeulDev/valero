@@ -76,7 +76,7 @@ class Article extends Model
         $wordCount = str_word_count(strip_tags($this->content));
         $minutes = ceil($wordCount / 200);
         
-        return $minutes . ' min read';
+        return $minutes . ' ' . __('frontend.common.minutes');
     }
 
     public function incrementViews()

@@ -2,18 +2,18 @@
   <x-slot name="header">
     <x-admin.page-header
       icon="book-open"
-      title="{{ __('Create New Article') }}"
-      description="Create and publish your new article"
+      title="{{ __('admin.articles.title') }}"
+      description="{{ __('admin.articles.description') }}"
       :breadcrumbs="[
-        ['label' => 'Articles', 'url' => route('admin.articles.index')],
-        ['label' => 'Create New']
+        ['label' => __('admin.articles.breadcrumbs'), 'url' => route('admin.articles.index')],
+        ['label' => __('admin.common.create')]
       ]"
     >
       <x-slot:actions>
         <a href="{{ route('admin.articles.index') }}" 
            class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <x-lucide-arrow-left class="w-4 h-4 mr-2" />
-          Back to Articles
+          {{ __('admin.articles.back_to_articles') }} 
         </a>
       </x-slot:actions>
     </x-admin.page-header>
@@ -52,9 +52,9 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <span class="text-indigo-500">Creating article...</span>
+              <span class="text-indigo-500">{{ __('admin.articles.creating_article') }}</span>
             </div>
-            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">This may take a few moments based on your connection speed.</p>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('admin.articles.creating_article_message') }}</p>
           </div>
         </div>
 
@@ -75,7 +75,7 @@
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
                       <x-lucide-file-text class="w-5 h-5" />
-                      <span>Content</span>
+                      <span>{{ __('admin.articles.content') }}</span>
                     </div>
                   </button>
                   
@@ -88,7 +88,7 @@
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
                       <x-lucide-images class="w-5 h-5" />
-                      <span>Gallery</span>
+                      <span>{{ __('admin.articles.gallery') }}</span>
                     </div>
                   </button>
 
@@ -101,7 +101,7 @@
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
                       <x-lucide-settings class="w-5 h-5" />
-                      <span>Options</span>
+                      <span>{{ __('admin.articles.options') }}</span>
                     </div>
                   </button>
 
@@ -114,7 +114,7 @@
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
                       <x-lucide-calendar class="w-5 h-5" />
-                      <span>Publish</span>
+                      <span>{{ __('admin.articles.publish') }}</span>
                     </div>
                   </button>
                 </nav>
@@ -132,49 +132,49 @@
                     <!-- Title -->
                     <div>
                       <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Title <span class="text-red-500">*</span>
+                        {{ __('admin.articles.title') }} <span class="text-red-500">*</span>
                       </label>
                       <input type="text" id="title" name="title"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         value="{{ old('title') }}" required>
                         <div class="mt-2 flex items-center justify-between text-sm">
-                            <p class="text-gray-500 dark:text-gray-400">Recommended: 60 characters maximum</p>
-                            <p class="text-sm text-gray-500">Characters: <span id="title-char-count">0</span></p>
+                            <p class="text-gray-500 dark:text-gray-400">{{ __('admin.articles.recommended_characters') }}</p>
+                            <p class="text-sm text-gray-500">{{ __('admin.articles.characters') }}: <span id="title-char-count">0</span></p>
                         </div>
                     </div>
 
                     <!-- Excerpt -->
                     <div>
                       <label for="excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Excerpt (description)
+                        {{ __('admin.articles.excerpt') }}
                       </label>
                       <textarea id="excerpt" name="excerpt"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         rows="3">{{ old('excerpt') }}</textarea>
                         <div class="mt-2 flex items-center justify-between text-sm">
-                            <p class="text-gray-500 dark:text-gray-400">Recommended: 160 characters maximum</p>
-                            <p class="text-sm text-gray-500">Characters: <span id="excerpt-char-count">0</span></p>
+                            <p class="text-gray-500 dark:text-gray-400">{{ __('admin.articles.recommended_characters') }}</p>
+                            <p class="text-sm text-gray-500">{{ __('admin.articles.characters') }}: <span id="excerpt-char-count">0</span></p>
                         </div>
                     </div>
 
                     <!-- Tags -->
                     <div>
                       <label for="tags" id="tags-label" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Tags (comma separated)
+                        {{ __('admin.articles.tags') }}
                       </label>
                       <input type="text" id="tags" name="tags" 
                              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" 
                              value="{{ old('tags') }}">
                              <div class="mt-2 flex items-center justify-between text-sm">
-                                <p class="text-gray-500 dark:text-gray-400">Recommended: 10 tags maximum</p>
-                                <p class="text-sm text-gray-500">Tags: <span id="tags-counter">0</span></p>
+                                <p class="text-gray-500 dark:text-gray-400">{{ __('admin.articles.recommended_tags') }}</p>
+                                <p class="text-sm text-gray-500">{{ __('admin.articles.tags') }}: <span id="tags-counter">0</span></p>
                             </div>
                     </div>
 
                     <!-- Content -->
                     <div>
                       <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Content <span class="text-red-500">*</span>
+                        {{ __('admin.articles.content') }} <span class="text-red-500">*</span>
                       </label>
                       <textarea id="content" name="content" class="w-full">{{ old('content') }}</textarea>
                     </div>
@@ -228,7 +228,7 @@
                   <template x-if="!submitting">
                     <div class="flex items-center">
                       <x-lucide-plus class="w-5 h-5 mr-2" />
-                      Create Article
+                      {{ __('admin.articles.create_article') }}
                     </div>
                   </template>
                   <template x-if="submitting">
@@ -237,7 +237,7 @@
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Creating...
+                      {{ __('admin.articles.creating') }}...
                     </div>
                   </template>
                 </button>

@@ -21,7 +21,7 @@
               <li>
                 <x-button-action href="{{ route('home') }}" :active="request()->routeIs('home')">
                   <x-lucide-home class="w-4 h-4 mr-2" />
-                  Home
+                  {{ __('frontend.common.home') }}
                 </x-button-action>
               </li>
               @if($categories->count() > 0)
@@ -29,7 +29,7 @@
                 <button @click="open = !open" type="button" 
                   class="flex w-full md:w-auto items-center rounded-md border border-transparent py-2 px-4 text-center text-sm transition-all text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-gray-800 focus:bg-slate-100 active:bg-slate-100 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                   <x-lucide-folder class="w-4 h-4 mr-2" />
-                  Categories
+                  {{ __('frontend.common.categories') }}
                   <x-lucide-chevron-down class="ml-2 -mr-1 w-4 h-4" />
                 </button>
                 <div x-show="open" 
@@ -59,7 +59,7 @@
               <li>
                 <x-button-action href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
                   <x-lucide-layout-dashboard class="w-4 h-4 mr-2" />
-                  Admin Panel
+                  {{ __('frontend.common.admin_panel') }}
                 </x-button-action>
               </li>
               @endif
@@ -68,7 +68,7 @@
                   @csrf
                   <x-button-action type="submit">
                     <x-lucide-log-out class="w-4 h-4 mr-2" />
-                    Logout
+                    {{ __('frontend.common.logout') }}
                   </x-button-action>
                 </form>
               </li>
@@ -76,7 +76,7 @@
               <li>
                 <x-button-action href="{{ route('login') }}">
                   <x-lucide-log-in class="w-4 h-4 mr-2" />
-                  Login
+                  {{ __('frontend.common.login') }}
                 </x-button-action>
               </li>
               @endauth

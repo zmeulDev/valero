@@ -3,10 +3,10 @@
     <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-3">
             <h3 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
-                Related Articles
+                {{ __('frontend.article.related_articles') }}
             </h3>
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
-                {{ $relatedArticles->count() }} articles
+                {{ $relatedArticles->count() }} {{ __('frontend.article.articles') }}
             </span>
         </div>
         <div class="h-[2px] flex-1 bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700 ml-6"></div>
@@ -15,7 +15,7 @@
     @if($relatedArticles->isEmpty())
         <div class="p-8 text-center bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
             <x-lucide-newspaper class="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500 mb-4" />
-            <p class="text-gray-500 dark:text-gray-400">No related articles found in this category.</p>
+            <p class="text-gray-500 dark:text-gray-400">{{ __('frontend.article.no_related_articles_found_in_this_category') }}</p>
         </div>
     @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -63,11 +63,13 @@
                                 </time>
                                 <span class="flex items-center gap-1">
                                     <x-lucide-clock class="w-3.5 h-3.5" />
-                                    {{ $relatedArticle->reading_time ?? '5 min read' }}
+                                    {{ $relatedArticle->reading_time ?? __('frontend.article.5_min_read') }}
                                 </span>
                             </div>
+                        </div>
+                        <div class="flex items-center justify-between mt-3">
                             <span class="flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-medium">
-                                Read More
+                                {{ __('frontend.article.read_more') }}
                                 <x-lucide-arrow-right class="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                             </span>
                         </div>

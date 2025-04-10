@@ -4,7 +4,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-sm font-medium text-gray-900 dark:text-white">
-                Share this article
+                {{ __('frontend.sidebar.share_this_article') }}
             </h3>
             <x-lucide-share-2 class="w-4 h-4 text-gray-400" />
         </div>
@@ -17,7 +17,7 @@
                rel="noopener noreferrer" 
                class="flex items-center justify-center p-2 rounded-md bg-white dark:bg-gray-800 border border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700 group transition-colors">
                 <x-lucide-facebook class="w-5 h-5 text-gray-400 group-hover:text-blue-500" />
-                <span class="sr-only">Share on Facebook</span>
+                <span class="sr-only">{{ __('frontend.common.share_on_facebook') }}</span>
             </a>
 
             <!-- Twitter -->
@@ -26,7 +26,7 @@
                rel="noopener noreferrer"
                class="flex items-center justify-center p-2 rounded-md bg-white dark:bg-gray-800 border border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700 group transition-colors">
                 <x-lucide-twitter class="w-5 h-5 text-gray-400 group-hover:text-sky-500" />
-                <span class="sr-only">Share on Twitter</span>
+                <span class="sr-only">{{ __('frontend.common.share_on_twitter') }}</span>
             </a>
 
             <!-- LinkedIn -->
@@ -35,7 +35,7 @@
                rel="noopener noreferrer"
                class="flex items-center justify-center p-2 rounded-md bg-white dark:bg-gray-800 border border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700 group transition-colors">
                 <x-lucide-linkedin class="w-5 h-5 text-gray-400 group-hover:text-blue-500" />
-                <span class="sr-only">Share on LinkedIn</span>
+                <span class="sr-only">{{ __('frontend.common.share_on_linkedin') }}</span>
             </a>
 
             <!-- WhatsApp -->
@@ -44,7 +44,7 @@
                rel="noopener noreferrer"
                class="flex items-center justify-center p-2 rounded-md bg-white dark:bg-gray-800 border border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700 group transition-colors">
                 <x-lucide-message-circle class="w-5 h-5 text-gray-400 group-hover:text-green-500" />
-                <span class="sr-only">Share on WhatsApp</span>
+                <span class="sr-only">{{ __('frontend.common.share_on_whatsapp') }}</span>
             </a>
 
             <!-- Copy Link Button -->
@@ -91,7 +91,7 @@
                 <template x-if="copied">
                     <x-lucide-check class="w-5 h-5 text-green-500" />
                 </template>
-                <span class="sr-only" x-text="copied ? 'Link copied!' : 'Copy link'"></span>
+                <span class="sr-only" x-text="copied ? '{{ __('frontend.common.link_copied') }}' : '{{ __('frontend.common.copy_link') }}'"></span>
             </button>
         </div>
     </div>

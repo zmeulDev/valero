@@ -5,18 +5,18 @@
   <!-- Search Header -->
   <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
     <h3 class="text-xl font-bold text-gray-900 dark:text-white">
-      Search
+      {{ __('frontend.sidebar.search') }}
     </h3>
   </div>
 
   <!-- Search Form -->
     <div class="p-6">
       <form @submit.prevent="search" class="max-w-md mx-auto">
-          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{{ __('frontend.sidebar.search') }}</label>
           <div class="relative">
             <x-input type="search" 
                     x-model="query" 
-                    placeholder="Type and hit enter..."
+                    placeholder="{{ __('frontend.sidebar.search_placeholder') }}"
                     class="block w-full p-4 ps-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             <x-button type="submit" class="absolute end-2.5 bottom-2.5 top-2.5">
                 <x-lucide-search class="w-5 h-5" />
@@ -54,7 +54,7 @@
               d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <p class="mt-4 text-gray-600 dark:text-gray-400">
-        No articles found matching your search.
+        {{ __('frontend.sidebar.no_articles_found_matching_your_search') }}
       </p>
     </div>
   </div>

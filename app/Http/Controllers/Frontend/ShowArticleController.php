@@ -86,33 +86,6 @@ class ShowArticleController extends Controller
         ));
     }
 
-    public function create()
-    {
-    }
-
-    public function store()
-    {
-    }
-
-
-    public function show()
-    {
-    }
-
-    public function edit()
-{
-}
-
-
-    public function update()
-    {
-       
-    }
-
-    public function destroy()
-    {
-        //
-    }
 
     public function like(Request $request, Article $article)
     {
@@ -133,5 +106,33 @@ class ShowArticleController extends Controller
                 'message' => 'Failed to update like status'
             ], 500);
         }
+    }
+
+    public function create()
+    {
+    }
+
+    public function store()
+    {
+    }
+
+
+    public function show()
+    {
+    }
+
+    public function edit()
+    {
+    }
+
+
+    public function update()
+    {
+        
+    }
+
+    public function destroy()
+    {
+        //
     }
 }

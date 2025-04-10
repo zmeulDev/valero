@@ -13,7 +13,7 @@
                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
                         onclick="document.getElementById('name').focus()">
                     <x-lucide-plus-circle class="w-4 h-4 mr-2" />
-                    New Category
+                    {{ __('admin.category.create') }}
                 </button>
             </x-slot:actions>
 
@@ -21,17 +21,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <x-admin.stats-card
                         icon="folder"
-                        label="Total Categories"
+                        label="{{ __('admin.category.total_categories') }}"
                         :value="$categories->count()"
                     />
                     <x-admin.stats-card
                         icon="book-open"
-                        label="Total Articles"
+                        label="{{ __('admin.category.total_articles') }}"
                         :value="$categories->sum('articles_count')"
                     />
                     <x-admin.stats-card
                         icon="bar-chart-2"
-                        label="Avg. Articles/Category"
+                        label="{{ __('admin.category.avg_articles_per_category') }}"
                         :value="$categories->count() ? round($categories->sum('articles_count') / $categories->count(), 1) : 0"
                     />
                 </div>
@@ -55,9 +55,9 @@
                         <div class="p-6">
                             <div class="sm:flex sm:items-center sm:justify-between">
                                 <div>
-                                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">Categories</h3>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">{{ __('admin.category.title') }}</h3>
                                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                        A list of all categories in your blog
+                                        {{ __('admin.category.categories_description') }}
                                     </p>
                                 </div>
                             </div>
@@ -70,11 +70,11 @@
                                         <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
                                             <thead class="bg-gray-50 dark:bg-gray-800">
                                                 <tr>
-                                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">Name</th>
-                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">Slug</th>
-                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">Articles</th>
+                                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">{{ __('admin.category.name') }}</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">{{ __('admin.category.slug') }}</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">{{ __('admin.category.articles_count') }}</th>
                                                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                                        <span class="sr-only">Actions</span>
+                                                        <span class="sr-only">{{ __('admin.common.actions') }}</span>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -119,7 +119,7 @@
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">
-                                    New Category
+                                    {{ __('admin.category.create') }}
                                 </h3>
                                 <x-lucide-plus-circle class="h-5 w-5 text-gray-400" />
                             </div>
@@ -128,7 +128,7 @@
                                 <div class="space-y-4">
                                     <div>
                                         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Name
+                                            {{ __('admin.category.name') }}
                                         </label>
                                         <div class="mt-1 relative rounded-md shadow-sm">
                                             <input type="text"
@@ -137,7 +137,7 @@
                                                 required
                                                 maxlength="50"
                                                 x-on:input="charCount = $event.target.value.length"
-                                                placeholder="Enter category name"
+                                                placeholder="{{ __('admin.category.name_placeholder') }}"
                                                 class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                         </div>
                                         <p class="mt-1 text-xs" :class="{ 'text-red-500': charCount > 50, 'text-gray-500': charCount <= 50 }">
@@ -146,7 +146,7 @@
                                     </div>
                                     <button type="submit"
                                             class="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                                        Create Category
+                                        {{ __('admin.category.create') }}
                                     </button>
                                 </div>
                             </form>
