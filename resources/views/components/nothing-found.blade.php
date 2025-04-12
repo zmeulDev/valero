@@ -1,5 +1,5 @@
 <div class="bg-white dark:bg-gray-800 p-6 text-center">
-    <div class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Nothing found</div>
+    <div class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{{ __('admin.common.no_items') }}</div>
     <x-lucide-frown class="w-6 h-6 inline-block text-gray-400 dark:text-gray-300" />
     <div class="bg-white dark:bg-gray-800 p-2 sm:p-4 sm:h-64 rounded-2xl shadow-xs flex flex-col sm:flex-row gap-5 select-none">
       <div class="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-200 dark:bg-gray-700 animate-pulse"></div>

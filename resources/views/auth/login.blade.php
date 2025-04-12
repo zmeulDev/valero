@@ -20,18 +20,17 @@
         <form method="POST" action="{{ route('login') }}" class="space-y-4">
           @csrf
           <div class="mb-8">
-            <h3 class="text-gray-800 text-3xl font-extrabold">Sign in</h3>
-            <p class="text-gray-500 text-sm mt-4 leading-relaxed">Sign in to your account and explore a world of
-              possibilities. Your journey begins here.</p>
+            <h3 class="text-gray-800 text-3xl font-extrabold">{{ __('frontend.auth.sign_in') }}</h3>
+            <p class="text-gray-500 text-sm mt-4 leading-relaxed">{{ __('frontend.auth.sign_in_description') }}</p>
           </div>
 
           <div>
-            <x-label for="email" value="{{ __('Email') }}" class="text-gray-800 text-sm mb-2 block" />
+            <x-label for="email" value="{{ __('frontend.auth.email') }}" class="text-gray-800 text-sm mb-2 block" />
             <div class="relative flex items-center">
               <x-input id="email"
                 class="w-full text-sm text-gray-800 border border-gray-300 px-4 py-3 rounded-lg outline-blue-600"
                 type="email" name="email" :value="old('email')" required autofocus autocomplete="username"
-                placeholder="Enter email" />
+                placeholder="{{ __('frontend.auth.email') }}" />
               <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                 class="w-[18px] h-[18px] absolute right-4" viewBox="0 0 24 24">
                 <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
@@ -43,11 +42,11 @@
           </div>
 
           <div>
-            <x-label for="password" value="{{ __('Password') }}" class="text-gray-800 text-sm mb-2 block" />
+            <x-label for="password" value="{{ __('frontend.auth.password') }}" class="text-gray-800 text-sm mb-2 block" />
             <div class="relative flex items-center">
               <x-input id="password"
                 class="w-full text-sm text-gray-800 border border-gray-300 px-4 py-3 rounded-lg outline-blue-600"
-                type="password" name="password" required autocomplete="current-password" placeholder="Enter password" />
+                type="password" name="password" required autocomplete="current-password" placeholder="{{ __('frontend.auth.password') }}" />
               <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
                 class="w-[18px] h-[18px] absolute right-4 cursor-pointer" viewBox="0 0 128 128"
                 onclick="togglePassword()">
@@ -63,14 +62,14 @@
               <x-checkbox id="remember_me" name="remember"
                 class="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
               <label for="remember_me" class="ml-3 block text-sm text-gray-800">
-                {{ __('Remember me') }}
+                {{ __('frontend.auth.remember_me') }}
               </label>
             </div>
 
             @if (Route::has('password.request'))
             <div class="text-sm">
               <a href="{{ route('password.request') }}" class="text-blue-600 hover:underline font-semibold">
-                {{ __('Forgot your password?') }}
+                {{ __('frontend.auth.forgot_password') }}
               </a>
             </div>
             @endif
@@ -79,13 +78,18 @@
           <div class="!mt-8">
             <x-button
               class="w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-              {{ __('Log in') }}
+              {{ __('frontend.auth.log_in') }}
             </x-button>
           </div>
 
-          <p class="text-sm !mt-8 text-center text-gray-800">{{ __("Don't have an account") }} <a
+          <p class="text-sm !mt-8 text-center text-gray-800">{{ __('frontend.auth.dont_have_account') }} <a
               href="{{ route('register') }}"
-              class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">{{ __('Register here') }}</a>
+              class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">{{ __('frontend.auth.register_here') }}</a>
+          </p>
+          <p class="text-sm !mt-8 text-center text-gray-800">
+            <x-lucide-home class="w-3 h-3 inline-block mr-1" />
+          <a href="{{ route('home') }}"
+              class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">{{ __('frontend.common.home') }}</a>
           </p>
         </form>
       </div>

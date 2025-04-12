@@ -30,6 +30,7 @@ return [
         'not_set' => 'Nesetat',
         'articles_in_category' => 'Articole în categoria',
         'minutes' => 'min',
+        'open_main_menu' => 'Deschide meniu principal',
     ],
 
     'article' => [
@@ -44,7 +45,7 @@ return [
         'follow_on_instagram' => 'Urmărește pe Instagram',
         'buy_now' => 'Cumpără',
         'local_store' => 'eMag',
-        'we_may_earn_a_commission_from_purchases_made_through_these_links' => 'Putem primi o comision din achizițiile făcute prin aceste link-uri.',
+        'we_may_earn_a_commission_from_purchases_made_through_these_links' => 'Putem primi un comision din achizițiile făcute prin aceste link-uri.',
         'related_articles' => 'Articole similare',
         'articles' => 'Articole',
         'no_related_articles_found_in_this_category' => 'Nu s-au găsit articole similare în această categorie.',
@@ -87,5 +88,21 @@ return [
         'this_space_is_available_for_partnership' => 'Acest spațiu este disponibil pentru parteneriat',
         'featured_partner' => 'Partener recomandat',
         'partner_space' => 'Spațiu partener',
+    ],
+
+    'auth' => [
+        'sign_in' => 'Autentificare',
+        'sign_in_description' => 'Autentifică-te în contul tău și explorează un univers de posibilități. Călătoria ta începe aici.',
+        'forgot_password' => 'Ai uitat parola?',
+        'log_in' => 'Autentificare',
+        'register_here' => 'Înregistrează-te aici',
+        'dont_have_account' => 'Nu ai un cont?',
+        'remember_me' => 'Ține-mă minte',
+        'email' => 'Email',
+        'password' => 'Parolă',
+        'password_confirmation' => 'Confirmare parolă',
+        'already_registered' => 'Ai deja un cont?',
+        'register' => 'Înregistrează-te',
+        'name' => 'Nume',
     ],
 ];

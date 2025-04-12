@@ -16,7 +16,7 @@
                         <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')"
                             class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-150">
                             <x-lucide-layout-dashboard class="w-4 h-4 mr-2" />
-                            {{ __('Dashboard') }}
+                            {{ __('admin.common.home') }}
                         </x-nav-link>
 
                         <!-- Publish Article -->
@@ -26,7 +26,7 @@
                                 <button @click="open = !open" 
                                         class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-150">
                                     <x-lucide-plus-circle class="w-4 h-4 mr-2" />
-                                    {{ __('Publish') }}
+                                    {{ __('admin.common.articles') }}
                                     <x-lucide-chevron-down class="ml-2 h-4 w-4" />
                                 </button>
 
@@ -45,7 +45,7 @@
                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.settings.index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                             <div class="flex items-center">
                                                 <x-lucide-book-open class="w-4 h-4 mr-2" />
-                                                {{ __('Articles') }}
+                                                {{ __('admin.common.articles') }}
                                             </div>
                                         </a>
 
@@ -53,7 +53,7 @@
                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.teams.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                             <div class="flex items-center">
                                                 <x-lucide-folder class="w-4 h-4 mr-2" />
-                                                {{ __('Categories') }}
+                                                {{ __('admin.common.categories') }}
                                             </div>
                                         </a>
 
@@ -61,7 +61,7 @@
                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.partners.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                             <div class="flex items-center">
                                                 <x-lucide-image class="w-4 h-4 mr-2" />
-                                                {{ __('Media') }}
+                                                {{ __('admin.common.media') }}
                                             </div>
                                         </a>
                                     </div>
@@ -75,7 +75,7 @@
                                 <button @click="open = !open" 
                                         class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-150 {{ request()->routeIs('admin.settings.*', 'admin.teams.*', 'admin.partners.*') ? 'bg-gray-100 dark:bg-gray-800' : '' }}">
                                     <x-lucide-settings class="w-4 h-4 mr-2" />
-                                    {{ __('Settings') }}
+                                    {{ __('admin.common.settings') }}
                                     <x-lucide-chevron-down class="ml-2 h-4 w-4" />
                                 </button>
 
@@ -94,7 +94,7 @@
                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.settings.index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                             <div class="flex items-center">
                                                 <x-lucide-sliders class="w-4 h-4 mr-2" />
-                                                {{ __('General') }}
+                                                {{ __('admin.common.settings') }}
                                             </div>
                                         </a>
 
@@ -102,7 +102,7 @@
                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.teams.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                             <div class="flex items-center">
                                                 <x-lucide-users class="w-4 h-4 mr-2" />
-                                                {{ __('Teams') }}
+                                                {{ __('admin.common.teams') }}
                                             </div>
                                         </a>
 
@@ -110,7 +110,7 @@
                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.partners.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                             <div class="flex items-center">
                                                 <x-lucide-handshake class="w-4 h-4 mr-2" />
-                                                {{ __('Partners') }}
+                                                {{ __('admin.common.partners') }}
                                             </div>
                                         </a>
                                     </div>
@@ -195,7 +195,7 @@
                 <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')"
                     class="flex items-center">
                     <x-lucide-layout-dashboard class="w-4 h-4 mr-2" />
-                    {{ __('Dashboard') }}
+                    {{ __('admin.common.dashboard') }}
                 </x-responsive-nav-link>
                 
                 <!-- Add other responsive nav links with icons -->
@@ -218,7 +218,7 @@
                 <div class="mt-3 space-y-1">
                     <x-responsive-nav-link href="{{ route('profile.show') }}" class="flex items-center">
                         <x-lucide-user class="w-4 h-4 mr-2" />
-                        {{ __('Profile') }}
+                        {{ __('admin.common.profile') }}
                     </x-responsive-nav-link>
 
                     <!-- Authentication -->
@@ -228,7 +228,7 @@
                             onclick="event.preventDefault(); this.closest('form').submit();"
                             class="flex items-center text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
                             <x-lucide-log-out class="w-4 h-4 mr-2" />
-                            {{ __('Log Out') }}
+                            {{ __('admin.common.logout') }}
                         </x-responsive-nav-link>
                     </form>
                 </div>

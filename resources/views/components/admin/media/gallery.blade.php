@@ -121,10 +121,14 @@
                                 <span class="font-medium">{{ __('admin.media.article') }}:</span>
                                 <span class="ml-2" id="modal-article"></span>
                             </div>
-                            @if($item->is_cover)
+                            @if(isset($item) && $item->is_cover)
                             <div class="flex items-center text-yellow-600 dark:text-yellow-500">
                                 <x-lucide-star class="h-4 w-4 mr-2" />
                                 <span class="font-medium">{{ __('admin.media.cover_image') }}</span>
+                            </div>
+                            @else
+                            <div class="flex items-center text-gray-600 dark:text-gray-300">
+                                <p> {{ __('admin.media.no_media') }} </p>
                             </div>
                             @endif
                         </div>

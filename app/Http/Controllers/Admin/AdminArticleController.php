@@ -278,9 +278,9 @@ class AdminArticleController extends Controller
             'scheduled_at' => 'nullable|date',
             
             // Options validation
-            'youtube_link' => 'nullable|url|max:255',
-            'instagram_link' => 'nullable|url|max:255',
-            'local_store_link' => 'nullable|url|max:255',
+            'youtube_link' => 'nullable|url|max:500',
+            'instagram_link' => 'nullable|url|max:500',
+            'local_store_link' => 'nullable|url|max:500',
         ];
 
         // Only validate images if they are being uploaded

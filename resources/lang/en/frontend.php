@@ -19,6 +19,7 @@ return [
         'login' => 'Login',
         'articles_in_category' => 'Articles in category',
         'minutes' => 'min',
+        'open_main_menu' => 'Open main menu',
     ],
 
     'article' => [
@@ -58,5 +59,20 @@ return [
         'this_space_is_available_for_partnership' => 'This space is available for partnership',
         'featured_partner' => 'Featured Partner',
         'partner_space' => 'Partner Space',
+    ],
+
+    'auth' => [
+        'sign_in' => 'Sign in',
+        'sign_in_description' => 'Sign in to your account and explore a world of possibilities. Your journey begins here.',
+        'forgot_password' => 'Forgot your password?',
+        'log_in' => 'Log in',
+        'register_here' => 'Register here',
+        'dont_have_account' => 'Don\'t have an account?',
+        'remember_me' => 'Remember me',
+        'email' => 'Email',
+        'password' => 'Password',
+        'password_confirmation' => 'Password Confirmation',
+        'already_registered' => 'Already registered?',
+        'register' => 'Register',
     ],
 ];

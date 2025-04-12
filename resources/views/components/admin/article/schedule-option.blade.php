@@ -5,17 +5,17 @@
     x-init="scheduledArticles = {{ json_encode($scheduledArticles) }}; init()">
     <div class="flex items-center justify-between">
         <label class="block text-md font-medium text-gray-700 dark:text-gray-300">
-            Scheduled Articles
+            {{ __('admin.articles.scheduled_articles') }}
         </label>
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
-            {{ $scheduledArticles->count() }} scheduled
+            {{ $scheduledArticles->count() }} {{ __('admin.articles.scheduled') }}
         </span>
     </div>
     
     @if($scheduledArticles->isEmpty())
         <div class="text-center py-6 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-200 dark:border-gray-600">
             <x-lucide-calendar-off class="w-8 h-8 mx-auto text-gray-400 dark:text-gray-500 mb-2" />
-            <p class="text-sm text-gray-500 dark:text-gray-400">No articles currently scheduled</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('admin.articles.no_scheduled_articles') }}</p>
         </div>
     @else
         <div class="bg-white dark:bg-gray-800 rounded-md overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
@@ -80,7 +80,7 @@
                                     </template>
                                     <template x-if="day.scheduledArticles.length > 2">
                                         <div class="text-xs text-gray-500 dark:text-gray-400">
-                                            +<span x-text="day.scheduledArticles.length - 2"></span> more
+                                            +<span x-text="day.scheduledArticles.length - 2"></span> {{ __('admin.articles.more') }}
                                         </div>
                                     </template>
                                 </div>
@@ -98,11 +98,11 @@
                                 @click="goToToday()"
                                 class="flex items-center text-xs text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                             <div class="w-3 h-3 rounded-full bg-indigo-100 mr-2"></div>
-                            <span>Today</span>
+                            <span>{{ __('admin.articles.today') }}</span>
                         </button>
                     </div>
                     <a href="{{ route('admin.articles.scheduled') }}" class="text-xs text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
-                        View all scheduled articles
+                        {{ __('admin.articles.view_all_scheduled_articles') }}
                     </a>
                 </div>
             </div>

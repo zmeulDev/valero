@@ -6,7 +6,7 @@
             <div>
                 <a href="{{ route('admin.dashboard') }}" class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
                     <x-lucide-home class="flex-shrink-0 h-5 w-5" />
-                    <span class="sr-only">Home</span>
+                    <span class="sr-only">{{ __('admin.common.home') }}</span>
                 </a>
             </div>
         </li>

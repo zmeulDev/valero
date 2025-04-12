@@ -9,10 +9,10 @@
                 <x-lucide-images class="w-5 h-5 text-indigo-500" />
                 <div>
                     <h3 class="text-base font-semibold text-gray-900 dark:text-white">
-                        Gallery Images
+                        {{ __('admin.articles.gallery') }}
                     </h3>
                     <p id="gallery-count" class="text-sm text-gray-500 dark:text-gray-400">
-                        {{ $article->media->count() }} of 20 images used
+                        {{ $article->media->count() }} {{ __('admin.articles.of_20_images_used') }}
                     </p>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                                     <div class="absolute top-2 left-2 z-10">
                                         <div class="px-2 py-1 bg-yellow-500 rounded-md flex items-center gap-1">
                                             <x-lucide-star class="w-4 h-4 text-white" />
-                                            <span class="text-xs font-medium text-white">Cover</span>
+                                            <span class="text-xs font-medium text-white">{{ __('admin.articles.cover') }}</span>
                                         </div>
                                     </div>
                                 @endif
@@ -88,7 +88,7 @@
                                             @endif
                                             {{ number_format($image->size / 1024, 1) }}KB
                                             @if($image->is_cover)
-                                                • Cover Image
+                                                • {{ __('admin.articles.cover_image') }}
                                             @endif
                                         </div>
                                     </div>
@@ -126,16 +126,16 @@
                                 <div class="flex flex-col items-center gap-1">
                                     <x-lucide-upload-cloud class="w-6 h-6 text-gray-400 dark:text-gray-500" />
                                     <span class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                                        Click to upload or drag and drop
+                                        {{ __('admin.articles.click_to_upload_or_drag_and_drop') }}
                                     </span>
                                     <span class="text-xs text-gray-500 dark:text-gray-400">
-                                        PNG, JPG, WebP up to 5MB each
+                                        {{ __('admin.articles.png_jpg_webp_up_to_5mb_each') }}
                                     </span>
                                     <span class="text-xs text-gray-500 dark:text-gray-400">
-                                        Max dimensions: 3840x2160 pixels
+                                        {{ __('admin.articles.max_dimensions') }}
                                     </span>
                                     <span class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ 20 - $article->media->count() }} slots remaining
+                                        {{ 20 - $article->media->count() }} {{ __('admin.articles.slots_remaining') }}
                                     </span>
                                 </div>
                             </button>
@@ -145,7 +145,7 @@
                         <template x-if="files.length > 0">
                             <div class="mt-3 space-y-2">
                                 <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                                    Selected <span x-text="files.length"></span> file(s)
+                                    {{ __('admin.articles.selected') }} <span x-text="files.length"></span> {{ __('admin.articles.file') }}
                                 </div>
                                 <template x-for="file in files" :key="file.name">
                                     <div class="flex items-center justify-between px-3 py-2 text-sm bg-gray-50 dark:bg-gray-900 rounded-md">
@@ -185,7 +185,7 @@
                     </form>
                 @else
                     <div class="text-center py-3 text-gray-500 dark:text-gray-400">
-                        Maximum number of images (20) reached
+                        {{ __('admin.articles.maximum_number_of_images') }} (20)
                     </div>
                 @endif
             </div>

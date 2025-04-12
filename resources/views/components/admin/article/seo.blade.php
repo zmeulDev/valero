@@ -10,10 +10,10 @@
             <x-lucide-search class="w-5 h-5 text-indigo-500" />
             <div>
                 <h3 class="text-base font-semibold text-gray-900 dark:text-white">
-                    SEO Information
+                    {{ __('admin.sidebar.seo_info') }}
                 </h3>
                 <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">
-                    Search engine optimization details
+                    {{ __('admin.sidebar.seo_info_description') }}
                 </p>
             </div>
         </div>
@@ -37,25 +37,25 @@
         <dl class="divide-y divide-gray-200 dark:divide-gray-700">
             <div class="px-4 py-4 sm:px-6 grid grid-cols-3 gap-4">
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Title
+                    {{ __('admin.sidebar.seo_title') }}
                 </dt>
                 <dd class="text-sm text-gray-900 dark:text-gray-300 col-span-2">
-                    {{ $article->seo->title ?? 'Not set' }}
+                    {{ $article->seo->title ?? __('admin.sidebar.not_set') }}
                 </dd>
             </div>
 
             <div class="px-4 py-4 sm:px-6 grid grid-cols-3 gap-4">
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Description
+                    {{ __('admin.sidebar.seo_description') }}
                 </dt>
                 <dd class="text-sm text-gray-900 dark:text-gray-300 col-span-2">
-                    {{ $article->seo->description ?? 'Not set' }}
+                    {{ $article->seo->description ?? __('admin.sidebar.not_set') }}
                 </dd>
             </div>
 
             <div class="px-4 py-4 sm:px-6 grid grid-cols-3 gap-4">
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Image
+                    {{ __('admin.sidebar.seo_image') }}
                 </dt>
                 <dd class="text-sm text-gray-900 dark:text-gray-300 col-span-2">
                     <img src="{{ $article && $article->seo && $article->seo->image ? asset('storage/' . $article->seo->image) : asset('storage/brand/logo.png') }}"
@@ -66,28 +66,28 @@
 
             <div class="px-4 py-4 sm:px-6 grid grid-cols-3 gap-4">
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Author
+                    {{ __('admin.sidebar.seo_author') }}
                 </dt>
                 <dd class="text-sm text-gray-900 dark:text-gray-300 col-span-2">
-                    {{ $article->seo->author ?? 'Not set' }}
+                    {{ $article->seo->author ?? __('admin.sidebar.not_set') }}
                 </dd>
             </div>
 
             <div class="px-4 py-4 sm:px-6 grid grid-cols-3 gap-4">
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Robots
+                    {{ __('admin.sidebar.seo_robots') }}
                 </dt>
                 <dd class="text-sm text-gray-900 dark:text-gray-300 col-span-2">
-                    {{ $article->seo->robots ?? 'Not set' }}
+                    {{ $article->seo->robots ?? __('admin.sidebar.not_set') }}
                 </dd>
             </div>
 
             <div class="px-4 py-4 sm:px-6 grid grid-cols-3 gap-4">
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Canonical URL
+                    {{ __('admin.sidebar.seo_canonical_url') }}
                 </dt>
                 <dd class="text-sm text-gray-900 dark:text-gray-300 col-span-2 break-all">
-                    {{ $article->seo->canonical_url ?? 'Not set' }}
+                    {{ $article->seo->canonical_url ?? __('admin.sidebar.not_set') }}
                 </dd>
             </div>
         </dl>

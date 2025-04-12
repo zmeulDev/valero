@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::table('articles', function (Blueprint $table) {
             // Buying options links
-            $table->string('local_store_link')->nullable()->after('content');
-            $table->string('youtube_link')->nullable()->after('local_store_link');
-            $table->string('instagram_link')->nullable()->after('youtube_link');
+            $table->string('local_store_link', 500)->nullable()->after('content');
+            $table->string('youtube_link', 500)->nullable()->after('local_store_link');
+            $table->string('instagram_link', 500)->nullable()->after('youtube_link');
         });
     }
 

@@ -3,6 +3,13 @@
 return [
     // Common translations used across multiple sections
     'common' => [
+        'home' => 'Home',
+        'articles' => 'Articles',
+        'categories' => 'Categories',
+        'media' => 'Media',
+        'settings' => 'Settings',
+        'teams' => 'Teams',
+        'partners' => 'Partners',
         'title' => 'Title',
         'description' => 'Description',
         'category' => 'Category',
@@ -18,6 +25,7 @@ return [
         'save' => 'Save',
         'update' => 'Update',
         'cancel' => 'Cancel',
+        'close' => 'Close',
         'back' => 'Back',
         'confirm_delete' => 'Are you sure you want to delete this item?',
         'search' => 'Search...',
@@ -28,6 +36,8 @@ return [
         'saving' => 'Saving...',
         'uploading' => 'Uploading...',
         'drag_drop' => 'Drag and drop files here, or click to select files',
+        'are_you_sure_you_want_to_delete_this' => 'Are you sure you want to delete this ',
+        'this_action_cannot_be_undone' => 'This action cannot be undone.',
     ],
 
     'status' => [
@@ -125,6 +135,28 @@ return [
         'unpublish_article' => 'Unpublish Article',
         'schedule_article' => 'Schedule Article',
         'preview' => 'Preview',
+        'category' => 'Category',
+        'select_category' => 'Select Category',
+        'select_category_description' => 'Select the category that best fits your article content',
+        'scheduled_publish_date' => 'Scheduled Publish Date',
+        'scheduled_publish_date_description' => 'Leave empty to publish immediately, or set a future date to schedule',
+        'more' => 'more',
+        'today' => 'Today',
+        'click_to_upload_or_drag_and_drop' => 'Click to upload or drag and drop',
+        'slots_available' => 'Slots Available',
+        'max_dimensions' => 'Max Dimensions',
+        'selected' => 'Selected',
+        'file' => 'file',
+        '0_of_20_images_selected' => '0 of 20 images selected',
+        'of_20_images_used' => 'of 20 images used',
+        'png_jpg_webp_up_to_5mb_each' => 'PNG, JPG, WebP up to 5MB each',
+        'cover' => 'Cover',
+        'cover_image' => 'Cover Image',
+        'maximum_number_of_images' => 'Maximum Number of Images',
+        'slots_remaining' => 'Slots Remaining',
+        'drag_drop' => 'Drag and drop files here, or click to select files',
+        'view_all_scheduled_articles' => 'View All Scheduled Articles',
+        
     ],
 
     'category' => [
@@ -237,6 +269,7 @@ return [
         'not_found' => 'Not Found',
         'profitshare' => 'Profitshare',
         'profitshare_ro_id' => 'Profitshare RO ID',
+        'select_app_language' => 'Select App Language',
     ],
 
     'teams' => [
@@ -283,10 +316,18 @@ return [
         'last_login' => 'Last Login',
         'edit_team_member_info' => 'Edit Team Member Info',
         'delete_team_member_info' => 'Delete Team Member Info',
-        
-        
+    ],
 
-        
+    'sidebar' => [
+        'seo_info' => 'SEO Info',
+        'seo_info_description' => 'SEO Info Description',
+        'seo_title' => 'SEO Title',
+        'seo_description' => 'SEO Description',
+        'seo_image' => 'SEO Image',
+        'seo_author' => 'SEO Author',
+        'seo_robots' => 'SEO Robots',
+        'seo_canonical_url' => 'SEO Canonical URL',
+        'not_set' => 'N/A',
     ],
     
 ]; 

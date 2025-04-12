@@ -10,14 +10,14 @@
                 <!-- Category Selection -->
                 <div class="space-y-2">
                     <label for="category_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Category <span class="text-red-500">*</span>
+                        {{ __('admin.articles.category') }} <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <select id="category_id" 
                                 name="category_id"
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white appearance-none pr-10"
                                 required>
-                            <option value="">Select Category</option>
+                            <option value="">{{ __('admin.articles.select_category') }}</option>
                             @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
                                     {{ old('category_id', $article?->category_id) == $category->id ? 'selected' : '' }}>
@@ -26,13 +26,13 @@
                             @endforeach
                         </select>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Select the category that best fits your article content</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('admin.articles.select_category_description') }}</p>
                 </div>
 
                 <!-- Scheduled Publish Date -->
                 <div class="space-y-2">
                     <label for="scheduled_at" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Scheduled Publish Date
+                        {{ __('admin.articles.scheduled_publish_date') }}
                     </label>
                     <div class="relative">
                         <input type="datetime-local" 
@@ -41,7 +41,7 @@
                                value="{{ old('scheduled_at', $article?->scheduled_at?->format('Y-m-d\TH:i')) }}"
                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white pr-10">
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Leave empty to publish immediately, or set a future date to schedule</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('admin.articles.scheduled_publish_date_description') }}</p>
                 </div>
             </div>
 
