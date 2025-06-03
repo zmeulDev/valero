@@ -19,9 +19,9 @@
       {{ $article->user->name }}
       </span>
       <div class="h-4 w-px bg-gray-100 dark:bg-gray-700"></div>
-      <time datetime="{{ $article->created_at }}" class="flex items-center gap-1.5">
+      <time datetime="{{ $article->scheduled_at ?? $article->created_at }}" class="flex items-center gap-1.5">
           <x-lucide-calendar class="w-4 h-4" />
-          {{ $article->created_at->format('M d, Y') }}
+          {{ ($article->scheduled_at ?? $article->created_at)->format('M d, Y') }}
         </time>
         <div class="h-4 w-px bg-gray-100 dark:bg-gray-700"></div>
         <span class="flex items-center gap-1.5">

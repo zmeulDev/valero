@@ -30,7 +30,7 @@ class SearchController extends Controller
             ->when($category, function ($q) use ($category) {
                 $q->where('category_id', $category);
             })
-            ->latest();
+            ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC');
 
         $articles = $articlesQuery->paginate(10);
 

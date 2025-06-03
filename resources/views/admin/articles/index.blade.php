@@ -131,7 +131,6 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('admin.common.title') }}</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('admin.common.category') }}</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('admin.common.status') }}</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('admin.common.published_at') }}</th>
                                     <th scope="col" class="relative px-6 py-3">
                                         <span class="sr-only">{{ __('admin.common.actions') }}</span>
                                     </th>
@@ -164,21 +163,22 @@
                                                 {{ $article->category?->name ?? __('admin.articles.uncategorized') }}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($article->scheduled_at && $article->scheduled_at->isFuture())
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                                                    <x-lucide-clock class="w-4 h-4 mr-1" />
-                                                    {{ __('admin.articles.scheduled') }}
-                                                </span>
-                                            @else
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                                    <x-lucide-check-circle class="w-4 h-4 mr-1" />
-                                                    {{ __('admin.articles.published') }}
-                                                </span>
-                                            @endif
-                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $article->scheduled_at ? $article->scheduled_at->format('M j, Y') : $article->created_at->format('M j, Y') }}
+                                            @if($article->scheduled_at && $article->scheduled_at->isFuture())
+                                                <div class="flex items-center">
+                                                    <x-lucide-clock class="w-4 h-4 mr-1 text-yellow-500" />
+                                                    <span class="text-yellow-600 dark:text-yellow-400">
+                                                        {{ __('admin.articles.scheduled') }} {{ $article->scheduled_at->format('M j, Y H:i') }}
+                                                    </span>
+                                                </div>
+                                            @else
+                                                <div class="flex items-center">
+                                                    <x-lucide-check-circle class="w-4 h-4 mr-1 text-green-500" />
+                                                    <span class="text-green-600 dark:text-green-400">
+                                                        {{ __('admin.articles.published') }} {{ $article->created_at->format('M j, Y') }}
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex justify-end items-center space-x-3">

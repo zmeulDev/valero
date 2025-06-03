@@ -22,7 +22,7 @@ class ShowCategoryController extends Controller
                 $query->whereNull('scheduled_at')
                       ->orWhere('scheduled_at', '<=', now());
             })
-            ->latest()
+            ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')
             ->paginate(4);
 
         // Fetch popular published articles

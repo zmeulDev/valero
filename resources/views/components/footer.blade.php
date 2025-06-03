@@ -69,16 +69,5 @@
         &copy; {{ date('Y') }} {{ config('app_name') ?: env('APP_NAME', 'Valero') }}. Made with <a href="https://valero.app" target="_blank" class="text-indigo-400 hover:text-indigo-300">Valero</a>. All Rights Reserved.
         <span class="text-xs text-gray-500 dark:text-gray-400">v.{{ config('app.version') }}</span>
     </div>
-
-<!-- Start ProfitShare Zone -->
-<script type="text/javascript">
-(function(){
-    var bsa = document.createElement("script");
-    bsa.type = "text/javascript";
-    bsa.async = true;
-    bsa.src = "//l.profitshare.ro/files_shared/lps/js/Lof/ZF.js?v=Setting::get('app_profitshare')";
-    (document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(bsa);
-})();
-</script>
-<!-- End ProfitShare Zone -->		
+	
 </footer>

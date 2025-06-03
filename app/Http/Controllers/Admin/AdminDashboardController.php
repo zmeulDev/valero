@@ -34,7 +34,7 @@ class AdminDashboardController extends Controller
 
         // Latest articles with relationships
         $articles = Article::with(['user', 'category'])
-            ->latest()
+            ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')
             ->take(5)
             ->get();
 

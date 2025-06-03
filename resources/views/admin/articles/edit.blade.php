@@ -2,7 +2,7 @@
   <x-slot name="header">
     <x-admin.page-header
       icon="book-open"
-      title="{{ __('admin.articles.edit') }}"
+      title="{{ __('admin.articles.edit_article') }}"
       description="{{ __('admin.articles.description') }}"
       :breadcrumbs="[
         ['label' => __('admin.articles.breadcrumbs'), 'url' => route('admin.articles.index')],

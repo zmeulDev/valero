@@ -108,10 +108,12 @@
                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                     @if($article->scheduled_at && $article->scheduled_at->isFuture())
                                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-800/20 dark:text-yellow-400">
-                                                            {{ __('admin.status.scheduled') }}
+                                                            <x-lucide-clock class="w-3 h-3 mr-1" />
+                                                            {{ __('admin.status.scheduled') }} ({{ $article->scheduled_at->format('M d, Y H:i') }})
                                                         </span>
                                                     @else
                                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800/20 dark:text-green-400">
+                                                            <x-lucide-check-circle class="w-3 h-3 mr-1" />
                                                             {{ __('admin.status.published') }}
                                                         </span>
                                                     @endif

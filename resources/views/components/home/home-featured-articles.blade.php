@@ -47,7 +47,7 @@
                         <div class="space-y-0.5">
                             <div class="text-white font-medium">{{ $article->user->name }}</div>
                             <div class="text-white/60 text-sm">
-                                {{ $article->scheduled_at ? $article->scheduled_at->format('M d, Y') : $article->created_at->format('M d, Y') }}
+                                {{ ($article->scheduled_at ?? $article->created_at)->format('M d, Y') }}
                             </div>
                         </div>
                     </div>

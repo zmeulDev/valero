@@ -18,9 +18,9 @@
       <div class="flex-grow flex flex-col">
         <!-- Meta Information -->
         <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3 pb-3 border-b border-gray-50 dark:border-gray-700/50">
-          <time datetime="{{ $article->created_at }}" class="flex items-center gap-1.5">
+          <time datetime="{{ $article->scheduled_at ?? $article->created_at }}" class="flex items-center gap-1.5">
             <x-lucide-calendar class="w-4 h-4" />
-            {{ $article->created_at->format('M d, Y') }}
+            {{ ($article->scheduled_at ?? $article->created_at)->format('M d, Y') }}
           </time>
           <span class="flex items-center gap-1.5">
             <x-lucide-eye class="w-4 h-4" />

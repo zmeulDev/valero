@@ -55,7 +55,7 @@ class AdminArticleController extends Controller
             }
 
             return [
-                'articles' => $query->latest()->paginate(10)->withQueryString(),
+                'articles' => $query->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')->paginate(10)->withQueryString(),
                 'stats' => $this->getArticleStats(),
                 'categories' => Cache::remember('all_categories_' . cache_version(), now()->addHours(1), function () {
                     return Category::orderBy('name')->get();

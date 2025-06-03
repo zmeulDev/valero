@@ -24,7 +24,7 @@ class ShowArticleController extends Controller
         $latestArticles = Article::where(function($query) {
             $query->whereNull('scheduled_at')
                   ->orWhere('scheduled_at', '<=', now());
-        })->latest()->paginate(8);
+        })->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')->paginate(8);
         
         $popularArticles = Article::where(function($query) {
                 $query->whereNull('scheduled_at')
