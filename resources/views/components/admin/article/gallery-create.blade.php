@@ -56,15 +56,16 @@
                     <template x-for="file in files" :key="file.name">
                         <div class="flex items-center justify-between px-3 py-2 text-sm bg-gray-50 dark:bg-gray-900 rounded-md">
                             <div class="flex flex-col">
-                                <span x-text="file.name" class="text-gray-700 dark:text-gray-300"></span>
-                                <span x-text="file.size" class="text-xs text-gray-500 dark:text-gray-400"></span>
-                                <span x-text="file.dimensions" class="text-xs text-gray-500 dark:text-gray-400"></span>
+                                <span x-text="file.name" class="text-gray-700 dark:text-gray-300 font-medium"></span>
+                                <span x-text="file.sizeFormatted" class="text-xs text-gray-500 dark:text-gray-400"></span>
+                                <span x-show="file.dimensionsText" x-text="file.dimensionsText" class="text-xs text-gray-500 dark:text-gray-400"></span>
+                                <span x-show="!file.dimensionsText" class="text-xs text-gray-400 dark:text-gray-500">Loading dimensions...</span>
                             </div>
                             <div class="flex items-center space-x-2">
-                                <span x-show="file.size > 5" class="text-red-500">
+                                <span x-show="file.sizeMB > 5" class="text-red-500" title="File exceeds 5MB limit">
                                     <x-lucide-alert-circle class="w-4 h-4" />
                                 </span>
-                                <span x-show="file.dimensions && (file.width > 3840 || file.height > 2160)" class="text-red-500">
+                                <span x-show="file.dimensionsText && (file.width > 3840 || file.height > 2160)" class="text-red-500" title="Dimensions exceed maximum allowed">
                                     <x-lucide-alert-circle class="w-4 h-4" />
                                 </span>
                             </div>
@@ -123,21 +124,38 @@ function galleryCreate() {
                 });
             }
             
-            this.files = selectedFiles.map(file => ({
-                name: file.name,
-                size: (file.size / 1024).toFixed(1) + 'MB',
-                dimensions: new Promise((resolve) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        resolve({
-                            text: `${img.width}x${img.height} pixels`,
-                            width: img.width,
-                            height: img.height
-                        });
-                    };
-                    img.src = URL.createObjectURL(file);
-                })
-            }));
+            this.files = selectedFiles.map(file => {
+                const fileObj = {
+                    name: file.name,
+                    size: file.size,
+                    sizeMB: (file.size / (1024 * 1024)).toFixed(2),
+                    sizeFormatted: '',
+                    dimensionsText: null,
+                    width: null,
+                    height: null
+                };
+                
+                // Format file size
+                if (fileObj.sizeMB < 1) {
+                    fileObj.sizeFormatted = (file.size / 1024).toFixed(1) + ' KB';
+                } else {
+                    fileObj.sizeFormatted = fileObj.sizeMB + ' MB';
+                }
+                
+                // Load dimensions asynchronously
+                const img = new Image();
+                img.onload = () => {
+                    fileObj.dimensionsText = `${img.width}x${img.height} pixels`;
+                    fileObj.width = img.width;
+                    fileObj.height = img.height;
+                };
+                img.onerror = () => {
+                    fileObj.dimensionsText = 'Unable to load dimensions';
+                };
+                img.src = URL.createObjectURL(file);
+                
+                return fileObj;
+            });
         }
     };
 }

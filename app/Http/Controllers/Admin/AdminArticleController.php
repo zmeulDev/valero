@@ -397,7 +397,7 @@ class AdminArticleController extends Controller
 
         // Only validate images if they are being uploaded
         if ($request->hasFile('gallery_images')) {
-            $rules['gallery_images'] = 'array|max:20';
+            $rules['gallery_images'] = 'array|max:30';
             $rules['gallery_images.*'] = [
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
@@ -410,8 +410,8 @@ class AdminArticleController extends Controller
 
                     // Check dimensions
                     $dimensions = getimagesize($value);
-                    if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
-                        $fail("File {$value->getClientOriginalName()} dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
+                    if ($dimensions[0] > 5120 || $dimensions[1] > 2880) {
+                        $fail("File {$value->getClientOriginalName()} dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x2880 pixels.");
                     }
                     
                     // Check if this will be a cover image (first image if no cover exists)
@@ -442,9 +442,9 @@ class AdminArticleController extends Controller
             if ($article) {
                 $existingCount = $article->media()->count();
                 $newCount = count($request->file('gallery_images'));
-                if (($existingCount + $newCount) > 20) {
+                if (($existingCount + $newCount) > 30) {
                     throw ValidationException::withMessages([
-                        'gallery_images' => "Total number of images ({$existingCount} existing + {$newCount} new) exceeds the maximum limit of 20 images."
+                        'gallery_images' => "Total number of images ({$existingCount} existing + {$newCount} new) exceeds the maximum limit of 30 images."
                     ]);
                 }
             }
@@ -476,13 +476,13 @@ class AdminArticleController extends Controller
             $files = $request->file('gallery_images');
             
             // Ensure we don't exceed the maximum number of images
-            $remainingSlots = 20 - $article->media->count();
+            $remainingSlots = 30 - $article->media->count();
             if (count($files) > $remainingSlots) {
                 Log::warning('Too many files submitted', [
                     'submitted' => count($files),
                     'remaining_slots' => $remainingSlots
                 ]);
-                throw new \Exception("You can only upload {$remainingSlots} more images. (Maximum total: 20)");
+                throw new \Exception("You can only upload {$remainingSlots} more images. (Maximum total: 30)");
             }
 
             // Initialize ImageManager once for all images
@@ -505,8 +505,8 @@ class AdminArticleController extends Controller
                     try {
                         // Validate image dimensions before processing
                         $dimensions = getimagesize($imageFile);
-                        if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
-                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
+                        if ($dimensions[0] > 5120 || $dimensions[1] > 2880) {
+                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x2880 pixels.");
                         }
 
                         // Store original image
@@ -543,37 +543,47 @@ class AdminArticleController extends Controller
                         try {
                             $img = $manager->read($imageFile);
                             
+                            // Store original dimensions before any scaling
+                            $originalWidth = $dimensions[0];
+                            $originalHeight = $dimensions[1];
+                            $newWidth = $originalWidth;
+                            $newHeight = $originalHeight;
+                            
                             // For cover images, ensure minimum 1200px width for Google Discovery
                             // For non-cover images, scale down if > 1920px
                             if ($media->is_cover) {
                                 // Cover images: scale down if > 1920px, but never below 1200px
-                                if ($dimensions[0] > 1920) {
+                                if ($originalWidth > 1920) {
+                                    $newWidth = 1920;
+                                    $newHeight = (int)($originalHeight * (1920 / $originalWidth));
                                     $img->scale(width: 1920);
                                     $img->save(storage_path('app/public/' . $path));
                                     // Update dimensions after scaling
                                     $media->update([
                                         'dimensions' => [
-                                            'width' => 1920,
-                                            'height' => (int)($dimensions[1] * (1920 / $dimensions[0]))
+                                            'width' => $newWidth,
+                                            'height' => $newHeight
                                         ]
                                     ]);
-                                } elseif ($dimensions[0] < 1200) {
+                                } elseif ($originalWidth < 1200) {
                                     // This shouldn't happen due to validation, but log if it does
                                     Log::warning('Cover image is below 1200px width', [
                                         'media_id' => $media->id,
-                                        'width' => $dimensions[0]
+                                        'width' => $originalWidth
                                     ]);
                                 }
                             } else {
                                 // Non-cover images: scale down if > 1920px
-                                if ($dimensions[0] > 1920) {
+                                if ($originalWidth > 1920) {
+                                    $newWidth = 1920;
+                                    $newHeight = (int)($originalHeight * (1920 / $originalWidth));
                                     $img->scale(width: 1920);
                                     $img->save(storage_path('app/public/' . $path));
                                     // Update dimensions after scaling
                                     $media->update([
                                         'dimensions' => [
-                                            'width' => 1920,
-                                            'height' => (int)($dimensions[1] * (1920 / $dimensions[0]))
+                                            'width' => $newWidth,
+                                            'height' => $newHeight
                                         ]
                                     ]);
                                 }
@@ -861,34 +871,42 @@ class AdminArticleController extends Controller
                         // Process image
                         $img = $manager->read($imageFile);
                         
+                        // Store original dimensions before any scaling
+                        $originalWidth = $dimensions[0];
+                        $originalHeight = $dimensions[1];
+                        $newWidth = $originalWidth;
+                        $newHeight = $originalHeight;
+                        
                         // For cover images, ensure minimum 1200px width for Google Discovery
                         // For non-cover images, scale down if > 1920px
                         if ($willBeCover) {
                             // This will be the cover image
                             // Scale down if > 1920px, but never below 1200px
-                            if ($dimensions[0] > 1920) {
+                            if ($originalWidth > 1920) {
+                                $newWidth = 1920;
+                                $newHeight = (int)($originalHeight * (1920 / $originalWidth));
                                 $img->scale(width: 1920);
                                 $img->save(storage_path('app/public/' . $path));
-                                // Update dimensions after scaling
-                                $dimensions[0] = 1920;
-                                $dimensions[1] = (int)($dimensions[1] * (1920 / $dimensions[0]));
-                            } elseif ($dimensions[0] < 1200) {
+                            } elseif ($originalWidth < 1200) {
                                 // This shouldn't happen due to validation, but log if it does
                                 Log::warning('Cover image is below 1200px width', [
                                     'article_id' => $article->id,
-                                    'width' => $dimensions[0]
+                                    'width' => $originalWidth
                                 ]);
                             }
                         } else {
                             // Non-cover images: scale down if > 1920px
-                            if ($dimensions[0] > 1920) {
+                            if ($originalWidth > 1920) {
+                                $newWidth = 1920;
+                                $newHeight = (int)($originalHeight * (1920 / $originalWidth));
                                 $img->scale(width: 1920);
                                 $img->save(storage_path('app/public/' . $path));
-                                // Update dimensions after scaling
-                                $dimensions[0] = 1920;
-                                $dimensions[1] = (int)($dimensions[1] * (1920 / $dimensions[0]));
                             }
                         }
+                        
+                        // Update dimensions array with final values
+                        $dimensions[0] = $newWidth;
+                        $dimensions[1] = $newHeight;
 
                         // Generate descriptive alt text
                         $imageIndex = count($uploadedImages);

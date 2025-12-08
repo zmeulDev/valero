@@ -1,5 +1,17 @@
 @props(['article'])
 
+@if(!$article)
+    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div class="px-4 py-5 sm:px-6">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ __('admin.sidebar.seo_info_description') }}
+            </p>
+            <p class="mt-2 text-sm text-gray-400 dark:text-gray-500">
+                No article data available.
+            </p>
+        </div>
+    </div>
+@else
 @php
     // Get SEO data
     $seoData = $article->getDynamicSEOData();
@@ -246,3 +258,4 @@
         </dl>
     </div>
 </div>
+@endif
