@@ -17,12 +17,14 @@ class HomeController extends Controller
             return [
                 'articles' => Article::with(['category', 'user'])
                     ->published()
-                    ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')
+                    ->orderByDesc('scheduled_at')
+                    ->orderByDesc('created_at')
                     ->paginate(12),
                 'categories' => $this->getCachedCategories(),
                 'featuredArticle' => Article::with(['category', 'user'])
                     ->published()
-                    ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')
+                    ->orderByDesc('scheduled_at')
+                    ->orderByDesc('created_at')
                     ->first(),
                 'popularArticles' => Article::with(['category', 'user'])
                     ->published()

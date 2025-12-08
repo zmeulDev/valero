@@ -20,11 +20,7 @@ class AdminSitemapController extends Controller
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY));
 
         // Add only published articles
-        Article::query()
-            ->where(function($query) {
-                $query->whereNull('scheduled_at')
-                    ->orWhere('scheduled_at', '<=', Carbon::now());
-            })
+        Article::published()
             ->each(function (Article $article) use ($sitemap) {
                 $sitemap->add(
                     Url::create("/articles/{$article->slug}")

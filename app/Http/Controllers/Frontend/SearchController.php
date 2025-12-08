@@ -17,10 +17,7 @@ class SearchController extends Controller
         $category = $request->input('category');
 
         $articlesQuery = Article::with(['user', 'category'])
-            ->where(function($q) {
-                $q->whereNull('scheduled_at')
-                  ->orWhere('scheduled_at', '<=', now());
-            })
+            ->published()
             ->when($query, function ($q) use ($query) {
                 $q->where(function($subQuery) use ($query) {
                     $subQuery->where('title', 'LIKE', "%{$query}%")
@@ -30,7 +27,8 @@ class SearchController extends Controller
             ->when($category, function ($q) use ($category) {
                 $q->where('category_id', $category);
             })
-            ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC');
+            ->orderByDesc('scheduled_at')
+            ->orderByDesc('created_at');
 
         $articles = $articlesQuery->paginate(10);
 

@@ -16,8 +16,7 @@ class AdminDashboardController extends Controller
         // Article stats
         $articleCount = Article::count();
         $publishedArticles = Article::query()
-            ->whereNull('scheduled_at')
-            ->orWhere('scheduled_at', '<=', now())
+            ->published()
             ->count();
         $scheduledArticles = Article::query()
             ->whereNotNull('scheduled_at')
@@ -34,7 +33,8 @@ class AdminDashboardController extends Controller
 
         // Latest articles with relationships
         $articles = Article::with(['user', 'category'])
-            ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')
+            ->orderByDesc('scheduled_at')
+            ->orderByDesc('created_at')
             ->take(5)
             ->get();
 

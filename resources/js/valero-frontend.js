@@ -6,22 +6,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to apply the theme based on local storage
   function applyTheme() {
+    const canToggleIcons = darkIcon && lightIcon;
+
     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
       '(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
-      lightIcon.classList.remove('hidden');
-      darkIcon.classList.add('hidden');
+      if (canToggleIcons) {
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+      }
     } else {
       document.documentElement.classList.remove('dark');
-      darkIcon.classList.remove('hidden');
-      lightIcon.classList.add('hidden');
+      if (canToggleIcons) {
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
+      }
     }
   }
 
   // Apply theme on page load
   applyTheme();
 
-  if (themeToggleBtn) {
+  if (themeToggleBtn && darkIcon && lightIcon) {
     themeToggleBtn.addEventListener('click', function () {
       // Toggle icons inside button
       darkIcon.classList.toggle('hidden');

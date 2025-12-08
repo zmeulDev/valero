@@ -17,19 +17,14 @@ class ShowCategoryController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail();
 
         // Fetch published articles that belong to this category
-        $articles = Article::where('category_id', $category->id)
-            ->where(function($query) {
-                $query->whereNull('scheduled_at')
-                      ->orWhere('scheduled_at', '<=', now());
-            })
-            ->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')
+        $articles = Article::published()
+            ->where('category_id', $category->id)
+            ->orderByDesc('scheduled_at')
+            ->orderByDesc('created_at')
             ->paginate(4);
 
         // Fetch popular published articles
-        $popularArticles = Article::where(function($query) {
-                $query->whereNull('scheduled_at')
-                      ->orWhere('scheduled_at', '<=', now());
-            })
+        $popularArticles = Article::published()
             ->orderBy('views', 'desc')
             ->take(5)
             ->get();
@@ -37,10 +32,7 @@ class ShowCategoryController extends Controller
         $categories = Category::all();
 
         // Fetch featured published article
-        $featuredArticle = Article::where(function($query) {
-                $query->whereNull('scheduled_at')
-                      ->orWhere('scheduled_at', '<=', now());
-            })
+        $featuredArticle = Article::published()
             ->orderBy('views', 'desc')
             ->first();
 

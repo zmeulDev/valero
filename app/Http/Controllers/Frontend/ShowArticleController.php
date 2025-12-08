@@ -14,30 +14,26 @@ class ShowArticleController extends Controller
 {
     public function index($slug)
     {  
-        $article = Article::where('slug', $slug)
-            ->where(function($query) {
-                $query->whereNull('scheduled_at')
-                      ->orWhere('scheduled_at', '<=', now());
-            })->firstOrFail();
+        $article = Article::with(['category', 'user', 'media'])
+            ->published()
+            ->where('slug', $slug)
+            ->firstOrFail();
         $article->incrementViews(); // views count
 
-        $latestArticles = Article::where(function($query) {
-            $query->whereNull('scheduled_at')
-                  ->orWhere('scheduled_at', '<=', now());
-        })->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')->paginate(8);
+        $latestArticles = Article::with(['category', 'user', 'media'])
+            ->published()
+            ->orderByDesc('scheduled_at')
+            ->orderByDesc('created_at')
+            ->paginate(8);
         
-        $popularArticles = Article::where(function($query) {
-                $query->whereNull('scheduled_at')
-                      ->orWhere('scheduled_at', '<=', now());
-            })
+        $popularArticles = Article::with(['category', 'user', 'media'])
+            ->published()
             ->orderBy('views', 'desc')
             ->take(5)
             ->get();
 
-        $relatedArticles = Article::where(function($query) {
-                $query->whereNull('scheduled_at')
-                      ->orWhere('scheduled_at', '<=', now());
-            })
+        $relatedArticles = Article::with(['category', 'user', 'media'])
+            ->published()
             ->where('category_id', $article->category_id)
             ->where('id', '!=', $article->id)
             ->latest()

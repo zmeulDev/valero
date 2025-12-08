@@ -1,297 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
-        <loc>http://valero.test</loc>
-    
+    <loc>http://valero.test</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
             </url>
     <url>
-        <loc>http://valero.test/articles/google-pixel-8a-camera-de-top-la-un-pret-accesibil</loc>
-        <lastmod>2025-06-03T02:50:50+00:00</lastmod>
-
+    <loc>http://valero.test/articles/magni-eligendi-nisi</loc>
+    <lastmod>2025-12-08T14:07:57+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
             </url>
     <url>
-        <loc>http://valero.test/articles/google-pixel-8a-contact-cu-un-campion-al-fotografiilor</loc>
-        <lastmod>2025-06-03T02:50:51+00:00</lastmod>
-
+    <loc>http://valero.test/articles/sed-molestias-nam</loc>
+    <lastmod>2025-12-08T14:04:22+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
             </url>
     <url>
-        <loc>http://valero.test/articles/setarea-initiala-a-google-pixel-8a</loc>
-        <lastmod>2025-06-01T13:20:38+00:00</lastmod>
-
+    <loc>http://valero.test/articles/consequuntur-numquam</loc>
+    <lastmod>2025-06-30T09:11:04+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
             </url>
     <url>
-        <loc>http://valero.test/articles/scirocco-20-tsi-2009</loc>
-        <lastmod>2025-05-29T12:13:17+00:00</lastmod>
-
+    <loc>http://valero.test/articles/voluptatem-ipsa-nihil-voluptas</loc>
+    <lastmod>2025-07-01T11:25:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
             </url>
     <url>
-        <loc>http://valero.test/articles/dacia-jogger-10-gpl-7-locuri-o-alegere-inteligenta</loc>
-        <lastmod>2025-05-29T12:09:55+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/land-rover-freelander-22-2008-robust-si-capabil</loc>
-        <lastmod>2025-05-29T12:10:01+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/renault-clio-2024-exterior</loc>
-        <lastmod>2025-06-02T16:55:13+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/renault-clio-2024-interior</loc>
-        <lastmod>2025-05-30T23:50:06+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/rcd-360-pro-un-upgrade-esential-pentru-pasionatii-vw</loc>
-        <lastmod>2025-06-03T02:50:58+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/samsung-galaxy-s24-impresionant-si-in-2024</loc>
-        <lastmod>2025-06-01T12:21:59+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/iphone-15-pro-max-in-2024-merita-upgrade-ul-si-ce-il-face-special</loc>
-        <lastmod>2025-06-01T13:03:49+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/factory-reset-samsung-s24-ultra-ghid-complet</loc>
-        <lastmod>2025-06-03T02:50:49+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/samsung-galaxy-s24-ultra-ghid-de-configurare-initiala</loc>
-        <lastmod>2025-06-01T16:17:41+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/samsung-galaxy-s24-vs-s24-ultra-care-este-alegerea-potrivita-pentru-tine</loc>
-        <lastmod>2025-06-01T16:00:25+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/samsung-galaxy-s24-vs-iphone-14-pro-max-batalia-titanilor-in-2024</loc>
-        <lastmod>2025-06-01T16:17:41+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/samsung-galaxy-s24-ultra-vs-iphone-14-pro-max-in-2025</loc>
-        <lastmod>2025-05-30T10:39:39+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/samsung-s24-vs-s24-ultra-vs-iphone-14-pro-max-trilema-flagship-urilor-in-2024</loc>
-        <lastmod>2025-06-01T21:36:54+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/opel-astra-coupe-2003-18l</loc>
-        <lastmod>2025-05-29T12:19:17+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/hmd-skyline-un-telefon-reperabil-cu-ambitii-inalte</loc>
-        <lastmod>2025-06-01T21:11:35+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/ghid-complet-de-configurare-initiala-pentru-hmd-skyline</loc>
-        <lastmod>2025-06-01T21:31:56+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/cum-sa-ti-actualizezi-telefonul-redmi-la-hyperos</loc>
-        <lastmod>2025-06-01T22:09:36+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/unboxing-google-pixel-9-pro-xl</loc>
-        <lastmod>2025-06-03T02:51:01+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/google-pixel-8-pro-un-flagship-rafinat</loc>
-        <lastmod>2025-05-31T09:56:32+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/de-la-iphone-la-pixel-ghidul-complet-cu-aplicatia-switch-to-android</loc>
-        <lastmod>2025-05-30T18:03:55+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/motorola-razr-50-ultra-unboxing-si-primele-impresii</loc>
-        <lastmod>2025-05-30T10:40:25+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/motorola-razr-50-ultra-ghid-de-configurare-initiala</loc>
-        <lastmod>2025-06-02T21:37:36+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/bmw-z3-inceputul-unei-aventuri-de-vara</loc>
-        <lastmod>2025-06-03T03:29:35+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/opel-astra-g-bertone-o-poveste-de-dragoste-pe-patru-roti</loc>
-        <lastmod>2025-05-30T10:41:57+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/restaurarea-unui-opel-astra-g-bertone-in-cautarea-perfectiunii</loc>
-        <lastmod>2025-05-30T10:42:43+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/renault-megane-3-partenerul-meu-de-incredere-in-calatorii</loc>
-        <lastmod>2025-05-29T12:37:59+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/visul-jdm-o-subaru-impreza-2003-in-garajul-meu</loc>
-        <lastmod>2025-06-02T17:58:14+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/prima-dragoste-pe-patru-roti-renault-medallion-dl-renault-21</loc>
-        <lastmod>2025-06-01T04:34:29+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/izolarea-fonica-a-apartamentului-probleme-cu-vecinii</loc>
-        <lastmod>2025-05-30T10:42:28+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/unboxing-review-xiaomi-14t-pro</loc>
-        <lastmod>2025-06-01T08:05:59+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/ghid-de-configurare-initiala-pentru-xiaomi-14t-pro</loc>
-        <lastmod>2025-05-30T10:39:54+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/ghid-detaliat-camerele-foto-ale-xiaomi-14t-pro</loc>
-        <lastmod>2025-05-29T12:09:49+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/norimoto-aplicatia-esentiala-pentru-pasionatii-auto</loc>
-        <lastmod>2025-05-29T12:07:30+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/tp-link-tapo-c220-camera-supraveghere-smart</loc>
-        <lastmod>2025-05-30T10:39:24+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/patru-ani-cu-un-renault-captur-de-10500-eur</loc>
-        <lastmod>2025-05-31T01:01:25+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/ghid-samsung-smart-switch-cum-sa-ti-muti-viata-digitala-fara-sa-ti-pierzi-mintile</loc>
-        <lastmod>2025-06-01T14:08:31+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/nothing-phone-3a-parere-dupa-24h</loc>
-        <lastmod>2025-06-02T12:58:32+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/nothing-phone-3a-modul-night-te-lasa-in-intuneric-cand-vine-vorba-de-culori</loc>
-        <lastmod>2025-06-02T14:46:09+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/televizorul-tcl-55c745-parere-dupa-un-an</loc>
-        <lastmod>2025-05-29T12:09:53+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/soundbar-tcl-s45h-parere-dupa-un-an-de-utilizare</loc>
-        <lastmod>2025-06-03T07:27:12+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/samsung-galaxy-z-fold-6-impresie-la-primul-test</loc>
-        <lastmod>2025-05-30T10:39:09+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/parere-camere-de-supraveghere-cu-panouri-solare-genbolt</loc>
-        <lastmod>2025-06-03T07:33:45+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/pixel-8a-vs-pixel-8-pro-duelul-fratilor-google-care-este-alegerea-potrivita-pentru-tine</loc>
-        <lastmod>2025-06-03T02:50:57+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/iphone-15-pro-max-vs-noul-pixel-9-pro-xl-ce-alegi-in-primavara-2025</loc>
-        <lastmod>2025-06-03T07:36:09+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/redmi-note-13-pro-plus-parere-si-test</loc>
-        <lastmod>2025-06-03T02:50:58+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/misterul-inelelor-smart-r8-miracol-tehnologic-la-pret-redus-sau-capcana-digitala</loc>
-        <lastmod>2025-06-03T02:50:53+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/renault-clio-94-mai-mult-decat-fiare-vechi-o-poveste-de-dragoste-ulei-de-motor-si-lectii-de-mecanica</loc>
-        <lastmod>2025-06-03T02:51:00+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/am-testat-camera-nothing-phone-3a-in-bologna-o-surpriza-placuta-la-buget</loc>
-        <lastmod>2025-06-03T02:50:42+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/oneplus-open-parere-si-entuziasm-temperat</loc>
-        <lastmod>2025-06-03T02:50:56+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/dell-p2724deb-cautarea-monitorului-ideal-s-a-incheiat-cu-greata</loc>
-        <lastmod>2025-06-03T02:50:47+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/update-monitor-saga-am-trecut-la-dell-u2724de</loc>
-        <lastmod>2025-06-03T02:51:02+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/nothing-phone-2a-stil-inconfundabil-dar-camera</loc>
-        <lastmod>2025-06-03T02:50:54+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/one-ui-7-a-ajuns-pe-galaxy-fold-6-prime-impresii</loc>
-        <lastmod>2025-06-03T02:50:55+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://valero.test/articles/impresie-xiaomi-13t-exista-si-cam-atat</loc>
-        <lastmod>2025-06-03T02:50:52+00:00</lastmod>
-
+    <loc>http://valero.test/articles/facilis-quia-consequuntur</loc>
+    <lastmod>2025-09-07T21:00:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
             </url>
 </urlset>

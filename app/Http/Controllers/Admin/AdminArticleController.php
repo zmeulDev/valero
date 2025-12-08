@@ -28,11 +28,7 @@ class AdminArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $cacheKey = 'admin_articles_' . 
-                    $request->get('page', 1) . '_' . 
-                    $request->get('category', '') . '_' . 
-                    $request->get('search', '') . '_' .
-                    cache_version();
+        $cacheKey = $this->buildAdminArticlesCacheKey($request);
 
         $data = Cache::remember($cacheKey, now()->addMinutes(5), function () use ($request) {
             $query = Article::with(['user', 'category']);
@@ -55,7 +51,7 @@ class AdminArticleController extends Controller
             }
 
             return [
-                'articles' => $query->orderByRaw('CASE WHEN scheduled_at IS NOT NULL THEN scheduled_at ELSE created_at END DESC')->paginate(10)->withQueryString(),
+                'articles' => $query->orderByDesc('scheduled_at')->orderByDesc('created_at')->paginate(10)->withQueryString(),
                 'stats' => $this->getArticleStats(),
                 'categories' => Cache::remember('all_categories_' . cache_version(), now()->addHours(1), function () {
                     return Category::orderBy('name')->get();
@@ -71,6 +67,21 @@ class AdminArticleController extends Controller
             'publishedArticles' => $data['stats']['published'],
             'scheduledArticles' => $data['stats']['scheduled']
         ]);
+    }
+
+    /**
+     * Build a stable, compact cache key for the admin articles list.
+     */
+    private function buildAdminArticlesCacheKey(Request $request): string
+    {
+        $parts = [
+            'page' => (int) $request->get('page', 1),
+            'category' => $request->get('category', ''),
+            'search' => $request->get('search', ''),
+            'v' => cache_version(),
+        ];
+
+        return 'admin_articles_' . sha1(json_encode($parts));
     }
 
     /**
