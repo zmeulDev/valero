@@ -21,11 +21,97 @@
 
   <div class="min-h-screen dark:bg-gray-900">
     <div class="container mx-auto px-4 py-8">
+      <!-- Server-side validation errors toast (only shows if there are session messages) -->
+      @if(session('success') || session('error') || session('info') || session('warning'))
+        <x-notification />
+      @endif
+      
+      <!-- Validation errors banner -->
+      @if($errors->any())
+        <div class="mb-6 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded-lg shadow-sm">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3 flex-1">
+              <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
+                Missing Required Information
+              </h3>
+              <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+                <ul class="list-disc list-inside space-y-1">
+                  @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <button type="button" 
+                      onclick="this.closest('div').remove()"
+                      class="inline-flex rounded-md text-red-400 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                <span class="sr-only">Close</span>
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      @endif
+
       <form x-data="{ 
               submitting: false,
               activeTab: 'content',
               submitForm(e) {
+                e.preventDefault();
                 if (this.submitting) return;
+                
+                // Validate required fields
+                const errors = [];
+                const title = document.getElementById('title')?.value?.trim();
+                let content = '';
+                
+                // Get content from TinyMCE if available
+                if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
+                  content = tinymce.get('content').getContent({ format: 'text' })?.trim() || '';
+                } else {
+                  content = document.getElementById('content')?.value?.trim() || '';
+                }
+                
+                const category = document.getElementById('category_id')?.value;
+                
+                if (!title) errors.push('Title');
+                if (!content) errors.push('Content');
+                if (!category) errors.push('Category');
+                
+                if (errors.length > 0) {
+                  showValidationToast('Please fill in the following required fields: ' + errors.join(', '));
+                  
+                  // Focus first missing field
+                  if (!title) {
+                    document.getElementById('title')?.focus();
+                    document.getElementById('title')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  } else if (!content) {
+                    this.activeTab = 'content';
+                    setTimeout(() => {
+                      if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
+                        tinymce.get('content').focus();
+                      } else {
+                        document.getElementById('content')?.focus();
+                      }
+                    }, 300);
+                  } else if (!category) {
+                    this.activeTab = 'publish';
+                    setTimeout(() => {
+                      document.getElementById('category_id')?.focus();
+                      document.getElementById('category_id')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                  }
+                  return false;
+                }
+                
                 this.submitting = true;
                 e.target.submit();
               }
@@ -34,6 +120,7 @@
             action="{{ route('admin.articles.store') }}" 
             method="POST" 
             enctype="multipart/form-data"
+            novalidate
             class="relative">
         @csrf
 
@@ -135,8 +222,11 @@
                         {{ __('admin.articles.title') }} <span class="text-red-500">*</span>
                       </label>
                       <input type="text" id="title" name="title"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                        value="{{ old('title') }}" required>
+                        class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 @error('title') border-red-500 dark:border-red-500 @else border-gray-300 @enderror"
+                        value="{{ old('title') }}">
+                      @error('title')
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                      @enderror
                         <div class="mt-2 flex items-center justify-between text-sm">
                             <p class="text-gray-500 dark:text-gray-400">{{ __('admin.articles.recommended_characters') }}</p>
                             <p class="text-sm text-gray-500">{{ __('admin.articles.characters') }}: <span id="title-char-count">0</span></p>
@@ -176,7 +266,10 @@
                       <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         {{ __('admin.articles.content') }} <span class="text-red-500">*</span>
                       </label>
-                      <textarea id="content" name="content" class="w-full">{{ old('content') }}</textarea>
+                      <textarea id="content" name="content" class="w-full @error('content') border-red-500 dark:border-red-500 @enderror">{{ old('content') }}</textarea>
+                      @error('content')
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                      @enderror
                     </div>
                   </div>
                 </div>
@@ -248,4 +341,83 @@
       </form>
     </div>
   </div>
+
+  <script>
+    function showValidationToast(message) {
+      // Remove existing toast if any
+      const existingToast = document.getElementById('validation-toast');
+      if (existingToast) {
+        existingToast.remove();
+      }
+
+      // Remove any existing notification toasts to avoid duplicates
+      const existingNotifications = document.querySelectorAll('.fixed.bottom-5.right-5');
+      existingNotifications.forEach(notif => {
+        if (!notif.id || notif.id !== 'validation-toast') {
+          notif.style.opacity = '0';
+          setTimeout(() => notif.remove(), 300);
+        }
+      });
+
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.id = 'validation-toast';
+      // Position higher than notification component to stack vertically
+      toast.className = 'fixed bottom-24 right-5 w-full max-w-sm z-50';
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(10px)';
+      
+      toast.innerHTML = '<div class="relative overflow-hidden rounded-lg border border-red-400/50 dark:border-red-500/50 bg-red-50 dark:bg-red-900/50 shadow-lg">' +
+        '<div class="p-4">' +
+          '<div class="flex items-start">' +
+            '<div class="flex-shrink-0">' +
+              '<div class="text-red-400 dark:text-red-300">' +
+                '<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+                  '<circle cx="12" cy="12" r="10"/>' +
+                  '<line x1="15" y1="9" x2="9" y2="15"/>' +
+                  '<line x1="9" y1="9" x2="15" y2="15"/>' +
+                '</svg>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ml-3 flex-1">' +
+              '<p class="text-sm font-medium text-red-800 dark:text-red-200">Error</p>' +
+              '<p class="mt-1 text-sm text-red-700 dark:text-red-300">' + message + '</p>' +
+            '</div>' +
+            '<div class="ml-4 flex-shrink-0">' +
+              '<button type="button" onclick="document.getElementById(\'validation-toast\').remove()" class="inline-flex rounded-md p-1.5 text-red-500 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900">' +
+                '<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">' +
+                  '<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />' +
+                '</svg>' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="absolute bottom-0 left-0 h-1 bg-red-100 dark:bg-red-800" style="width: 100%; animation: toastProgress 5000ms linear forwards;"></div>' +
+      '</div>';
+      
+      // Add animation
+      const style = document.createElement('style');
+      style.textContent = '@keyframes toastProgress { from { width: 100%; } to { width: 0%; } }';
+      if (!document.getElementById('toast-animation-style')) {
+        style.id = 'toast-animation-style';
+        document.head.appendChild(style);
+      }
+      
+      document.body.appendChild(toast);
+      
+      // Animate in
+      requestAnimationFrame(() => {
+        toast.style.transition = 'all 0.3s ease-in-out';
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+      });
+      
+      // Auto remove after 5 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 5000);
+    }
+  </script>
 </x-admin-layout>

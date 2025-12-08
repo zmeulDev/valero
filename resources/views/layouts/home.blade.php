@@ -5,8 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}" />
-  {!! seo() !!}
+  <title>{{ config('app.name') }} - Latest Articles & Insights</title>
+  <meta name="description" content="Discover the latest articles, insights, and updates. Browse our collection of curated content covering various topics and categories.">
+  <meta property="og:title" content="{{ config('app.name') }} - Latest Articles & Insights">
+  <meta property="og:description" content="Discover the latest articles, insights, and updates. Browse our collection of curated content covering various topics and categories.">
+  <meta property="og:url" content="{{ url(route('home')) }}">
+  <meta property="og:image" content="{{ url(asset('storage/brand/logo.png')) }}">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="{{ url(route('home')) }}">
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
+
+  <!-- Organization Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ config('app.name') }}",
+    "url": "{{ url(route('home')) }}",
+    "logo": "{{ url(asset('storage/brand/logo.png')) }}"
+  }
+  </script>
+
+  <!-- WebSite Schema with SearchAction -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ config('app.name') }}",
+    "url": "{{ url(route('home')) }}",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "{{ url(route('search')) }}?query={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 
   <!-- Vite Assets -->
   @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])

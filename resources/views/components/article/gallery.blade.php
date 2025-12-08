@@ -13,6 +13,10 @@
       <img 
         src="{{ asset('storage/' . $image->image_path) }}" 
         alt="{{ $image->alt_text ?? __('frontend.article.gallery_image') }}"
+        @if($image->dimensions)
+            width="{{ $image->dimensions['width'] ?? 400 }}"
+            height="{{ $image->dimensions['height'] ?? 400 }}"
+        @endif
         class="w-full h-full object-cover cursor-pointer gallery-image hover:opacity-90 transition-opacity duration-300"
         data-index="{{ $index }}"
         loading="lazy"

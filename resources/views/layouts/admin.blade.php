@@ -24,29 +24,7 @@
     <!-- Navigation -->
     <x-admin.navigation-admin />
 
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div class="fixed top-4 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="fixed top-4 right-4 z-50 bg-red-500 text-white px-4 py-2 rounded shadow-lg">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <script>
-        // Auto-dismiss flash messages
-        setTimeout(() => {
-            const successMessage = document.querySelector('.bg-green-500');
-            const errorMessage = document.querySelector('.bg-red-500');
-            
-            if (successMessage) successMessage.remove();
-            if (errorMessage) errorMessage.remove();
-        }, 5000);
-    </script>
+    <!-- Flash Messages - Using notification component instead -->
 
     <!-- Page Header -->
     @if (isset($header))

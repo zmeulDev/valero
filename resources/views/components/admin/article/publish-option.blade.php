@@ -15,8 +15,7 @@
                     <div class="relative">
                         <select id="category_id" 
                                 name="category_id"
-                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white appearance-none pr-10"
-                                required>
+                                class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white appearance-none pr-10 @error('category_id') border-red-500 dark:border-red-500 @else border-gray-300 dark:border-gray-600 @enderror">
                             <option value="">{{ __('admin.articles.select_category') }}</option>
                             @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
@@ -26,7 +25,11 @@
                             @endforeach
                         </select>
                     </div>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('admin.articles.select_category_description') }}</p>
+                    @error('category_id')
+                        <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                    @else
+                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('admin.articles.select_category_description') }}</p>
+                    @enderror
                 </div>
 
                 <!-- Scheduled Publish Date -->

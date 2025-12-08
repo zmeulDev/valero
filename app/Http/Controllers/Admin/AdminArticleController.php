@@ -128,13 +128,47 @@ class AdminArticleController extends Controller
                 ->route('admin.articles.index')
                 ->with('success', 'Article created successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
+            // Get all validation errors
+            $errors = $e->validator->errors();
+            
+            // Build a user-friendly message listing all missing mandatory fields
+            $missingFields = [];
+            $fieldLabels = [
+                'title' => 'Title',
+                'content' => 'Content',
+                'category_id' => 'Category',
+            ];
+            
+            foreach ($fieldLabels as $field => $label) {
+                if ($errors->has($field)) {
+                    $missingFields[] = $label;
+                }
+            }
+            
+            // Add custom validation errors (like tags)
+            foreach ($errors->all() as $error) {
+                if (str_contains($error, 'tags')) {
+                    $missingFields[] = 'Tags (validation error)';
+                    break;
+                }
+            }
+            
+            $errorMessage = 'Please fix the following issues before publishing:';
+            if (!empty($missingFields)) {
+                $errorMessage .= ' ' . implode(', ', $missingFields);
+            } else {
+                $errorMessage .= ' ' . implode(', ', $errors->all());
+            }
+            
             return back()
                 ->withErrors($e->validator)
+                ->with('error', $errorMessage)
                 ->withInput();
         } catch (\Exception $e) {
             Log::error('Article creation error: ' . $e->getMessage());
             return back()
-                ->with('error', 'Failed to create article: ' . $e->getMessage());
+                ->with('error', 'Failed to create article: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
@@ -200,8 +234,41 @@ class AdminArticleController extends Controller
                 ->with('success', 'Article updated successfully.');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
+            // Get all validation errors
+            $errors = $e->validator->errors();
+            
+            // Build a user-friendly message listing all missing mandatory fields
+            $missingFields = [];
+            $fieldLabels = [
+                'title' => 'Title',
+                'content' => 'Content',
+                'category_id' => 'Category',
+            ];
+            
+            foreach ($fieldLabels as $field => $label) {
+                if ($errors->has($field)) {
+                    $missingFields[] = $label;
+                }
+            }
+            
+            // Add custom validation errors (like tags)
+            foreach ($errors->all() as $error) {
+                if (str_contains($error, 'tags')) {
+                    $missingFields[] = 'Tags (validation error)';
+                    break;
+                }
+            }
+            
+            $errorMessage = 'Please fix the following issues before saving:';
+            if (!empty($missingFields)) {
+                $errorMessage .= ' ' . implode(', ', $missingFields);
+            } else {
+                $errorMessage .= ' ' . implode(', ', $errors->all());
+            }
+            
             return back()
                 ->withErrors($e->validator)
+                ->with('error', $errorMessage)
                 ->withInput();
         } catch (\Exception $e) {
             Log::error('Article update error', [
@@ -257,14 +324,17 @@ class AdminArticleController extends Controller
 
     /**
      * Handle article scheduling.
+     * If no schedule date is provided, set scheduled_at to now() to publish immediately.
      */
     private function handleScheduling(Article $article, ?string $scheduledAt): void
     {
         if ($scheduledAt) {
             $scheduledAt = Carbon::parse($scheduledAt);
-            $article->scheduled_at = $scheduledAt->isFuture() ? $scheduledAt : null;
+            // If scheduled date is in the future, use it; otherwise publish immediately
+            $article->scheduled_at = $scheduledAt->isFuture() ? $scheduledAt : now();
         } else {
-            $article->scheduled_at = null;
+            // No schedule date provided - publish immediately
+            $article->scheduled_at = now();
         }
     }
 
@@ -284,7 +354,38 @@ class AdminArticleController extends Controller
             'title' => $titleRule,
             'excerpt' => 'nullable|max:255',
             'content' => 'required',
-            'tags' => 'nullable|string|max:255',
+            'tags' => [
+                'nullable',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if ($value) {
+                        $tags = array_map('trim', explode(',', $value));
+                        $tags = array_filter($tags); // Remove empty tags
+                        
+                        // Validate tag count (optimal: 5-10 tags)
+                        if (count($tags) > 15) {
+                            $fail('Too many tags. Recommended: 5-10 tags for optimal SEO. Maximum: 15 tags.');
+                        }
+                        
+                        // Validate individual tag length (2-30 characters recommended)
+                        foreach ($tags as $tag) {
+                            if (strlen($tag) < 2) {
+                                $fail("Tag '{$tag}' is too short. Tags should be at least 2 characters.");
+                            }
+                            if (strlen($tag) > 50) {
+                                $fail("Tag '{$tag}' is too long. Tags should be maximum 50 characters.");
+                            }
+                        }
+                        
+                        // Check for duplicate tags (case-insensitive)
+                        $lowerTags = array_map('strtolower', $tags);
+                        if (count($lowerTags) !== count(array_unique($lowerTags))) {
+                            $fail('Duplicate tags detected. Each tag should be unique.');
+                        }
+                    }
+                }
+            ],
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
             
@@ -301,7 +402,7 @@ class AdminArticleController extends Controller
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
                 'max:5120', // 5MB in kilobytes
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) use ($article) {
                     // Check file size
                     if ($value->getSize() > 5 * 1024 * 1024) {
                         $fail("File {$value->getClientOriginalName()} is too large. Maximum file size is 5MB.");
@@ -311,6 +412,28 @@ class AdminArticleController extends Controller
                     $dimensions = getimagesize($value);
                     if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
                         $fail("File {$value->getClientOriginalName()} dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
+                    }
+                    
+                    // Check if this will be a cover image (first image if no cover exists)
+                    $willBeCover = !$article || !$article->media()->where('is_cover', true)->exists();
+                    if ($willBeCover) {
+                        // Google Discovery requires minimum 1200px width for cover images
+                        if ($dimensions[0] < 1200) {
+                            $fail("Cover images must be at least 1200px wide for Google Discovery. Current width: {$dimensions[0]}px. Recommended: 1200px or wider.");
+                        }
+                        
+                        // Warn about aspect ratio (recommend 16:9 = 1.91:1)
+                        $aspectRatio = $dimensions[0] / $dimensions[1];
+                        $optimalRatio = 16 / 9; // 1.777...
+                        $ratioDiff = abs($aspectRatio - $optimalRatio);
+                        if ($ratioDiff > 0.3) {
+                            // Log warning but don't fail
+                            \Log::warning("Cover image aspect ratio is not optimal for Google Discovery", [
+                                'ratio' => round($aspectRatio, 2),
+                                'optimal' => round($optimalRatio, 2),
+                                'dimensions' => "{$dimensions[0]}x{$dimensions[1]}"
+                            ]);
+                        }
                     }
                 }
             ];
@@ -390,6 +513,14 @@ class AdminArticleController extends Controller
                         $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
                         $path = $imageFile->storeAs('images', $filename, 'public');
 
+                        // Generate descriptive alt text
+                        $altText = $article->title;
+                        if ($index === 0 && !$hasCoverImage) {
+                            $altText = "Cover image for {$article->title}";
+                        } elseif ($index > 0) {
+                            $altText = "Image " . ($index + 1) . " for {$article->title}";
+                        }
+
                         // Create media record without processing first
                         $mediaData = [
                             'article_id' => $article->id,
@@ -402,7 +533,7 @@ class AdminArticleController extends Controller
                                 'width' => $dimensions[0],
                                 'height' => $dimensions[1]
                             ],
-                            'alt_text' => $article->title
+                            'alt_text' => $altText
                         ];
 
                         // Create the media record
@@ -412,9 +543,40 @@ class AdminArticleController extends Controller
                         try {
                             $img = $manager->read($imageFile);
                             
-                            if ($dimensions[0] > 1920) {
-                                $img->scale(width: 1920);
-                                $img->save(storage_path('app/public/' . $path));
+                            // For cover images, ensure minimum 1200px width for Google Discovery
+                            // For non-cover images, scale down if > 1920px
+                            if ($media->is_cover) {
+                                // Cover images: scale down if > 1920px, but never below 1200px
+                                if ($dimensions[0] > 1920) {
+                                    $img->scale(width: 1920);
+                                    $img->save(storage_path('app/public/' . $path));
+                                    // Update dimensions after scaling
+                                    $media->update([
+                                        'dimensions' => [
+                                            'width' => 1920,
+                                            'height' => (int)($dimensions[1] * (1920 / $dimensions[0]))
+                                        ]
+                                    ]);
+                                } elseif ($dimensions[0] < 1200) {
+                                    // This shouldn't happen due to validation, but log if it does
+                                    Log::warning('Cover image is below 1200px width', [
+                                        'media_id' => $media->id,
+                                        'width' => $dimensions[0]
+                                    ]);
+                                }
+                            } else {
+                                // Non-cover images: scale down if > 1920px
+                                if ($dimensions[0] > 1920) {
+                                    $img->scale(width: 1920);
+                                    $img->save(storage_path('app/public/' . $path));
+                                    // Update dimensions after scaling
+                                    $media->update([
+                                        'dimensions' => [
+                                            'width' => 1920,
+                                            'height' => (int)($dimensions[1] * (1920 / $dimensions[0]))
+                                        ]
+                                    ]);
+                                }
                             }
 
                         } catch (\Exception $e) {
@@ -661,12 +823,35 @@ class AdminArticleController extends Controller
 
             // Process all files in a transaction
             DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage, &$uploadedImages) {
-                foreach ($files as $imageFile) {
+                foreach ($files as $imageIndex => $imageFile) {
                     try {
                         // Validate image dimensions before processing
                         $dimensions = getimagesize($imageFile);
                         if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
                             throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
+                        }
+                        
+                        // Check if this will be a cover image (first image if no cover exists)
+                        $willBeCover = ($imageIndex === 0 && !$hasCoverImage);
+                        if ($willBeCover) {
+                            // Google Discovery requires minimum 1200px width for cover images
+                            if ($dimensions[0] < 1200) {
+                                throw new \Exception("Cover images must be at least 1200px wide for Google Discovery. Current width: {$dimensions[0]}px. Recommended: 1200px or wider.");
+                            }
+                            
+                            // Warn about aspect ratio (recommend 16:9 = 1.777...)
+                            $aspectRatio = $dimensions[0] / $dimensions[1];
+                            $optimalRatio = 16 / 9; // 1.777...
+                            $ratioDiff = abs($aspectRatio - $optimalRatio);
+                            if ($ratioDiff > 0.3) {
+                                // Log warning but don't fail
+                                Log::warning("Cover image aspect ratio is not optimal for Google Discovery", [
+                                    'article_id' => $article->id,
+                                    'ratio' => round($aspectRatio, 2),
+                                    'optimal' => round($optimalRatio, 2),
+                                    'dimensions' => "{$dimensions[0]}x{$dimensions[1]}"
+                                ]);
+                            }
                         }
 
                         // Generate unique filename
@@ -676,9 +861,42 @@ class AdminArticleController extends Controller
                         // Process image
                         $img = $manager->read($imageFile);
                         
-                        if ($dimensions[0] > 1920) {
-                            $img->scale(width: 1920);
-                            $img->save(storage_path('app/public/' . $path));
+                        // For cover images, ensure minimum 1200px width for Google Discovery
+                        // For non-cover images, scale down if > 1920px
+                        if ($willBeCover) {
+                            // This will be the cover image
+                            // Scale down if > 1920px, but never below 1200px
+                            if ($dimensions[0] > 1920) {
+                                $img->scale(width: 1920);
+                                $img->save(storage_path('app/public/' . $path));
+                                // Update dimensions after scaling
+                                $dimensions[0] = 1920;
+                                $dimensions[1] = (int)($dimensions[1] * (1920 / $dimensions[0]));
+                            } elseif ($dimensions[0] < 1200) {
+                                // This shouldn't happen due to validation, but log if it does
+                                Log::warning('Cover image is below 1200px width', [
+                                    'article_id' => $article->id,
+                                    'width' => $dimensions[0]
+                                ]);
+                            }
+                        } else {
+                            // Non-cover images: scale down if > 1920px
+                            if ($dimensions[0] > 1920) {
+                                $img->scale(width: 1920);
+                                $img->save(storage_path('app/public/' . $path));
+                                // Update dimensions after scaling
+                                $dimensions[0] = 1920;
+                                $dimensions[1] = (int)($dimensions[1] * (1920 / $dimensions[0]));
+                            }
+                        }
+
+                        // Generate descriptive alt text
+                        $imageIndex = count($uploadedImages);
+                        $altText = $article->title;
+                        if ($imageIndex === 0 && !$hasCoverImage) {
+                            $altText = "Cover image for {$article->title}";
+                        } elseif ($imageIndex > 0) {
+                            $altText = "Image " . ($imageIndex + 1) . " for {$article->title}";
                         }
 
                         // Create media record
@@ -693,7 +911,7 @@ class AdminArticleController extends Controller
                                 'width' => $dimensions[0],
                                 'height' => $dimensions[1]
                             ],
-                            'alt_text' => $article->title
+                            'alt_text' => $altText
                         ]);
 
                         if ($media->is_cover) {

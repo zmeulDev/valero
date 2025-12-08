@@ -9,6 +9,17 @@
   {!! seo(isset($category) ? $category : null) !!}
   <!-- End SEO -->
 
+  <!-- Organization Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ config('app.name') }}",
+    "url": "{{ url(route('home')) }}",
+    "logo": "{{ url(asset('storage/brand/logo.png')) }}"
+  }
+  </script>
+
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
   
     <!-- Vite Assets -->

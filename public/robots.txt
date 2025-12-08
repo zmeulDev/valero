@@ -7,4 +7,5 @@ Allow: /category/
 Allow: /categories
 Allow: /
 
+# Sitemap location (update with your production domain)
 Sitemap: https://valero.test/sitemap.xml

@@ -2,11 +2,18 @@
 
 <div class="relative w-full mb-8 mt-8 group">
     <div class="relative overflow-hidden rounded-2xl aspect-[16/9] bg-gray-100 dark:bg-gray-800">
-        @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
+        @php
+            $coverMedia = $article->media->firstWhere('is_cover', true);
+        @endphp
+        @if($coverMedia?->image_path ?? false)
             <!-- Main Image -->
             <img 
-                src="{{ asset('storage/' . $article->media->firstWhere('is_cover', true)->image_path) }}"
-                alt="{{ $article->title }}"
+                src="{{ asset('storage/' . $coverMedia->image_path) }}"
+                alt="{{ $coverMedia->alt_text ?: $article->title }}"
+                @if($coverMedia->dimensions)
+                    width="{{ $coverMedia->dimensions['width'] ?? 1200 }}"
+                    height="{{ $coverMedia->dimensions['height'] ?? 630 }}"
+                @endif
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
             >

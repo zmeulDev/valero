@@ -89,6 +89,31 @@ class Article extends Model
         return $this->tags ? array_map('trim', explode(',', $this->tags)) : [];
     }
 
+    /**
+     * Get SEO validation results for this article
+     */
+    public function getSEOValidation(): array
+    {
+        return [
+            'title' => \App\Helpers\SEOValidator::validateTitle($this->title),
+            'description' => \App\Helpers\SEOValidator::validateDescription($this->excerpt ?: Str::limit(strip_tags($this->content), 160)),
+            'content_length' => \App\Helpers\SEOValidator::validateContentLength($this->content),
+            'readability' => \App\Helpers\SEOValidator::calculateReadability($this->content),
+        ];
+    }
+
+    /**
+     * Get keyword density for primary keyword (category name)
+     */
+    public function getKeywordDensity(?string $keyword = null): array
+    {
+        $keyword = $keyword ?: $this->category->name ?? '';
+        if (empty($keyword)) {
+            return ['message' => 'No keyword provided'];
+        }
+        return \App\Helpers\SEOValidator::calculateKeywordDensity($this->content, $keyword);
+    }
+
     public function getDynamicSEOData(): SEOData
     {
         // Get clean description, limiting to 160 chars for SEO best practices
@@ -101,13 +126,14 @@ class Article extends Model
         $wordCount = str_word_count(strip_tags($this->content));
         $readingTime = ceil($wordCount / 200);
 
-        // Get image URL with fallback
-        $imageUrl = $this->media->firstWhere('is_cover', true)?->image_path
-            ? Storage::url($this->media->firstWhere('is_cover', true)->image_path)
-            : asset('storage/brand/logo.png');
+        // Get cover image with absolute URL
+        $coverMedia = $this->media->firstWhere('is_cover', true);
+        $imageUrl = $coverMedia?->image_path
+            ? url(Storage::url($coverMedia->image_path))
+            : url(asset('storage/brand/logo.png'));
 
-        // Get the correct article URL
-        $articleUrl = route('articles.index', ['slug' => $this->slug]);
+        // Get the correct article URL (absolute)
+        $articleUrl = url(route('articles.index', ['slug' => $this->slug]));
 
         // Get keywords array
         $keywords = collect([
@@ -123,7 +149,7 @@ class Article extends Model
             title: $this->title,
             description: $description,
             author: $this->user->name,
-            image: $imageUrl,
+            image: $imageUrl, // Keep single URL for Open Graph/Twitter
             published_time: $this->created_at,
             modified_time: $this->updated_at,
             section: $this->category->name,
@@ -134,11 +160,22 @@ class Article extends Model
                 ->addArticle(function($schema) use ($imageUrl, $description, $readingTime, $wordCount, $articleUrl) {
                     $schema->headline = $this->title;
                     $schema->description = $description;
+                    // Keep as string for package compatibility (ImageObject array added in view)
                     $schema->image = $imageUrl;
                     $schema->datePublished = $this->created_at;
                     $schema->dateModified = $this->updated_at;
-                    $schema->author = $this->user->name;
-                    $schema->publisher = config('app.name');
+                    $schema->author = [
+                        '@type' => 'Person',
+                        'name' => $this->user->name
+                    ];
+                    $schema->publisher = [
+                        '@type' => 'Organization',
+                        'name' => config('app.name'),
+                        'logo' => [
+                            '@type' => 'ImageObject',
+                            'url' => url(asset('storage/brand/logo.png'))
+                        ]
+                    ];
                     $schema->articleBody = $this->content;
                     $schema->wordCount = $wordCount;
                     $schema->timeRequired = "PT{$readingTime}M";
