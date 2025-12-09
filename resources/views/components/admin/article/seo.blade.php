@@ -38,7 +38,7 @@
     $canonicalUrl = url(route('articles.index', ['slug' => $article->slug]));
 @endphp
 
-<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg  dark:border-gray-700 overflow-hidden"
      x-data="{ isOpen: localStorage.getItem('seo-expanded') === 'true' }"
      x-init="$watch('isOpen', value => localStorage.setItem('seo-expanded', value))">
     <!-- Header -->

@@ -59,13 +59,16 @@
 
 <!-- Main modal -->
 <div id="default-modal" tabindex="-1" aria-hidden="true" 
-     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full md:inset-0 h-screen bg-black bg-opacity-50">
-    <div class="relative p-4 w-full max-w-2xl">
+     class="hidden fixed inset-0 z-50 flex items-center justify-center w-full h-screen bg-black bg-opacity-50 p-4"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="modal-title">
+    <div class="relative w-full max-w-5xl max-h-[95vh] flex flex-col">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 flex flex-col max-h-[95vh] overflow-hidden">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 flex-shrink-0">
+                <h3 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-white">
                     {{ __('admin.media.media_preview') }}
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
@@ -77,14 +80,14 @@
             </div>
             
             <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-6">
+            <div class="p-4 md:p-5 flex-1 flex flex-col min-h-0 gap-4">
                 <!-- Image Preview -->
-                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden">
-                    <img src="" alt="Media Preview" class="w-full h-auto">
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center flex-1 min-h-0">
+                    <img src="" alt="Media Preview" id="modal-image" class="max-w-full max-h-full object-contain">
                 </div>
 
                 <!-- Meta information -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 flex-shrink-0">
                     <!-- File Information -->
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
                         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">{{ __('admin.media.file_information') }}</h4>
@@ -137,7 +140,7 @@
             </div>
             
             <!-- Modal footer -->
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600 flex-shrink-0">
                 <div class="flex items-center space-x-2">
                     <button type="button" id="prev-image" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                         <x-lucide-chevron-left class="h-5 w-5" />
@@ -203,9 +206,38 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateModalContent(index) {
         const modal = document.getElementById('default-modal');
         const item = mediaItems[index];
+        const modalImage = document.getElementById('modal-image');
 
         if (modal && item) {
-            modal.querySelector('img').src = item.imagePath;
+            // Update image with proper sizing
+            modalImage.src = item.imagePath;
+            modalImage.style.maxWidth = '100%';
+            modalImage.style.maxHeight = '100%';
+            modalImage.style.width = 'auto';
+            modalImage.style.height = 'auto';
+            
+            // Ensure image fits when loaded
+            modalImage.onload = function() {
+                const imageContainer = modalImage.parentElement;
+                const containerHeight = imageContainer.clientHeight;
+                const containerWidth = imageContainer.clientWidth;
+                
+                // Calculate aspect ratio
+                const imageAspectRatio = this.naturalWidth / this.naturalHeight;
+                const containerAspectRatio = containerWidth / containerHeight;
+                
+                // Adjust image to fit container
+                if (imageAspectRatio > containerAspectRatio) {
+                    // Image is wider - fit to width
+                    this.style.width = '100%';
+                    this.style.height = 'auto';
+                } else {
+                    // Image is taller - fit to height
+                    this.style.width = 'auto';
+                    this.style.height = '100%';
+                }
+            };
+            
             modal.querySelector('#download-link').href = item.downloadLink;
             modal.querySelector('#modal-filename').textContent = item.filename;
             modal.querySelector('#modal-filesize').textContent = item.filesize;
@@ -227,7 +259,22 @@ document.addEventListener('DOMContentLoaded', function () {
             
             if (modal) {
                 updateModalContent(currentImageIndex);
-                modal.classList.toggle('hidden');
+                const isHidden = modal.classList.contains('hidden');
+                
+                if (isHidden) {
+                    // Opening modal
+                    modal.classList.remove('hidden');
+                    modal.setAttribute('aria-hidden', 'false');
+                    // Focus the first focusable element in the modal
+                    const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    if (firstFocusable) {
+                        firstFocusable.focus();
+                    }
+                } else {
+                    // Closing modal
+                    modal.classList.add('hidden');
+                    modal.setAttribute('aria-hidden', 'true');
+                }
             }
         });
     });
@@ -254,8 +301,32 @@ document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById(target);
             if (modal) {
                 modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
             }
         });
+    });
+
+    // Close modal on backdrop click
+    const modal = document.getElementById('default-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            // Close if clicking the backdrop (the modal container itself, not its children)
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+        });
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('default-modal');
+            if (modal && !modal.classList.contains('hidden')) {
+                modal.classList.add('hidden');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+        }
     });
 });
 </script>

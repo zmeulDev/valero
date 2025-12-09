@@ -266,3 +266,220 @@ function updateTagCount(id, maxTags, maxChars) {
         }
     }
 }
+
+// Global validation toast function
+window.showValidationToast = function(message) {
+    // Remove any existing notification component toasts to avoid duplicates
+    const existingNotifications = document.querySelectorAll('.fixed.bottom-5.right-5');
+    existingNotifications.forEach(notif => {
+        if (!notif.id || notif.id !== 'validation-toast') {
+            notif.style.opacity = '0';
+            setTimeout(() => notif.remove(), 300);
+        }
+    });
+
+    // Remove existing validation toast if any
+    const existingToast = document.getElementById('validation-toast');
+    if (existingToast) {
+        existingToast.remove();
+    }
+
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.id = 'validation-toast';
+    // Position higher than notification component to stack vertically
+    toast.className = 'fixed bottom-24 right-5 w-full max-w-sm z-50';
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(10px)';
+    
+    toast.innerHTML = '<div class="relative overflow-hidden rounded-lg border border-red-400/50 dark:border-red-500/50 bg-red-50 dark:bg-red-900/50 shadow-lg">' +
+        '<div class="p-4">' +
+          '<div class="flex items-start">' +
+            '<div class="flex-shrink-0">' +
+              '<div class="text-red-400 dark:text-red-300">' +
+                '<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+                  '<circle cx="12" cy="12" r="10"/>' +
+                  '<line x1="15" y1="9" x2="9" y2="15"/>' +
+                  '<line x1="9" y1="9" x2="15" y2="15"/>' +
+                '</svg>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ml-3 flex-1">' +
+              '<p class="text-sm font-medium text-red-800 dark:text-red-200">Error</p>' +
+              '<p class="mt-1 text-sm text-red-700 dark:text-red-300">' + message + '</p>' +
+            '</div>' +
+            '<div class="ml-4 flex-shrink-0">' +
+              '<button type="button" onclick="document.getElementById(\'validation-toast\').remove()" class="inline-flex rounded-md p-1.5 text-red-500 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900">' +
+                '<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">' +
+                  '<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />' +
+                '</svg>' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="absolute bottom-0 left-0 h-1 bg-red-100 dark:bg-red-800" style="width: 100%; animation: toastProgress 5000ms linear forwards;"></div>' +
+      '</div>';
+    
+    // Add animation
+    const style = document.createElement('style');
+    style.textContent = '@keyframes toastProgress { from { width: 100%; } to { width: 0%; } }';
+    if (!document.getElementById('toast-animation-style')) {
+        style.id = 'toast-animation-style';
+        document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(toast);
+    
+    // Animate in
+    requestAnimationFrame(() => {
+        toast.style.transition = 'all 0.3s ease-in-out';
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+    });
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+};
+
+// Alpine.js data function for article form validation (create)
+window.articleFormCreate = function() {
+    return {
+        submitting: false,
+        activeTab: 'content',
+        submitForm(e) {
+            e.preventDefault();
+            if (this.submitting) return;
+            
+            // Validate required fields
+            const errors = [];
+            const title = document.getElementById('title')?.value?.trim();
+            let content = '';
+            
+            // Get content from TinyMCE if available
+            if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
+                content = tinymce.get('content').getContent({ format: 'text' })?.trim() || '';
+            } else {
+                content = document.getElementById('content')?.value?.trim() || '';
+            }
+            
+            const category = document.getElementById('category_id')?.value;
+            
+            if (!title) errors.push('Title');
+            if (!content) errors.push('Content');
+            if (!category) errors.push('Category');
+            
+            if (errors.length > 0) {
+                if (typeof showValidationToast === 'function') {
+                    showValidationToast('Please fill in the following required fields: ' + errors.join(', '));
+                }
+                
+                // Focus first missing field
+                if (!title) {
+                    document.getElementById('title')?.focus();
+                    document.getElementById('title')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else if (!content) {
+                    this.activeTab = 'content';
+                    setTimeout(() => {
+                        if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
+                            tinymce.get('content').focus();
+                        } else {
+                            document.getElementById('content')?.focus();
+                        }
+                    }, 300);
+                } else if (!category) {
+                    this.activeTab = 'publish';
+                    setTimeout(() => {
+                        document.getElementById('category_id')?.focus();
+                        document.getElementById('category_id')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+                return false;
+            }
+            
+            this.submitting = true;
+            e.target.submit();
+        }
+    };
+};
+
+// Alpine.js data function for article form validation (edit)
+window.articleFormEdit = function() {
+    return {
+        submitting: false,
+        validateAndSubmit(e) {
+            if (this.submitting) return;
+            
+            const errors = [];
+            const titleEl = document.getElementById('title');
+            const title = titleEl ? titleEl.value.trim() : '';
+            
+            let content = '';
+            if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
+                content = tinymce.get('content').getContent({ format: 'text' }).trim() || '';
+            } else {
+                const contentEl = document.getElementById('content');
+                content = contentEl ? contentEl.value.trim() : '';
+            }
+            
+            const categoryEl = document.getElementById('category_id');
+            const category = categoryEl ? categoryEl.value : '';
+            
+            if (!title) errors.push('Title');
+            if (!content) errors.push('Content');
+            if (!category) errors.push('Category');
+            
+            if (errors.length > 0) {
+                if (typeof showValidationToast === 'function') {
+                    showValidationToast('Please fill in the following required fields: ' + errors.join(', '));
+                }
+                
+                if (!title) {
+                    const nav = document.querySelector('nav');
+                    if (nav) {
+                        const tabs = nav.querySelectorAll('button');
+                        if (tabs[0]) tabs[0].click();
+                    }
+                    setTimeout(() => {
+                        if (titleEl) {
+                            titleEl.focus();
+                            titleEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 100);
+                } else if (!content) {
+                    const nav = document.querySelector('nav');
+                    if (nav) {
+                        const tabs = nav.querySelectorAll('button');
+                        if (tabs[0]) tabs[0].click();
+                    }
+                    setTimeout(() => {
+                        if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
+                            tinymce.get('content').focus();
+                        } else if (document.getElementById('content')) {
+                            document.getElementById('content').focus();
+                        }
+                    }, 300);
+                } else if (!category) {
+                    const nav = document.querySelector('nav');
+                    if (nav) {
+                        const tabs = nav.querySelectorAll('button');
+                        if (tabs[3]) tabs[3].click();
+                    }
+                    setTimeout(() => {
+                        if (categoryEl) {
+                            categoryEl.focus();
+                            categoryEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 300);
+                }
+                return false;
+            }
+            
+            this.submitting = true;
+            e.target.submit();
+        }
+    };
+};
