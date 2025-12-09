@@ -146,7 +146,7 @@ return [
         'gallery' => 'Galerie',
         'click_to_upload_or_drag_and_drop' => 'Click pentru încărcare sau trage și arunca',
         'slots_available' => '20 locuri disponibile',
-        'max_dimensions' => 'Dimensiuni maxime: 3840x2160 pixeli',
+        'max_dimensions' => 'Dimensiuni maxime: 5120x2880 pixeli',
         'selected' => 'Selectat',
         'file' => 'fișier',
         '0_of_20_images_selected' => '0 din 20 imagini selectate',

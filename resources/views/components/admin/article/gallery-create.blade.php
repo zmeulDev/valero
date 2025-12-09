@@ -65,7 +65,7 @@
                                 <span x-show="file.sizeMB > 5" class="text-red-500" title="File exceeds 5MB limit">
                                     <x-lucide-alert-circle class="w-4 h-4" />
                                 </span>
-                                <span x-show="file.dimensionsText && (file.width > 3840 || file.height > 2160)" class="text-red-500" title="Dimensions exceed maximum allowed">
+                                <span x-show="file.dimensionsText && (file.width > 5120 || file.height > 5120)" class="text-red-500" title="Dimensions exceed maximum allowed (max 5120 in either dimension)">
                                     <x-lucide-alert-circle class="w-4 h-4" />
                                 </span>
                             </div>
@@ -90,10 +90,10 @@ function galleryCreate() {
                 return;
             }
 
-            // Check file sizes and dimensions
+            // Check file sizes and dimensions - allow up to 5120 in either dimension
             const maxFileSize = 5 * 1024 * 1024; // 5MB
-            const maxWidth = 3840;
-            const maxHeight = 2160;
+            const maxWidth = 5120;
+            const maxHeight = 5120;
             
             for (const file of selectedFiles) {
                 if (file.size > maxFileSize) {
@@ -107,7 +107,7 @@ function galleryCreate() {
                     const img = new Image();
                     img.onload = () => {
                         if (img.width > maxWidth || img.height > maxHeight) {
-                            reject(`File "${file.name}" dimensions (${img.width}x${img.height}) exceed the maximum allowed size of ${maxWidth}x${maxHeight} pixels.`);
+                            reject(`File "${file.name}" dimensions (${img.width}x${img.height}) exceed the maximum allowed size of ${maxWidth}x${maxHeight} pixels (max 5120 in either dimension).`);
                         } else {
                             resolve();
                         }

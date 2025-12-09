@@ -424,10 +424,10 @@ class AdminArticleController extends Controller
                         $fail("File {$value->getClientOriginalName()} is too large. Maximum file size is 5MB.");
                     }
 
-                    // Check dimensions
+                    // Check dimensions - allow up to 5120 in either dimension
                     $dimensions = getimagesize($value);
-                    if ($dimensions[0] > 5120 || $dimensions[1] > 2880) {
-                        $fail("File {$value->getClientOriginalName()} dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x2880 pixels.");
+                    if ($dimensions[0] > 5120 || $dimensions[1] > 5120) {
+                        $fail("File {$value->getClientOriginalName()} dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x5120 pixels.");
                     }
                     
                     // Check if this will be a cover image (first image if no cover exists)
@@ -526,10 +526,10 @@ class AdminArticleController extends Controller
             DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage) {
                 foreach ($files as $index => $imageFile) {
                     try {
-                        // Validate image dimensions before processing
+                        // Validate image dimensions before processing - allow up to 5120 in either dimension
                         $dimensions = getimagesize($imageFile);
-                        if ($dimensions[0] > 5120 || $dimensions[1] > 2880) {
-                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x2880 pixels.");
+                        if ($dimensions[0] > 5120 || $dimensions[1] > 5120) {
+                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x5120 pixels.");
                         }
 
                         // Store original image
@@ -858,10 +858,10 @@ class AdminArticleController extends Controller
             DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage, &$uploadedImages) {
                 foreach ($files as $imageIndex => $imageFile) {
                     try {
-                        // Validate image dimensions before processing
+                        // Validate image dimensions before processing - allow up to 5120 in either dimension
                         $dimensions = getimagesize($imageFile);
-                        if ($dimensions[0] > 3840 || $dimensions[1] > 2160) {
-                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 3840x2160 pixels.");
+                        if ($dimensions[0] > 5120 || $dimensions[1] > 5120) {
+                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x5120 pixels.");
                         }
                         
                         // Check if this will be a cover image (first image if no cover exists)
