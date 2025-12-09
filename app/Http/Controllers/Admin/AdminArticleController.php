@@ -124,9 +124,17 @@ class AdminArticleController extends Controller
             $this->updateSEO($article);
             $this->clearArticleCaches();
 
-            return redirect()
+            // Check for image warning and include it in the response
+            $response = redirect()
                 ->route('admin.articles.index')
                 ->with('success', 'Article created successfully.');
+            
+            if (session()->has('image_warning')) {
+                $response->with('warning', session('image_warning'));
+                session()->forget('image_warning');
+            }
+            
+            return $response;
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Get all validation errors
             $errors = $e->validator->errors();
@@ -229,9 +237,17 @@ class AdminArticleController extends Controller
             // Clear caches
             $this->clearArticleCaches();
 
-            return redirect()
+            // Check for image warning and include it in the response
+            $response = redirect()
                 ->route('admin.articles.edit', $article)
                 ->with('success', 'Article updated successfully.');
+            
+            if (session()->has('image_warning')) {
+                $response->with('warning', session('image_warning'));
+                session()->forget('image_warning');
+            }
+            
+            return $response;
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Get all validation errors
@@ -417,12 +433,19 @@ class AdminArticleController extends Controller
                     // Check if this will be a cover image (first image if no cover exists)
                     $willBeCover = !$article || !$article->media()->where('is_cover', true)->exists();
                     if ($willBeCover) {
-                        // Google Discovery requires minimum 1200px width for cover images
+                        // Google Discovery recommends minimum 1200px width for cover images
+                        // Log warning but don't fail - allow article creation with warning
                         if ($dimensions[0] < 1200) {
-                            $fail("Cover images must be at least 1200px wide for Google Discovery. Current width: {$dimensions[0]}px. Recommended: 1200px or wider.");
+                            \Log::warning("Cover image width is below 1200px recommendation for Google Discovery", [
+                                'width' => $dimensions[0],
+                                'recommended' => 1200,
+                                'dimensions' => "{$dimensions[0]}x{$dimensions[1]}"
+                            ]);
+                            // Store warning in session for user notification
+                            session()->flash('image_warning', "Cover image width ({$dimensions[0]}px) is below the recommended 1200px for Google Discovery. The article will be created, but consider using a wider image for better SEO.");
                         }
                         
-                        // Warn about aspect ratio (recommend 16:9 = 1.91:1)
+                        // Warn about aspect ratio (recommend 16:9 = 1.777...)
                         $aspectRatio = $dimensions[0] / $dimensions[1];
                         $optimalRatio = 16 / 9; // 1.777...
                         $ratioDiff = abs($aspectRatio - $optimalRatio);
@@ -844,9 +867,17 @@ class AdminArticleController extends Controller
                         // Check if this will be a cover image (first image if no cover exists)
                         $willBeCover = ($imageIndex === 0 && !$hasCoverImage);
                         if ($willBeCover) {
-                            // Google Discovery requires minimum 1200px width for cover images
+                            // Google Discovery recommends minimum 1200px width for cover images
+                            // Log warning but don't fail - allow article creation with warning
                             if ($dimensions[0] < 1200) {
-                                throw new \Exception("Cover images must be at least 1200px wide for Google Discovery. Current width: {$dimensions[0]}px. Recommended: 1200px or wider.");
+                                Log::warning("Cover image width is below 1200px recommendation for Google Discovery", [
+                                    'article_id' => $article->id,
+                                    'width' => $dimensions[0],
+                                    'recommended' => 1200,
+                                    'dimensions' => "{$dimensions[0]}x{$dimensions[1]}"
+                                ]);
+                                // Store warning in session for user notification
+                                session()->flash('image_warning', "Cover image width ({$dimensions[0]}px) is below the recommended 1200px for Google Discovery. The article will be created, but consider using a wider image for better SEO.");
                             }
                             
                             // Warn about aspect ratio (recommend 16:9 = 1.777...)
