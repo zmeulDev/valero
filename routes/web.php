@@ -56,21 +56,11 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('articles/scheduled', [AdminArticleController::class, 'scheduled'])->name('articles.scheduled');
     Route::resource('articles', AdminArticleController::class);
     
-    // Article related routes
-    Route::controller(AdminArticleController::class)->group(function () {
-        Route::post('articles/{article}/images', 'storeImages')
+    // Image handling - handled by AdminImageController
+    Route::controller(AdminImageController::class)->group(function () {
+        Route::post('articles/{article}/images', 'store')
             ->name('articles.images.store');
-        Route::delete('articles/{article}/images/{media}', 'deleteArticleImages')
-            ->name('articles.images.destroy');
-        Route::post('articles/{article}/images/{media}/set-cover', 'setCover')
-            ->name('articles.images.set-cover');
-    });
-
-    // Image handling - all handled by AdminArticleController
-    Route::controller(AdminArticleController::class)->group(function () {
-        Route::post('articles/{article}/images', 'storeImages')
-            ->name('articles.images.store');
-        Route::delete('articles/{article}/images/{media}', 'deleteArticleImages')
+        Route::delete('articles/{article}/images/{media}', 'destroy')
             ->name('articles.images.destroy');
         Route::post('articles/{article}/images/{media}/set-cover', 'setCover')
             ->name('articles.images.set-cover');

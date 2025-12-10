@@ -267,65 +267,107 @@ function updateTagCount(id, maxTags, maxChars) {
     }
 }
 
-// Global validation toast function
-window.showValidationToast = function(message) {
-    // Remove any existing notification component toasts to avoid duplicates
-    const existingNotifications = document.querySelectorAll('.fixed.bottom-5.right-5');
-    existingNotifications.forEach(notif => {
-        if (!notif.id || notif.id !== 'validation-toast') {
-            notif.style.opacity = '0';
-            setTimeout(() => notif.remove(), 300);
+// Global toast notification function with different types
+window.showToast = function(message, type = 'error') {
+    // Define toast styles based on type
+    const styles = {
+        success: {
+            bg: 'bg-green-50 dark:bg-green-900/50',
+            border: 'border-green-400/50 dark:border-green-500/50',
+            textTitle: 'text-green-800 dark:text-green-200',
+            textBody: 'text-green-700 dark:text-green-300',
+            iconColor: 'text-green-400 dark:text-green-300',
+            progress: 'bg-green-100 dark:bg-green-800',
+            icon: `<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                   </svg>`,
+            title: 'Success'
+        },
+        error: {
+            bg: 'bg-red-50 dark:bg-red-900/50',
+            border: 'border-red-400/50 dark:border-red-500/50',
+            textTitle: 'text-red-800 dark:text-red-200',
+            textBody: 'text-red-700 dark:text-red-300',
+            iconColor: 'text-red-400 dark:text-red-300',
+            progress: 'bg-red-100 dark:bg-red-800',
+            icon: `<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="15" y1="9" x2="9" y2="15"/>
+                    <line x1="9" y1="9" x2="15" y2="15"/>
+                   </svg>`,
+            title: 'Error'
+        },
+        warning: {
+            bg: 'bg-yellow-50 dark:bg-yellow-900/50',
+            border: 'border-yellow-400/50 dark:border-yellow-500/50',
+            textTitle: 'text-yellow-800 dark:text-yellow-200',
+            textBody: 'text-yellow-700 dark:text-yellow-300',
+            iconColor: 'text-yellow-400 dark:text-yellow-300',
+            progress: 'bg-yellow-100 dark:bg-yellow-800',
+            icon: `<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                   </svg>`,
+            title: 'Warning'
+        },
+        info: {
+            bg: 'bg-blue-50 dark:bg-blue-900/50',
+            border: 'border-blue-400/50 dark:border-blue-500/50',
+            textTitle: 'text-blue-800 dark:text-blue-200',
+            textBody: 'text-blue-700 dark:text-blue-300',
+            iconColor: 'text-blue-400 dark:text-blue-300',
+            progress: 'bg-blue-100 dark:bg-blue-800',
+            icon: `<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                   </svg>`,
+            title: 'Info'
         }
-    });
+    };
 
-    // Remove existing validation toast if any
-    const existingToast = document.getElementById('validation-toast');
+    const style = styles[type] || styles.error;
+    
+    // Remove any existing toast
+    const existingToast = document.getElementById('global-toast');
     if (existingToast) {
         existingToast.remove();
     }
 
     // Create toast element
     const toast = document.createElement('div');
-    toast.id = 'validation-toast';
-    // Position higher than notification component to stack vertically
+    toast.id = 'global-toast';
     toast.className = 'fixed bottom-24 right-5 w-full max-w-sm z-50';
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(10px)';
     
-    toast.innerHTML = '<div class="relative overflow-hidden rounded-lg border border-red-400/50 dark:border-red-500/50 bg-red-50 dark:bg-red-900/50 shadow-lg">' +
-        '<div class="p-4">' +
-          '<div class="flex items-start">' +
-            '<div class="flex-shrink-0">' +
-              '<div class="text-red-400 dark:text-red-300">' +
-                '<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
-                  '<circle cx="12" cy="12" r="10"/>' +
-                  '<line x1="15" y1="9" x2="9" y2="15"/>' +
-                  '<line x1="9" y1="9" x2="15" y2="15"/>' +
-                '</svg>' +
-              '</div>' +
-            '</div>' +
-            '<div class="ml-3 flex-1">' +
-              '<p class="text-sm font-medium text-red-800 dark:text-red-200">Error</p>' +
-              '<p class="mt-1 text-sm text-red-700 dark:text-red-300">' + message + '</p>' +
-            '</div>' +
-            '<div class="ml-4 flex-shrink-0">' +
-              '<button type="button" onclick="document.getElementById(\'validation-toast\').remove()" class="inline-flex rounded-md p-1.5 text-red-500 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900">' +
-                '<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">' +
-                  '<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />' +
-                '</svg>' +
-              '</button>' +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-        '<div class="absolute bottom-0 left-0 h-1 bg-red-100 dark:bg-red-800" style="width: 100%; animation: toastProgress 5000ms linear forwards;"></div>' +
-      '</div>';
+    toast.innerHTML = `<div class="relative overflow-hidden rounded-lg border ${style.border} ${style.bg} shadow-lg">
+        <div class="p-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <div class="${style.iconColor}">
+                ${style.icon}
+              </div>
+            </div>
+            <div class="ml-3 flex-1">
+              <p class="text-sm font-medium ${style.textTitle}">${style.title}</p>
+              <p class="mt-1 text-sm ${style.textBody}">${message}</p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <button type="button" onclick="document.getElementById('global-toast').remove()" class="inline-flex rounded-md p-1.5 ${style.textBody.replace('text-', 'hover:bg-').replace('-700', '-100').replace('-300', '-900')}">
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 h-1 ${style.progress}" style="width: 100%; animation: toastProgress 5000ms linear forwards;"></div>
+      </div>`;
     
     // Add animation
-    const style = document.createElement('style');
-    style.textContent = '@keyframes toastProgress { from { width: 100%; } to { width: 0%; } }';
+    const styleEl = document.createElement('style');
+    styleEl.textContent = '@keyframes toastProgress { from { width: 100%; } to { width: 0%; } }';
     if (!document.getElementById('toast-animation-style')) {
-        style.id = 'toast-animation-style';
-        document.head.appendChild(style);
+        styleEl.id = 'toast-animation-style';
+        document.head.appendChild(styleEl);
     }
     
     document.body.appendChild(toast);
@@ -343,6 +385,11 @@ window.showValidationToast = function(message) {
         toast.style.transform = 'translateY(10px)';
         setTimeout(() => toast.remove(), 300);
     }, 5000);
+};
+
+// Global validation toast function (backward compatibility)
+window.showValidationToast = function(message) {
+    showToast(message, 'error');
 };
 
 // Alpine.js data function for article form validation (create)

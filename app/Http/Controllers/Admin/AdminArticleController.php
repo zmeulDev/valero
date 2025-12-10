@@ -16,9 +16,6 @@ use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
 
 class AdminArticleController extends Controller
@@ -118,7 +115,7 @@ class AdminArticleController extends Controller
 
             // Handle gallery images with improved error handling
             if ($request->hasFile('gallery_images')) {
-                $this->handleGalleryImages($request, $article);
+                app(AdminImageController::class)->handleGalleryImages($request, $article);
             }
 
             $this->updateSEO($article);
@@ -199,6 +196,9 @@ class AdminArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        // Refresh the article with its media relationship to ensure we have the latest data
+        $article->load('media');
+        
         $scheduledArticles = Article::whereNotNull('scheduled_at')
             ->where('scheduled_at', '>', now())
             ->orderBy('scheduled_at', 'asc')
@@ -227,7 +227,7 @@ class AdminArticleController extends Controller
 
                 // Handle gallery images if any are uploaded
                 if ($request->hasFile('gallery_images')) {
-                    $this->handleGalleryImages($request, $article);
+                    app(AdminImageController::class)->handleGalleryImages($request, $article);
                 }
 
                 // Update SEO
@@ -304,13 +304,33 @@ class AdminArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        // Ensure all images are deleted before the article
+        // Delete all images associated with the article
         foreach ($article->media as $media) {
-            $this->deleteArticleImages($article, $media);
+            // Delete image files from storage
+            if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
+                Storage::disk('public')->delete($media->image_path);
+            }
+            
+            // Delete variants if they exist
+            if (!empty($media->variants)) {
+                foreach ($media->variants as $variant) {
+                    if ($variant && Storage::disk('public')->exists($variant)) {
+                        Storage::disk('public')->delete($variant);
+                    }
+                }
+            }
+            
+            // Delete the media record
+            $media->delete();
         }
         
+        // Delete SEO data
+        if ($article->seo) {
+            $article->seo->delete();
+        }
+        
+        // Delete the article
         $article->delete();
-        $article->seo->delete();
 
         // Clear relevant caches
         $this->clearArticleCaches();
@@ -479,183 +499,6 @@ class AdminArticleController extends Controller
     /**
      * Handle gallery images upload.
      */
-    private function handleGalleryImages(Request $request, Article $article): void
-    {
-        try {
-            // Enhanced logging
-            Log::info('Gallery Images Upload Started', [
-                'article_id' => $article->id,
-                'has_files' => $request->hasFile('gallery_images'),
-                'file_count' => $request->hasFile('gallery_images') ? count($request->file('gallery_images')) : 0,
-                'existing_count' => $article->media->count()
-            ]);
-
-            // Validate file input explicitly
-            if (!$request->hasFile('gallery_images')) {
-                Log::warning('No gallery images found in request');
-                return;
-            }
-
-            $files = $request->file('gallery_images');
-            
-            // Ensure we don't exceed the maximum number of images
-            $remainingSlots = 30 - $article->media->count();
-            if (count($files) > $remainingSlots) {
-                Log::warning('Too many files submitted', [
-                    'submitted' => count($files),
-                    'remaining_slots' => $remainingSlots
-                ]);
-                throw new \Exception("You can only upload {$remainingSlots} more images. (Maximum total: 30)");
-            }
-
-            // Initialize ImageManager once for all images
-            try {
-                $manager = new ImageManager(new Driver());
-            } catch (\Exception $e) {
-                Log::error('Failed to initialize ImageManager', [
-                    'error' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString()
-                ]);
-                throw new \Exception('Failed to initialize image processing: ' . $e->getMessage());
-            }
-
-            // Check if a cover image already exists
-            $hasCoverImage = $article->media()->where('is_cover', true)->exists();
-
-            // Process all files in a transaction
-            DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage) {
-                foreach ($files as $index => $imageFile) {
-                    try {
-                        // Validate image dimensions before processing - allow up to 5120 in either dimension
-                        $dimensions = getimagesize($imageFile);
-                        if ($dimensions[0] > 5120 || $dimensions[1] > 5120) {
-                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x5120 pixels.");
-                        }
-
-                        // Store original image
-                        $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
-                        $path = $imageFile->storeAs('images', $filename, 'public');
-
-                        // Generate descriptive alt text
-                        $altText = $article->title;
-                        if ($index === 0 && !$hasCoverImage) {
-                            $altText = "Cover image for {$article->title}";
-                        } elseif ($index > 0) {
-                            $altText = "Image " . ($index + 1) . " for {$article->title}";
-                        }
-
-                        // Create media record without processing first
-                        $mediaData = [
-                            'article_id' => $article->id,
-                            'image_path' => $path,
-                            'is_cover' => !$hasCoverImage,
-                            'filename' => $filename,
-                            'mime_type' => $imageFile->getMimeType(),
-                            'size' => $imageFile->getSize(),
-                            'dimensions' => [
-                                'width' => $dimensions[0],
-                                'height' => $dimensions[1]
-                            ],
-                            'alt_text' => $altText
-                        ];
-
-                        // Create the media record
-                        $media = Media::create($mediaData);
-
-                        // Try to process the image
-                        try {
-                            $img = $manager->read($imageFile);
-                            
-                            // Store original dimensions before any scaling
-                            $originalWidth = $dimensions[0];
-                            $originalHeight = $dimensions[1];
-                            $newWidth = $originalWidth;
-                            $newHeight = $originalHeight;
-                            
-                            // For cover images, ensure minimum 1200px width for Google Discovery
-                            // For non-cover images, scale down if > 1920px
-                            if ($media->is_cover) {
-                                // Cover images: scale down if > 1920px, but never below 1200px
-                                if ($originalWidth > 1920) {
-                                    $newWidth = 1920;
-                                    $newHeight = (int)($originalHeight * (1920 / $originalWidth));
-                                    $img->scale(width: 1920);
-                                    $img->save(storage_path('app/public/' . $path));
-                                    // Update dimensions after scaling
-                                    $media->update([
-                                        'dimensions' => [
-                                            'width' => $newWidth,
-                                            'height' => $newHeight
-                                        ]
-                                    ]);
-                                } elseif ($originalWidth < 1200) {
-                                    // This shouldn't happen due to validation, but log if it does
-                                    Log::warning('Cover image is below 1200px width', [
-                                        'media_id' => $media->id,
-                                        'width' => $originalWidth
-                                    ]);
-                                }
-                            } else {
-                                // Non-cover images: scale down if > 1920px
-                                if ($originalWidth > 1920) {
-                                    $newWidth = 1920;
-                                    $newHeight = (int)($originalHeight * (1920 / $originalWidth));
-                                    $img->scale(width: 1920);
-                                    $img->save(storage_path('app/public/' . $path));
-                                    // Update dimensions after scaling
-                                    $media->update([
-                                        'dimensions' => [
-                                            'width' => $newWidth,
-                                            'height' => $newHeight
-                                        ]
-                                    ]);
-                                }
-                            }
-
-                        } catch (\Exception $e) {
-                            Log::warning('Failed to process image, but file was uploaded', [
-                                'media_id' => $media->id,
-                                'error' => $e->getMessage()
-                            ]);
-                        }
-
-                        // Update hasCoverImage flag after successful creation
-                        if ($media->is_cover) {
-                            $hasCoverImage = true;
-                        }
-
-                        Log::info('Media record created', [
-                            'media_id' => $media->id,
-                            'is_cover' => $media->is_cover,
-                            'image_path' => $path
-                        ]);
-
-                    } catch (\Exception $e) {
-                        Log::error('Image upload error', [
-                            'message' => $e->getMessage(),
-                            'file' => $e->getFile(),
-                            'line' => $e->getLine(),
-                            'trace' => $e->getTraceAsString()
-                        ]);
-                        throw $e;
-                    }
-                }
-            });
-
-            // Final logging
-            Log::info('Gallery Images Upload Completed', [
-                'article_id' => $article->id,
-                'total_media_count' => $article->media()->count()
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('Gallery upload failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            throw $e;
-        }
-    }
 
     /**
      * Update article SEO data.
@@ -689,318 +532,6 @@ class AdminArticleController extends Controller
         Cache::forget('all_categories');
     }
 
-    private function handleImageDeletion(Media $media): void
-    {
-        // Delete image files
-        if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
-            Storage::disk('public')->delete($media->image_path);
-        }
-        
-        // Delete variants if they exist
-        if (!empty($media->variants)) {
-            foreach ($media->variants as $variant) {
-                if ($variant && Storage::disk('public')->exists($variant)) {
-                    Storage::disk('public')->delete($variant);
-                }
-            }
-        }
-    }
-
-    /**
-     * Delete a specific article image.
-     */
-    public function deleteArticleImages(Article $article, Media $media)
-    {
-        // Check if request wants JSON response
-        $wantsJson = request()->ajax() || request()->wantsJson();
-
-        if (Auth::user()->id !== $article->user_id && !Auth::user()->isAdmin()) {
-            return $wantsJson 
-                ? response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403)
-                : redirect()->back()->with('error', 'Unauthorized action.');
-        }
-
-        try {
-            DB::transaction(function() use ($article, $media) {
-                // Delete the image files
-                $this->handleImageDeletion($media);
-                
-                // Delete the media record
-                $media->delete();
-
-                // Update SEO data if needed
-                if ($media->is_cover) {
-                    $this->updateSEO($article);
-                }
-            });
-
-            // Return appropriate response based on request type
-            return $wantsJson 
-                ? response()->json([
-                    'success' => true,
-                    'message' => 'Image deleted successfully',
-                    'remainingImages' => $article->media->count()
-                ])
-                : redirect()->back()->with('success', 'Image deleted successfully');
-
-        } catch (\Exception $e) {
-            Log::error('Image deletion error', [
-                'message' => $e->getMessage(),
-                'article_id' => $article->id,
-                'media_id' => $media->id,
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return $wantsJson
-                ? response()->json(['success' => false, 'message' => 'Failed to delete image'], 400)
-                : redirect()->back()->with('error', 'Failed to delete image');
-        }
-    }
-
-    public function setCover(Article $article, Media $media)
-    {
-        // Validate that the media exists and is an image
-        if (!$media->exists() || !Str::startsWith($media->mime_type, 'image/')) {
-            return redirect()->back()->with('error', 'Invalid media item');
-        }
-
-        // Ensure the image belongs to the article
-        if ($media->article_id !== $article->id) {
-            return redirect()->back()->with('error', 'Invalid image for this article');
-        }
-
-        // Ensure the user has permission
-        if (Auth::user()->id !== $article->user_id && !Auth::user()->isAdmin()) {
-            return redirect()->back()->with('error', 'Unauthorized action');
-        }
-
-        try {
-            // Begin transaction to ensure atomic operation
-            DB::transaction(function () use ($article, $media) {
-                // Remove current cover
-                $article->media()->where('is_cover', true)->update(['is_cover' => false]);
-                
-                // Set new cover
-                $media->refresh(); // Refresh the model to ensure we have latest data
-                $media->is_cover = true;
-                $media->save();
-
-                // Update SEO data with new cover image
-                $this->updateSEO($article);
-            });
-
-            // Clear any relevant caches
-            $this->clearArticleCaches();
-
-            // Log the operation
-            Log::info('Cover image updated', [
-                'article_id' => $article->id,
-                'media_id' => $media->id,
-                'user_id' => Auth::id()
-            ]);
-
-            return redirect()->back()->with('success', 'Cover image updated successfully');
-        } catch (\Exception $e) {
-            Log::error('Failed to set cover image', [
-                'article_id' => $article->id,
-                'media_id' => $media->id,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
-            return redirect()->back()->with('error', 'Failed to set cover image: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Store images for an article.
-     */
-    public function storeImages(Request $request, Article $article)
-    {
-        try {
-            // Enhanced logging
-            Log::info('Gallery Images Upload Started', [
-                'article_id' => $article->id,
-                'has_files' => $request->hasFile('gallery_images'),
-                'file_count' => $request->hasFile('gallery_images') ? count($request->file('gallery_images')) : 0,
-                'existing_count' => $article->media->count()
-            ]);
-
-            // Validate file input explicitly
-            if (!$request->hasFile('gallery_images')) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No images found in request'
-                ], 400);
-            }
-
-            $files = $request->file('gallery_images');
-            
-            // Ensure we don't exceed the maximum number of images
-            $remainingSlots = 20 - $article->media->count();
-            if (count($files) > $remainingSlots) {
-                return response()->json([
-                    'success' => false,
-                    'message' => "Maximum total of 20 images allowed. You currently have {$article->media->count()} images and are trying to upload " . 
-                                count($files) . " more. You can only upload {$remainingSlots} more images."
-                ], 400);
-            }
-
-            // Initialize ImageManager
-            $manager = new ImageManager(new Driver());
-
-            // Check if a cover image already exists
-            $hasCoverImage = $article->media()->where('is_cover', true)->exists();
-
-            $uploadedImages = [];
-
-            // Process all files in a transaction
-            DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage, &$uploadedImages) {
-                foreach ($files as $imageIndex => $imageFile) {
-                    try {
-                        // Validate image dimensions before processing - allow up to 5120 in either dimension
-                        $dimensions = getimagesize($imageFile);
-                        if ($dimensions[0] > 5120 || $dimensions[1] > 5120) {
-                            throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x5120 pixels.");
-                        }
-                        
-                        // Check if this will be a cover image (first image if no cover exists)
-                        $willBeCover = ($imageIndex === 0 && !$hasCoverImage);
-                        if ($willBeCover) {
-                            // Google Discovery recommends minimum 1200px width for cover images
-                            // Log warning but don't fail - allow article creation with warning
-                            if ($dimensions[0] < 1200) {
-                                Log::warning("Cover image width is below 1200px recommendation for Google Discovery", [
-                                    'article_id' => $article->id,
-                                    'width' => $dimensions[0],
-                                    'recommended' => 1200,
-                                    'dimensions' => "{$dimensions[0]}x{$dimensions[1]}"
-                                ]);
-                                // Store warning in session for user notification
-                                session()->flash('image_warning', "Cover image width ({$dimensions[0]}px) is below the recommended 1200px for Google Discovery. The article will be created, but consider using a wider image for better SEO.");
-                            }
-                            
-                            // Warn about aspect ratio (recommend 16:9 = 1.777...)
-                            $aspectRatio = $dimensions[0] / $dimensions[1];
-                            $optimalRatio = 16 / 9; // 1.777...
-                            $ratioDiff = abs($aspectRatio - $optimalRatio);
-                            if ($ratioDiff > 0.3) {
-                                // Log warning but don't fail
-                                Log::warning("Cover image aspect ratio is not optimal for Google Discovery", [
-                                    'article_id' => $article->id,
-                                    'ratio' => round($aspectRatio, 2),
-                                    'optimal' => round($optimalRatio, 2),
-                                    'dimensions' => "{$dimensions[0]}x{$dimensions[1]}"
-                                ]);
-                            }
-                        }
-
-                        // Generate unique filename
-                        $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
-                        $path = $imageFile->storeAs('images', $filename, 'public');
-
-                        // Process image
-                        $img = $manager->read($imageFile);
-                        
-                        // Store original dimensions before any scaling
-                        $originalWidth = $dimensions[0];
-                        $originalHeight = $dimensions[1];
-                        $newWidth = $originalWidth;
-                        $newHeight = $originalHeight;
-                        
-                        // For cover images, ensure minimum 1200px width for Google Discovery
-                        // For non-cover images, scale down if > 1920px
-                        if ($willBeCover) {
-                            // This will be the cover image
-                            // Scale down if > 1920px, but never below 1200px
-                            if ($originalWidth > 1920) {
-                                $newWidth = 1920;
-                                $newHeight = (int)($originalHeight * (1920 / $originalWidth));
-                                $img->scale(width: 1920);
-                                $img->save(storage_path('app/public/' . $path));
-                            } elseif ($originalWidth < 1200) {
-                                // This shouldn't happen due to validation, but log if it does
-                                Log::warning('Cover image is below 1200px width', [
-                                    'article_id' => $article->id,
-                                    'width' => $originalWidth
-                                ]);
-                            }
-                        } else {
-                            // Non-cover images: scale down if > 1920px
-                            if ($originalWidth > 1920) {
-                                $newWidth = 1920;
-                                $newHeight = (int)($originalHeight * (1920 / $originalWidth));
-                                $img->scale(width: 1920);
-                                $img->save(storage_path('app/public/' . $path));
-                            }
-                        }
-                        
-                        // Update dimensions array with final values
-                        $dimensions[0] = $newWidth;
-                        $dimensions[1] = $newHeight;
-
-                        // Generate descriptive alt text
-                        $imageIndex = count($uploadedImages);
-                        $altText = $article->title;
-                        if ($imageIndex === 0 && !$hasCoverImage) {
-                            $altText = "Cover image for {$article->title}";
-                        } elseif ($imageIndex > 0) {
-                            $altText = "Image " . ($imageIndex + 1) . " for {$article->title}";
-                        }
-
-                        // Create media record
-                        $media = Media::create([
-                            'article_id' => $article->id,
-                            'image_path' => $path,
-                            'is_cover' => !$hasCoverImage,
-                            'filename' => $filename,
-                            'mime_type' => $imageFile->getMimeType(),
-                            'size' => $imageFile->getSize(),
-                            'dimensions' => [
-                                'width' => $dimensions[0],
-                                'height' => $dimensions[1]
-                            ],
-                            'alt_text' => $altText
-                        ]);
-
-                        if ($media->is_cover) {
-                            $hasCoverImage = true;
-                        }
-
-                        $uploadedImages[] = [
-                            'id' => $media->id,
-                            'url' => asset('storage/' . $path),
-                            'filename' => $filename
-                        ];
-
-                    } catch (\Exception $e) {
-                        // If image processing fails, delete the stored file
-                        if (isset($path) && Storage::disk('public')->exists($path)) {
-                            Storage::disk('public')->delete($path);
-                        }
-                        throw $e;
-                    }
-                }
-            });
-
-            return response()->json([
-                'success' => true,
-                'message' => count($uploadedImages) . ' image(s) uploaded successfully',
-                'images' => $uploadedImages
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('Gallery upload failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Failed to upload images: ' . $e->getMessage()
-            ], 500);
-        }
-    }
 
     /**
      * Display a listing of scheduled articles.
