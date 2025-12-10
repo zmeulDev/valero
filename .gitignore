@@ -21,6 +21,6 @@ yarn-error.log
 /.zed
 .DS_Store
 .nvmrc
-public/sitemap.xml
 public/robots.txt
 resources/views/.DS_Store
+public/sitemap.xml
