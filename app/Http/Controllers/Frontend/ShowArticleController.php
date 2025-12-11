@@ -135,7 +135,7 @@ class ShowArticleController extends Controller
                 ->whereNotIn('id', $relatedArticles->pluck('id'))
                 ->orderBy('views', 'desc')
                 ->orderBy('created_at', 'desc')
-                ->take(6 - $relatedArticles->count())
+                ->take(3 - $relatedArticles->count())
                 ->get();
             
             $relatedArticles = $relatedArticles->merge($categoryRelated);
@@ -147,13 +147,13 @@ class ShowArticleController extends Controller
                 ->whereNotIn('id', $relatedArticles->pluck('id'))
                 ->orderBy('views', 'desc')
                 ->orderBy('likes_count', 'desc')
-                ->take(6 - $relatedArticles->count())
+                ->take(3 - $relatedArticles->count())
                 ->get();
             
             $relatedArticles = $relatedArticles->merge($popularRelated);
         }
         
-        $relatedArticles = $relatedArticles->unique('id')->take(6)->values();
+        $relatedArticles = $relatedArticles->unique('id')->take(3)->values();
         
         $categories = Category::all();
 
@@ -192,31 +192,4 @@ class ShowArticleController extends Controller
         }
     }
 
-    public function create()
-    {
-    }
-
-    public function store()
-    {
-    }
-
-
-    public function show()
-    {
-    }
-
-    public function edit()
-    {
-    }
-
-
-    public function update()
-    {
-        
-    }
-
-    public function destroy()
-    {
-        //
-    }
 }

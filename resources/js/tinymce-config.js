@@ -29,29 +29,78 @@ const tinymceConfig = {
     `,
     setup: function(editor) {
         editor.on('paste', function(e) {
+            // Check if pasting HTML content (from Word, Google Docs, etc.)
+            const htmlData = e.clipboardData.getData('text/html');
+            
+            // If HTML is available, let TinyMCE handle it naturally
+            if (htmlData && htmlData.trim()) {
+                return; // Let default paste behavior handle HTML
+            }
+            
+            // Only handle plain text paste
             e.preventDefault();
             const text = e.clipboardData.getData('text/plain');
             
-            // Split content into blocks by double newlines
-            const blocks = text.split(/\n\n+/);
-            const converter = new showdown.Converter();
+            if (!text || !text.trim()) return;
             
-            // Process each block
-            const processedBlocks = blocks.map(block => {
-                // Check if block looks like code
-                const isCode = /^[ \t]/.test(block) || block.includes('\n ') || block.includes('\n\t');
+            // Convert plain text to HTML preserving structure
+            const lines = text.split('\n');
+            let html = '';
+            let inList = false;
+            let currentIndentLevel = 0;
+            
+            lines.forEach((line, index) => {
+                // Detect bullet points (*, -, •, ★, ✦, etc.)
+                const bulletMatch = line.match(/^(\s*)([*\-•★✦]+)\s*(.*)$/);
                 
-                if (isCode) {
-                    // Wrap code blocks
-                    return `<pre><code>${block.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
+                if (bulletMatch) {
+                    const indent = bulletMatch[1].length;
+                    const content = bulletMatch[3];
+                    
+                    if (!inList) {
+                        html += '<ul>';
+                        inList = true;
+                        currentIndentLevel = indent;
+                    } else if (indent > currentIndentLevel) {
+                        html += '<ul>';
+                        currentIndentLevel = indent;
+                    } else if (indent < currentIndentLevel) {
+                        html += '</ul>';
+                        currentIndentLevel = indent;
+                    }
+                    
+                    html += `<li>${content || ''}</li>`;
                 } else {
-                    // Convert Markdown blocks
-                    return converter.makeHtml(block);
+                    // Close any open lists
+                    if (inList) {
+                        html += '</ul>';
+                        inList = false;
+                        currentIndentLevel = 0;
+                    }
+                    
+                    // Regular paragraph
+                    if (line.trim()) {
+                        // Preserve leading spaces/tabs for indented paragraphs
+                        const leadingSpaces = line.match(/^(\s+)/);
+                        if (leadingSpaces && leadingSpaces[1].length >= 4) {
+                            // Treat as preformatted if heavily indented (4+ spaces)
+                            html += `<pre>${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`;
+                        } else {
+                            html += `<p>${line}</p>`;
+                        }
+                    } else if (index < lines.length - 1) {
+                        // Empty line creates paragraph break
+                        html += '<p><br></p>';
+                    }
                 }
             });
             
-            // Join blocks and insert
-            editor.insertContent(processedBlocks.join('\n\n'));
+            // Close any remaining open lists
+            if (inList) {
+                html += '</ul>';
+            }
+            
+            editor.insertContent(html);
         });
     }
 };

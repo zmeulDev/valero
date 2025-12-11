@@ -12,9 +12,10 @@
   <!-- Search Form -->
     <div class="p-6">
       <form @submit.prevent="search" class="max-w-md mx-auto">
-          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{{ __('frontend.sidebar.search') }}</label>
+          <label for="sidebar-search-input" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{{ __('frontend.sidebar.search') }}</label>
           <div class="relative">
             <x-input type="search" 
+                    id="sidebar-search-input"
                     x-model="query" 
                     placeholder="{{ __('frontend.sidebar.search_placeholder') }}"
                     class="block w-full p-4 ps-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
