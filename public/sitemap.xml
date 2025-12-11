@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
     <loc>http://valero.test</loc>
-    <lastmod>2025-12-11T08:55:34+00:00</lastmod>
+    <lastmod>2025-12-11T10:17:14+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
             </url>
     <url>
     <loc>http://valero.test/cookie-policy</loc>
-    <lastmod>2025-12-11T08:55:34+00:00</lastmod>
+    <lastmod>2025-12-11T10:17:14+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
             </url>
@@ -25,28 +25,16 @@
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://valero.test/category/rant</loc>
-    <lastmod>2025-03-03T11:35:14+00:00</lastmod>
+    <loc>http://valero.test/category/work</loc>
+    <lastmod>2025-03-03T11:35:09+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/google-pixel-8a-camera-de-top-la-un-pret-accesibil</loc>
-    <lastmod>2025-12-06T12:42:50+00:00</lastmod>
+    <loc>http://valero.test/category/rant</loc>
+    <lastmod>2025-03-03T11:35:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/google-pixel-8a-contact-cu-un-campion-al-fotografiilor</loc>
-    <lastmod>2025-12-06T20:27:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/setarea-initiala-a-google-pixel-8a</loc>
-    <lastmod>2025-12-04T04:38:40+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
             </url>
     <url>
     <loc>http://valero.test/articles/scirocco-20-tsi-2009</loc>
@@ -91,12 +79,6 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/iphone-15-pro-max-in-2024-merita-upgrade-ul-si-ce-il-face-special</loc>
-    <lastmod>2025-12-05T00:35:53+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
     <loc>http://valero.test/articles/factory-reset-samsung-s24-ultra-ghid-complet</loc>
     <lastmod>2025-12-05T00:19:06+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -105,30 +87,6 @@
     <url>
     <loc>http://valero.test/articles/samsung-galaxy-s24-ultra-ghid-de-configurare-initiala</loc>
     <lastmod>2025-12-06T13:35:37+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/samsung-galaxy-s24-vs-s24-ultra-care-este-alegerea-potrivita-pentru-tine</loc>
-    <lastmod>2025-12-04T17:48:09+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/samsung-galaxy-s24-vs-iphone-14-pro-max-batalia-titanilor-in-2024</loc>
-    <lastmod>2025-12-03T22:39:08+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/samsung-galaxy-s24-ultra-vs-iphone-14-pro-max-in-2025</loc>
-    <lastmod>2025-12-04T03:30:05+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/samsung-s24-vs-s24-ultra-vs-iphone-14-pro-max-trilema-flagship-urilor-in-2024</loc>
-    <lastmod>2025-12-04T02:00:19+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -175,18 +133,6 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/motorola-razr-50-ultra-unboxing-si-primele-impresii</loc>
-    <lastmod>2025-12-06T01:45:51+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/motorola-razr-50-ultra-ghid-de-configurare-initiala</loc>
-    <lastmod>2025-12-06T12:38:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
     <loc>http://valero.test/articles/bmw-z3-inceputul-unei-aventuri-de-vara</loc>
     <lastmod>2025-12-06T16:11:29+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -201,18 +147,6 @@
     <url>
     <loc>http://valero.test/articles/restaurarea-unui-opel-astra-g-bertone-in-cautarea-perfectiunii</loc>
     <lastmod>2025-12-05T21:21:44+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/renault-megane-3-partenerul-meu-de-incredere-in-calatorii</loc>
-    <lastmod>2025-12-06T06:26:05+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/visul-jdm-o-subaru-impreza-2003-in-garajul-meu</loc>
-    <lastmod>2025-12-04T19:52:52+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -235,12 +169,6 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/ghid-de-configurare-initiala-pentru-xiaomi-14t-pro</loc>
-    <lastmod>2025-12-06T08:07:08+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
     <loc>http://valero.test/articles/ghid-detaliat-camerele-foto-ale-xiaomi-14t-pro</loc>
     <lastmod>2025-12-06T16:19:47+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -259,38 +187,8 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/patru-ani-cu-un-renault-captur-de-10500-eur</loc>
-    <lastmod>2025-12-05T10:44:50+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/ghid-samsung-smart-switch-cum-sa-ti-muti-viata-digitala-fara-sa-ti-pierzi-mintile</loc>
-    <lastmod>2025-12-05T23:00:38+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
     <loc>http://valero.test/articles/nothing-phone-3a-parere-dupa-24h</loc>
     <lastmod>2025-12-05T14:53:05+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/nothing-phone-3a-modul-night-te-lasa-in-intuneric-cand-vine-vorba-de-culori</loc>
-    <lastmod>2025-12-05T17:01:34+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/televizorul-tcl-55c745-parere-dupa-un-an</loc>
-    <lastmod>2025-12-06T13:33:37+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/soundbar-tcl-s45h-parere-dupa-un-an-de-utilizare</loc>
-    <lastmod>2025-12-11T08:23:24+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -301,68 +199,8 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/parere-camere-de-supraveghere-cu-panouri-solare-genbolt</loc>
-    <lastmod>2025-12-11T08:42:43+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/pixel-8a-vs-pixel-8-pro-duelul-fratilor-google-care-este-alegerea-potrivita-pentru-tine</loc>
-    <lastmod>2025-12-11T08:39:05+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/iphone-15-pro-max-vs-noul-pixel-9-pro-xl-ce-alegi-in-primavara-2025</loc>
-    <lastmod>2025-12-11T07:45:03+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/redmi-note-13-pro-plus-parere-si-test</loc>
-    <lastmod>2025-12-06T16:20:17+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/misterul-inelelor-smart-r8-miracol-tehnologic-la-pret-redus-sau-capcana-digitala</loc>
-    <lastmod>2025-12-05T20:25:55+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/renault-clio-94-mai-mult-decat-fiare-vechi-o-poveste-de-dragoste-ulei-de-motor-si-lectii-de-mecanica</loc>
-    <lastmod>2025-12-11T08:44:11+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
     <loc>http://valero.test/articles/am-testat-camera-nothing-phone-3a-in-bologna-o-surpriza-placuta-la-buget</loc>
     <lastmod>2025-12-05T00:43:19+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/oneplus-open-parere-si-entuziasm-temperat</loc>
-    <lastmod>2025-12-05T00:20:43+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/dell-p2724deb-cautarea-monitorului-ideal-s-a-incheiat-cu-greata</loc>
-    <lastmod>2025-12-06T14:10:12+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/update-monitor-saga-am-trecut-la-dell-u2724de</loc>
-    <lastmod>2025-12-06T00:57:24+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/nothing-phone-2a-stil-inconfundabil-dar-camera</loc>
-    <lastmod>2025-12-11T08:55:34+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -403,44 +241,8 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/ghid-complet-black-friday-2025-romania-sfaturi-oferte-si-cum-sa-nu-iei-teapa</loc>
-    <lastmod>2025-12-05T00:44:49+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/recenzie-camera-google-pixel-10-pro-xl-magie-computationala-mostre-foto-reale</loc>
-    <lastmod>2025-12-02T19:42:26+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/s-a-dat-startul-emag-a-anuntat-data-oficiala-pentru-black-friday-2025</loc>
-    <lastmod>2025-12-05T19:03:04+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
     <loc>http://valero.test/articles/recenzie-iphone-air-impresionant-de-subtire-dar-enervant-de-instabil</loc>
-    <lastmod>2025-12-04T00:55:48+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/iphone-air-vs-iphone-14-pro-max-am-renuntat-la-tanc-pentru-pana-merita</loc>
-    <lastmod>2025-12-05T21:54:10+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/iphone-air-vs-google-pixel-10-pro-xl-eleganta-pura-sau-inteligenta-bruta</loc>
-    <lastmod>2025-12-08T15:07:08+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/pixel-8a-vs-pixel-8-pro-vs-iphone-15-pro-max-comparatia-absurda</loc>
-    <lastmod>2025-12-11T08:38:56+00:00</lastmod>
+    <lastmod>2025-12-11T10:17:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -451,8 +253,8 @@
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://valero.test/articles/honor-magic-v5-recenzie-un-hardware-de-maestru-ruinat-de-magicos</loc>
-    <lastmod>2025-12-11T08:42:33+00:00</lastmod>
+    <loc>http://valero.test/articles/image-test</loc>
+    <lastmod>2025-12-11T10:15:51+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>

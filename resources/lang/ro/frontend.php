@@ -31,6 +31,13 @@ return [
         'articles_in_category' => 'Articole în categoria',
         'minutes' => 'min',
         'open_main_menu' => 'Deschide meniu principal',
+        'back_to_home' => 'Înapoi Acasă',
+        'share_on_facebook' => 'Distribuie pe Facebook',
+        'share_on_twitter' => 'Distribuie pe Twitter',
+        'share_on_linkedin' => 'Distribuie pe LinkedIn',
+        'share_on_whatsapp' => 'Distribuie pe WhatsApp',
+        'link_copied' => 'Link copiat!',
+        'copy_link' => 'Copiază link',
     ],
 
     'article' => [
@@ -91,18 +98,66 @@ return [
     ],
 
     'auth' => [
+        // Login
         'sign_in' => 'Autentificare',
         'sign_in_description' => 'Autentifică-te în contul tău și explorează un univers de posibilități. Călătoria ta începe aici.',
-        'forgot_password' => 'Ai uitat parola?',
         'log_in' => 'Autentificare',
-        'register_here' => 'Înregistrează-te aici',
-        'dont_have_account' => 'Nu ai un cont?',
         'remember_me' => 'Ține-mă minte',
+        
+        // Register
+        'register' => 'Înregistrare',
+        'register_here' => 'Înregistrează-te aici',
+        'create_account' => 'Creează Cont',
+        'register_description' => 'Alătură-te comunității noastre și începe să explorezi conținut extraordinar.',
+        'already_registered' => 'Ai deja un cont?',
+        'dont_have_account' => 'Nu ai un cont?',
+        
+        // Password Reset
+        'forgot_password' => 'Ai uitat parola?',
+        'forgot_password_description' => 'Nicio problemă! Introdu adresa de email și îți vom trimite un link pentru resetarea parolei.',
+        'send_reset_link' => 'Trimite Link de Resetare',
+        'reset_password' => 'Resetare Parolă',
+        'reset_password_description' => 'Introdu noua ta parolă mai jos.',
+        'back_to_login' => 'Înapoi la Autentificare',
+        
+        // Email Verification
+        'verify_email' => 'Verificare Email',
+        'verify_email_description' => 'Mulțumim pentru înregistrare! Te rugăm să verifici adresa de email accesând link-ul pe care ți l-am trimis.',
+        'verification_link_sent' => 'Un nou link de verificare a fost trimis la adresa ta de email.',
+        'resend_verification_email' => 'Retrimite Email de Verificare',
+        
+        // Password Confirmation
+        'confirm_password' => 'Confirmă Parola',
+        'confirm_password_description' => 'Aceasta este o zonă securizată. Te rugăm să confirmi parola pentru a continua.',
+        'confirm' => 'Confirmă',
+        
+        // Two-Factor
+        'two_factor_challenge' => 'Autentificare în Doi Pași',
+        'two_factor_description' => 'Te rugăm să introduci codul de autentificare din aplicația ta authenticator.',
+        'recovery_code_description' => 'Te rugăm să introduci unul dintre codurile tale de recuperare de urgență.',
+        'code' => 'Cod',
+        'recovery_code' => 'Cod de Recuperare',
+        'use_recovery_code' => 'Folosește un cod de recuperare',
+        'use_authentication_code' => 'Folosește un cod de autentificare',
+        'enter_code' => 'Introdu codul de 6 cifre',
+        'enter_recovery_code' => 'Introdu codul de recuperare',
+        
+        // Common Fields
         'email' => 'Email',
         'password' => 'Parolă',
-        'password_confirmation' => 'Confirmare parolă',
-        'already_registered' => 'Ai deja un cont?',
-        'register' => 'Înregistrează-te',
+        'password_confirmation' => 'Confirmă Parola',
         'name' => 'Nume',
+        'enter_email' => 'Introdu email-ul',
+        'enter_password' => 'Introdu parola',
+        'enter_new_password' => 'Introdu parola nouă',
+        'enter_name' => 'Introdu numele',
+        'log_out' => 'Deconectare',
+        
+        // Messages
+        'welcome_message' => 'Bine ai venit pe Platforma Noastră',
+        'platform_description' => 'Descoperă articole extraordinare, conectează-te cu autori și explorează conținut care contează pentru tine.',
+        'auth_image' => 'Autentificare',
+        'back_to_home' => 'Înapoi Acasă',
+        'validation_errors' => 'Te rugăm să corectezi următoarele erori:',
     ],
 ];

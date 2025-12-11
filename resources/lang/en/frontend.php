@@ -20,6 +20,13 @@ return [
         'articles_in_category' => 'Articles in category',
         'minutes' => 'min',
         'open_main_menu' => 'Open main menu',
+        'back_to_home' => 'Back to Home',
+        'share_on_facebook' => 'Share on Facebook',
+        'share_on_twitter' => 'Share on Twitter',
+        'share_on_linkedin' => 'Share on LinkedIn',
+        'share_on_whatsapp' => 'Share on WhatsApp',
+        'link_copied' => 'Link copied!',
+        'copy_link' => 'Copy link',
     ],
 
     'article' => [
@@ -62,17 +69,66 @@ return [
     ],
 
     'auth' => [
+        // Login
         'sign_in' => 'Sign in',
         'sign_in_description' => 'Sign in to your account and explore a world of possibilities. Your journey begins here.',
-        'forgot_password' => 'Forgot your password?',
         'log_in' => 'Log in',
-        'register_here' => 'Register here',
-        'dont_have_account' => 'Don\'t have an account?',
         'remember_me' => 'Remember me',
+        
+        // Register
+        'register' => 'Register',
+        'register_here' => 'Register here',
+        'create_account' => 'Create Account',
+        'register_description' => 'Join our community and start exploring amazing content.',
+        'already_registered' => 'Already registered?',
+        'dont_have_account' => 'Don\'t have an account?',
+        
+        // Password Reset
+        'forgot_password' => 'Forgot your password?',
+        'forgot_password_description' => 'No problem! Enter your email address and we\'ll send you a password reset link.',
+        'send_reset_link' => 'Send Reset Link',
+        'reset_password' => 'Reset Password',
+        'reset_password_description' => 'Enter your new password below.',
+        'back_to_login' => 'Back to Login',
+        
+        // Email Verification
+        'verify_email' => 'Verify Email',
+        'verify_email_description' => 'Thanks for signing up! Please verify your email address by clicking the link we sent you.',
+        'verification_link_sent' => 'A new verification link has been sent to your email address.',
+        'resend_verification_email' => 'Resend Verification Email',
+        
+        // Password Confirmation
+        'confirm_password' => 'Confirm Password',
+        'confirm_password_description' => 'This is a secure area. Please confirm your password to continue.',
+        'confirm' => 'Confirm',
+        
+        // Two-Factor
+        'two_factor_challenge' => 'Two-Factor Authentication',
+        'two_factor_description' => 'Please enter the authentication code from your authenticator app.',
+        'recovery_code_description' => 'Please enter one of your emergency recovery codes.',
+        'code' => 'Code',
+        'recovery_code' => 'Recovery Code',
+        'use_recovery_code' => 'Use a recovery code',
+        'use_authentication_code' => 'Use an authentication code',
+        'enter_code' => 'Enter 6-digit code',
+        'enter_recovery_code' => 'Enter recovery code',
+        
+        // Common Fields
         'email' => 'Email',
         'password' => 'Password',
-        'password_confirmation' => 'Password Confirmation',
-        'already_registered' => 'Already registered?',
-        'register' => 'Register',
+        'password_confirmation' => 'Confirm Password',
+        'name' => 'Name',
+        'enter_email' => 'Enter your email',
+        'enter_password' => 'Enter your password',
+        'enter_new_password' => 'Enter new password',
+        'enter_name' => 'Enter your name',
+        'log_out' => 'Log Out',
+        
+        // Messages
+        'welcome_message' => 'Welcome to Our Platform',
+        'platform_description' => 'Discover amazing articles, connect with authors, and explore content that matters to you.',
+        'auth_image' => 'Authentication',
+        'back_to_home' => 'Back to Home',
+        'validation_errors' => 'Please correct the following errors:',
     ],
 ];

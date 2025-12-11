@@ -1,106 +1,129 @@
 <x-guest-layout>
-  <div class="font-[sans-serif] min-h-screen flex items-center justify-center py-6 px-4 bg-cover bg-center">
-    <div class="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full">
-      <div class="hidden md:block lg:h-[600px] md:h-[600px]">
-        <img src="storage/brand/auth_background.png" class="w-full h-full object-cover" alt="Authentication Background" />
-      </div>
-      <div
-        class="border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto bg-white">
-        <div class="flex justify-center mb-8">
-          <x-auth.logo class="w-26 h-26" />
-        </div>
-        <x-validation-errors class="mb-4" />
+    <x-auth.card>
+        <x-slot name="logo">
+            <x-auth.logo />
+        </x-slot>
 
-        @session('status')
-        <div class="mb-4 font-medium text-sm text-green-600">
-          {{ $value }}
+        <!-- Header -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+                {{ __('frontend.auth.sign_in') }}
+            </h2>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('frontend.auth.sign_in_description') }}
+            </p>
         </div>
+
+        <!-- Status Messages -->
+        @session('status')
+            <div class="mb-4 p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                <p class="text-sm font-medium text-green-600 dark:text-green-400">
+                    {{ $value }}
+                </p>
+            </div>
         @endsession
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-4">
-          @csrf
-          <div class="mb-8">
-            <h3 class="text-gray-800 text-3xl font-extrabold">{{ __('frontend.auth.sign_in') }}</h3>
-            <p class="text-gray-500 text-sm mt-4 leading-relaxed">{{ __('frontend.auth.sign_in_description') }}</p>
-          </div>
+        <!-- Validation Errors -->
+        <x-validation-errors class="mb-6" />
 
-          <div>
-            <x-label for="email" value="{{ __('frontend.auth.email') }}" class="text-gray-800 text-sm mb-2 block" />
-            <div class="relative flex items-center">
-              <x-input id="email"
-                class="w-full text-sm text-gray-800 border border-gray-300 px-4 py-3 rounded-lg outline-blue-600"
-                type="email" name="email" :value="old('email')" required autofocus autocomplete="username"
-                placeholder="{{ __('frontend.auth.email') }}" />
-              <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
-                class="w-[18px] h-[18px] absolute right-4" viewBox="0 0 24 24">
-                <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
-                <path
-                  d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z"
-                  data-original="#000000"></path>
-              </svg>
-            </div>
-          </div>
+        <!-- Login Form -->
+        <form method="POST" action="{{ route('login') }}" class="space-y-6" x-data="authForm()">
+            @csrf
 
-          <div>
-            <x-label for="password" value="{{ __('frontend.auth.password') }}" class="text-gray-800 text-sm mb-2 block" />
-            <div class="relative flex items-center">
-              <x-input id="password"
-                class="w-full text-sm text-gray-800 border border-gray-300 px-4 py-3 rounded-lg outline-blue-600"
-                type="password" name="password" required autocomplete="current-password" placeholder="{{ __('frontend.auth.password') }}" />
-              <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb"
-                class="w-[18px] h-[18px] absolute right-4 cursor-pointer" viewBox="0 0 128 128"
-                onclick="togglePassword()">
-                <path
-                  d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z"
-                  data-original="#000000"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center">
-              <x-checkbox id="remember_me" name="remember"
-                class="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-              <label for="remember_me" class="ml-3 block text-sm text-gray-800">
-                {{ __('frontend.auth.remember_me') }}
-              </label>
+            <!-- Email Field -->
+            <div>
+                <x-label for="email" value="{{ __('frontend.auth.email') }}" class="text-gray-900 dark:text-white" />
+                <div class="mt-2 relative">
+                    <x-input 
+                        id="email"
+                        type="email" 
+                        name="email" 
+                        :value="old('email')" 
+                        required 
+                        autofocus 
+                        autocomplete="username"
+                        placeholder="{{ __('frontend.auth.enter_email') }}"
+                        class="block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-colors duration-200"
+                    />
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                </div>
             </div>
 
-            @if (Route::has('password.request'))
-            <div class="text-sm">
-              <a href="{{ route('password.request') }}" class="text-blue-600 hover:underline font-semibold">
-                {{ __('frontend.auth.forgot_password') }}
-              </a>
+            <!-- Password Field -->
+            <div>
+                <x-label for="password" value="{{ __('frontend.auth.password') }}" class="text-gray-900 dark:text-white" />
+                <div class="mt-2 relative">
+                    <x-input 
+                        id="password"
+                        x-ref="password"
+                        x-bind:type="showPassword ? 'text' : 'password'"
+                        name="password" 
+                        required 
+                        autocomplete="current-password"
+                        placeholder="{{ __('frontend.auth.enter_password') }}"
+                        class="block w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-transparent transition-colors duration-200"
+                    />
+                    <button 
+                        type="button"
+                        @click="showPassword = !showPassword"
+                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200">
+                        <svg x-show="!showPassword" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg x-show="showPassword" x-cloak class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
+                </div>
             </div>
-            @endif
-          </div>
 
-          <div class="!mt-8">
-            <x-button
-              class="w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-              {{ __('frontend.auth.log_in') }}
-            </x-button>
-          </div>
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <x-checkbox 
+                        id="remember_me" 
+                        name="remember"
+                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 rounded cursor-pointer"
+                    />
+                    <label for="remember_me" class="ml-2 block text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                        {{ __('frontend.auth.remember_me') }}
+                    </label>
+                </div>
 
-          <p class="text-sm !mt-8 text-center text-gray-800">{{ __('frontend.auth.dont_have_account') }} <a
-              href="{{ route('register') }}"
-              class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">{{ __('frontend.auth.register_here') }}</a>
-          </p>
-          <p class="text-sm !mt-8 text-center text-gray-800">
-            <x-lucide-home class="w-3 h-3 inline-block mr-1" />
-          <a href="{{ route('home') }}"
-              class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">{{ __('frontend.common.home') }}</a>
-          </p>
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" 
+                       class="text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200">
+                        {{ __('frontend.auth.forgot_password') }}
+                    </a>
+                @endif
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <x-button 
+                    type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                    {{ __('frontend.auth.log_in') }}
+                </x-button>
+            </div>
+
+            <!-- Register Link -->
+            <div class="text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    {{ __('frontend.auth.dont_have_account') }}
+                    <a href="{{ route('register') }}" 
+                       class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200">
+                        {{ __('frontend.auth.register_here') }}
+                    </a>
+                </p>
+            </div>
         </form>
-      </div>
-    </div>
-  </div>
-
-  <script>
-  function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-  }
-  </script>
+    </x-auth.card>
 </x-guest-layout>

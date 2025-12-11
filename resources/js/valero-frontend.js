@@ -412,3 +412,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// Alpine.js Component: Auth Form (for password visibility toggles)
+window.authForm = function() {
+  return {
+    showPassword: false,
+    showPasswordConfirmation: false
+  };
+};

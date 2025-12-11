@@ -1102,3 +1102,19 @@ window.mediaLibrary = function(articleId) {
         }
     };
 };
+
+// Auth Form Component (for password visibility toggles)
+window.authForm = function() {
+    return {
+        showPassword: false,
+        showPasswordConfirmation: false
+    };
+};
+
+// Auth Form Component (for password visibility toggles)
+window.authForm = function() {
+    return {
+        showPassword: false,
+        showPasswordConfirmation: false
+    };
+};
