@@ -113,8 +113,8 @@ class AdminArticleController extends Controller
 
             $article->save();
 
-            // Handle gallery images with improved error handling
-            if ($request->hasFile('gallery_images')) {
+            // Handle gallery images (both new uploads and library media)
+            if ($request->hasFile('gallery_images') || $request->has('library_media_ids')) {
                 app(AdminImageController::class)->handleGalleryImages($request, $article);
             }
 
@@ -225,8 +225,8 @@ class AdminArticleController extends Controller
                 $this->handleScheduling($article, $request->scheduled_at);
                 $article->update($validated);
 
-                // Handle gallery images if any are uploaded
-                if ($request->hasFile('gallery_images')) {
+                // Handle gallery images (both new uploads and library media)
+                if ($request->hasFile('gallery_images') || $request->has('library_media_ids')) {
                     app(AdminImageController::class)->handleGalleryImages($request, $article);
                 }
 
@@ -306,21 +306,44 @@ class AdminArticleController extends Controller
     {
         // Delete all images associated with the article
         foreach ($article->media as $media) {
-            // Delete image files from storage
-            if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
-                Storage::disk('public')->delete($media->image_path);
-            }
+            // Check if this image is being used by other articles
+            $isShared = \App\Models\Media::where('image_path', $media->image_path)
+                ->where('id', '!=', $media->id)
+                ->exists();
             
-            // Delete variants if they exist
-            if (!empty($media->variants)) {
-                foreach ($media->variants as $variant) {
-                    if ($variant && Storage::disk('public')->exists($variant)) {
-                        Storage::disk('public')->delete($variant);
+            // Only delete physical files if this is the last reference
+            if (!$isShared) {
+                // Delete main image file
+                if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
+                    Storage::disk('public')->delete($media->image_path);
+                    
+                    \Log::info('Deleted image file during article deletion (no other references)', [
+                        'article_id' => $article->id,
+                        'image_path' => $media->image_path,
+                        'media_id' => $media->id
+                    ]);
+                }
+                
+                // Delete variants if they exist
+                if (!empty($media->variants)) {
+                    foreach ($media->variants as $variant) {
+                        if ($variant && Storage::disk('public')->exists($variant)) {
+                            Storage::disk('public')->delete($variant);
+                        }
                     }
                 }
+            } else {
+                \Log::info('Image file preserved during article deletion (still used by other articles)', [
+                    'article_id' => $article->id,
+                    'image_path' => $media->image_path,
+                    'media_id' => $media->id,
+                    'other_references' => \App\Models\Media::where('image_path', $media->image_path)
+                        ->where('id', '!=', $media->id)
+                        ->count()
+                ]);
             }
             
-            // Delete the media record
+            // Always delete the media record for this article
             $media->delete();
         }
         

@@ -156,6 +156,19 @@ return [
         'cover_image' => 'Imagine copertă',
         'maximum_number_of_images' => 'Număr maxim de imagini',
         'slots_remaining' => 'Locuri rămase',
+        // Media Library
+        'media_library' => 'Bibliotecă Media',
+        'select_from_media_library' => 'Selectează din Biblioteca Media',
+        'search_media' => 'Caută după nume fișier sau titlu articol...',
+        'clear' => 'Șterge',
+        'loading' => 'Se încarcă...',
+        'no_media_found' => 'Niciun fișier media găsit',
+        'load_more' => 'Încarcă Mai Mult',
+        'images_selected' => 'imagini selectate',
+        'cancel' => 'Anulare',
+        'attach_selected' => 'Atașează Selectate',
+        'attaching' => 'Se atașează...',
+        'or' => 'sau',
     ],
 
     'category' => [

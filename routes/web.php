@@ -102,7 +102,12 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::controller(AdminMediaController::class)->group(function () {
         Route::get('media', 'index')->name('media.index');
         Route::get('media/{media}/download', 'download')->name('media.download')->whereNumber('media');
+        Route::get('media/library', 'library')->name('media.library'); // AJAX endpoint for media library
     });
+
+    // Attach existing media from library to article
+    Route::post('articles/{article}/images/attach-from-library', [AdminImageController::class, 'attachFromLibrary'])
+        ->name('articles.images.attach-from-library');
 
 });
 

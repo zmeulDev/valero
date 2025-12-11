@@ -1,5 +1,7 @@
+@props(['maxFiles' => 30, 'maxFileSizeMB' => 5])
+
 <div class="bg-white dark:bg-gray-800"
-     x-data="galleryCreate()">
+     x-data="galleryCreate({{ $maxFiles }}, {{ $maxFileSizeMB }})">
     <div class="space-y-4">
         <!-- Header -->
         <div class="flex items-center gap-2">
@@ -9,7 +11,7 @@
                     {{ __('admin.articles.gallery') }}
                 </h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ __('admin.articles.0_of_20_images_selected') }}
+                    {{ __('admin.articles.0_of_maxFiles_images_selected', ['maxFiles' => $maxFiles]) }}
                 </p>
             </div>
         </div>
@@ -17,146 +19,128 @@
         <!-- Content -->
         <div class="space-y-4">
             <!-- File Input Area -->
-            <div class="relative">
-                <input type="file" 
-                       name="gallery_images[]" 
-                       multiple
-                       class="hidden"
-                       x-ref="fileInput"
-                       @change="handleFiles($event)"
-                       accept="image/jpeg,image/png,image/gif,image/webp">
+            <div class="space-y-3">
+                <!-- Upload Button -->
+                <div class="relative">
+                    <input type="file" 
+                           name="gallery_images[]" 
+                           multiple
+                           class="hidden"
+                           x-ref="fileInput"
+                           @change="handleFiles($event)"
+                           accept="image/jpeg,image/png,image/gif,image/webp">
 
+                    <button type="button"
+                            @click="$refs.fileInput.click()"
+                            class="w-full flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors duration-200">
+                        <div class="flex flex-col items-center gap-1">
+                            <x-lucide-upload-cloud class="w-6 h-6 text-gray-400 dark:text-gray-500" />
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                                {{ __('admin.articles.click_to_upload_or_drag_and_drop') }}
+                            </span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ __('admin.articles.png_jpg_webp_up_to_maxFileSizeMB_each', ['maxFileSizeMB' => $maxFileSizeMB]) }}
+                            </span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ __('admin.articles.max_dimensions') }}
+                            </span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ __('admin.articles.slots_available') }}
+                            </span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Divider -->
+                <div class="relative flex items-center">
+                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+                    <span class="flex-shrink mx-4 text-sm text-gray-500 dark:text-gray-400">{{ __('admin.articles.or') }}</span>
+                    <div class="flex-grow border-t border-gray-300 dark:border-gray-600"></div>
+                </div>
+
+                <!-- Media Library Button -->
                 <button type="button"
-                        @click="$refs.fileInput.click()"
-                        class="w-full flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors duration-200">
-                    <div class="flex flex-col items-center gap-1">
-                        <x-lucide-upload-cloud class="w-6 h-6 text-gray-400 dark:text-gray-500" />
-                        <span class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                            {{ __('admin.articles.click_to_upload_or_drag_and_drop') }}
-                        </span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">
-                            {{ __('admin.articles.png_jpg_webp_up_to_5mb_each') }}
-                        </span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">
-                            {{ __('admin.articles.max_dimensions') }}
-                        </span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">
-                            {{ __('admin.articles.slots_available') }}
-                        </span>
-                    </div>
+                        @click="$dispatch('open-media-library')"
+                        class="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors duration-200">
+                    <x-lucide-images class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                    <span class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                        {{ __('admin.articles.select_from_media_library') }}
+                    </span>
                 </button>
             </div>
 
             <!-- Selected Files Preview -->
             <template x-if="files.length > 0">
-                <div class="mt-3 space-y-2">
-                    <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                        {{ __('admin.articles.selected') }} <span x-text="files.length"></span> {{ __('admin.articles.file') }}
+                <div class="mt-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {{ __('admin.articles.selected') }} <span x-text="files.length"></span> {{ __('admin.articles.file') }}
+                        </div>
+                        <button type="button" 
+                                @click="clearAllFiles()"
+                                class="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium">
+                            Clear all
+                        </button>
                     </div>
-                    <template x-for="file in files" :key="file.name">
-                        <div class="flex items-center justify-between px-3 py-2 text-sm bg-gray-50 dark:bg-gray-900 rounded-md">
-                            <div class="flex flex-col">
-                                <span x-text="file.name" class="text-gray-700 dark:text-gray-300 font-medium"></span>
-                                <span x-text="file.sizeFormatted" class="text-xs text-gray-500 dark:text-gray-400"></span>
-                                <span x-show="file.dimensionsText" x-text="file.dimensionsText" class="text-xs text-gray-500 dark:text-gray-400"></span>
-                                <span x-show="!file.dimensionsText" class="text-xs text-gray-400 dark:text-gray-500">Loading dimensions...</span>
+                    <div class="space-y-3">
+                    <template x-for="(file, index) in files" :key="file.name">
+                        <div class="group relative flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-gray-200 dark:border-gray-700">
+                            <!-- Image Preview -->
+                            <div class="flex-shrink-0 relative">
+                                <img :src="file.previewUrl" 
+                                     :alt="file.name"
+                                     class="w-64 h-64 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600 shadow-md">
+                                
+                                <!-- Delete Button Overlay -->
+                                <button type="button"
+                                        @click="removeFile(index)"
+                                        class="absolute -top-2 -right-2 p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                                        title="Remove this image">
+                                    <x-lucide-x class="w-4 h-4" />
+                                </button>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <span x-show="file.sizeMB > 5" class="text-red-500" title="File exceeds 5MB limit">
-                                    <x-lucide-alert-circle class="w-4 h-4" />
-                                </span>
-                                <span x-show="file.dimensionsText && (file.width > 5120 || file.height > 5120)" class="text-red-500" title="Dimensions exceed maximum allowed (max 5120 in either dimension)">
-                                    <x-lucide-alert-circle class="w-4 h-4" />
-                                </span>
+                            
+                            <!-- File Info -->
+                            <div class="flex-1 min-w-0 space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span x-text="file.name" class="text-base font-semibold text-gray-900 dark:text-gray-100 truncate"></span>
+                                </div>
+                                
+                                <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-300">
+                                    <span class="flex items-center gap-1.5">
+                                        <x-lucide-file class="w-4 h-4 text-gray-400" />
+                                        <span x-text="file.sizeFormatted" class="font-medium"></span>
+                                    </span>
+                                    <span x-show="file.dimensionsText" class="flex items-center gap-1.5">
+                                        <x-lucide-ruler class="w-4 h-4 text-gray-400" />
+                                        <span x-text="file.dimensionsText" class="font-medium"></span>
+                                    </span>
+                                </div>
+                                
+                                <!-- Validation Status -->
+                                <div class="flex items-center gap-2">
+                                    <div x-show="file.sizeMB > {{ $maxFileSizeMB }}" class="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm">
+                                        <x-lucide-alert-circle class="w-4 h-4" />
+                                        <span>File exceeds {{ $maxFileSizeMB }}MB limit</span>
+                                    </div>
+                                    <div x-show="file.dimensionsText && (file.width > 5120 || file.height > 5120)" class="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm">
+                                        <x-lucide-alert-circle class="w-4 h-4" />
+                                        <span>Dimensions exceed 5120px limit</span>
+                                    </div>
+                                    <div x-show="(!file.sizeMB || file.sizeMB <= {{ $maxFileSizeMB }}) && (!file.width || (file.width <= 5120 && file.height <= 5120))" class="flex items-center gap-2 text-green-600 dark:text-green-400 text-sm">
+                                        <x-lucide-check-circle class="w-4 h-4" />
+                                        <span>Valid image</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </template>
+                    </div>
                 </div>
             </template>
         </div>
     </div>
 </div>
 
-<script>
-function galleryCreate() {
-    return {
-        files: [],
-        maxFiles: 20,
-        handleFiles(event) {
-            const selectedFiles = Array.from(event.target.files);
-            if (selectedFiles.length > this.maxFiles) {
-                alert(`You can only upload up to ${this.maxFiles} images at once.`);
-                event.target.value = '';
-                return;
-            }
-
-            // Check file sizes and dimensions - allow up to 5120 in either dimension
-            const maxFileSize = 5 * 1024 * 1024; // 5MB
-            const maxWidth = 5120;
-            const maxHeight = 5120;
-            
-            for (const file of selectedFiles) {
-                if (file.size > maxFileSize) {
-                    alert(`File "${file.name}" is too large. Maximum file size is 5MB.`);
-                    event.target.value = '';
-                    return;
-                }
-
-                // Create a promise to check image dimensions
-                const checkDimensions = new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        if (img.width > maxWidth || img.height > maxHeight) {
-                            reject(`File "${file.name}" dimensions (${img.width}x${img.height}) exceed the maximum allowed size of ${maxWidth}x${maxHeight} pixels (max 5120 in either dimension).`);
-                        } else {
-                            resolve();
-                        }
-                    };
-                    img.onerror = () => reject(`Failed to load image "${file.name}" for dimension check.`);
-                    img.src = URL.createObjectURL(file);
-                });
-
-                // Wait for dimension check
-                checkDimensions.catch(error => {
-                    alert(error);
-                    event.target.value = '';
-                    return;
-                });
-            }
-            
-            this.files = selectedFiles.map(file => {
-                const fileObj = {
-                name: file.name,
-                    size: file.size,
-                    sizeMB: (file.size / (1024 * 1024)).toFixed(2),
-                    sizeFormatted: '',
-                    dimensionsText: null,
-                    width: null,
-                    height: null
-                };
-                
-                // Format file size
-                if (fileObj.sizeMB < 1) {
-                    fileObj.sizeFormatted = (file.size / 1024).toFixed(1) + ' KB';
-                } else {
-                    fileObj.sizeFormatted = fileObj.sizeMB + ' MB';
-                }
-                
-                // Load dimensions asynchronously
-                    const img = new Image();
-                    img.onload = () => {
-                    fileObj.dimensionsText = `${img.width}x${img.height} pixels`;
-                    fileObj.width = img.width;
-                    fileObj.height = img.height;
-                };
-                img.onerror = () => {
-                    fileObj.dimensionsText = 'Unable to load dimensions';
-                    };
-                    img.src = URL.createObjectURL(file);
-                
-                return fileObj;
-            });
-        }
-    };
-}
-</script>
+<!-- Media Library Modal -->
+<x-admin.article.media-library-modal />

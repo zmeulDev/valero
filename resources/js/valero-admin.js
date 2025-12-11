@@ -530,3 +530,575 @@ window.articleFormEdit = function() {
         }
     };
 };
+
+// Gallery Create Component
+window.galleryCreate = function(maxFiles, maxFileSizeMB) {
+    return {
+        files: [],
+        maxFiles: maxFiles,
+        handleFiles(event) {
+            const selectedFiles = Array.from(event.target.files);
+            if (selectedFiles.length > this.maxFiles) {
+                alert(`You can only upload up to ${this.maxFiles} images at once.`);
+                event.target.value = '';
+                return;
+            }
+
+            // Check file sizes and dimensions - allow up to 5120 in either dimension
+            const maxFileSize = maxFileSizeMB * 1024 * 1024;
+            const maxWidth = 5120;
+            const maxHeight = 5120;
+            
+            for (const file of selectedFiles) {
+                if (file.size > maxFileSize) {
+                    alert(`File "${file.name}" is too large. Maximum file size is ${maxFileSizeMB}MB.`);
+                    event.target.value = '';
+                    return;
+                }
+
+                // Create a promise to check image dimensions
+                const checkDimensions = new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        if (img.width > maxWidth || img.height > maxHeight) {
+                            reject(`File "${file.name}" dimensions (${img.width}x${img.height}) exceed the maximum allowed size of ${maxWidth}x${maxHeight} pixels (max 5120 in either dimension).`);
+                        } else {
+                            resolve();
+                        }
+                    };
+                    img.onerror = () => reject(`Failed to load image "${file.name}" for dimension check.`);
+                    img.src = URL.createObjectURL(file);
+                });
+
+                // Wait for dimension check
+                checkDimensions.catch(error => {
+                    alert(error);
+                    event.target.value = '';
+                    return;
+                });
+            }
+            
+            this.files = selectedFiles.map(file => {
+                const fileObj = {
+                    file: file, // Store the actual File object
+                    name: file.name,
+                    size: file.size,
+                    sizeMB: (file.size / (1024 * 1024)).toFixed(2),
+                    sizeFormatted: '',
+                    dimensionsText: 'Loading dimensions...',
+                    width: null,
+                    height: null,
+                    previewUrl: URL.createObjectURL(file)
+                };
+                
+                // Format file size
+                if (fileObj.sizeMB < 1) {
+                    fileObj.sizeFormatted = (file.size / 1024).toFixed(1) + ' KB';
+                } else {
+                    fileObj.sizeFormatted = fileObj.sizeMB + ' MB';
+                }
+                
+                // Load dimensions asynchronously with proper Alpine reactivity
+                const img = new Image();
+                img.onload = () => {
+                    // Use Alpine's reactivity to update the UI
+                    const fileIndex = this.files.findIndex(f => f.name === file.name);
+                    if (fileIndex !== -1) {
+                        this.files[fileIndex].dimensionsText = `${img.width}x${img.height} pixels`;
+                        this.files[fileIndex].width = img.width;
+                        this.files[fileIndex].height = img.height;
+                    }
+                };
+                img.onerror = () => {
+                    const fileIndex = this.files.findIndex(f => f.name === file.name);
+                    if (fileIndex !== -1) {
+                        this.files[fileIndex].dimensionsText = 'Unable to load dimensions';
+                    }
+                };
+                img.src = fileObj.previewUrl;
+                
+                return fileObj;
+            });
+        },
+        removeFile(index) {
+            // Revoke the object URL to free memory
+            if (this.files[index]?.previewUrl) {
+                URL.revokeObjectURL(this.files[index].previewUrl);
+            }
+            
+            // Remove from array
+            this.files.splice(index, 1);
+            
+            // Update the file input to match
+            if (this.files.length === 0) {
+                this.$refs.fileInput.value = '';
+            }
+        },
+        
+        clearAllFiles() {
+            // Revoke all object URLs to free memory
+            this.files.forEach(fileObj => {
+                if (fileObj.previewUrl) {
+                    URL.revokeObjectURL(fileObj.previewUrl);
+                }
+            });
+            
+            // Clear the array and file input
+            this.files = [];
+            this.$refs.fileInput.value = '';
+        },
+        
+        // Cleanup on component destroy
+        destroy() {
+            this.files.forEach(file => {
+                if (file.previewUrl) {
+                    URL.revokeObjectURL(file.previewUrl);
+                }
+            });
+        },
+        
+        // Initialize event listener for media library selection
+        init() {
+            window.addEventListener('media-selected-from-library', (event) => {
+                const selectedMedia = event.detail.media;
+                
+                // Convert library media to file-like objects for display
+                selectedMedia.forEach(media => {
+                    this.files.push({
+                        file: null, // No actual file object for library media
+                        name: media.filename,
+                        size: 0, // Size is not needed for display
+                        sizeMB: media.size || 'N/A',
+                        sizeFormatted: media.size || 'N/A',
+                        dimensionsText: media.dimensions ? `${media.dimensions.width}x${media.dimensions.height} pixels` : 'Unknown',
+                        width: media.dimensions?.width || null,
+                        height: media.dimensions?.height || null,
+                        previewUrl: media.url, // Use the library image URL
+                        isFromLibrary: true, // Flag to identify library images
+                        libraryMediaId: media.id // Store the media ID for backend
+                    });
+                });
+                
+                // Create hidden inputs for library media IDs
+                const container = this.$refs.fileInput.parentElement;
+                selectedMedia.forEach(media => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'library_media_ids[]';
+                    input.value = media.id;
+                    input.className = 'library-media-input';
+                    container.appendChild(input);
+                });
+            });
+        }
+    };
+};
+
+// Gallery Edit Component
+window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articleTitle) {
+    return {
+        uploading: false,
+        files: [],
+        maxFiles: maxFiles - articleMediaCount,
+        article_title: articleTitle,
+        showDeleteModal: false,
+        deleteTarget: null,
+
+        getRoutes() {
+            const form = document.querySelector('form[data-set-cover-route]');
+            return {
+                setCoverRoute: form.dataset.setCoverRoute,
+                deleteRoute: form.dataset.deleteRoute
+            };
+        },
+
+        handleFiles(event) {
+            const selectedFiles = Array.from(event.target.files);
+            const remainingSlots = this.maxFiles;
+            
+            if (selectedFiles.length > remainingSlots) {
+                alert(`You can only upload ${remainingSlots} more images. (Maximum total: ${maxFiles})`);
+                event.target.value = '';
+                return;
+            }
+
+            // Check file sizes and dimensions - allow up to 5120 in either dimension
+            const maxFileSize = maxFileSizeMB * 1024 * 1024;
+            const maxWidth = 5120;
+            const maxHeight = 5120;
+            
+            for (const file of selectedFiles) {
+                if (file.size > maxFileSize) {
+                    alert(`File "${file.name}" is too large. Maximum file size is ${maxFileSizeMB}MB.`);
+                    event.target.value = '';
+                    return;
+                }
+
+                // Create a promise to check image dimensions
+                const checkDimensions = new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        if (img.width > maxWidth || img.height > maxHeight) {
+                            reject(`File "${file.name}" dimensions (${img.width}x${img.height}) exceed the maximum allowed size of ${maxWidth}x${maxHeight} pixels (max 5120 in either dimension).`);
+                        } else {
+                            resolve();
+                        }
+                    };
+                    img.onerror = () => reject(`Failed to load image "${file.name}" for dimension check.`);
+                    img.src = URL.createObjectURL(file);
+                });
+
+                // Wait for dimension check
+                checkDimensions.catch(error => {
+                    alert(error);
+                    event.target.value = '';
+                    return;
+                });
+            }
+            
+            this.files = selectedFiles.map(file => {
+                const fileObj = {
+                    file: file, // Store the actual File object
+                    name: file.name,
+                    size: file.size,
+                    sizeMB: (file.size / (1024 * 1024)).toFixed(2),
+                    sizeFormatted: '',
+                    dimensionsText: 'Loading dimensions...',
+                    width: null,
+                    height: null,
+                    previewUrl: URL.createObjectURL(file)
+                };
+                
+                // Format file size
+                if (fileObj.sizeMB < 1) {
+                    fileObj.sizeFormatted = (file.size / 1024).toFixed(1) + ' KB';
+                } else {
+                    fileObj.sizeFormatted = fileObj.sizeMB + ' MB';
+                }
+                
+                // Load dimensions asynchronously with proper Alpine reactivity
+                const img = new Image();
+                img.onload = () => {
+                    // Use Alpine's reactivity to update the UI
+                    const fileIndex = this.files.findIndex(f => f.name === file.name);
+                    if (fileIndex !== -1) {
+                        this.files[fileIndex].dimensionsText = `${img.width}x${img.height} pixels`;
+                        this.files[fileIndex].width = img.width;
+                        this.files[fileIndex].height = img.height;
+                    }
+                };
+                img.onerror = () => {
+                    const fileIndex = this.files.findIndex(f => f.name === file.name);
+                    if (fileIndex !== -1) {
+                        this.files[fileIndex].dimensionsText = 'Unable to load dimensions';
+                    }
+                };
+                img.src = fileObj.previewUrl;
+                
+                return fileObj;
+            });
+        },
+
+        removeFile(index) {
+            // Revoke the object URL to free memory
+            if (this.files[index]?.previewUrl) {
+                URL.revokeObjectURL(this.files[index].previewUrl);
+            }
+            
+            // Remove from array
+            this.files.splice(index, 1);
+            
+            // Update the file input to match
+            if (this.files.length === 0) {
+                this.$refs.fileInput.value = '';
+            }
+        },
+        
+        clearAllFiles() {
+            // Revoke all object URLs to free memory
+            this.files.forEach(fileObj => {
+                if (fileObj.previewUrl) {
+                    URL.revokeObjectURL(fileObj.previewUrl);
+                }
+            });
+            
+            // Clear the array and file input
+            this.files = [];
+            this.$refs.fileInput.value = '';
+        },
+        
+        // Cleanup on component destroy
+        destroy() {
+            this.files.forEach(file => {
+                if (file.previewUrl) {
+                    URL.revokeObjectURL(file.previewUrl);
+                }
+            });
+        },
+
+        uploadImages(event) {
+            if (this.files.length === 0) return;
+            
+            this.uploading = true;
+            
+            // Build FormData manually from only the files that remain in this.files array
+            const formData = new FormData();
+            
+            // Add CSRF token from the form
+            const csrfToken = event.target.querySelector('input[name="_token"]').value;
+            formData.append('_token', csrfToken);
+            
+            // Add only the files that are still in the this.files array
+            this.files.forEach(fileObj => {
+                formData.append('gallery_images[]', fileObj.file);
+            });
+            
+            const routes = this.getRoutes();
+            
+            fetch(event.target.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success toast
+                    if (typeof showToast === 'function') {
+                        showToast(data.message || 'Images uploaded successfully', 'success');
+                    }
+
+                    // Reload the page to show new images
+                    window.location.reload();
+                } else {
+                    throw new Error(data.message || 'Upload failed');
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                if (typeof showToast === 'function') {
+                    showToast(error.message || 'An unexpected error occurred', 'error');
+                }
+            })
+            .finally(() => {
+                this.uploading = false;
+            });
+        },
+
+        deleteImage(event) {
+            // Store the delete target and show modal
+            this.deleteTarget = {
+                form: event.target,
+                token: event.target.querySelector('input[name="_token"]').value,
+                imageContainer: event.target.closest('.relative.group')
+            };
+            this.showDeleteModal = true;
+        },
+
+        confirmDelete() {
+            // Close modal
+            this.showDeleteModal = false;
+            
+            if (!this.deleteTarget) return;
+
+            const { form, token, imageContainer } = this.deleteTarget;
+
+            fetch(form.action, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(async response => {
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to delete image');
+                }
+                return data;
+            })
+            .then(data => {
+                if (data.success) {
+                    // Remove the image container from DOM with animation
+                    imageContainer.style.transition = 'all 0.3s ease-out';
+                    imageContainer.style.transform = 'scale(0.8)';
+                    imageContainer.style.opacity = '0';
+                    
+                    setTimeout(() => imageContainer.remove(), 300);
+                    
+                    // Update the image count text using the ID
+                    const countElement = document.getElementById('gallery-count');
+                    if (countElement) {
+                        countElement.textContent = `${data.remainingImages} of ${maxFiles} images used`;
+                    }
+                    
+                    // Show success toast
+                    if (typeof showToast === 'function') {
+                        showToast(data.message || 'Image deleted successfully', 'success');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Delete error:', error);
+                if (typeof showToast === 'function') {
+                    showToast(error.message || 'An error occurred while deleting the image', 'error');
+                }
+            });
+        }
+    };
+};
+
+// Media Library Modal Component
+window.mediaLibrary = function(articleId) {
+    return {
+        open: false,
+        loading: false,
+        attaching: false,
+        searchQuery: '',
+        mediaItems: [],
+        selectedMedia: [],
+        currentPage: 1,
+        lastPage: 1,
+        articleId: articleId,
+
+        get hasMorePages() {
+            return this.currentPage < this.lastPage;
+        },
+
+        openLibrary() {
+            this.open = true;
+            this.fetchMedia();
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeLibrary() {
+            this.open = false;
+            this.selectedMedia = [];
+            this.searchQuery = '';
+            this.currentPage = 1;
+            document.body.style.overflow = '';
+        },
+
+        async fetchMedia(page = 1) {
+            this.loading = true;
+            this.currentPage = page;
+
+            try {
+                const params = new URLSearchParams({
+                    page: page,
+                    search: this.searchQuery
+                });
+                
+                if (this.articleId) {
+                    params.append('exclude_article_id', this.articleId);
+                }
+
+                const response = await fetch(`/admin/media/library?${params}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to fetch media');
+
+                const data = await response.json();
+                
+                if (page === 1) {
+                    this.mediaItems = data.data;
+                } else {
+                    this.mediaItems = [...this.mediaItems, ...data.data];
+                }
+                
+                this.lastPage = data.last_page;
+                
+            } catch (error) {
+                console.error('Error fetching media:', error);
+                showToast('Failed to load media library', 'error');
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        loadMore() {
+            if (this.hasMorePages && !this.loading) {
+                this.fetchMedia(this.currentPage + 1);
+            }
+        },
+
+        toggleSelection(media) {
+            const index = this.selectedMedia.findIndex(m => m.id === media.id);
+            if (index > -1) {
+                this.selectedMedia.splice(index, 1);
+            } else {
+                this.selectedMedia.push(media);
+            }
+        },
+
+        isSelected(mediaId) {
+            return this.selectedMedia.some(m => m.id === mediaId);
+        },
+
+        clearSelection() {
+            this.selectedMedia = [];
+        },
+
+        async attachSelectedMedia() {
+            if (this.selectedMedia.length === 0 || this.attaching) return;
+
+            this.attaching = true;
+
+            try {
+                const mediaIds = this.selectedMedia.map(m => m.id);
+                const url = this.articleId 
+                    ? `/admin/articles/${this.articleId}/images/attach-from-library`
+                    : null;
+
+                if (!url) {
+                    // For create form, emit event with selected media
+                    window.dispatchEvent(new CustomEvent('media-selected-from-library', {
+                        detail: { media: this.selectedMedia }
+                    }));
+                    showToast(`${this.selectedMedia.length} images selected`, 'success');
+                    this.closeLibrary();
+                    return;
+                }
+
+                // For edit form, attach via AJAX
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({ media_ids: mediaIds })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    this.closeLibrary();
+                    
+                    // Reload the page to show the newly attached images
+                    window.location.reload();
+                } else {
+                    showToast(data.message || 'Failed to attach images', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error attaching media:', error);
+                showToast('Failed to attach images', 'error');
+            } finally {
+                this.attaching = false;
+            }
+        }
+    };
+};

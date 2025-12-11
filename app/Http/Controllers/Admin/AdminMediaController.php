@@ -117,4 +117,46 @@ class AdminMediaController extends Controller
             abort(500, 'Error downloading file');
         }
     }
+
+    /**
+     * Get all media for the media library (AJAX)
+     */
+    public function library(Request $request)
+    {
+        $query = Media::with('article:id,title')
+            ->select('id', 'article_id', 'image_path', 'filename', 'dimensions', 'size', 'is_cover', 'created_at');
+
+        // Search functionality
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('filename', 'like', "%{$search}%")
+                  ->orWhereHas('article', function($q) use ($search) {
+                      $q->where('title', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Exclude media already attached to the current article (if editing)
+        if ($excludeArticleId = $request->input('exclude_article_id')) {
+            $query->where('article_id', '!=', $excludeArticleId);
+        }
+
+        $media = $query->latest()->paginate(24);
+
+        // Transform for JSON response
+        $media->getCollection()->transform(function ($item) {
+            return [
+                'id' => $item->id,
+                'url' => asset('storage/' . $item->image_path),
+                'filename' => $item->filename,
+                'dimensions' => $item->dimensions,
+                'size' => $item->size ? number_format($item->size / 1024 / 1024, 2) . ' MB' : 'N/A',
+                'article_title' => $item->article ? $item->article->title : 'Unknown',
+                'is_cover' => $item->is_cover,
+                'created_at' => $item->created_at->format('Y-m-d H:i')
+            ];
+        });
+
+        return response()->json($media);
+    }
 }

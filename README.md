@@ -37,7 +37,7 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
   - Keyboard shortcuts (arrows, space, ESC)
   - Loading states with spinner
   - Image preloading for smooth navigation
-- Bulk image uploads (up to 5 images at once)
+- Bulk image uploads (up to 30 images per article with live previews)
 - **Image format normalization** (.jpeg → .jpg for consistency)
 - Drag-and-drop support
 - **Direct file copy** (preserves original quality and color)

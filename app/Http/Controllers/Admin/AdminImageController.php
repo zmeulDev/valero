@@ -27,12 +27,19 @@ class AdminImageController extends Controller
                 'article_id' => $article->id,
                 'has_files' => $request->hasFile('gallery_images'),
                 'file_count' => $request->hasFile('gallery_images') ? count($request->file('gallery_images')) : 0,
+                'has_library_media' => $request->has('library_media_ids'),
+                'library_count' => $request->has('library_media_ids') ? count($request->input('library_media_ids', [])) : 0,
                 'existing_count' => $article->media->count()
             ]);
 
-            // Validate file input explicitly
+            // Handle library media attachment first
+            if ($request->has('library_media_ids')) {
+                $this->attachLibraryMedia($request, $article);
+            }
+
+            // If there are no file uploads, we're done (library media was handled above)
             if (!$request->hasFile('gallery_images')) {
-                Log::warning('No gallery images found in request');
+                Log::info('No new file uploads, only library media processed');
                 return;
             }
 
@@ -450,6 +457,120 @@ class AdminImageController extends Controller
     }
 
     /**
+     * Attach library media to an article (helper method).
+     */
+    private function attachLibraryMedia(Request $request, Article $article): void
+    {
+        $mediaIds = $request->input('library_media_ids', []);
+        if (empty($mediaIds)) {
+            return;
+        }
+
+        $hasCover = $article->media()->where('is_cover', true)->exists();
+        
+        foreach ($mediaIds as $index => $mediaId) {
+            $originalMedia = Media::find($mediaId);
+            
+            if (!$originalMedia) {
+                Log::warning('Library media not found', ['media_id' => $mediaId]);
+                continue;
+            }
+            
+            // Create a duplicate media record for this article
+            // (We duplicate so the original article still has its media)
+            Media::create([
+                'article_id' => $article->id,
+                'image_path' => $originalMedia->image_path,
+                'filename' => $originalMedia->filename,
+                'mime_type' => $originalMedia->mime_type,
+                'size' => $originalMedia->size,
+                'dimensions' => $originalMedia->dimensions,
+                'alt_text' => $originalMedia->alt_text,
+                'is_cover' => ($index === 0 && !$hasCover) // First image becomes cover if no cover exists
+            ]);
+            
+            if ($index === 0 && !$hasCover) {
+                $hasCover = true;
+            }
+        }
+        
+        Log::info('Library media attached', [
+            'article_id' => $article->id,
+            'attached_count' => count($mediaIds)
+        ]);
+    }
+
+    /**
+     * Attach existing media from library to an article (AJAX endpoint).
+     */
+    public function attachFromLibrary(Request $request, Article $article)
+    {
+        $request->validate([
+            'media_ids' => 'required|array|min:1',
+            'media_ids.*' => 'required|exists:media,id'
+        ]);
+
+        try {
+            DB::transaction(function () use ($request, $article) {
+                $mediaIds = $request->input('media_ids');
+                $hasCover = $article->media()->where('is_cover', true)->exists();
+                
+                foreach ($mediaIds as $index => $mediaId) {
+                    $originalMedia = Media::findOrFail($mediaId);
+                    
+                    // Create a duplicate media record for this article
+                    // (We duplicate so the original article still has its media)
+                    Media::create([
+                        'article_id' => $article->id,
+                        'image_path' => $originalMedia->image_path,
+                        'filename' => $originalMedia->filename,
+                        'mime_type' => $originalMedia->mime_type,
+                        'size' => $originalMedia->size,
+                        'dimensions' => $originalMedia->dimensions,
+                        'alt_text' => $originalMedia->alt_text,
+                        'is_cover' => ($index === 0 && !$hasCover) // First image becomes cover if no cover exists
+                    ]);
+                    
+                    if ($index === 0 && !$hasCover) {
+                        $hasCover = true;
+                    }
+                }
+                
+                // Refresh article's media relationship
+                $article->load('media');
+                
+                // Update SEO data if a new cover was set
+                if ($article->media()->where('is_cover', true)->exists()) {
+                    $this->updateArticleSEO($article);
+                }
+            });
+            
+            // Clear caches
+            $this->clearArticleCaches();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Images attached successfully',
+                'count' => count($request->input('media_ids')),
+                'total_images' => $article->media->count()
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Failed to attach media from library', [
+                'article_id' => $article->id,
+                'media_ids' => $request->input('media_ids'),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to attach images: ' . $e->getMessage()
+            ], 400);
+        }
+    }
+
+    /**
      * Update article SEO data.
      */
     private function updateArticleSEO(Article $article): void
@@ -610,22 +731,43 @@ class AdminImageController extends Controller
     }
 
     /**
-     * Delete image files from storage.
+     * Delete image files from storage (only if not used by other articles).
      */
     private function deleteImageFiles(Media $media): void
     {
-        // Delete image files
-        if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
-            Storage::disk('public')->delete($media->image_path);
-        }
+        // Check if this image is being used by other articles
+        $isShared = Media::where('image_path', $media->image_path)
+            ->where('id', '!=', $media->id)
+            ->exists();
         
-        // Delete variants if they exist
-        if (!empty($media->variants)) {
-            foreach ($media->variants as $variant) {
-                if ($variant && Storage::disk('public')->exists($variant)) {
-                    Storage::disk('public')->delete($variant);
+        // Only delete physical files if this is the last reference
+        if (!$isShared) {
+            // Delete main image file
+            if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
+                Storage::disk('public')->delete($media->image_path);
+                
+                Log::info('Deleted image file (no other references)', [
+                    'image_path' => $media->image_path,
+                    'media_id' => $media->id
+                ]);
+            }
+            
+            // Delete variants if they exist
+            if (!empty($media->variants)) {
+                foreach ($media->variants as $variant) {
+                    if ($variant && Storage::disk('public')->exists($variant)) {
+                        Storage::disk('public')->delete($variant);
+                    }
                 }
             }
+        } else {
+            Log::info('Image file not deleted (still used by other articles)', [
+                'image_path' => $media->image_path,
+                'media_id' => $media->id,
+                'other_references' => Media::where('image_path', $media->image_path)
+                    ->where('id', '!=', $media->id)
+                    ->count()
+            ]);
         }
     }
 }
