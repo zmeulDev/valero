@@ -5,11 +5,11 @@
     <div class="lg:col-span-3 space-y-8">
       <!-- Featured Article Section -->
       @if ($featuredArticle)
-      <x-home.home-featured-articles :article="$featuredArticle" />
+      <x-home.featured :article="$featuredArticle" />
       @endif
 
       <!-- Latest Articles Section -->
-      <x-home.home-latest-articles :articles="$articles" />
+      <x-home.latest :articles="$articles" />
     </div>
 
     <!-- Sidebar -->

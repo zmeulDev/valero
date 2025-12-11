@@ -182,10 +182,10 @@
             <div class="px-6 pb-8">
               
               <!-- Article Header -->
-              <x-article.header :article="$article" />
+              <x-frontend.article.header :article="$article" />
 
               <!-- Options -->
-              <x-article.options :article="$article" />
+              <x-frontend.article.options :article="$article" />
 
               <!-- Article Content -->
               <div class="prose prose-lg max-w-none dark:prose-invert mb-12">
@@ -193,10 +193,10 @@
               </div>
 
               <!-- Gallery -->
-              <x-article.gallery :article="$article" />
+              <x-frontend.article.gallery :article="$article" />
 
               <!-- Related Articles Section -->
-              <x-article.related :relatedArticles="$relatedArticles" :currentArticle="$article" />
+              <x-frontend.article.related :relatedArticles="$relatedArticles" :currentArticle="$article" />
 
             </div>
           </article>
@@ -212,7 +212,7 @@
     </div>
 
     <!-- Full-size Gallery Modal -->
-    <x-article.fullgallery />
+    <x-frontend.article.modal-gallery />
 
   </main>
 

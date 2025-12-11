@@ -1,7 +1,7 @@
 <x-guest-layout>
-  <x-auth.authentication-card>
+  <x-auth.card>
     <x-slot name="logo">
-      <x-auth.authentication-card-logo />
+      <x-auth.logo />
     </x-slot>
 
     <div x-data="{ recovery: false }">
@@ -53,5 +53,5 @@
         </div>
       </form>
     </div>
-  </x-auth.authentication-card>
+  </x-auth.card>
 </x-guest-layout>

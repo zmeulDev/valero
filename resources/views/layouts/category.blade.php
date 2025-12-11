@@ -43,7 +43,7 @@
       <div class="lg:col-span-3 space-y-8">
         <!-- Featured Article Section -->
         @if ($featuredArticle)
-        <x-home.home-featured-articles :article="$featuredArticle" />
+        <x-home.featured :article="$featuredArticle" />
         @endif
 
         <div x-data="{ view: 'grid' }"
@@ -55,7 +55,7 @@
           <x-nothing-found />
           @else
           <div class="lg:col-span-3 space-y-8">
-            <x-home.home-latest-articles-grid :articles="$articles" />
+            <x-home.latest-grid :articles="$articles" />
           </div>
           @endif
           <!-- Pagination -->

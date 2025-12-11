@@ -7,7 +7,7 @@
       <div
         class="border border-gray-300 rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto bg-white">
         <div class="flex justify-center mb-8">
-          <x-auth.authentication-card-logo class="w-26 h-26" />
+          <x-auth.logo class="w-26 h-26" />
         </div>
         <x-validation-errors class="mb-4" />
 

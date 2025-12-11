@@ -6,9 +6,9 @@
         <div class="sm:w-2/5">
             <div class="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                 @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
-                <x-article.has-image :article="$article" />
+                <x-frontend.article.card-with-image :article="$article" />
                 @else
-                <x-article.no-image />
+                <x-frontend.article.card-no-image />
                 @endif
                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>

@@ -5,9 +5,9 @@
     <!-- Image Container -->
     <div class="relative aspect-[16/9] overflow-hidden border-b border-gray-100 dark:border-gray-700">
     @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
-      <x-article.has-image :article="$article" />
+      <x-frontend.article.card-with-image :article="$article" />
     @else
-      <x-article.no-image />
+      <x-frontend.article.card-no-image />
     @endif
     </div>
 

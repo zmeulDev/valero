@@ -1,7 +1,7 @@
 <x-guest-layout>
-  <x-auth.authentication-card>
+  <x-auth.card>
     <x-slot name="logo">
-      <x-auth.authentication-card-logo />
+      <x-auth.logo />
     </x-slot>
 
     <x-validation-errors class="mb-4" />
@@ -65,5 +65,5 @@
         </x-button>
       </div>
     </form>
-  </x-auth.authentication-card>
+  </x-auth.card>
 </x-guest-layout>

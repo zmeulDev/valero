@@ -26,10 +26,10 @@
     <x-nothing-found />
   @else
     <div x-show="view === 'grid'" x-transition>
-      <x-home.home-latest-articles-grid :articles="$articles" />
+      <x-home.latest-grid :articles="$articles" />
     </div>
     <div x-show="view === 'list'" x-transition>
-      <x-home.home-latest-articles-list :articles="$articles" />
+      <x-home.latest-list :articles="$articles" />
     </div>
 
     <!-- Pagination -->

@@ -28,7 +28,7 @@
                     @error('category_id')
                         <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @else
-                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('admin.articles.select_category_description') }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('admin.articles.select_category_description') }}</p>
                     @enderror
                 </div>
 

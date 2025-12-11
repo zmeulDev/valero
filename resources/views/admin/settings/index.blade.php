@@ -62,6 +62,53 @@
                                 </div>
                             </x-admin.card>
 
+                            <!-- SEO Settings Card -->
+                            <x-admin.card>
+                                <x-slot:header>
+                                    <div class="flex items-center">
+                                        <x-lucide-search class="w-5 h-5 text-indigo-500 mr-2" />
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">SEO Settings</h3>
+                                    </div>
+                                </x-slot:header>
+
+                                <div class="grid grid-cols-1 gap-6">
+                                    <x-admin.form.text-input
+                                        name="app_seo_title"
+                                        label="SEO Title Suffix"
+                                        :value="$settings['app_seo_title'] ?? 'Latest Articles & Insights'"
+                                        placeholder="Latest Articles & Insights"
+                                        required
+                                    />
+                                    <x-admin.form.textarea
+                                        name="app_seo_description"
+                                        label="SEO Meta Description"
+                                        :value="$settings['app_seo_description'] ?? ''"
+                                        placeholder="Discover the latest articles, insights, and updates..."
+                                        rows="3"
+                                        required
+                                    />
+                                    <x-admin.form.text-input
+                                        name="app_seo_og_title"
+                                        label="Open Graph Title"
+                                        :value="$settings['app_seo_og_title'] ?? ''"
+                                        placeholder="Leave empty to use SEO Title"
+                                    />
+                                    <x-admin.form.textarea
+                                        name="app_seo_og_description"
+                                        label="Open Graph Description"
+                                        :value="$settings['app_seo_og_description'] ?? ''"
+                                        placeholder="Leave empty to use SEO Description"
+                                        rows="3"
+                                    />
+                                    <x-admin.form.text-input
+                                        name="app_seo_keywords"
+                                        label="SEO Keywords (comma-separated)"
+                                        :value="$settings['app_seo_keywords'] ?? ''"
+                                        placeholder="articles, blog, news, insights"
+                                    />
+                                </div>
+                            </x-admin.card>
+
                             <!-- API Settings Card -->
                             <x-admin.card>
                                 <x-slot:header>

@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
     <loc>http://valero.test</loc>
-    <lastmod>2025-12-09T18:32:33+00:00</lastmod>
+    <lastmod>2025-12-11T08:55:34+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
             </url>
     <url>
     <loc>http://valero.test/cookie-policy</loc>
-    <lastmod>2025-12-09T18:32:33+00:00</lastmod>
+    <lastmod>2025-12-11T08:55:34+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
             </url>
@@ -21,12 +21,6 @@
     <url>
     <loc>http://valero.test/category/auto</loc>
     <lastmod>2025-03-03T11:34:54+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/category/work</loc>
-    <lastmod>2025-03-03T11:35:09+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
@@ -86,7 +80,7 @@
             </url>
     <url>
     <loc>http://valero.test/articles/rcd-360-pro-un-upgrade-esential-pentru-pasionatii-vw</loc>
-    <lastmod>2025-12-08T15:08:13+00:00</lastmod>
+    <lastmod>2025-12-11T08:28:49+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -296,7 +290,7 @@
             </url>
     <url>
     <loc>http://valero.test/articles/soundbar-tcl-s45h-parere-dupa-un-an-de-utilizare</loc>
-    <lastmod>2025-12-08T15:07:37+00:00</lastmod>
+    <lastmod>2025-12-11T08:23:24+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -308,19 +302,19 @@
             </url>
     <url>
     <loc>http://valero.test/articles/parere-camere-de-supraveghere-cu-panouri-solare-genbolt</loc>
-    <lastmod>2025-12-04T23:09:14+00:00</lastmod>
+    <lastmod>2025-12-11T08:42:43+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
     <loc>http://valero.test/articles/pixel-8a-vs-pixel-8-pro-duelul-fratilor-google-care-este-alegerea-potrivita-pentru-tine</loc>
-    <lastmod>2025-12-08T15:09:26+00:00</lastmod>
+    <lastmod>2025-12-11T08:39:05+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
     <loc>http://valero.test/articles/iphone-15-pro-max-vs-noul-pixel-9-pro-xl-ce-alegi-in-primavara-2025</loc>
-    <lastmod>2025-12-06T17:28:20+00:00</lastmod>
+    <lastmod>2025-12-11T07:45:03+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -338,7 +332,7 @@
             </url>
     <url>
     <loc>http://valero.test/articles/renault-clio-94-mai-mult-decat-fiare-vechi-o-poveste-de-dragoste-ulei-de-motor-si-lectii-de-mecanica</loc>
-    <lastmod>2025-12-06T17:00:20+00:00</lastmod>
+    <lastmod>2025-12-11T08:44:11+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -368,7 +362,7 @@
             </url>
     <url>
     <loc>http://valero.test/articles/nothing-phone-2a-stil-inconfundabil-dar-camera</loc>
-    <lastmod>2025-12-05T03:27:42+00:00</lastmod>
+    <lastmod>2025-12-11T08:55:34+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -446,7 +440,7 @@
             </url>
     <url>
     <loc>http://valero.test/articles/pixel-8a-vs-pixel-8-pro-vs-iphone-15-pro-max-comparatia-absurda</loc>
-    <lastmod>2025-12-08T16:10:44+00:00</lastmod>
+    <lastmod>2025-12-11T08:38:56+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
@@ -458,19 +452,7 @@
             </url>
     <url>
     <loc>http://valero.test/articles/honor-magic-v5-recenzie-un-hardware-de-maestru-ruinat-de-magicos</loc>
-    <lastmod>2025-12-09T17:48:59+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/articol-3</loc>
-    <lastmod>2025-12-09T17:59:37+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/hgjhg</loc>
-    <lastmod>2025-12-09T18:32:33+00:00</lastmod>
+    <lastmod>2025-12-11T08:42:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>

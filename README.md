@@ -6,29 +6,41 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 
 ### Article Management
 - Full CRUD operations for articles
-- Rich text editor integration
-- Cover image designation
-- Multiple image galleries per article
+- Rich text editor with smart paste handling (preserves lists and formatting)
+- Cover image designation with validation
+- Multiple image galleries per article (up to 5120x5120px)
 - Automatic reading time calculation
-- Related articles functionality
-- SEO optimization
+- Related articles functionality (modern compact design)
+- **Dynamic SEO management** (configurable meta tags, OG tags, keywords)
 - Article scheduling and drafts
 - Category organization
 - **Article preview system for scheduled content**
 - **Scheduled articles calendar view**
+- Social media link integration (YouTube, Instagram, Local Store)
 
 ### Media Management
-- Dedicated media library with grid view
+- Dedicated media library with enhanced grid view
+- **Color profile preservation** (ICC profiles maintained)
 - Image metadata tracking:
-  - Dimensions
-  - File size
+  - Dimensions (up to 5120x5120px)
+  - File size with accurate MB/KB display
   - Upload date
   - Article association
-- Cover image designation
-- Gallery modal with navigation
-- Bulk image uploads
-- Image optimization
+  - Alt text for accessibility
+- Cover image designation with AJAX updates
+- **Enhanced gallery modal** with advanced features:
+  - 2x zoom toggle
+  - Fullscreen mode
+  - Image download
+  - Thumbnail navigation strip
+  - Touch/swipe support for mobile
+  - Keyboard shortcuts (arrows, space, ESC)
+  - Loading states with spinner
+  - Image preloading for smooth navigation
+- Bulk image uploads (up to 5 images at once)
+- **Image format normalization** (.jpeg → .jpg for consistency)
 - Drag-and-drop support
+- **Direct file copy** (preserves original quality and color)
 
 ### User Interface
 - Responsive design with Tailwind CSS
@@ -68,43 +80,75 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 ```
 /app/Http/Controllers
 ├── Admin/
-│   ├── AdminController.php           # Base admin functionality
-│   ├── ArticleController.php         # Article CRUD operations
-│   ├── CategoryController.php        # Category management
-│   ├── MediaController.php           # Media library management
-│   └── DashboardController.php       # Admin dashboard
-├── Auth/
-│   └── AuthenticatedSessionController.php  # Authentication
-├── ArticleController.php             # Public article display
-├── HomeController.php                # Homepage and listings
-└── ProfileController.php             # User profile management
+│   ├── AdminArticleController.php    # Article CRUD operations
+│   ├── AdminCategoryController.php   # Category management
+│   ├── AdminDashboardController.php  # Admin dashboard with statistics
+│   ├── AdminImageController.php      # Image upload & processing (NEW)
+│   ├── AdminMediaController.php      # Media library management
+│   ├── AdminPartnersController.php   # Partners management
+│   ├── AdminSettingController.php    # Site settings (SEO, brand, API keys)
+│   └── AdminTeamController.php       # Team member management
+├── Frontend/
+│   ├── HomeController.php            # Homepage with featured articles
+│   ├── SearchController.php          # Article search functionality
+│   ├── ShowArticleController.php     # Article display & preview
+│   └── ShowCategoryController.php    # Category page display
+└── Auth/
+    └── AuthenticatedSessionController.php  # Authentication
 ```
 
-### View Components
+### View Components (Refactored Structure)
 ```
 /resources/views/components
-├── admin/
+├── admin/                            # Admin panel components
+│   ├── article/
+│   │   ├── gallery-create.blade.php  # Image upload for new articles
+│   │   ├── gallery-edit.blade.php    # Article gallery editor with AJAX
+│   │   ├── options.blade.php         # Social media links (YouTube, Instagram)
+│   │   ├── publish-option.blade.php  # Category & publish date picker
+│   │   ├── schedule-option.blade.php # Scheduled articles calendar
+│   │   └── seo.blade.php             # SEO validation and metrics
+│   ├── form/                         # Reusable form components
+│   │   ├── date-input.blade.php
+│   │   ├── file-input.blade.php
+│   │   ├── input.blade.php
+│   │   ├── select.blade.php
+│   │   ├── textarea.blade.php
+│   │   └── text-input.blade.php
 │   ├── media/
 │   │   └── gallery.blade.php         # Media library management
-│   ├── article/
-│   │   ├── gallery-edit.blade.php    # Article gallery editor
-│   │   ├── publish-option.blade.php  # Article publishing options
-│   │   └── schedule-option.blade.php # Scheduled articles calendar
-│   ├── page-header.blade.php         # Admin page headers
-│   └── stats-card.blade.php          # Statistics display
-├── article/
-│   ├── header.blade.php              # Article header with cover
-│   ├── gallery.blade.php             # Article image gallery
-│   ├── related.blade.php             # Related articles
-│   ├── has-image.blade.php           # Image display handler
-│   ├── no-image.blade.php            # Fallback for missing images
-│   └── fullgallery.blade.php         # Full-screen gallery modal
-├── home/
-│   ├── home-featured-articles.blade.php
-│   ├── home-latest-articles-grid.blade.php
-│   └── home-latest-articles-list.blade.php
-└── sidebar/
-    └── sidebar.blade.php             # Sidebar with categories
+│   ├── breadcrumbs.blade.php         # Navigation breadcrumbs
+│   ├── navigation.blade.php          # Admin navigation menu
+│   ├── page-header.blade.php         # Page headers with actions
+│   ├── stats-card.blade.php          # Dashboard statistics
+│   └── modal-confirm-delete.blade.php # Delete confirmation modal
+├── frontend/                         # Public-facing components
+│   └── article/
+│       ├── card-with-image.blade.php # Article card with image
+│       ├── card-no-image.blade.php   # Article card fallback
+│       ├── gallery.blade.php         # Enhanced 4-column gallery grid
+│       ├── header.blade.php          # Article header with cover
+│       ├── modal-gallery.blade.php   # Full-featured gallery modal
+│       ├── options.blade.php         # Social media links display
+│       └── related.blade.php         # Related articles (3 max)
+├── home/                             # Homepage components
+│   ├── featured.blade.php            # Featured article showcase
+│   ├── latest.blade.php              # Latest articles with grid/list toggle
+│   ├── latest-grid.blade.php         # Grid view for articles
+│   └── latest-list.blade.php         # List view for articles
+├── sidebar/                          # Sidebar components
+│   ├── ads.blade.php                 # Advertisement placeholder
+│   ├── popular.blade.php             # Popular articles widget
+│   ├── search.blade.php              # Article search with AJAX
+│   ├── share.blade.php               # Social sharing buttons
+│   └── sidebar.blade.php             # Main sidebar wrapper
+├── auth/                             # Authentication components
+│   ├── card.blade.php                # Auth card wrapper
+│   └── logo.blade.php                # Auth logo
+├── header.blade.php                  # Main site header
+├── footer.blade.php                  # Main site footer
+├── notification.blade.php            # Toast notifications
+└── scroll-top.blade.php              # Back to top button
 ```
 
 ### Routes
@@ -167,14 +211,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
 ```
 
 ### Key Features Implementation
-- **Media Management**: Handles image uploads, optimization, and gallery management
-- **Article System**: Full CRUD with category management and media attachments
+- **Media Management**: Advanced image handling with ICC color profile preservation
+- **Article System**: Full CRUD with category management, media galleries, and social links
 - **Authentication**: User registration, login, and admin role management
 - **Frontend**: Responsive layouts with Tailwind CSS and Alpine.js
-- **SEO**: Meta tags, slugs, and optimized URLs
-- **Performance**: Image optimization, lazy loading, and caching
+- **Dynamic SEO**: Admin-configurable meta tags, Open Graph tags, and keywords
+- **Performance**: Direct file copy (no processing), lazy loading, and image preloading
 - **Article Preview**: Preview system for scheduled articles with admin-only access
 - **Scheduled Articles**: Calendar view and management for scheduled content
+- **Enhanced Gallery**: Modern modal with zoom, fullscreen, download, and touch support
+- **Settings Management**: Centralized settings for SEO, brand, social media, and API keys
 
 ### Service Providers
 ```
@@ -213,14 +259,24 @@ Route::middleware(['auth', 'admin'])->group(function () {
   - Breadcrumbs
 
 ### Interactive Elements
-- Modal galleries with keyboard navigation
-- Grid/List view toggles
-- Image upload zones
-- Toast notifications
-- Loading states
-- Hover effects
-- **Preview mode toggle (desktop/tablet/mobile)**
-- **Scheduled articles calendar navigation**
+- **Enhanced modal gallery** with:
+  - Keyboard navigation (arrows, space, ESC)
+  - Touch/swipe gestures for mobile
+  - 2x zoom toggle
+  - Fullscreen mode
+  - Image download
+  - Thumbnail navigation strip
+  - Loading states with spinner
+  - Image counter (e.g., "3 / 10")
+- Grid/List view toggles with smooth transitions
+- Drag-and-drop image upload zones with preview
+- Toast notifications with color-coded types (success/error/warning/info)
+- Real-time loading states and progress indicators
+- Smooth hover effects and scale animations
+- **Preview mode toggle** (desktop/tablet/mobile)
+- **Scheduled articles calendar** with month navigation
+- **AJAX form submissions** with live feedback
+- **Delete confirmation modals** with custom styling
 
 ## 🚀 Installation
 
@@ -325,15 +381,30 @@ Visit [http://localhost:8000](http://localhost:8000) in your browser to access V
 
 ## 🔄 Updates & Versioning
 
-**Current Version: 0.39941**
+**Current Version: 0.42293**
+
+### Latest Updates (December 2025)
+- ✨ **Dynamic SEO Management**: Admin panel for meta tags, Open Graph, and keywords
+- ✨ **Enhanced Gallery System**: Modern modal with zoom, fullscreen, download, thumbnails
+- ✨ **Image Processing**: ICC color profile preservation, .jpeg→.jpg normalization
+- ✨ **View Structure Refactoring**: Laravel naming conventions, organized components
+- ✨ **Smart Paste Handler**: TinyMCE preserves lists, formatting, and indentation
+- ✨ **AJAX Image Management**: Set cover and delete without page reload
+- ✨ **Touch Gestures**: Swipe support for mobile gallery navigation
+- ✨ **Image Preloading**: Adjacent images preload for smooth navigation
+- ✨ **Settings API**: Centralized settings with app_ prefix in database
+- ✨ **Toast System**: Global notification system with color-coded types
+- 🗑️ **Code Cleanup**: Removed unused components and optimized bundle size
+- 🐛 **Bug Fixes**: Image upload validation, dimension display, file size calculation
+
+### Previous Updates
 - Added article preview system for scheduled content
 - Implemented scheduled articles calendar view
 - Enhanced admin article management with preview capabilities
 - Added device toggle for article previews (desktop/tablet/mobile)
 - Improved scheduled articles management interface
 - Enhanced media library management
-- Improved article gallery system
-- Added related articles functionality
+- Added related articles functionality (modern 3-column layout)
 - Optimized image loading and display
 - Improved dark mode implementation
 
@@ -367,39 +438,77 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - Interactive components with hover effects and smooth transitions
 - Responsive tables with row hover effects
 - Dark mode with system preference detection and manual toggle
-- Modal image gallery with keyboard navigation
+- **Advanced modal gallery**:
+  - Fullscreen mode with backdrop blur
+  - 2x zoom with cursor indicators
+  - Download images directly
+  - Thumbnail strip with auto-scroll
+  - Touch swipe gestures
+  - Keyboard shortcuts
+  - Loading spinner transitions
 - Real-time character counting for content fields
-- Drag-and-drop file upload zones
-- Toast notifications for user feedback
-- **Preview mode for scheduled articles with device toggle**
-- **Scheduled articles calendar with visual indicators**
+- Drag-and-drop file upload zones with live preview
+- **Enhanced toast notifications**:
+  - Color-coded types (success, error, warning, info)
+  - Auto-dismiss with progress bar
+  - Custom icons per type
+  - Smooth animations
+- **Preview mode for scheduled articles** with device toggle
+- **Scheduled articles calendar** with visual indicators
+- **AJAX operations** without page reload (set cover, delete images)
+- **Smart paste** preserves formatting in TinyMCE editor
 
 ## 🎨 Design & UI Components
 
 - **Logo font**: Protest Guerrilla
-- **Icons**: [Lucide Icons](https://lucide.dev/icons/)
-- **Rich Text Editor**: TinyMCE 6
-- **Image Gallery**: Custom modal viewer with keyboard navigation
+- **Icons**: [Lucide Icons](https://lucide.dev/icons/) (300+ icons)
+- **Rich Text Editor**: TinyMCE 6 with smart paste handler
+- **Image Gallery**: 
+  - 4-column responsive grid (2 on mobile, 3 on tablet)
+  - Modal viewer with fullscreen, zoom, download
+  - Thumbnail navigation strip
+  - Touch/swipe support
+  - Keyboard shortcuts (←→ arrows, space, ESC)
+  - Image preloading for smooth navigation
 - **Dark Mode**: System preference detection with manual toggle
 - **Email Templates**: Custom HTML templates with dark mode support
 - **Preview System**: Admin-only preview for scheduled articles
+- **Settings UI**: Organized cards for SEO, Brand, API, Social Media
+- **Toast Notifications**: Color-coded with auto-dismiss and progress bars
 
 ## 🤝 Future Enhancements
 
 - **Enhanced User Authentication**: 
-  - Social login integration
+  - Social login integration (Google, GitHub)
   - OAuth2 support
-  - Advanced role permissions
+  - Advanced role permissions (editor, contributor)
 - **Email Customization**: 
   - Customizable email templates
-  - HTML email support
   - Multiple language support for emails
-- **SEO Enhancements**: Improve the existing SEO functionality by adding more meta tags and optimizing social media previews.
-- **Article Search**: Add a search functionality to find articles based on title or content.
-- **Dashboard Statistics**: Implement more detailed statistics on articles and categories in the admin dashboard.
-- **Preview Sharing**: Allow sharing preview links with team members for review.
-- **Preview Comments**: Add commenting system for article previews.
-- **Preview Expiration**: Set expiration time for preview links for security.
+  - Email notification preferences
+- **Advanced SEO**: 
+  - JSON-LD structured data
+  - Automatic sitemap generation
+  - Social media card previews
+- **Article Features**:
+  - Comments system with moderation
+  - Article bookmarks/favorites
+  - Reading progress indicator
+  - Print-friendly view
+- **Dashboard Enhancements**: 
+  - Real-time analytics
+  - Traffic statistics with charts
+  - Popular articles tracking
+  - Category performance metrics
+- **Preview System**: 
+  - Shareable preview links
+  - Preview comments for team review
+  - Preview link expiration for security
+- **Media Enhancements**:
+  - Image crop/resize tool in admin
+  - WebP automatic conversion
+  - CDN integration
+  - Video upload support
 
 ## 🤝 Contributing
 

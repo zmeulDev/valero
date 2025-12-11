@@ -7,9 +7,9 @@
       <div class="sm:w-[280px] mb-4 sm:mb-0 sm:mr-6 flex-shrink-0">
         <div class="relative aspect-[4/3] overflow-hidden rounded-xl border border-gray-100 dark:border-gray-700">
         @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
-      <x-article.has-image :article="$article" />
+      <x-frontend.article.card-with-image :article="$article" />
     @else
-      <x-article.no-image />
+      <x-frontend.article.card-no-image />
     @endif
         </div>
       </div>

@@ -86,14 +86,14 @@
         </div>
 
         <div class="w-full">
-            <!-- Content Card with Tabs -->
-            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700"
-                 x-data="{ 
-                     activeTab: localStorage.getItem('activeArticleTab') || 'content',
-                     init() {
-                         this.$watch('activeTab', value => localStorage.setItem('activeArticleTab', value))
-                     }
-                 }">
+                <!-- Content Card with Tabs -->
+                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700"
+                     x-data="{ 
+                         activeTab: localStorage.getItem('activeArticleTab') || 'content',
+                         init() {
+                             this.$watch('activeTab', value => localStorage.setItem('activeArticleTab', value))
+                         }
+                     }">
                     <!-- Tabs Header -->
                     <div class="border-b border-gray-200 dark:border-gray-700">
                         <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
@@ -300,10 +300,10 @@
                              x-transition:leave-start="opacity-100 transform translate-y-0"
                              x-transition:leave-end="opacity-0 transform -translate-y-2">
                             <x-admin.article.publish-option :article="$article" :categories="$categories" :scheduledArticles="$scheduledArticles" />
-                          </div>
                     </div>
                 </div>
             </div>
+        </div>
       </form>
     </div>
   </div>

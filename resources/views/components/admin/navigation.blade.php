@@ -4,7 +4,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <!-- Logo -->
-                    <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
+                    <a href="{{ route('admin.dashboard') }}" class="flex-shrink-0 flex items-center">
                         <x-application-logo class="h-8 w-8 sm:h-12 sm:w-12 text-gray-800 dark:text-white" />
                         <span class="ml-3 text-lg font-semibold text-gray-900 dark:text-white">
                             Admin<span class="text-gray-400 dark:text-gray-500 mx-2">|</span>{{ config('app_name') ?? config('app.name') }}

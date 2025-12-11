@@ -126,7 +126,7 @@ function galleryCreate() {
             
             this.files = selectedFiles.map(file => {
                 const fileObj = {
-                    name: file.name,
+                name: file.name,
                     size: file.size,
                     sizeMB: (file.size / (1024 * 1024)).toFixed(2),
                     sizeFormatted: '',
@@ -143,16 +143,16 @@ function galleryCreate() {
                 }
                 
                 // Load dimensions asynchronously
-                const img = new Image();
-                img.onload = () => {
+                    const img = new Image();
+                    img.onload = () => {
                     fileObj.dimensionsText = `${img.width}x${img.height} pixels`;
                     fileObj.width = img.width;
                     fileObj.height = img.height;
                 };
                 img.onerror = () => {
                     fileObj.dimensionsText = 'Unable to load dimensions';
-                };
-                img.src = URL.createObjectURL(file);
+                    };
+                    img.src = URL.createObjectURL(file);
                 
                 return fileObj;
             });
