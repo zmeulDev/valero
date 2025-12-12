@@ -91,6 +91,7 @@ return [
         'create_article' => 'Create Article',
         'edit_article' => 'Edit Article',
         'creating' => 'Creating...',
+        'creating_article' => 'Creating article...',
         'back_to_articles' => 'Back to Articles',
         'preview_article' => 'Preview',
         'update_article' => 'Update',

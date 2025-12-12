@@ -1,20 +1,4 @@
-<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
-    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-between">
-            <div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                    {{ __('Two Factor Authentication') }}
-                </h3>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __('Add additional security to your account using two factor authentication.') }}
-                </p>
-            </div>
-            <div class="flex-shrink-0">
-                <x-lucide-shield-check class="w-8 h-8 text-gray-400" />
-            </div>
-        </div>
-    </div>
-
+<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
     <div class="p-6">
         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
             @if ($this->enabled)

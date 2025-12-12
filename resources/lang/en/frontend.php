@@ -47,7 +47,7 @@ return [
         'no_related_articles_found_in_this_category' => 'No related articles found in this category.',
         'read_more' => 'Read More',
         '5_min_read' => '5 min read',
-
+        'view_all_in' => 'View all in',
     ],
 
     'sidebar' => [

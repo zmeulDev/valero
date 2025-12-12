@@ -12,7 +12,7 @@
             <a href="{{ route('category.index', $currentArticle->category->slug) }}" 
                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
                onclick="event.stopPropagation();">
-                <span>View all in {{ $currentArticle->category->name }}</span>
+                <span>{{ __('frontend.article.view_all_in') }} {{ $currentArticle->category->name }}</span>
                 <x-lucide-arrow-right class="w-4 h-4" />
             </a>
         @endif

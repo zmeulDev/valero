@@ -14,7 +14,7 @@ return [
         'search_results' => 'Rezultate căutare',
         'home' => 'Acasă',
         'categories' => 'Categorii',
-        'admin_panel' => 'Panou de administrare',
+        'admin_panel' => 'Administrare',
         'logout' => 'Deconectare',
         'login' => 'Autentificare',
         'title' => 'Titlu',
@@ -77,6 +77,7 @@ return [
         'seo_details' => 'Detalii SEO',
         'scheduled_articles' => 'Articole programate',
         'confirm_delete' => 'Ești sigur că dorești să ștergi acest articol?',
+        'view_all_in' => 'Vizualizează toate în',
     ],
 
     'sidebar' => [

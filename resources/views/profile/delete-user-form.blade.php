@@ -1,27 +1,30 @@
-<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
-    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-between">
+<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="p-6">
+        <!-- Warning Alert -->
+        <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 rounded-lg">
+            <div class="flex items-start">
+                <x-lucide-alert-triangle class="w-6 h-6 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
+                <div>
+                    <h4 class="text-sm font-semibold text-red-800 dark:text-red-300 mb-1">
+                        {{ __('Danger Zone') }}
+                    </h4>
+                    <p class="text-sm text-red-700 dark:text-red-400">
+                        {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
             <div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                    {{ __('Delete Account') }}
-                </h3>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __('Permanently delete your account.') }}
+                <h4 class="text-sm font-medium text-gray-900 dark:text-white">
+                    {{ __('Delete This Account') }}
+                </h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    {{ __('This action cannot be undone.') }}
                 </p>
             </div>
-            <div class="flex-shrink-0">
-                <x-lucide-alert-triangle class="w-8 h-8 text-red-500" />
-            </div>
-        </div>
-    </div>
-
-    <div class="p-6">
-        <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
-        </div>
-
-        <div class="mt-6">
-            <x-danger-button wire:click="confirmUserDeletion" wire:loading.attr="disabled" class="flex items-center">
+            <x-danger-button wire:click="confirmUserDeletion" wire:loading.attr="disabled" class="flex items-center ml-4">
                 <x-lucide-trash-2 class="w-4 h-4 mr-2" />
                 {{ __('Delete Account') }}
             </x-danger-button>

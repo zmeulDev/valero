@@ -1,13 +1,16 @@
-<x-app-layout>
+<x-admin-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('API Tokens') }}
-        </h2>
+        <x-admin.page-header
+            icon="key"
+            title="{{ __('API Tokens') }}"
+            description="Manage your API tokens for accessing the application programmatically"
+            :breadcrumbs="[['label' => __('API Tokens')]]"
+        />
     </x-slot>
 
-    <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @livewire('api.api-token-manager')
         </div>
     </div>
-</x-app-layout>
+</x-admin-layout>

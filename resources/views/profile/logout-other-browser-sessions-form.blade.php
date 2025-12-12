@@ -1,20 +1,4 @@
-<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
-    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-        <div class="flex items-center justify-between">
-            <div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                    {{ __('Browser Sessions') }}
-                </h3>
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    {{ __('Manage and log out your active sessions on other browsers and devices.') }}
-                </p>
-            </div>
-            <div class="flex-shrink-0">
-                <x-lucide-monitor class="w-8 h-8 text-gray-400" />
-            </div>
-        </div>
-    </div>
-
+<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
     <div class="p-6 space-y-6">
         <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
             {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}

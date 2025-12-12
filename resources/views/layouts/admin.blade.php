@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>{{ $title ?? 'Admin Panel' }} - {{ config('app.name', 'Valero') }}</title>
+  <title>{{ $title ?? 'Admin Panel' }} - {{ config('app_name', 'Valero') }}</title>
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
   <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
   <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>

@@ -15,8 +15,21 @@ const tinymceConfig = {
     browser_spellcheck: true,
     paste_block_drop: false,
     paste_data_images: true,
-    paste_remove_styles_if_webkit: false,
+    paste_remove_styles_if_webkit: true,
+    paste_webkit_styles: 'none',
+    paste_retain_style_properties: 'none',
     paste_merge_formats: true,
+    paste_preprocess: function(plugin, args) {
+        // Remove font families, colors, and other inline styles from pasted content
+        args.content = args.content
+            .replace(/style="[^"]*font-family:[^;"]*;?[^"]*"/gi, '')
+            .replace(/style="[^"]*font-size:[^;"]*;?[^"]*"/gi, '')
+            .replace(/style="[^"]*color:[^;"]*;?[^"]*"/gi, '')
+            .replace(/style="[^"]*background-color:[^;"]*;?[^"]*"/gi, '')
+            .replace(/face="[^"]*"/gi, '')
+            .replace(/color="[^"]*"/gi, '')
+            .replace(/style=""/gi, '');
+    },
     content_style: `
         body { 
             margin: 1rem; 

@@ -94,6 +94,7 @@ return [
         'create_article' => 'Creare articol',
         'edit_article' => 'Editare articol',
         'creating' => 'Se creează...',
+        'creating_article' => 'Se creează articol...',
         'back_to_articles' => 'Înapoi la articole',
         'preview_article' => 'Previzualizare articol',
         'update_article' => 'Actualizare articol',
