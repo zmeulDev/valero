@@ -58,10 +58,18 @@
                                         </a>
 
                                         <a href="{{ route('admin.media.index') }}" 
-                                           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.partners.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.media.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                             <div class="flex items-center">
                                                 <x-lucide-image class="w-4 h-4 mr-2" />
                                                 {{ __('admin.common.media') }}
+                                            </div>
+                                        </a>
+
+                                        <a href="{{ route('admin.bookmarks.index') }}" 
+                                           class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.bookmarks.*') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                            <div class="flex items-center">
+                                                <x-lucide-bookmark class="w-4 h-4 mr-2" />
+                                                {{ __('admin.common.bookmarks') }}
                                             </div>
                                         </a>
                                     </div>

@@ -17,6 +17,7 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 - **Article preview system for scheduled content**
 - **Scheduled articles calendar view**
 - Social media link integration (YouTube, Instagram, Local Store)
+- **Bookmarking system** for storing and reusing links, notes, and information
 
 ### Media Management
 - Dedicated media library with enhanced grid view
@@ -73,6 +74,7 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 ├── Article.php            # Article model with relationships
 ├── Category.php          # Category management
 ├── Media.php             # Media/image handling
+├── Bookmark.php          # Bookmark management for reusable links
 └── Comment.php           # Article comments (if implemented)
 ```
 
@@ -85,6 +87,7 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 │   ├── AdminDashboardController.php  # Admin dashboard with statistics
 │   ├── AdminImageController.php      # Image upload & processing (NEW)
 │   ├── AdminMediaController.php      # Media library management
+│   ├── AdminBookmarkController.php   # Bookmark management
 │   ├── AdminPartnersController.php   # Partners management
 │   ├── AdminSettingController.php    # Site settings (SEO, brand, API keys)
 │   └── AdminTeamController.php       # Team member management
@@ -104,7 +107,7 @@ Valero is an open-source article-sharing platform built with **Laravel 11** and 
 │   ├── article/
 │   │   ├── gallery-create.blade.php  # Image upload for new articles
 │   │   ├── gallery-edit.blade.php    # Article gallery editor with AJAX
-│   │   ├── options.blade.php         # Social media links (YouTube, Instagram)
+│   │   ├── options.blade.php         # Social media links & bookmarks library
 │   │   ├── publish-option.blade.php  # Category & publish date picker
 │   │   ├── schedule-option.blade.php # Scheduled articles calendar
 │   │   └── seo.blade.php             # SEO validation and metrics
@@ -173,6 +176,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('articles/scheduled', [AdminArticleController::class, 'scheduled'])->name('articles.scheduled');
     Route::resource('categories', AdminCategoryController::class);
     Route::resource('media', AdminMediaController::class);
+    Route::resource('bookmarks', AdminBookmarkController::class);
 });
 ```
 
@@ -207,12 +211,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
 ├── create_articles_table.php
 ├── create_categories_table.php
 ├── create_media_table.php
-└── create_article_category_table.php
+├── create_article_category_table.php
+└── create_bookmarks_table.php
 ```
 
 ### Key Features Implementation
 - **Media Management**: Advanced image handling with ICC color profile preservation
 - **Article System**: Full CRUD with category management, media galleries, and social links
+- **Bookmarking System**: Store and manage reusable links, notes, and information for articles
 - **Authentication**: User registration, login, and admin role management
 - **Frontend**: Responsive layouts with Tailwind CSS and Alpine.js
 - **Dynamic SEO**: Admin-configurable meta tags, Open Graph tags, and keywords
@@ -384,6 +390,9 @@ Visit [http://localhost:8000](http://localhost:8000) in your browser to access V
 **Current Version: 0.42293**
 
 ### Latest Updates (December 2025)
+- ✨ **Bookmarking System**: Complete bookmark management with categories, search, and article integration
+- ✨ **Media Library Reuse**: Reuse existing images when creating/editing articles with reference counting
+- ✨ **Reference Counting**: Smart image deletion that preserves shared images across articles
 - ✨ **Dynamic SEO Management**: Admin panel for meta tags, Open Graph, and keywords
 - ✨ **Enhanced Gallery System**: Modern modal with zoom, fullscreen, download, thumbnails
 - ✨ **Image Processing**: ICC color profile preservation, .jpeg→.jpg normalization
@@ -394,8 +403,10 @@ Visit [http://localhost:8000](http://localhost:8000) in your browser to access V
 - ✨ **Image Preloading**: Adjacent images preload for smooth navigation
 - ✨ **Settings API**: Centralized settings with app_ prefix in database
 - ✨ **Toast System**: Global notification system with color-coded types
+- ✨ **Modern Auth UI**: Complete redesign of authentication views with dark mode
+- ✨ **JavaScript Refactoring**: Centralized admin and frontend JavaScript files
 - 🗑️ **Code Cleanup**: Removed unused components and optimized bundle size
-- 🐛 **Bug Fixes**: Image upload validation, dimension display, file size calculation
+- 🐛 **Bug Fixes**: Image upload validation, dimension display, file size calculation, translation keys
 
 ### Previous Updates
 - Added article preview system for scheduled content
@@ -457,6 +468,13 @@ The UI follows a **minimalist design** with modern, interactive elements using *
 - **Scheduled articles calendar** with visual indicators
 - **AJAX operations** without page reload (set cover, delete images)
 - **Smart paste** preserves formatting in TinyMCE editor
+- **Bookmarking system**:
+  - Modern card-based layout with hover effects
+  - One-click copy to clipboard with visual feedback
+  - Category filtering with pills
+  - Real-time search across all fields
+  - Pagination for efficient browsing
+  - Integrated in article options tab for easy access
 
 ## 🎨 Design & UI Components
 
@@ -492,7 +510,6 @@ The UI follows a **minimalist design** with modern, interactive elements using *
   - Social media card previews
 - **Article Features**:
   - Comments system with moderation
-  - Article bookmarks/favorites
   - Reading progress indicator
   - Print-friendly view
 - **Dashboard Enhancements**: 

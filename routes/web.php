@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminSitemapController;
 use App\Http\Controllers\Admin\AdminTeamController;
 use App\Http\Controllers\Admin\AdminPartnersController;
+use App\Http\Controllers\Admin\AdminBookmarkController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShowArticleController;
@@ -108,6 +109,17 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Attach existing media from library to article
     Route::post('articles/{article}/images/attach-from-library', [AdminImageController::class, 'attachFromLibrary'])
         ->name('articles.images.attach-from-library');
+
+    // Bookmarks
+    Route::controller(AdminBookmarkController::class)->group(function () {
+        Route::get('bookmarks', 'index')->name('bookmarks.index');
+        Route::get('bookmarks/create', 'create')->name('bookmarks.create');
+        Route::post('bookmarks', 'store')->name('bookmarks.store');
+        Route::get('bookmarks/{bookmark}/edit', 'edit')->name('bookmarks.edit');
+        Route::put('bookmarks/{bookmark}', 'update')->name('bookmarks.update');
+        Route::delete('bookmarks/{bookmark}', 'destroy')->name('bookmarks.destroy');
+        Route::get('bookmarks/all', 'getAllBookmarks')->name('bookmarks.all'); // AJAX endpoint
+    });
 
 });
 
