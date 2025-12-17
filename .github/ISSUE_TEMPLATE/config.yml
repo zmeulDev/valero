@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/zmeuldev/valero/discussions
+    about: Ask questions, share ideas, and discuss Valero with the community
+  - name: 📖 Documentation
+    url: https://github.com/zmeuldev/valero/blob/main/README.md
+    about: Check out the README for setup instructions and feature documentation
+

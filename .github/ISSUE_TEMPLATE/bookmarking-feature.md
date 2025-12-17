@@ -1,3 +1,10 @@
+---
+name: Bookmarking Feature (Completed)
+about: Documentation for the completed bookmarking feature implementation
+title: "[Feature Complete] Bookmarking System"
+labels: ["enhancement", "feature", "documentation"]
+---
+
 # ✨ Bookmarking Feature Implementation
 
 ## 📋 Summary
@@ -136,11 +143,6 @@ All UI strings, messages, and labels are fully translatable.
 
 _Add screenshots of the bookmarking interface here_
 
-## 🔗 Related Issues
-
-- Closes #[issue-number]
-- Related to #[issue-number]
-
 ## 📝 Notes
 
 - Bookmarks are user-specific (each admin user has their own bookmarks)
@@ -150,7 +152,6 @@ _Add screenshots of the bookmarking interface here_
 
 ---
 
-**Status**: ✅ Completed
-**Version**: 0.42293+
+**Status**: ✅ Completed  
+**Version**: 0.42293+  
 **Date**: December 2025
-

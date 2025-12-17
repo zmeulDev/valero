@@ -1,0 +1,66 @@
+name: Documentation
+description: Request documentation improvements or report documentation issues
+title: "[Docs] "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Valero's documentation! Please fill out the form below.
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation issue is this?
+      options:
+        - Missing Documentation
+        - Incorrect/Outdated Information
+        - Unclear/Confusing Content
+        - Typo/Grammar Error
+        - Code Example Issue
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: doc-description
+    attributes:
+      label: Description
+      description: Describe the documentation issue or improvement needed
+      placeholder: The documentation should...
+    validations:
+      required: true
+
+  - type: input
+    id: doc-location
+    attributes:
+      label: Documentation Location
+      description: Where is this documentation? (file path, URL, section name)
+      placeholder: README.md, docs/installation.md, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: suggested-fix
+    attributes:
+      label: Suggested Fix
+      description: How should this be documented? What information should be added or changed?
+      placeholder: |
+        The documentation should include...
+        Or change X to Y because...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, examples, or references
+      placeholder: |
+        - Related documentation
+        - Examples from other projects
+        - Screenshots
+    validations:
+      required: false
+
