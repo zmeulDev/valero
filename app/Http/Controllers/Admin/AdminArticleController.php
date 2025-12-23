@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 class AdminArticleController extends Controller
 {
     /**
-     * Display a listing of articles.
+     * Display a listing of articles
      */
     public function index(Request $request)
     {
@@ -540,7 +540,7 @@ class AdminArticleController extends Controller
                 'tags' => $article->tags,
                 'image' => $coverImage ? $coverImage->image_path : null,
                 'author' => $article->user->name,
-                'robots' => 'index, follow',
+                'robots' => 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
                 'canonical_url' => route('articles.index', $article->slug),
                 'created_at' => $article->scheduled_at ?? $article->created_at,
                 'updated_at' => $article->updated_at,
