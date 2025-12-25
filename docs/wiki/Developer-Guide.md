@@ -85,6 +85,8 @@ Recommended extensions:
 // app/Models/Article.php
 class Article extends Model
 {
+    use HasFactory, HasSEO; // Implements RalphJSmit\Laravel\SEO
+
     protected $fillable = [
         'title', 'slug', 'content', 
         'category_id', 'published_at'
@@ -94,6 +96,10 @@ class Article extends Model
     {
         return $this->hasMany(Media::class);
     }
+
+    // dynamically generates SEOData with BlogPosting schema
+    public function getDynamicSEOData(): SEOData 
+    { ... }
 }
 ```
 

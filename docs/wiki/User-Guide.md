@@ -101,6 +101,13 @@ The SEO tab shows:
 - Validation warnings
 - SEO score
 
+### FAQ Automatic Schema
+ 
+To automatically generate a specific FAQ schema for Google:
+- Write your content in the formatted: `Q: Your Question? A: Your Answer.`
+- Elements grouped in headings or bold text are automatically detected.
+- Example: `<h3>Q: What is this?</h3> <p>This is Valero.</p>` or `<strong>Q: Is it free?</strong> <br> A: Yes!`
+
 ### Scheduling Articles
 
 1. Set a **Publish Date** in the future

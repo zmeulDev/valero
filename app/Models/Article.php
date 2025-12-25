@@ -21,8 +21,20 @@ class Article extends Model
     use HasFactory, HasSEO;
 
     protected $fillable = [
-        'user_id', 'title', 'slug', 'tags', 'excerpt', 'content', 'is_featured', 'scheduled_at', 'views', 'category_id', 'likes_count',
-        'youtube_link', 'instagram_link', 'local_store_link'
+        'user_id',
+        'title',
+        'slug',
+        'tags',
+        'excerpt',
+        'content',
+        'is_featured',
+        'scheduled_at',
+        'views',
+        'category_id',
+        'likes_count',
+        'youtube_link',
+        'instagram_link',
+        'local_store_link'
     ];
 
     protected $casts = [
@@ -60,9 +72,9 @@ class Article extends Model
 
     public function scopePublished($query)
     {
-        return $query->where(function($q) {
+        return $query->where(function ($q) {
             $q->where('scheduled_at', '<=', now())
-            ->orWhereNull('scheduled_at');
+                ->orWhereNull('scheduled_at');
         });
     }
 
@@ -75,7 +87,7 @@ class Article extends Model
     {
         $wordCount = str_word_count(strip_tags($this->content));
         $minutes = ceil($wordCount / 200);
-        
+
         return $minutes . ' ' . __('frontend.common.minutes');
     }
 
@@ -118,7 +130,7 @@ class Article extends Model
     {
         // Get clean description, limiting to 160 chars for SEO best practices
         $description = Str::limit(
-            strip_tags($this->excerpt ?: $this->content), 
+            strip_tags($this->excerpt ?: $this->content),
             160
         );
 
@@ -141,9 +153,74 @@ class Article extends Model
             ...$this->tags_array,
             config('app.name')
         ])
-        ->filter()
-        ->unique()
-        ->join(', ');
+            ->filter()
+            ->unique()
+            ->join(', ');
+
+        // Helper to extract FAQs
+        $faqs = $this->extractFaqs();
+
+        $schemaCollection = SchemaCollection::make()
+            ->addArticle(function ($schema) use ($imageUrl, $description, $readingTime, $wordCount, $articleUrl) {
+                // Force BlogPosting type if possible (property might be public)
+                if (property_exists($schema, 'type')) {
+                    $schema->type = 'BlogPosting';
+                }
+
+                $schema->headline = $this->title;
+                $schema->description = $description;
+
+                // package 'image' property must be string
+                $schema->image = $imageUrl;
+
+                $schema->datePublished = $this->created_at;
+                $schema->dateModified = $this->updated_at;
+                $schema->author = [
+                    '@type' => 'Person',
+                    'name' => $this->user->name
+                ];
+                $schema->publisher = [
+                    '@type' => 'Organization',
+                    'name' => config('app_name'),
+                    'url' => route('home'),
+                    'logo' => [
+                        '@type' => 'ImageObject',
+                        'url' => url(asset('storage/brand/logo.png'))
+                    ]
+                ];
+                $schema->articleBody = $this->content;
+                $schema->wordCount = $wordCount;
+                $schema->timeRequired = "PT{$readingTime}M";
+                $schema->keywords = $this->tags_array;
+                $schema->mainEntityOfPage = [
+                    '@type' => 'WebPage',
+                    '@id' => $articleUrl
+                ];
+
+                return $schema;
+            })
+            ->addBreadcrumbs(function ($breadcrumbs) {
+                return $breadcrumbs
+                    ->prependBreadcrumbs([
+                        'Home' => route('home'),
+                        $this->category->name => route('category.index', $this->category),
+                        $this->title => route('articles.index', ['slug' => $this->slug])
+                    ]);
+            });
+
+        // Only add FAQPage if we actually have FAQs
+        if (!empty($faqs)) {
+            $schemaCollection->addFaqPage(function ($faqPage) use ($faqs) {
+                foreach ($faqs as $faq) {
+                    $faqPage->addQuestion(
+                        name: $faq['question'],
+                        acceptedAnswer: $faq['answer']
+                    );
+                }
+
+                return $faqPage;
+            });
+        }
 
         return new SEOData(
             title: $this->title,
@@ -155,97 +232,66 @@ class Article extends Model
             section: $this->category->name,
             tags: $this->tags_array,
             url: $articleUrl,
-            type: 'article',
-            schema: SchemaCollection::make()
-                ->addArticle(function($schema) use ($imageUrl, $description, $readingTime, $wordCount, $articleUrl) {
-                    $schema->headline = $this->title;
-                    $schema->description = $description;
-                    // Keep as string for package compatibility (ImageObject array added in view)
-                    $schema->image = $imageUrl;
-                    $schema->datePublished = $this->created_at;
-                    $schema->dateModified = $this->updated_at;
-                    $schema->author = [
-                        '@type' => 'Person',
-                        'name' => $this->user->name
-                    ];
-                    $schema->publisher = [
-                        '@type' => 'Organization',
-                        'name' => config('app.name'),
-                        'logo' => [
-                            '@type' => 'ImageObject',
-                            'url' => url(asset('storage/brand/logo.png'))
-                        ]
-                    ];
-                    $schema->articleBody = $this->content;
-                    $schema->wordCount = $wordCount;
-                    $schema->timeRequired = "PT{$readingTime}M";
-                    $schema->keywords = $this->tags_array;
-                    $schema->mainEntityOfPage = $articleUrl;
-
-                    return $schema;
-                })
-                ->addBreadcrumbs(function($breadcrumbs) {
-                    return $breadcrumbs
-                        ->prependBreadcrumbs([
-                            'Home' => route('home'),
-                            $this->category->name => route('category.index', $this->category),
-                            $this->title => route('articles.index', ['slug' => $this->slug])
-                        ]);
-                })
-                ->addFaqPage(function($faqPage) {
-                    $faqs = $this->extractFaqs();
-                    
-                    // Set mainEntity for FAQ schema
-                    $faqPage->mainEntity = array_map(function($faq) {
-                        return [
-                            '@type' => 'Question',
-                            'name' => $faq['question'],
-                            'acceptedAnswer' => [
-                                '@type' => 'Answer',
-                                'text' => $faq['answer']
-                            ]
-                        ];
-                    }, $faqs);
-
-                    // Add questions for backward compatibility
-                    foreach ($faqs as $faq) {
-                        $faqPage->addQuestion(
-                            name: $faq['question'],
-                            acceptedAnswer: $faq['answer']
-                        );
-                    }
-
-                    return $faqPage;
-                })
+            type: 'BlogPosting',
+            schema: $schemaCollection
         );
     }
 
     /**
      * Extract FAQs from article content
-     * This is a basic implementation - adjust based on your content structure
+     * Supports H2/H3/Strong tags containing "Q:" or ending with "?"
      */
     protected function extractFaqs(): array
     {
         $faqs = [];
-        
-        // Example: Look for content between <h3>Q:</h3> and the next heading
-        preg_match_all('/<h3>Q:\s*(.*?)<\/h3>\s*<p>(.*?)<\/p>/is', $this->content, $matches, PREG_SET_ORDER);
-        
-        foreach ($matches as $match) {
-            $faqs[] = [
-                'question' => strip_tags($match[1]),
-                'answer' => strip_tags($match[2])
-            ];
+
+        // Flexible regex to catch questions in headings or bold text
+        // Looks for: <h[234]> or <strong>, optional "Q:", captured question text, optional "?", closing tag,
+        // followed by <p> captured answer </p>
+        $patterns = [
+            // Format 1: Heading/Strong Question + P Answer
+            // <h2>Q: What is X?</h2> <p>It is Y...</p>
+            '/<(h[2-4]|strong)[^>]*>(?:Q:\s*)?(.*?)<\/\1>\s*<p>(.*?)<\/p>/is',
+
+            // Format 2: Mixed content with "Q:" and "A:" markers (handling breaks)
+            // <h3><br><strong>Q: Question?</strong><br>A: Answer</h3>
+            '/(?:Q:\s*|<strong>Q:\s*<\/strong>)(.*?)(?:<br\s*\/?>|<\/p>|<\/h[1-6]>)\s*(?:A:\s*|<strong>A:\s*<\/strong>)(.*?)(?:<br\s*\/?>|<\/p>|<\/h[1-6]>)/is',
+
+            // Format 3: Simple "Q: ... A: ..." keys in text (fallback)
+            '/Q:\s*(.*?)\s*A:\s*(.*?)(\n|<br)/i'
+        ];
+
+        foreach ($patterns as $pattern) {
+            preg_match_all($pattern, $this->content, $matches, PREG_SET_ORDER);
+            foreach ($matches as $match) {
+                // Ensure we strip tags to get clean text
+                $question = trim(strip_tags($match[1]));
+                $answer = trim(strip_tags($match[2]));
+
+                // Simple validation: Question needs to be reasonable length
+                if (strlen($question) > 3 && strlen($answer) > 2) {
+                    $faqs[] = [
+                        'question' => $question,
+                        'answer' => $answer
+                    ];
+                }
+            }
         }
-        
-        // If no FAQs found, you might want to return some default FAQs
+
+        // De-duplicate based on questions
+        $faqs = array_unique($faqs, SORT_REGULAR);
+
+        // If no FAQs found, but title says FAQ, try to generate a default one
         if (empty($faqs) && str_contains(strtolower($this->title), 'faq')) {
-            $faqs[] = [
-                'question' => "What is {$this->title} about?",
-                'answer' => Str::limit(strip_tags($this->content), 100)
-            ];
+            $excerpt = Str::limit(strip_tags($this->content), 150);
+            if (!empty($excerpt)) {
+                $faqs[] = [
+                    'question' => "What is {$this->title} about?",
+                    'answer' => $excerpt
+                ];
+            }
         }
-        
+
         return $faqs;
     }
 
@@ -258,17 +304,25 @@ class Article extends Model
     {
         parent::boot();
 
-        // Only handle cache versioning
+        // Only handle cache versioning and sitemap
         static::created(function ($article) {
             increment_cache_version();
+            /*
+             * We use a closure or valid callable for queued jobs normally, 
+             * but for simplicity in this plan we call the command directly.
+             * In high traffic production, this should be dispatched to a queue.
+             */
+            \Illuminate\Support\Facades\Artisan::call('sitemap:generate');
         });
 
         static::updated(function ($article) {
             increment_cache_version();
+            \Illuminate\Support\Facades\Artisan::call('sitemap:generate');
         });
 
         static::deleted(function ($article) {
             increment_cache_version();
+            \Illuminate\Support\Facades\Artisan::call('sitemap:generate');
         });
     }
 

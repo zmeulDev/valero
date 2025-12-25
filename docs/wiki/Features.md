@@ -20,8 +20,13 @@ Valero comes packed with powerful features for managing and publishing articles.
 - **Preview System** - Preview scheduled articles before publishing
 
 ### SEO Management
+- **Google Standards Compliant**:
+  - `BlogPosting` Schema for semantic accuracy
+  - Automated `FAQPage` Schema generation from content
+  - Google Discover optimized with high-res image previews
+  - Google News ready
 - Dynamic meta tags configuration
-- Open Graph tags
+- Open Graph tags with automated image handling
 - Custom keywords per article
 - SEO validation and metrics
 - Social media card previews
