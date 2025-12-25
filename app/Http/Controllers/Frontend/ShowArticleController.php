@@ -12,20 +12,57 @@ use Illuminate\Support\Str;
 
 class ShowArticleController extends Controller
 {
-    public function index($slug)
-    {  
+    public function index(Request $request, $slug)
+    {
         $article = Article::with(['category', 'user', 'media'])
             ->published()
             ->where('slug', $slug)
             ->firstOrFail();
         $article->incrementViews(); // views count
 
+        // Playlist Context
+        $playlistContext = null;
+        $playlistSlug = $request->query('playlist');
+
+        // If no query param, try to find the first playlist this article belongs to
+        if (!$playlistSlug) {
+            $firstPlaylist = $article->playlists()->first();
+            if ($firstPlaylist) {
+                $playlistSlug = $firstPlaylist->slug;
+            }
+        }
+
+        if ($playlistSlug) {
+            $playlist = \App\Models\Playlist::where('slug', $playlistSlug)
+                ->with([
+                    'articles' => function ($q) {
+                        $q->select('articles.id', 'articles.title', 'articles.slug');
+                    }
+                ])
+                ->first();
+
+            if ($playlist) {
+                $articles = $playlist->articles;
+                $index = $articles->search(fn($item) => $item->id === $article->id);
+
+                if ($index !== false) {
+                    $playlistContext = [
+                        'playlist' => $playlist,
+                        'prev' => $index > 0 ? $articles[$index - 1] : null,
+                        'next' => $index < $articles->count() - 1 ? $articles[$index + 1] : null,
+                        'current' => $index + 1,
+                        'total' => $articles->count()
+                    ];
+                }
+            }
+        }
+
         $latestArticles = Article::with(['category', 'user', 'media'])
             ->published()
             ->orderByDesc('scheduled_at')
             ->orderByDesc('created_at')
             ->paginate(8);
-        
+
         $popularArticles = Article::with(['category', 'user', 'media'])
             ->published()
             ->orderBy('views', 'desc')
@@ -35,13 +72,13 @@ class ShowArticleController extends Controller
         // Get related articles - improved algorithm
         // First, try to find articles with matching tags
         $relatedArticles = collect();
-        
+
         if ($article->tags_array && count($article->tags_array) > 0) {
             // Find articles with matching tags
             $tagRelated = Article::with(['category', 'user', 'media'])
                 ->published()
                 ->where('id', '!=', $article->id)
-                ->where(function($query) use ($article) {
+                ->where(function ($query) use ($article) {
                     foreach ($article->tags_array as $tag) {
                         $query->orWhere('tags', 'like', '%' . trim($tag) . '%');
                     }
@@ -50,10 +87,10 @@ class ShowArticleController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->take(4)
                 ->get();
-            
+
             $relatedArticles = $relatedArticles->merge($tagRelated);
         }
-        
+
         // If we don't have enough, add articles from same category
         if ($relatedArticles->count() < 6) {
             $categoryRelated = Article::with(['category', 'user', 'media'])
@@ -65,10 +102,10 @@ class ShowArticleController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->take(6 - $relatedArticles->count())
                 ->get();
-            
+
             $relatedArticles = $relatedArticles->merge($categoryRelated);
         }
-        
+
         // If still not enough, add popular articles
         if ($relatedArticles->count() < 6) {
             $popularRelated = Article::with(['category', 'user', 'media'])
@@ -79,21 +116,22 @@ class ShowArticleController extends Controller
                 ->orderBy('likes_count', 'desc')
                 ->take(6 - $relatedArticles->count())
                 ->get();
-            
+
             $relatedArticles = $relatedArticles->merge($popularRelated);
         }
-        
+
         // Limit to 6 articles and remove duplicates
         $relatedArticles = $relatedArticles->unique('id')->take(6)->values();
 
         $categories = Category::all();
 
         return view('layouts.article', compact(
-            'article', 
-            'latestArticles', 
-            'popularArticles', 
-            'relatedArticles', 
-            'categories'
+            'article',
+            'latestArticles',
+            'popularArticles',
+            'relatedArticles',
+            'categories',
+            'playlistContext'
         ));
     }
 
@@ -104,18 +142,18 @@ class ShowArticleController extends Controller
     {
         // Find the article without scheduling restrictions
         $article = Article::where('slug', $slug)->firstOrFail();
-        
+
         // Get related data without scheduling restrictions
         $latestArticles = Article::with(['category', 'user', 'media'])->latest()->paginate(8);
         $popularArticles = Article::with(['category', 'user', 'media'])->orderBy('views', 'desc')->take(5)->get();
-        
+
         // Get related articles using same improved algorithm
         $relatedArticles = collect();
-        
+
         if ($article->tags_array && count($article->tags_array) > 0) {
             $tagRelated = Article::with(['category', 'user', 'media'])
                 ->where('id', '!=', $article->id)
-                ->where(function($query) use ($article) {
+                ->where(function ($query) use ($article) {
                     foreach ($article->tags_array as $tag) {
                         $query->orWhere('tags', 'like', '%' . trim($tag) . '%');
                     }
@@ -124,10 +162,10 @@ class ShowArticleController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->take(4)
                 ->get();
-            
+
             $relatedArticles = $relatedArticles->merge($tagRelated);
         }
-        
+
         if ($relatedArticles->count() < 6) {
             $categoryRelated = Article::with(['category', 'user', 'media'])
                 ->where('category_id', $article->category_id)
@@ -137,10 +175,10 @@ class ShowArticleController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->take(3 - $relatedArticles->count())
                 ->get();
-            
+
             $relatedArticles = $relatedArticles->merge($categoryRelated);
         }
-        
+
         if ($relatedArticles->count() < 6) {
             $popularRelated = Article::with(['category', 'user', 'media'])
                 ->where('id', '!=', $article->id)
@@ -149,22 +187,22 @@ class ShowArticleController extends Controller
                 ->orderBy('likes_count', 'desc')
                 ->take(3 - $relatedArticles->count())
                 ->get();
-            
+
             $relatedArticles = $relatedArticles->merge($popularRelated);
         }
-        
+
         $relatedArticles = $relatedArticles->unique('id')->take(3)->values();
-        
+
         $categories = Category::all();
 
         // Add a preview banner to the view
         $isPreview = true;
 
         return view('layouts.article', compact(
-            'article', 
-            'latestArticles', 
-            'popularArticles', 
-            'relatedArticles', 
+            'article',
+            'latestArticles',
+            'popularArticles',
+            'relatedArticles',
             'categories',
             'isPreview'
         ));
@@ -179,7 +217,7 @@ class ShowArticleController extends Controller
             } else {
                 $article->decrement('likes_count');
             }
-            
+
             return response()->json([
                 'success' => true,
                 'likes_count' => $article->likes_count

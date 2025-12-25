@@ -48,7 +48,7 @@ return [
         'scheduled' => 'Programat',
         'unpublished' => 'Nepublicat',
         'created_at' => 'Creat la',
-        'updated_at' => 'Actualizat la', 
+        'updated_at' => 'Actualizat la',
         'deleted_at' => 'Șters la',
         'scheduled_at' => 'Programat pentru',
         'published_at' => 'Publicat la',
@@ -116,7 +116,7 @@ return [
         'mobile' => 'Mobil',
         'article_excerpt' => 'Extras din articol',
         'gallery' => 'Galerie',
-        'article_details' => 'Detalii articol', 
+        'article_details' => 'Detalii articol',
         'seo_details' => 'Detalii SEO',
         'seo_preview' => 'Previzualizare SEO',
         'preview_tools' => 'Instrumente de previzualizare',
@@ -178,6 +178,31 @@ return [
         'attach_selected' => 'Atașează Selectate',
         'attaching' => 'Se atașează...',
         'or' => 'sau',
+        'view_all_scheduled_articles' => 'Vizualizează toate articolele programate',
+    ],
+
+    'playlists' => [
+        'title' => 'Playlist-uri',
+        'create' => 'Creare Playlist',
+        'edit' => 'Editare Playlist',
+        'description' => 'Gestionați seriile de articole',
+        'playlist_title' => 'Titlu Playlist',
+        'articles_count' => 'Articole',
+        'new_playlist' => 'Playlist Nou',
+        'create_playlist' => 'Creare Playlist',
+        'edit_playlist' => 'Editare Playlist',
+        'search_playlists' => 'Caută playlist-uri...',
+        'no_playlists' => 'Nu s-au găsit playlist-uri',
+        'select_articles' => 'Selectare Articole',
+        'search_articles' => 'Caută articole...',
+        'add_to_playlist' => 'Adaugă la Playlist',
+        'no_articles_attached' => 'Nu există articole atașate. Căutați și adăugați articole mai sus.',
+        'delete_playlist' => 'Ștergere Playlist',
+        'confirm_delete' => 'Sigur doriți să ștergeți acest playlist?',
+        'back_to_playlists' => 'Înapoi la Playlist-uri',
+        'save_playlist' => 'Salvare Playlist',
+        'update_playlist' => 'Actualizare Playlist',
+        'articles_order_description' => 'Trageți și plasați sau folosiți săgețile pentru a reordona articolele. Această ordine va fi utilizată în navigarea playlist-ului.',
     ],
 
     'category' => [
@@ -280,7 +305,7 @@ return [
         'clear_filters' => 'Șterge filtrele',
         'show_more' => 'Arată mai mult',
         'show_less' => 'Arată mai puțin',
-        
+
         'table' => [
             'title' => 'Titlu',
             'link' => 'Link',
@@ -288,7 +313,7 @@ return [
             'created' => 'Creat',
             'actions' => 'Acțiuni',
         ],
-        
+
         'form' => [
             'title' => 'Titlu',
             'title_placeholder' => 'ex., Link de recomandare partener',
@@ -430,4 +455,4 @@ return [
         'seo_canonical_url' => 'URL canonic SEO',
         'not_set' => 'N/A',
     ],
-]; 
+];

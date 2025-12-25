@@ -12,6 +12,8 @@ Valero comes packed with powerful features for managing and publishing articles.
 - Category organization
 
 ### Article Features
+- **Article Playlists** - Group articles into ordered series (e.g., "Part 1 of 5")
+- **Sequential Navigation** - "Next/Previous" article links with context
 - **Cover Images** - Designate cover images with validation
 - **Image Galleries** - Multiple images per article (up to 5120x5120px)
 - **Reading Time** - Automatic calculation

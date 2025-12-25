@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
         // Update view composer to target all views that might need navigation
         View::composer([
             'layouts.*',
-            'components.shared.header',
+            'components.header',
             'frontend.*'
         ], NavigationComposer::class);
 

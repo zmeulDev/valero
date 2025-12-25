@@ -70,3 +70,63 @@ body:
     validations:
       required: false
 
+  - type: textarea
+    id: backend-implementation
+    attributes:
+      label: Backend Implementation
+      description: Technical checklist for backend changes.
+      value: |
+        - [ ] Database Migrations
+        - [ ] Models & Relationships
+        - [ ] Controllers & Logic
+        - [ ] API Endpoints / Routes
+        - [ ] Tests
+    validations:
+      required: false
+
+  - type: textarea
+    id: frontend-implementation
+    attributes:
+      label: Frontend Implementation
+      description: Technical checklist for frontend changes.
+      value: |
+        - [ ] Routes & Navigation
+        - [ ] Views / Pages
+        - [ ] UI Components
+        - [ ] JavaScript / Interactivity
+        - [ ] Styling (Tailwind)
+    validations:
+      required: false
+
+  - type: textarea
+    id: localization
+    attributes:
+      label: Localization
+      description: Ensure all strings are translatable.
+      value: |
+        - [ ] English (en) keys
+        - [ ] Romanian (ro) keys
+    validations:
+      required: false
+
+  - type: textarea
+    id: documentation
+    attributes:
+      label: Documentation
+      description: Documentation updates required.
+      value: |
+        - [ ] Update README.md
+        - [ ] Update Wiki
+    validations:
+      required: false
+
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification
+      description: Steps to verify the feature works as expected.
+      value: |
+        - [ ] Automated Tests pass
+        - [ ] Manual Verification
+    validations:
+      required: false

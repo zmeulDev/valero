@@ -70,6 +70,30 @@ Preview scheduled articles:
 4. Review article
 5. Edit if needed
 
+## 📚 Playlist Management
+
+### Creating Playlists
+
+1. Navigate to **Playlists** in the sidebar
+2. Click **New Playlist**
+3. Enter:
+   - **Title** - Name of the series (e.g., "Laravel for Beginners")
+   - **Description** - Overview of what the collection covers
+
+### Managing Articles in Playlists
+
+The playlist editor features a dual-list interface:
+- **Left Panel**: Available articles (searchable)
+- **Right Panel**: Playlist sequence
+
+**To add articles:**
+1. Search for an article in the left panel
+2. Click to add it to the sequence
+
+**To reorder:**
+- Use the **Up/Down arrows** to change the reading order
+- This order determines the "Next/Previous" navigation on the frontend
+
 ## 🗂️ Category Management
 
 ### Creating Categories

@@ -98,13 +98,29 @@ return [
         'partner_space' => 'Spațiu partener',
     ],
 
+    'playlists' => [
+        'title' => 'Playlist-uri',
+        'description' => 'Răsfoiți seriile și colecțiile noastre de articole',
+        'playlist' => 'Playlist',
+        'view_series' => 'Vezi Seria',
+        'part' => 'Partea',
+        'of' => 'din',
+        'previous' => 'Anterior',
+        'next' => 'Următor',
+        'start' => 'Început',
+        'end' => 'Sfârșit',
+        'articles' => 'Articole',
+        'by' => 'De',
+        'all_playlists' => 'Toate Playlist-urile',
+    ],
+
     'auth' => [
         // Login
         'sign_in' => 'Autentificare',
         'sign_in_description' => 'Autentifică-te în contul tău și explorează un univers de posibilități. Călătoria ta începe aici.',
         'log_in' => 'Autentificare',
         'remember_me' => 'Ține-mă minte',
-        
+
         // Register
         'register' => 'Înregistrare',
         'register_here' => 'Înregistrează-te aici',
@@ -112,7 +128,7 @@ return [
         'register_description' => 'Alătură-te comunității noastre și începe să explorezi conținut extraordinar.',
         'already_registered' => 'Ai deja un cont?',
         'dont_have_account' => 'Nu ai un cont?',
-        
+
         // Password Reset
         'forgot_password' => 'Ai uitat parola?',
         'forgot_password_description' => 'Nicio problemă! Introdu adresa de email și îți vom trimite un link pentru resetarea parolei.',
@@ -120,18 +136,18 @@ return [
         'reset_password' => 'Resetare Parolă',
         'reset_password_description' => 'Introdu noua ta parolă mai jos.',
         'back_to_login' => 'Înapoi la Autentificare',
-        
+
         // Email Verification
         'verify_email' => 'Verificare Email',
         'verify_email_description' => 'Mulțumim pentru înregistrare! Te rugăm să verifici adresa de email accesând link-ul pe care ți l-am trimis.',
         'verification_link_sent' => 'Un nou link de verificare a fost trimis la adresa ta de email.',
         'resend_verification_email' => 'Retrimite Email de Verificare',
-        
+
         // Password Confirmation
         'confirm_password' => 'Confirmă Parola',
         'confirm_password_description' => 'Aceasta este o zonă securizată. Te rugăm să confirmi parola pentru a continua.',
         'confirm' => 'Confirmă',
-        
+
         // Two-Factor
         'two_factor_challenge' => 'Autentificare în Doi Pași',
         'two_factor_description' => 'Te rugăm să introduci codul de autentificare din aplicația ta authenticator.',
@@ -142,7 +158,7 @@ return [
         'use_authentication_code' => 'Folosește un cod de autentificare',
         'enter_code' => 'Introdu codul de 6 cifre',
         'enter_recovery_code' => 'Introdu codul de recuperare',
-        
+
         // Common Fields
         'email' => 'Email',
         'password' => 'Parolă',
@@ -153,7 +169,7 @@ return [
         'enter_new_password' => 'Introdu parola nouă',
         'enter_name' => 'Introdu numele',
         'log_out' => 'Deconectare',
-        
+
         // Messages
         'welcome_message' => 'Bine ai venit pe Platforma Noastră',
         'platform_description' => 'Descoperă articole extraordinare, conectează-te cu autori și explorează conținut care contează pentru tine.',

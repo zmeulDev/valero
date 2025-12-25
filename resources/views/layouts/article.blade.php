@@ -45,7 +45,7 @@
             <div class="px-6 pb-8">
 
               <!-- Article Header -->
-              <x-frontend.article.header :article="$article" />
+              <x-frontend.article.header :article="$article" :playlistContext="$playlistContext ?? null" />
 
               <!-- Options -->
               <x-frontend.article.options :article="$article" />

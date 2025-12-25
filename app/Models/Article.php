@@ -60,6 +60,13 @@ class Article extends Model
         return $this->hasMany(Media::class);
     }
 
+    public function playlists()
+    {
+        return $this->belongsToMany(Playlist::class)
+            ->withPivot('order')
+            ->orderBy('article_playlist.order');
+    }
+
     public function coverImage()
     {
         return $this->hasOne(Media::class)->where('is_cover', true);

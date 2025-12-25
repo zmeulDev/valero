@@ -48,7 +48,7 @@ return [
         'scheduled' => 'Scheduled',
         'unpublished' => 'Unpublished',
         'created_at' => 'Created At',
-        'updated_at' => 'Updated At', 
+        'updated_at' => 'Updated At',
         'deleted_at' => 'Deleted At',
         'scheduled_at' => 'Scheduled At',
         'published_at' => 'Published At',
@@ -114,7 +114,7 @@ return [
         'mobile' => 'Mobile',
         'article_excerpt' => 'Article Excerpt',
         'gallery' => 'Gallery',
-        'article_details' => 'Article Details', 
+        'article_details' => 'Article Details',
         'seo' => 'SEO',
         'seo_details' => 'SEO Details',
         'seo_preview' => 'SEO Preview',
@@ -180,7 +180,30 @@ return [
         'attaching' => 'Attaching...',
         'or' => 'or',
         'view_all_scheduled_articles' => 'View All Scheduled Articles',
-        
+    ],
+
+    'playlists' => [
+        'title' => 'Playlists',
+        'create' => 'Create Playlist',
+        'edit' => 'Edit Playlist',
+        'description' => 'Manage your article playlists',
+        'playlist_title' => 'Playlist Title',
+        'articles_count' => 'Articles',
+        'new_playlist' => 'New Playlist',
+        'create_playlist' => 'Create Playlist',
+        'edit_playlist' => 'Edit Playlist',
+        'search_playlists' => 'Search playlists...',
+        'no_playlists' => 'No playlists found',
+        'select_articles' => 'Select Articles',
+        'search_articles' => 'Search articles...',
+        'add_to_playlist' => 'Add to Playlist',
+        'no_articles_attached' => 'No articles attached. Search and add articles above.',
+        'delete_playlist' => 'Delete Playlist',
+        'confirm_delete' => 'Are you sure you want to delete this playlist?',
+        'back_to_playlists' => 'Back to Playlists',
+        'save_playlist' => 'Save Playlist',
+        'update_playlist' => 'Update Playlist',
+        'articles_order_description' => 'Drag and drop or use arrows to reorder articles. This order will be used in the playlist navigation.',
     ],
 
     'category' => [
@@ -226,7 +249,7 @@ return [
         'article' => 'Article',
         'no_media' => 'No media files',
         'upload_media' => 'Upload some images to get started.',
-        
+
     ],
 
     'bookmarks' => [
@@ -284,7 +307,7 @@ return [
         'clear_filters' => 'Clear Filters',
         'show_more' => 'Show more',
         'show_less' => 'Show less',
-        
+
         'table' => [
             'title' => 'Title',
             'link' => 'Link',
@@ -292,7 +315,7 @@ return [
             'created' => 'Created',
             'actions' => 'Actions',
         ],
-        
+
         'form' => [
             'title' => 'Title',
             'title_placeholder' => 'e.g., Partner Referral Link',
@@ -435,5 +458,5 @@ return [
         'seo_canonical_url' => 'SEO Canonical URL',
         'not_set' => 'N/A',
     ],
-    
-]; 
+
+];

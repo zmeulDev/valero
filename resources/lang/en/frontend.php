@@ -68,13 +68,29 @@ return [
         'partner_space' => 'Partner Space',
     ],
 
+    'playlists' => [
+        'title' => 'Playlists',
+        'description' => 'Browse our article playlists and collections',
+        'playlist' => 'Playlist',
+        'view_series' => 'View playlist',
+        'part' => 'Part',
+        'of' => 'of',
+        'previous' => 'Previous',
+        'next' => 'Next',
+        'start' => 'Start',
+        'end' => 'End',
+        'articles' => 'Articles',
+        'by' => 'By',
+        'all_playlists' => 'All Playlists',
+    ],
+
     'auth' => [
         // Login
         'sign_in' => 'Sign in',
         'sign_in_description' => 'Sign in to your account and explore a world of possibilities. Your journey begins here.',
         'log_in' => 'Log in',
         'remember_me' => 'Remember me',
-        
+
         // Register
         'register' => 'Register',
         'register_here' => 'Register here',
@@ -82,7 +98,7 @@ return [
         'register_description' => 'Join our community and start exploring amazing content.',
         'already_registered' => 'Already registered?',
         'dont_have_account' => 'Don\'t have an account?',
-        
+
         // Password Reset
         'forgot_password' => 'Forgot your password?',
         'forgot_password_description' => 'No problem! Enter your email address and we\'ll send you a password reset link.',
@@ -90,18 +106,18 @@ return [
         'reset_password' => 'Reset Password',
         'reset_password_description' => 'Enter your new password below.',
         'back_to_login' => 'Back to Login',
-        
+
         // Email Verification
         'verify_email' => 'Verify Email',
         'verify_email_description' => 'Thanks for signing up! Please verify your email address by clicking the link we sent you.',
         'verification_link_sent' => 'A new verification link has been sent to your email address.',
         'resend_verification_email' => 'Resend Verification Email',
-        
+
         // Password Confirmation
         'confirm_password' => 'Confirm Password',
         'confirm_password_description' => 'This is a secure area. Please confirm your password to continue.',
         'confirm' => 'Confirm',
-        
+
         // Two-Factor
         'two_factor_challenge' => 'Two-Factor Authentication',
         'two_factor_description' => 'Please enter the authentication code from your authenticator app.',
@@ -112,7 +128,7 @@ return [
         'use_authentication_code' => 'Use an authentication code',
         'enter_code' => 'Enter 6-digit code',
         'enter_recovery_code' => 'Enter recovery code',
-        
+
         // Common Fields
         'email' => 'Email',
         'password' => 'Password',
@@ -123,7 +139,7 @@ return [
         'enter_new_password' => 'Enter new password',
         'enter_name' => 'Enter your name',
         'log_out' => 'Log Out',
-        
+
         // Messages
         'welcome_message' => 'Welcome to Our Platform',
         'platform_description' => 'Discover amazing articles, connect with authors, and explore content that matters to you.',

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-use App\Http\Middleware\AdminMiddleware; 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\AdminArticleController;
 use App\Http\Controllers\Admin\AdminImageController;
 use App\Http\Controllers\Admin\AdminCategoryController;
@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminSitemapController;
 use App\Http\Controllers\Admin\AdminTeamController;
 use App\Http\Controllers\Admin\AdminPartnersController;
 use App\Http\Controllers\Admin\AdminBookmarkController;
+use App\Http\Controllers\Admin\AdminPlaylistController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShowArticleController;
@@ -30,8 +31,12 @@ Route::post('/articles/{article}/like', [ShowArticleController::class, 'like'])-
 Route::get('/category/{slug}', [ShowCategoryController::class, 'index'])->name('category.index');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/categories', [SearchController::class, 'categories'])->name('categories');
-Route::get('sitemap.xml', function() {return response()->file(public_path('sitemap.xml'));});
+Route::get('sitemap.xml', function () {
+    return response()->file(public_path('sitemap.xml'));
+});
 Route::view('/cookie-policy', 'frontend.cookies.policy')->name('cookies.policy');
+Route::get('/playlists', [App\Http\Controllers\Frontend\PlaylistController::class, 'index'])->name('frontend.playlists.index');
+Route::get('/playlists/{playlist:slug}', [App\Http\Controllers\Frontend\PlaylistController::class, 'show'])->name('frontend.playlists.show');
 
 // Admin Preview Route for Scheduled Articles
 Route::get('/preview/articles/{slug}', [ShowArticleController::class, 'preview'])
@@ -49,14 +54,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     // Admin Dashboard
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    
+
     // Categories
     Route::resource('categories', AdminCategoryController::class);
-    
+
     // Articles
     Route::get('articles/scheduled', [AdminArticleController::class, 'scheduled'])->name('articles.scheduled');
     Route::resource('articles', AdminArticleController::class);
-    
+
     // Image handling - handled by AdminImageController
     Route::controller(AdminImageController::class)->group(function () {
         Route::post('articles/{article}/images', 'store')
@@ -89,7 +94,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
         ->name('clear-cache');
     Route::get('generate-sitemap', [AdminSitemapController::class, 'generate'])
         ->name('sitemap.generate');
-    Route::get('/optimize-clear', function() {
+    Route::get('/optimize-clear', function () {
         if (app()->environment('local', 'development')) {
             Artisan::call('optimize:clear');
             Artisan::call('cache:clear');
@@ -120,6 +125,9 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
         Route::delete('bookmarks/{bookmark}', 'destroy')->name('bookmarks.destroy');
         Route::get('bookmarks/all', 'getAllBookmarks')->name('bookmarks.all'); // AJAX endpoint
     });
+
+    // Playlists
+    Route::resource('playlists', AdminPlaylistController::class);
 
 });
 

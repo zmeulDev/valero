@@ -14,6 +14,7 @@ class NavigationComposer
             $view->with([
                 'categories' => Category::orderBy('name')->get(),
                 'role' => auth()->check() && auth()->user()->role === 'admin',
+                'hasPlaylists' => \App\Models\Playlist::exists(),
             ]);
         } catch (Exception $e) {
             report($e);
