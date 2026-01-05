@@ -27,6 +27,11 @@ class SettingSeeder extends Seeder
             ['key' => 'app_socialtwitter', 'value' => '', 'created_at' => $now, 'updated_at' => $now],
             ['key' => 'app_sociallinkedin', 'value' => '', 'created_at' => $now, 'updated_at' => $now],
             ['key' => 'app_socialgithub', 'value' => '', 'created_at' => $now, 'updated_at' => $now],
+
+            // SEO Defaults
+            ['key' => 'app_seo_title', 'value' => 'Latest Articles & Insights', 'created_at' => $now, 'updated_at' => $now],
+            ['key' => 'app_seo_description', 'value' => 'Discover the latest articles, insights, and updates. Browse our collection of curated content covering various topics and categories.', 'created_at' => $now, 'updated_at' => $now],
+            ['key' => 'app_seo_keywords', 'value' => 'articles, blog, news, insights, content', 'created_at' => $now, 'updated_at' => $now],
         ];
 
         foreach ($settings as $setting) {

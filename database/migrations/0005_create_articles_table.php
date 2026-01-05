@@ -25,8 +25,14 @@ return new class extends Migration {
             $table->unsignedBigInteger('views')->default(0);
             $table->unsignedBigInteger('likes_count')->default(0);
 
+            // Options
+            $table->string('local_store_link', 500)->nullable();
+            $table->string('youtube_link', 500)->nullable();
+            $table->string('instagram_link', 500)->nullable();
+
             // Publishing
-            $table->timestamp('scheduled_at')->nullable();
+            $table->timestamp('scheduled_at')->nullable()->index();
+            $table->index('views');
 
             // Timestamps
             $table->timestamps();
