@@ -12,7 +12,22 @@ All notable changes to Valero will be documented in this file.
 - WebP image conversion
 - CDN integration
 
-## [0.42293] - December 2025
+## [0.5] - January 2026
+
+### Added
+- ✨ **Scheduled Articles Dashboard** - Comprehensive view with paginate list and interactive calendar widget.
+- ✨ **Advanced Filtering** - Search and Category filtering for scheduled content.
+- ✨ **Modern Article Preview** - Redesigned preview with `rounded-lg` UI and "Scheduled" status badge.
+- ✨ **Device Preview Toggle** - Switch between Desktop, Tablet, and Mobile views in preview mode.
+- ✨ **Unified Gallery Modal** - Aligned admin preview gallery with frontend component (Zoom, Swipe, Fullscreen).
+
+### Changed
+- 🎨 **Scheduled Articles UI** - Modernized table layout with cover images and badges.
+
+### Fixed
+- 🐛 **Preview Responsiveness** - Fixed layout issues in preview mode.
+
+## [Unreleased]
 
 ### Added
 - ✨ **Bookmarking System** - Complete bookmark management with categories, search, and article integration

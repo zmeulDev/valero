@@ -53,22 +53,27 @@ View and manage all articles:
 - **Duplicate** - Create copy (if implemented)
 
 ### Scheduled Articles
-
+ 
 Access via **Articles → Scheduled**:
-- **Calendar View** - Visual calendar of scheduled content
-- **List View** - All scheduled articles
-- **Preview** - Preview before publishing
-- **Edit** - Modify scheduled articles
-- **Cancel** - Remove from schedule
-
+- **Comprehensive Dashboard**:
+  - **Calendar Widget**: Interactive monthly view of scheduled content
+  - **List View**: Paginated table with cover images and status
+- **Search & Filter**:
+  - Search by article title
+  - Filter by category (updates both list and calendar)
+- **Management**:
+  - Click any article to direct edit
+  - Quick preview access
+ 
 ### Article Preview
-
+ 
 Preview scheduled articles:
 1. Go to scheduled articles
-2. Click **Preview**
-3. Choose device view (desktop/tablet/mobile)
-4. Review article
-5. Edit if needed
+2. Click **Preview** icon
+3. **Device Toggle**: Switch between Desktop, Tablet, and Mobile views to verify responsiveness
+4. **Gallery Inspection**: Click images to open the enhanced gallery modal (Zoom, Fullscreen)
+5. **Status Verification**: Check "Scheduled" badge and publication date
+6. Edit if needed directly from the header action
 
 ## 📚 Playlist Management
 

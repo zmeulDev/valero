@@ -91,16 +91,19 @@ Valero comes packed with powerful features for managing and publishing articles.
 
 ### Scheduling Features
 - Schedule articles for future publication
-- Calendar view for scheduled content
-- Preview system for scheduled articles
-- Device toggle (desktop/tablet/mobile) for previews
-- Admin-only preview access
+- **Advanced Calendar View** - Interactive calendar for scheduled content
+- **List View with Pagination** - Filterable list of scheduled articles
+- **Search & Filter** - Search by title/author and filter by category
+- **Preview System** - Preview scheduled articles before publishing
+- **Device Toggle** - Desktop/tablet/mobile responsiveness check
+- **Admin-only preview access**
 
-### Calendar View
+### Calendar Widget
 - Month navigation
 - Visual indicators for scheduled dates
-- Quick access to scheduled articles
-- Edit scheduled articles directly from calendar
+- Synced category filtering
+- Quick access to scheduled article editing
+- Seamless integration with list view
 
 ## 🎨 User Interface
 
