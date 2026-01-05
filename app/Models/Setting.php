@@ -13,10 +13,10 @@ class Setting extends Model
 
     protected $fillable = ['key', 'value', 'logo_path'];
 
-    public static function get($key)
+    public static function get($key, $default = null)
     {
         $setting = static::where('key', $key)->first();
-        return $setting ? $setting->value : null;
+        return $setting ? $setting->value : $default;
     }
 
     public static function set($key, $value)

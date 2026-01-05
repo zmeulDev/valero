@@ -62,7 +62,6 @@ class AdminSettingController extends Controller
                 'app_tinymce' => 'required|string',
                 'app_googlesearchmeta' => 'required|string',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'app_profitshare' => 'nullable|string',
             ], [
                 'app_name.required' => 'The application name is required.',
                 'app_url.url' => 'Please enter a valid URL.',
@@ -73,7 +72,6 @@ class AdminSettingController extends Controller
                 'app_seo_description.max' => 'The SEO description must not exceed 500 characters.',
                 'logo.image' => 'The logo must be an image.',
                 'logo.max' => 'The logo must not be larger than 2MB.',
-                'app_profitshare.string' => 'The profitshare ID must be a string.',
             ]);
 
             // Validate social media URLs
@@ -127,20 +125,20 @@ class AdminSettingController extends Controller
     {
         try {
             $path = 'brand/logo.png';
-            
+
             // Backup existing logo if it exists
             if (Storage::disk('public')->exists($path)) {
                 $timestamp = now()->format('Y-m-d_H-i-s');
                 $backupPath = 'brand/backups/logo_' . $timestamp . '.png';
                 Storage::disk('public')->copy($path, $backupPath);
             }
-            
+
             // Store new logo
             Storage::disk('public')->putFileAs(dirname($path), $file, basename($path));
-            
+
             // Update settings
             Setting::set('app_logo', 'storage/' . $path);
-            Setting::set('app_logo_version', (int)Setting::get('app_logo_version', 0) + 1);
+            Setting::set('app_logo_version', (int) Setting::get('app_logo_version', 0) + 1);
         } catch (\Exception $e) {
             throw new \Exception('Failed to upload logo: ' . $e->getMessage());
         }

@@ -48,7 +48,7 @@ return [
         'scheduled' => 'Programado',
         'unpublished' => 'No publicado',
         'created_at' => 'Creado el',
-        'updated_at' => 'Actualizado el', 
+        'updated_at' => 'Actualizado el',
         'deleted_at' => 'Eliminado el',
         'scheduled_at' => 'Programado para',
         'published_at' => 'Publicado el',
@@ -113,7 +113,7 @@ return [
         'mobile' => 'Móvil',
         'article_excerpt' => 'Extracto del Artículo',
         'gallery' => 'Galería',
-        'article_details' => 'Detalles del Artículo', 
+        'article_details' => 'Detalles del Artículo',
         'seo' => 'SEO',
         'seo_details' => 'Detalles SEO',
         'seo_preview' => 'Vista Previa SEO',
@@ -179,7 +179,7 @@ return [
         'attaching' => 'Adjuntando...',
         'or' => 'o',
         'view_all_scheduled_articles' => 'Ver Todos los Artículos Programados',
-        
+
     ],
 
     'category' => [
@@ -225,7 +225,7 @@ return [
         'article' => 'Artículo',
         'no_media' => 'No hay archivos multimedia',
         'upload_media' => 'Sube algunas imágenes para comenzar.',
-        
+
     ],
 
     'bookmarks' => [
@@ -283,7 +283,7 @@ return [
         'clear_filters' => 'Borrar Filtros',
         'show_more' => 'Mostrar más',
         'show_less' => 'Mostrar menos',
-        
+
         'table' => [
             'title' => 'Título',
             'link' => 'Enlace',
@@ -291,7 +291,7 @@ return [
             'created' => 'Creado',
             'actions' => 'Acciones',
         ],
-        
+
         'form' => [
             'title' => 'Título',
             'title_placeholder' => 'ej., Enlace de Referencia de Socio',
@@ -372,8 +372,6 @@ return [
         'regenerate_sitemap' => 'Regenerar Sitemap',
         'active' => 'Activo',
         'not_found' => 'No Encontrado',
-        'profitshare' => 'Profitshare',
-        'profitshare_ro_id' => 'ID de Profitshare RO',
         'select_app_language' => 'Seleccionar Idioma de la Aplicación',
     ],
 
@@ -434,6 +432,6 @@ return [
         'seo_canonical_url' => 'URL Canónica SEO',
         'not_set' => 'N/A',
     ],
-    
+
 ];
 

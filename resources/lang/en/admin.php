@@ -396,8 +396,6 @@ return [
         'regenerate_sitemap' => 'Regenerate Sitemap',
         'active' => 'Active',
         'not_found' => 'Not Found',
-        'profitshare' => 'Profitshare',
-        'profitshare_ro_id' => 'Profitshare RO ID',
         'select_app_language' => 'Select App Language',
     ],
 

@@ -394,8 +394,6 @@ return [
         'regenerate_sitemap' => 'Regenerare sitemap',
         'active' => 'Activ',
         'not_found' => 'Nu s-a găsit',
-        'profitshare' => 'Profitshare',
-        'profitshare_ro_id' => 'ID Profitshare RO',
     ],
 
     'teams' => [

@@ -76,18 +76,6 @@
                                             class="w-5 h-5 mr-2 transition-colors" />
                                         <span>Social Media</span>
                                     </button>
-
-                                    <!-- Profitshare Tab -->
-                                    <button 
-                                        type="button"
-                                        @click="activeTab = 'profitshare'"
-                                        :class="activeTab === 'profitshare' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
-                                        class="group inline-flex items-center py-4 px-3 border-b-2 font-medium text-sm transition-colors whitespace-nowrap">
-                                        <x-lucide-dollar-sign 
-                                            :class="activeTab === 'profitshare' ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'"
-                                            class="w-5 h-5 mr-2 transition-colors" />
-                                        <span>{{ __('admin.settings.profitshare') }}</span>
-                                    </button>
                                 </nav>
                             </div>
                         </div>
@@ -132,37 +120,18 @@
                                     <div class="grid grid-cols-1 gap-6">
                                         <x-admin.form.text-input
                                             name="app_seo_title"
-                                            label="SEO Title Suffix"
+                                            label="App SEO Title Suffix"
                                             :value="$settings['app_seo_title'] ?? 'Latest Articles & Insights'"
                                             placeholder="Latest Articles & Insights"
                                             required
                                         />
                                         <x-admin.form.textarea
                                             name="app_seo_description"
-                                            label="SEO Meta Description"
+                                            label="App SEO Meta Description"
                                             :value="$settings['app_seo_description'] ?? ''"
                                             placeholder="Discover the latest articles, insights, and updates..."
                                             rows="3"
                                             required
-                                        />
-                                        <x-admin.form.text-input
-                                            name="app_seo_og_title"
-                                            label="Open Graph Title"
-                                            :value="$settings['app_seo_og_title'] ?? ''"
-                                            placeholder="Leave empty to use SEO Title"
-                                        />
-                                        <x-admin.form.textarea
-                                            name="app_seo_og_description"
-                                            label="Open Graph Description"
-                                            :value="$settings['app_seo_og_description'] ?? ''"
-                                            placeholder="Leave empty to use SEO Description"
-                                            rows="3"
-                                        />
-                                        <x-admin.form.text-input
-                                            name="app_seo_keywords"
-                                            label="SEO Keywords (comma-separated)"
-                                            :value="$settings['app_seo_keywords'] ?? ''"
-                                            placeholder="articles, blog, news, insights"
                                         />
                                     </div>
                                 </x-admin.card>
@@ -210,27 +179,13 @@
                                     </div>
                                 </x-admin.card>
                             </div>
-
-                            <!-- Profitshare Panel -->
-                            <div x-show="activeTab === 'profitshare'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100">
-                                <x-admin.card>
-                                    <div class="grid grid-cols-1 gap-6">
-                                        <x-admin.form.text-input    
-                                            name="app_profitshare"  
-                                            label="{{ __('admin.settings.profitshare_ro_id') }}"
-                                            :value="$settings['app_profitshare'] ?? ''"
-                                            required
-                                        />
-                                    </div>
-                                </x-admin.card>
-                            </div>
                         </div>
                     </form>
                 </div>
 
                 <!-- Sidebar -->
                 <div class="lg:col-span-1">
-                    @include('admin.settings.partials.tools-sidebar')
+                    <x-admin.tools-sidebar />
                 </div>
             </div>
         </div>
