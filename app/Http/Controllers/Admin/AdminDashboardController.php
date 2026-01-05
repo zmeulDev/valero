@@ -9,9 +9,11 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
+use Illuminate\Http\Request;
+
 class AdminDashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Article stats
         $articleCount = Article::count();
@@ -26,15 +28,34 @@ class AdminDashboardController extends Controller
         // User stats
         $userCount = User::count();
         $activeUsers = User::where('last_login_at', '>=', now()->subDays(7))->count();
-        
+
         // View stats
         $totalViews = Article::sum('views');
         $avgViewsPerArticle = $articleCount > 0 ? round($totalViews / $articleCount, 1) : 0;
 
-        // Latest articles with relationships
-        $articles = Article::with(['user', 'category'])
+        // Latest articles with relationships and filtering
+        $query = Article::with(['user', 'category'])
             ->orderByDesc('scheduled_at')
-            ->orderByDesc('created_at')
+            ->orderByDesc('created_at');
+
+        if ($request->get('status') === 'published') {
+            $query->published();
+        } elseif ($request->get('status') === 'scheduled') {
+            $query->whereNotNull('scheduled_at')
+                ->where('scheduled_at', '>', now());
+        }
+
+        $articles = $query->take(5)->get();
+
+        // Top performing articles
+        $topArticles = Article::with(['user', 'media'])
+            ->orderByDesc('views')
+            ->take(5)
+            ->get();
+
+        // Top categories
+        $topCategories = \App\Models\Category::withCount('articles')
+            ->orderByDesc('articles_count')
             ->take(5)
             ->get();
 
@@ -69,8 +90,8 @@ class AdminDashboardController extends Controller
                     ];
                 })
         ])->sortByDesc('date')
-         ->take(5)
-         ->values();
+            ->take(5)
+            ->values();
 
         return view('admin.dashboard', compact(
             'articleCount',
@@ -81,7 +102,9 @@ class AdminDashboardController extends Controller
             'totalViews',
             'avgViewsPerArticle',
             'articles',
-            'recentActivity'
+            'recentActivity',
+            'topArticles',
+            'topCategories'
         ));
     }
 
@@ -91,7 +114,7 @@ class AdminDashboardController extends Controller
         Cache::forget('article_stats');
         Cache::forget('all_categories');
         Cache::forget('frontend_categories_' . cache_version());
-        
+
         return back()->with('success', 'Cache cleared successfully!');
     }
 }

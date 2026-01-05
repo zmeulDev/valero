@@ -40,6 +40,7 @@ return [
         'are_you_sure_you_want_to_delete_this' => '¿Estás seguro de que deseas eliminar este ',
         'this_action_cannot_be_undone' => 'Esta acción no se puede deshacer.',
         'optional' => 'Opcional',
+        'all' => 'Todo',
     ],
 
     'status' => [
@@ -65,6 +66,8 @@ return [
         'author' => 'Autor',
         'status' => 'Estado',
         'quick_stats' => 'Estadísticas Rápidas',
+        'top_articles' => 'Artículos Principales',
+        'popular_categories' => 'Categorías Populares',
         'avg_views_per_article' => 'Promedio de Vistas por Artículo',
         'active_users' => 'Usuarios Activos (7d)',
         'recent_activity' => 'Actividad Reciente',

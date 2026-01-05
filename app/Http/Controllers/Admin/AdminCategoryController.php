@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminCategoryController extends Controller
 {
-public function index()
-{
-    $categories = Category::withCount('articles')->get();
-    $categoryCounts = $categories;
-    return view('admin.categories.index', compact('categories', 'categoryCounts'));
-}
+    public function index()
+    {
+        $categories = Category::withCount('articles')->get();
+        $categoryCounts = $categories;
+        return view('admin.categories.index', compact('categories', 'categoryCounts'));
+    }
 
     public function create()
     {
@@ -36,6 +36,25 @@ public function index()
         ]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
+    }
+
+    public function edit(Category $category)
+    {
+        return view('admin.categories.edit', compact('category'));
+    }
+
+    public function update(Request $request, Category $category)
+    {
+        $request->validate([
+            'name' => 'required|unique:categories,name,' . $category->id,
+        ]);
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ]);
+
+        return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
     }
 
     public function destroy(Category $category)

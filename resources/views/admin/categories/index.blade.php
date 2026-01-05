@@ -93,13 +93,21 @@
                                                             </span>
                                                         </td>
                                                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                            <button @click="openDeleteModal({{ $category->id }})"
-                                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-md"
-                                                                    title="Delete category">
-                                                                <x-lucide-trash-2 class="w-5 h-5" />
-                                                                <span class="sr-only">Delete {{ $category->name }}</span>
-                                                            </button>
-                                                        </td>
+                                                    <div class="flex justify-end items-center space-x-2">
+                                                        <a href="{{ route('admin.categories.edit', $category) }}" 
+                                                           class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-md"
+                                                           title="{{ __('admin.category.edit') }}">
+                                                            <x-lucide-edit class="w-5 h-5" />
+                                                            <span class="sr-only">{{ __('admin.category.edit') }}</span>
+                                                        </a>
+                                                        <button @click="openDeleteModal({{ $category->id }})"
+                                                                class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded-md"
+                                                                title="Delete category">
+                                                            <x-lucide-trash-2 class="w-5 h-5" />
+                                                            <span class="sr-only">Delete {{ $category->name }}</span>
+                                                        </button>
+                                                    </div>
+                                                </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

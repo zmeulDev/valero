@@ -40,6 +40,7 @@ return [
         'are_you_sure_you_want_to_delete_this' => 'Sigur doriți să ștergeți acest ',
         'this_action_cannot_be_undone' => 'Această acțiune nu poate fi anulată.',
         'optional' => 'Opțional',
+        'all' => 'Toate',
     ],
 
     'status' => [
@@ -65,11 +66,15 @@ return [
         'author' => 'Autor',
         'status' => 'Status',
         'quick_stats' => 'Statistici rapide',
-        'avg_views_per_article' => 'Medie vizualizări per articol',
+        'top_articles' => 'Top articole',
+        'popular_categories' => 'Categorii populare',
+        'avg_views_per_article' => 'Medie vizualizări pe articol',
         'active_users' => 'Utilizatori activi (7z)',
         'recent_activity' => 'Activitate recentă',
         'new_article' => 'Articol nou',
         'logged_in' => 'autentificat',
+        'views' => 'Vizualizări',
+
     ],
 
     'articles' => [

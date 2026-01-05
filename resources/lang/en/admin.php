@@ -40,6 +40,7 @@ return [
         'are_you_sure_you_want_to_delete_this' => 'Are you sure you want to delete this ',
         'this_action_cannot_be_undone' => 'This action cannot be undone.',
         'optional' => 'Optional',
+        'all' => 'All',
     ],
 
     'status' => [
@@ -65,6 +66,8 @@ return [
         'author' => 'Author',
         'status' => 'Status',
         'quick_stats' => 'Quick Stats',
+        'top_articles' => 'Top Performing Articles',
+        'popular_categories' => 'Popular Categories',
         'avg_views_per_article' => 'Avg. Views per Article',
         'active_users' => 'Active Users (7d)',
         'recent_activity' => 'Recent Activity',

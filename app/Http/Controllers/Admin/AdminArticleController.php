@@ -35,12 +35,25 @@ class AdminArticleController extends Controller
                 $query->where('category_id', $request->category);
             }
 
+            // Handle status filter
+            if ($request->has('status')) {
+                if ($request->status === 'published') {
+                    $query->published();
+                } elseif ($request->status === 'scheduled') {
+                    $query->whereNotNull('scheduled_at')
+                        ->where('scheduled_at', '>', now());
+                }
+            }
+
             // Handle search
             if ($request->has('search')) {
                 $search = $request->search;
                 $query->where(function ($q) use ($search) {
                     $q->where('title', 'like', "%{$search}%")
-                        ->orWhere('content', 'like', "%{$search}%")
+                        ->orWhere('excerpt', 'like', "%{$search}%")
+                        ->orWhereHas('user', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        })
                         ->orWhereHas('category', function ($q) use ($search) {
                             $q->where('name', 'like', "%{$search}%");
                         });
@@ -74,6 +87,7 @@ class AdminArticleController extends Controller
         $parts = [
             'page' => (int) $request->get('page', 1),
             'category' => $request->get('category', ''),
+            'status' => $request->get('status', ''),
             'search' => $request->get('search', ''),
             'v' => cache_version(),
         ];
