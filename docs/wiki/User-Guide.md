@@ -103,10 +103,23 @@ The SEO tab shows:
 
 ### FAQ Automatic Schema
  
-To automatically generate a specific FAQ schema for Google:
-- Write your content in the formatted: `Q: Your Question? A: Your Answer.`
-- Elements grouped in headings or bold text are automatically detected.
-- Example: `<h3>Q: What is this?</h3> <p>This is Valero.</p>` or `<strong>Q: Is it free?</strong> <br> A: Yes!`
+### FAQ Automatic Schema
+ 
+To automatically generate a specific FAQ schema for Google, you must format your content in one of the following ways.
+**Important**: For a heading or bold text to be recognized as a question, it MUST either **start with "Q:"** or **end with a question mark "?"**.
+
+#### Option 1: Headings (Recommended)
+Use a Heading (H2, H3, or H4) for the question, followed by a paragraph.
+- `<h2>How do I reset my password?</h2> <p>Go to settings...</p>`
+- `<h3>Q: Pricing Information</h3> <p>We offer...</p>`
+
+#### Option 2: Bold Text
+Use bold text for the question, followed by a paragraph.
+- `<strong>Can I cancel anytime?</strong> <p>Yes, you can...</p>`
+
+#### Option 3: Text Block
+Use specific prefixes in a normal text block.
+- `Q: Is it free? A: Yes, it is.`
 
 ### Scheduling Articles
 

@@ -195,7 +195,9 @@ class Article extends Model
                         'url' => url(asset('storage/brand/logo.png'))
                     ]
                 ];
-                $schema->articleBody = $this->content;
+                // Optimized for performance: Use stripped text limited to 2000 chars
+                // This avoids duplicating the entire DOM in JSON-LD, significantly reducing page size
+                $schema->articleBody = Str::limit(strip_tags($this->content), 2000);
                 $schema->wordCount = $wordCount;
                 $schema->timeRequired = "PT{$readingTime}M";
                 $schema->keywords = $this->tags_array;
@@ -258,22 +260,28 @@ class Article extends Model
         $patterns = [
             // Format 1: Heading/Strong Question + P Answer
             // <h2>Q: What is X?</h2> <p>It is Y...</p>
-            '/<(h[2-4]|strong)[^>]*>(?:Q:\s*)?(.*?)<\/\1>\s*<p>(.*?)<\/p>/is',
+            // Using named groups and excluding explicit tag boundaries to prevent greedy over-matching.
+            // Also requires content to start with "Q:" or end with "?" (via lookahead) to avoid matching random headers.
+            '/<(h[2-4]|strong)[^>]*>(?:(?:Q:\s*)|(?=.*?\?<\/\1))(?P<question>(?:(?!<\/\1).)*?)<\/\1>\s*<p[^>]*>(?P<answer>.*?)<\/p>/is',
 
             // Format 2: Mixed content with "Q:" and "A:" markers (handling breaks)
             // <h3><br><strong>Q: Question?</strong><br>A: Answer</h3>
-            '/(?:Q:\s*|<strong>Q:\s*<\/strong>)(.*?)(?:<br\s*\/?>|<\/p>|<\/h[1-6]>)\s*(?:A:\s*|<strong>A:\s*<\/strong>)(.*?)(?:<br\s*\/?>|<\/p>|<\/h[1-6]>)/is',
+            '/(?:Q:\s*|<strong>Q:\s*<\/strong>)(?P<question>.*?)(?:<br\s*\/?>|<\/p>|<\/h[1-6]>)\s*(?:A:\s*|<strong>A:\s*<\/strong>)(?P<answer>.*?)(?:<br\s*\/?>|<\/p>|<\/h[1-6]>)/is',
 
             // Format 3: Simple "Q: ... A: ..." keys in text (fallback)
-            '/Q:\s*(.*?)\s*A:\s*(.*?)(\n|<br)/i'
+            '/Q:\s*(?P<question>.*?)\s*A:\s*(?P<answer>.*?)(?:\n|<br)/i'
         ];
 
         foreach ($patterns as $pattern) {
             preg_match_all($pattern, $this->content, $matches, PREG_SET_ORDER);
             foreach ($matches as $match) {
+                // Use named groups if available, otherwise fallback to indices (though we use named groups everywhere now)
+                $qRaw = $match['question'] ?? $match[1] ?? '';
+                $aRaw = $match['answer'] ?? $match[2] ?? '';
+
                 // Ensure we strip tags to get clean text
-                $question = trim(strip_tags($match[1]));
-                $answer = trim(strip_tags($match[2]));
+                $question = trim(strip_tags($qRaw));
+                $answer = trim(strip_tags($aRaw));
 
                 // Simple validation: Question needs to be reasonable length
                 if (strlen($question) > 3 && strlen($answer) > 2) {
