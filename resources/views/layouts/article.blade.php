@@ -6,18 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- SEO -->
   {!! seo()->for($article) !!}
-  <meta name="keywords"
-    content="{{ implode(', ', array_merge([$article->category->name], $article->tags_array ?? [])) }}">
 
-  <!-- Performance: Preconnect to external resources -->
-  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-  <link rel="dns-prefetch" href="https://unpkg.com">
 
   <!-- Vite Assets -->
   @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
 
-  <!-- Alpine.js -->
-  <script src="//unpkg.com/alpinejs" defer></script>
+  @livewireStyles
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 </head>
 
@@ -84,6 +78,8 @@
 
   <!-- Back to top button -->
   <x-scroll-top />
+
+  @livewireScripts
 </body>
 
 </html>

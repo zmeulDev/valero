@@ -24,7 +24,7 @@ class Article extends Model
         'user_id',
         'title',
         'slug',
-        'tags',
+
         'excerpt',
         'content',
         'is_featured',
@@ -43,7 +43,7 @@ class Article extends Model
         'scheduled_at' => 'datetime:Y-m-d H:i',
     ];
 
-    protected $appends = ['tags_array'];
+    protected $appends = [];
 
     public function user()
     {
@@ -103,10 +103,7 @@ class Article extends Model
         $this->increment('views');
     }
 
-    public function getTagsArrayAttribute(): array
-    {
-        return $this->tags ? array_map('trim', explode(',', $this->tags)) : [];
-    }
+
 
     /**
      * Get SEO validation results for this article
@@ -137,12 +134,12 @@ class Article extends Model
     {
         // Get clean description, limiting to 160 chars for SEO best practices
         $description = Str::limit(
-            strip_tags($this->excerpt ?: $this->content),
+            html_entity_decode(strip_tags($this->excerpt ?: $this->content)),
             160
         );
 
         // Calculate reading time once
-        $wordCount = str_word_count(strip_tags($this->content));
+        $wordCount = str_word_count(html_entity_decode(strip_tags($this->content)));
         $readingTime = ceil($wordCount / 200);
 
         // Get cover image with absolute URL
@@ -157,8 +154,7 @@ class Article extends Model
         // Get keywords array
         $keywords = collect([
             $this->category->name,
-            ...$this->tags_array,
-            config('app.name')
+            config('app_name')
         ])
             ->filter()
             ->unique()
@@ -197,10 +193,10 @@ class Article extends Model
                 ];
                 // Optimized for performance: Use stripped text limited to 2000 chars
                 // This avoids duplicating the entire DOM in JSON-LD, significantly reducing page size
-                $schema->articleBody = Str::limit(strip_tags($this->content), 2000);
+                $schema->articleBody = Str::limit(html_entity_decode(strip_tags($this->content)), 2000);
                 $schema->wordCount = $wordCount;
                 $schema->timeRequired = "PT{$readingTime}M";
-                $schema->keywords = $this->tags_array;
+
                 $schema->mainEntityOfPage = [
                     '@type' => 'WebPage',
                     '@id' => $articleUrl
@@ -239,7 +235,6 @@ class Article extends Model
             published_time: $this->created_at,
             modified_time: $this->updated_at,
             section: $this->category->name,
-            tags: $this->tags_array,
             url: $articleUrl,
             type: 'BlogPosting',
             schema: $schemaCollection
@@ -280,8 +275,8 @@ class Article extends Model
                 $aRaw = $match['answer'] ?? $match[2] ?? '';
 
                 // Ensure we strip tags to get clean text
-                $question = trim(strip_tags($qRaw));
-                $answer = trim(strip_tags($aRaw));
+                $question = trim(html_entity_decode(strip_tags($qRaw)));
+                $answer = trim(html_entity_decode(strip_tags($aRaw)));
 
                 // Simple validation: Question needs to be reasonable length
                 if (strlen($question) > 3 && strlen($answer) > 2) {
@@ -298,7 +293,7 @@ class Article extends Model
 
         // If no FAQs found, but title says FAQ, try to generate a default one
         if (empty($faqs) && str_contains(strtolower($this->title), 'faq')) {
-            $excerpt = Str::limit(strip_tags($this->content), 150);
+            $excerpt = Str::limit(html_entity_decode(strip_tags($this->content)), 150);
             if (!empty($excerpt)) {
                 $faqs[] = [
                     'question' => "What is {$this->title} about?",

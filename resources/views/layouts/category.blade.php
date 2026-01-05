@@ -14,16 +14,16 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "{{ config('app.name') }}",
+    "name": "{{ config('app_name') }}",
     "url": "{{ url(route('home')) }}",
     "logo": "{{ url(asset('storage/brand/logo.png')) }}"
   }
   </script>
 
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
-  
-    <!-- Vite Assets -->
-    @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
+
+  <!-- Vite Assets -->
+  @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
   @livewireStyles
 
   <!-- Alpine.js -->
@@ -31,9 +31,7 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-  x-data="{ scrolled: false }"
-  @scroll.window="scrolled = (window.pageYOffset > 20)"
->
+  x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
   <x-navigation />
 
 
@@ -43,20 +41,21 @@
       <div class="lg:col-span-3 space-y-8">
         <!-- Featured Article Section -->
         @if ($featuredArticle)
-        <x-home.featured :article="$featuredArticle" />
+          <x-home.featured :article="$featuredArticle" />
         @endif
 
         <div x-data="{ view: 'grid' }"
           class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ __('frontend.common.articles_in_category') }}: {{ $category->name }}</h2>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+              {{ __('frontend.common.articles_in_category') }}: {{ $category->name }}</h2>
           </div>
           @if ($articles->isEmpty())
-          <x-nothing-found />
+            <x-nothing-found />
           @else
-          <div class="lg:col-span-3 space-y-8">
-            <x-home.latest-grid :articles="$articles" />
-          </div>
+            <div class="lg:col-span-3 space-y-8">
+              <x-home.latest-grid :articles="$articles" />
+            </div>
           @endif
           <!-- Pagination -->
           <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">

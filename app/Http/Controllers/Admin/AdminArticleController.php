@@ -38,12 +38,12 @@ class AdminArticleController extends Controller
             // Handle search
             if ($request->has('search')) {
                 $search = $request->search;
-                $query->where(function($q) use ($search) {
+                $query->where(function ($q) use ($search) {
                     $q->where('title', 'like', "%{$search}%")
-                      ->orWhere('content', 'like', "%{$search}%")
-                      ->orWhereHas('category', function($q) use ($search) {
-                          $q->where('name', 'like', "%{$search}%");
-                      });
+                        ->orWhere('content', 'like', "%{$search}%")
+                        ->orWhereHas('category', function ($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%");
+                        });
                 });
             }
 
@@ -90,7 +90,7 @@ class AdminArticleController extends Controller
             ->where('scheduled_at', '>', now())
             ->orderBy('scheduled_at', 'asc')
             ->get();
-            
+
         return view('admin.articles.create', [
             'categories' => Category::all(),
             'scheduledArticles' => $scheduledArticles
@@ -104,11 +104,11 @@ class AdminArticleController extends Controller
     {
         try {
             $validated = $this->validateArticle($request);
-            
+
             $article = new Article($validated);
             $article->user_id = auth()->id();
             $article->slug = Str::slug($validated['title']);
-            
+
             $this->handleScheduling($article, $request->scheduled_at);
 
             $article->save();
@@ -125,17 +125,17 @@ class AdminArticleController extends Controller
             $response = redirect()
                 ->route('admin.articles.index')
                 ->with('success', 'Article created successfully.');
-            
+
             if (session()->has('image_warning')) {
                 $response->with('warning', session('image_warning'));
                 session()->forget('image_warning');
             }
-            
+
             return $response;
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Get all validation errors
             $errors = $e->validator->errors();
-            
+
             // Build a user-friendly message listing all missing mandatory fields
             $missingFields = [];
             $fieldLabels = [
@@ -143,28 +143,22 @@ class AdminArticleController extends Controller
                 'content' => 'Content',
                 'category_id' => 'Category',
             ];
-            
+
             foreach ($fieldLabels as $field => $label) {
                 if ($errors->has($field)) {
                     $missingFields[] = $label;
                 }
             }
-            
-            // Add custom validation errors (like tags)
-            foreach ($errors->all() as $error) {
-                if (str_contains($error, 'tags')) {
-                    $missingFields[] = 'Tags (validation error)';
-                    break;
-                }
-            }
-            
+
+
+
             $errorMessage = 'Please fix the following issues before publishing:';
             if (!empty($missingFields)) {
                 $errorMessage .= ' ' . implode(', ', $missingFields);
             } else {
                 $errorMessage .= ' ' . implode(', ', $errors->all());
             }
-            
+
             return back()
                 ->withErrors($e->validator)
                 ->with('error', $errorMessage)
@@ -198,12 +192,12 @@ class AdminArticleController extends Controller
     {
         // Refresh the article with its media relationship to ensure we have the latest data
         $article->load('media');
-        
+
         $scheduledArticles = Article::whereNotNull('scheduled_at')
             ->where('scheduled_at', '>', now())
             ->orderBy('scheduled_at', 'asc')
             ->get();
-            
+
         return view('admin.articles.edit', [
             'article' => $article,
             'categories' => Category::all(),
@@ -218,9 +212,9 @@ class AdminArticleController extends Controller
     {
         try {
             $validated = $this->validateArticle($request, $article);
-            
+
             // Begin transaction
-            DB::transaction(function() use ($request, $article, $validated) {
+            DB::transaction(function () use ($request, $article, $validated) {
                 // Update article details
                 $this->handleScheduling($article, $request->scheduled_at);
                 $article->update($validated);
@@ -241,18 +235,18 @@ class AdminArticleController extends Controller
             $response = redirect()
                 ->route('admin.articles.edit', $article)
                 ->with('success', 'Article updated successfully.');
-            
+
             if (session()->has('image_warning')) {
                 $response->with('warning', session('image_warning'));
                 session()->forget('image_warning');
             }
-            
+
             return $response;
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Get all validation errors
             $errors = $e->validator->errors();
-            
+
             // Build a user-friendly message listing all missing mandatory fields
             $missingFields = [];
             $fieldLabels = [
@@ -260,28 +254,23 @@ class AdminArticleController extends Controller
                 'content' => 'Content',
                 'category_id' => 'Category',
             ];
-            
+
             foreach ($fieldLabels as $field => $label) {
                 if ($errors->has($field)) {
                     $missingFields[] = $label;
                 }
             }
-            
+
             // Add custom validation errors (like tags)
-            foreach ($errors->all() as $error) {
-                if (str_contains($error, 'tags')) {
-                    $missingFields[] = 'Tags (validation error)';
-                    break;
-                }
-            }
-            
+
+
             $errorMessage = 'Please fix the following issues before saving:';
             if (!empty($missingFields)) {
                 $errorMessage .= ' ' . implode(', ', $missingFields);
             } else {
                 $errorMessage .= ' ' . implode(', ', $errors->all());
             }
-            
+
             return back()
                 ->withErrors($e->validator)
                 ->with('error', $errorMessage)
@@ -292,7 +281,7 @@ class AdminArticleController extends Controller
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return back()
                 ->with('error', 'Failed to update article: ' . $e->getMessage())
                 ->withInput();
@@ -310,20 +299,20 @@ class AdminArticleController extends Controller
             $isShared = \App\Models\Media::where('image_path', $media->image_path)
                 ->where('id', '!=', $media->id)
                 ->exists();
-            
+
             // Only delete physical files if this is the last reference
             if (!$isShared) {
                 // Delete main image file
                 if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
                     Storage::disk('public')->delete($media->image_path);
-                    
+
                     \Log::info('Deleted image file during article deletion (no other references)', [
                         'article_id' => $article->id,
                         'image_path' => $media->image_path,
                         'media_id' => $media->id
                     ]);
                 }
-                
+
                 // Delete variants if they exist
                 if (!empty($media->variants)) {
                     foreach ($media->variants as $variant) {
@@ -342,16 +331,16 @@ class AdminArticleController extends Controller
                         ->count()
                 ]);
             }
-            
+
             // Always delete the media record for this article
             $media->delete();
         }
-        
+
         // Delete SEO data
         if ($article->seo) {
             $article->seo->delete();
         }
-        
+
         // Delete the article
         $article->delete();
 
@@ -372,9 +361,9 @@ class AdminArticleController extends Controller
             $now = now();
             return [
                 'total' => Article::count(),
-                'published' => Article::where(function($query) use ($now) {
+                'published' => Article::where(function ($query) use ($now) {
                     $query->whereNull('scheduled_at')
-                          ->orWhere('scheduled_at', '<=', $now);
+                        ->orWhere('scheduled_at', '<=', $now);
                 })->count(),
                 'scheduled' => Article::where('scheduled_at', '>', $now)->count()
             ];
@@ -413,41 +402,10 @@ class AdminArticleController extends Controller
             'title' => $titleRule,
             'excerpt' => 'nullable|max:255',
             'content' => 'required',
-            'tags' => [
-                'nullable',
-                'string',
-                'max:255',
-                function ($attribute, $value, $fail) {
-                    if ($value) {
-                        $tags = array_map('trim', explode(',', $value));
-                        $tags = array_filter($tags); // Remove empty tags
-                        
-                        // Validate tag count (optimal: 5-10 tags)
-                        if (count($tags) > 15) {
-                            $fail('Too many tags. Recommended: 5-10 tags for optimal SEO. Maximum: 15 tags.');
-                        }
-                        
-                        // Validate individual tag length (2-30 characters recommended)
-                        foreach ($tags as $tag) {
-                            if (strlen($tag) < 2) {
-                                $fail("Tag '{$tag}' is too short. Tags should be at least 2 characters.");
-                            }
-                            if (strlen($tag) > 50) {
-                                $fail("Tag '{$tag}' is too long. Tags should be maximum 50 characters.");
-                            }
-                        }
-                        
-                        // Check for duplicate tags (case-insensitive)
-                        $lowerTags = array_map('strtolower', $tags);
-                        if (count($lowerTags) !== count(array_unique($lowerTags))) {
-                            $fail('Duplicate tags detected. Each tag should be unique.');
-                        }
-                    }
-                }
-            ],
+
             'category_id' => 'required|exists:categories,id',
             'scheduled_at' => 'nullable|date',
-            
+
             // Options validation
             'youtube_link' => 'nullable|url|max:500',
             'instagram_link' => 'nullable|url|max:500',
@@ -472,7 +430,7 @@ class AdminArticleController extends Controller
                     if ($dimensions[0] > 5120 || $dimensions[1] > 5120) {
                         $fail("File {$value->getClientOriginalName()} dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x5120 pixels.");
                     }
-                    
+
                     // Check if this will be a cover image (first image if no cover exists)
                     $willBeCover = !$article || !$article->media()->where('is_cover', true)->exists();
                     if ($willBeCover) {
@@ -487,7 +445,7 @@ class AdminArticleController extends Controller
                             // Store warning in session for user notification
                             session()->flash('image_warning', "Cover image width ({$dimensions[0]}px) is below the recommended 1200px for Google Discovery. The article will be created, but consider using a wider image for better SEO.");
                         }
-                        
+
                         // Warn about aspect ratio (recommend 16:9 = 1.777...)
                         $aspectRatio = $dimensions[0] / $dimensions[1];
                         $optimalRatio = 16 / 9; // 1.777...
@@ -537,7 +495,7 @@ class AdminArticleController extends Controller
             [
                 'title' => $article->title,
                 'description' => $article->excerpt ?? Str::limit(strip_tags($article->content), 160),
-                'tags' => $article->tags,
+
                 'image' => $coverImage ? $coverImage->image_path : null,
                 'author' => $article->user->name,
                 'robots' => 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO -->
-    <title>{{ $playlist->title }} - {{ config('app.name') }}</title>
+    <title>{{ $playlist->title }} - {{ config('app_name') }}</title>
     <meta name="description" content="{{ Str::limit($playlist->description, 160) }}">
 
     <!-- Vite Assets -->

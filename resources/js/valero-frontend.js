@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
       '(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
       if (canToggleIcons) {
-      lightIcon.classList.remove('hidden');
-      darkIcon.classList.add('hidden');
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
       }
     } else {
       document.documentElement.classList.remove('dark');
       if (canToggleIcons) {
-      darkIcon.classList.remove('hidden');
-      lightIcon.classList.add('hidden');
+        darkIcon.classList.remove('hidden');
+        lightIcon.classList.add('hidden');
       }
     }
   }
@@ -48,13 +48,13 @@ document.addEventListener('DOMContentLoaded', function () {
   if (window.location.pathname.includes('/admin/settings')) {
     const form = document.getElementById('settings-form');
     if (form) {
-      form.addEventListener('submit', function(e) {
+      form.addEventListener('submit', function (e) {
         const fileInput = document.querySelector('input[name="logo"]');
         if (fileInput && fileInput.files.length > 0) {
           e.preventDefault();
-          
+
           const formData = new FormData(form);
-          
+
           fetch(form.action, {
             method: 'POST',
             body: formData,
@@ -62,22 +62,22 @@ document.addEventListener('DOMContentLoaded', function () {
               'X-Requested-With': 'XMLHttpRequest'
             }
           })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              // Force refresh all logo images on the page
-              const logoImages = document.querySelectorAll('img[src*="brand/logo.png"]');
-              logoImages.forEach(img => {
-                const currentSrc = img.src.split('?')[0];
-                img.src = `${currentSrc}?v=${Date.now()}`;
-              });
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            // If there's an error, submit the form normally
-            form.submit();
-          });
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                // Force refresh all logo images on the page
+                const logoImages = document.querySelectorAll('img[src*="brand/logo.png"]');
+                logoImages.forEach(img => {
+                  const currentSrc = img.src.split('?')[0];
+                  img.src = `${currentSrc}?v=${Date.now()}`;
+                });
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              // If there's an error, submit the form normally
+              form.submit();
+            });
         }
       });
     }
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentIndex = 0;
   let isZoomed = false;
   let imageData = [];
-  
+
   // Build image data array with metadata
   galleryImages.forEach((container, index) => {
     const imgElement = container.querySelector('img');
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
     currentIndex = index;
     showLoading();
     resetZoom();
-    
+
     const img = new Image();
     img.onload = () => {
       galleryImage.src = imageData[currentIndex].src;
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
       updateCounter();
       updateThumbnails();
       updateNavButtons();
-      
+
       // Preload adjacent images
       preloadAdjacentImages();
     };
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function preloadAdjacentImages() {
     const nextIndex = (currentIndex + 1) % imageData.length;
     const prevIndex = (currentIndex - 1 + imageData.length) % imageData.length;
-    
+
     [nextIndex, prevIndex].forEach(index => {
       const img = new Image();
       img.src = imageData[index].src;
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Toggle fullscreen
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
-      galleryModal.requestFullscreen().catch(() => {});
+      galleryModal.requestFullscreen().catch(() => { });
       fullscreenButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>';
     } else {
       document.exitFullscreen();
@@ -283,16 +283,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // Touch/Swipe support for mobile
   let touchStartX = 0;
   let touchEndX = 0;
-  
+
   imageContainer.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
   }, { passive: true });
-  
+
   imageContainer.addEventListener('touchend', (e) => {
     touchEndX = e.changedTouches[0].screenX;
     handleSwipe();
   }, { passive: true });
-  
+
   function handleSwipe() {
     const swipeThreshold = 50;
     if (touchStartX - touchEndX > swipeThreshold) {
@@ -313,10 +313,10 @@ document.addEventListener('DOMContentLoaded', function () {
   zoomButton.addEventListener('click', toggleZoom);
   fullscreenButton.addEventListener('click', toggleFullscreen);
   downloadButton.addEventListener('click', downloadImage);
-  
+
   // Click image to zoom
   galleryImage.addEventListener('click', toggleZoom);
-  
+
   // Click backdrop to close
   galleryModal.addEventListener('click', (e) => {
     if (e.target === galleryModal) closeGallery();
@@ -337,19 +337,19 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Article Like Functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const likeButtons = document.querySelectorAll('.like-button');
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-  
+
   if (!csrfToken) {
     console.error('CSRF token not found');
     return;
   }
-  
+
   likeButtons.forEach(button => {
     let isProcessing = false;
 
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       if (isProcessing) return;
       isProcessing = true;
 
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const likeCount = document.getElementById(`likeCount-${articleId}`);
       const likeIcon = document.getElementById(`likeIcon-${articleId}`);
       const isLiked = likeIcon.classList.contains('text-rose-500');
-      
+
       fetch(`/articles/${articleId}/like`, {
         method: 'POST',
         headers: {
@@ -368,53 +368,53 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         body: JSON.stringify({ liked: !isLiked })
       })
-      .then(async response => {
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to update like status');
-        }
-        return data;
-      })
-      .then(data => {
-        if (data.success) {
-          // Update like count with animation
-          likeCount.style.transition = 'transform 0.2s ease';
-          likeCount.style.transform = 'scale(1.2)';
-          likeCount.textContent = new Intl.NumberFormat().format(data.likes_count);
-          
-          // Toggle like icon state
-          if (isLiked) {
-            likeIcon.classList.remove('text-rose-500');
-            likeIcon.classList.add('text-gray-400');
-          } else {
-            likeIcon.classList.remove('text-gray-400');
-            likeIcon.classList.add('text-rose-500');
+        .then(async response => {
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.message || 'Failed to update like status');
           }
-          
-          // Reset scale after animation
-          setTimeout(() => {
-            likeCount.style.transform = 'scale(1)';
-          }, 200);
-        }
-      })
-      .catch(error => {
-        console.error('Like error:', error);
-        // Show error notification
-        const notification = document.createElement('div');
-        notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
-        notification.textContent = error.message || 'An error occurred while updating like status';
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 3000);
-      })
-      .finally(() => {
-        isProcessing = false;
-      });
+          return data;
+        })
+        .then(data => {
+          if (data.success) {
+            // Update like count with animation
+            likeCount.style.transition = 'transform 0.2s ease';
+            likeCount.style.transform = 'scale(1.2)';
+            likeCount.textContent = new Intl.NumberFormat().format(data.likes_count);
+
+            // Toggle like icon state
+            if (isLiked) {
+              likeIcon.classList.remove('text-rose-500');
+              likeIcon.classList.add('text-gray-400');
+            } else {
+              likeIcon.classList.remove('text-gray-400');
+              likeIcon.classList.add('text-rose-500');
+            }
+
+            // Reset scale after animation
+            setTimeout(() => {
+              likeCount.style.transform = 'scale(1)';
+            }, 200);
+          }
+        })
+        .catch(error => {
+          console.error('Like error:', error);
+          // Show error notification
+          const notification = document.createElement('div');
+          notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+          notification.textContent = error.message || 'An error occurred while updating like status';
+          document.body.appendChild(notification);
+          setTimeout(() => notification.remove(), 3000);
+        })
+        .finally(() => {
+          isProcessing = false;
+        });
     });
   });
 });
 
 // Alpine.js Component: Auth Form (for password visibility toggles)
-window.authForm = function() {
+window.authForm = function () {
   return {
     showPassword: false,
     showPasswordConfirmation: false

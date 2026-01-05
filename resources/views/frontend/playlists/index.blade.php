@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- SEO -->
-    <title>{{ __('frontend.playlists.title') }} - {{ config('app.name') }}</title>
+    <title>{{ __('frontend.playlists.title') }} - {{ config('app_name') }}</title>
     <meta name="description" content="{{ __('frontend.playlists.description') }}">
 
     <!-- Vite Assets -->
@@ -31,7 +31,8 @@
                     class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-                            {{ __('frontend.playlists.title') }}</h1>
+                            {{ __('frontend.playlists.title') }}
+                        </h1>
                         <p class="text-gray-500 dark:text-gray-400 mt-1">{{ __('frontend.playlists.description') }}</p>
                     </div>
 

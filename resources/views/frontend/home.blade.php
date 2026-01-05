@@ -1,11 +1,11 @@
 <x-home-layout>
-  <x-slot name="title">{{ config('app.name') }}</x-slot>
+  <x-slot name="title">{{ config('app_name') }}</x-slot>
 
   <div class="container mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
     <div class="lg:col-span-3 space-y-8">
       <!-- Featured Article Section -->
       @if ($featuredArticle)
-      <x-home.featured :article="$featuredArticle" />
+        <x-home.featured :article="$featuredArticle" />
       @endif
 
       <!-- Latest Articles Section -->

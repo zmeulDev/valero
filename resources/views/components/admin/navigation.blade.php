@@ -7,8 +7,7 @@
                     <a href="{{ route('home') }}" class="flex-shrink-0 flex items-center">
                         <x-application-logo class="h-8 w-8 sm:h-12 sm:w-12 text-gray-800 dark:text-white" />
                         <span class="ml-3 text-lg font-semibold text-gray-900 dark:text-white">
-                            Admin<span
-                                class="text-gray-400 dark:text-gray-500 mx-2">|</span>{{ config('app_name') ?? config('app.name') }}
+                            Admin<span class="text-gray-400 dark:text-gray-500 mx-2">|</span>{{ config('app_name') }}
                         </span>
                     </a>
 
@@ -167,7 +166,8 @@
                                     class="px-4 py-2 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
                                     <p class="text-xs text-gray-500 dark:text-gray-400">Signed in as</p>
                                     <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                        {{ auth()->user()->email }}</p>
+                                        {{ auth()->user()->email }}
+                                    </p>
                                 </div>
 
                                 <x-dropdown-link href="{{ route('profile.show') }}" class="flex items-center">

@@ -25,17 +25,17 @@ class Category extends Model
     {
         $articleCount = $this->articles()->published()->count();
         $articleWord = $articleCount === 1 ? 'article' : 'articles';
-        $description = "Browse {$articleCount} {$articleWord} in {$this->name} category. " . 
-                      "Discover the latest content, insights, and updates on " . strtolower($this->name) . ".";
-        
+        $description = "Browse {$articleCount} {$articleWord} in {$this->name} category. " .
+            "Discover the latest content, insights, and updates on " . strtolower($this->name) . ".";
+
         $categoryUrl = url(route('category.index', $this->slug));
 
         return new SEOData(
-            title: $this->name . ' - ' . config('app.name'),
+            title: $this->name . ' - ' . config('app_name'),
             description: Str::limit($description, 160),
             url: $categoryUrl,
             schema: SchemaCollection::make()
-                ->addBreadcrumbs(function($breadcrumbs) {
+                ->addBreadcrumbs(function ($breadcrumbs) {
                     return $breadcrumbs
                         ->prependBreadcrumbs([
                             'Home' => route('home'),

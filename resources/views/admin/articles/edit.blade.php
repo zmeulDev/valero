@@ -215,34 +215,7 @@
                                 </div>
                             </div>
 
-                            <!-- Tags Card -->
-                            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden mb-6">
-                                <div class="p-2">
-                                    <label for="tags" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        {{ __('admin.articles.tags') }}
-                                        <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">(Comma-separated, for SEO optimization)</span>
-                                    </label>
-                                    <input type="text" 
-                                           id="tags" 
-                                           name="tags" 
-                                           class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white" 
-                                           value="{{ old('tags', $article->tags) }}"
-                                           placeholder="keyword1, keyword2, long-tail keyword, etc.">
-                                    <div class="mt-2 space-y-1">
-                                        <div class="flex items-center justify-between text-sm">
-                                            <p class="text-gray-500 dark:text-gray-400">
-                                                <span class="font-medium">SEO Best Practices:</span> Use 5-10 relevant keywords (2-50 chars each)
-                                            </p>
-                                            <p class="text-sm text-gray-500">
-                                                Tags: <span id="tags-counter">0</span> / 15 max
-                                            </p>
-                                        </div>
-                                        <p class="text-xs text-gray-400 dark:text-gray-500">
-                                            💡 <strong>Tip:</strong> Tags are used in meta keywords, article schema, and help with SEO. Use specific, relevant keywords that match your content.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 {{ __('admin.articles.content') }} <span class="text-red-500">*</span>

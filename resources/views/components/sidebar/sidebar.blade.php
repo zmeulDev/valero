@@ -1,8 +1,8 @@
 @props([
-'shareUrl' => request()->url(),
-'shareTitle' => config('app.name'),
-'popularArticles',
-'categories'
+  'shareUrl' => request()->url(),
+  'shareTitle' => config('app_name'),
+  'popularArticles',
+  'categories'
 ])
 
 <div class="lg:col-span-1">
