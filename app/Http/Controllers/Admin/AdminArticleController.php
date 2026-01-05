@@ -531,16 +531,55 @@ class AdminArticleController extends Controller
     /**
      * Display a listing of scheduled articles.
      */
-    public function scheduled()
+    public function scheduled(Request $request)
     {
-        $scheduledArticles = Article::whereNotNull('scheduled_at')
+        $query = Article::whereNotNull('scheduled_at')
             ->where('scheduled_at', '>', now())
-            ->orderBy('scheduled_at', 'asc')
-            ->with(['user', 'category'])
-            ->get();
+            ->with(['user', 'category']);
+
+        // Apply Search Filter
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // Apply Category Filter
+        if ($request->has('category') && $request->category) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Clone query for calendar (all items) vs list (paginated)
+        // We need to order by date for both
+        $query->orderBy('scheduled_at', 'asc');
+
+        // Get paginated articles for the list
+        $scheduledArticles = $query->clone()->paginate(10)->withQueryString();
+
+        // Get all scheduled articles for the calendar view (apply same filters)
+        $calendarArticles = $query->clone()
+            ->select('id', 'title', 'scheduled_at', 'category_id')
+            ->get()
+            ->map(function ($article) {
+                return [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'date' => $article->scheduled_at->format('Y-m-d'),
+                    'time' => $article->scheduled_at->format('H:i'),
+                    'category' => $article->category ? $article->category->name : 'Uncategorized',
+                    'url' => route('admin.articles.show', $article->id)
+                ];
+            });
 
         return view('admin.articles.scheduled', [
-            'articles' => $scheduledArticles
+            'articles' => $scheduledArticles,
+            'calendarArticles' => $calendarArticles,
+            'categories' => Category::orderBy('name')->get(),
+            'selectedCategory' => $request->category
         ]);
     }
 }

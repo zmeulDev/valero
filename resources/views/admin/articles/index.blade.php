@@ -12,8 +12,13 @@
             <x-admin.page-header icon="book-open" title="{{ __('admin.articles.title') }}"
                 description="{{ __('admin.articles.description') }}" :breadcrumbs="[['label' => __('admin.articles.breadcrumbs')]]">
                 <x-slot:actions>
+                    <a href="{{ route('admin.articles.scheduled') }}"
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 mr-2">
+                        <x-lucide-calendar class="w-4 h-4 mr-2" />
+                        {{ __('admin.articles.scheduled') }}
+                    </a>
                     <a href="{{ route('admin.articles.create') }}"
-                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                         <x-lucide-plus-circle class="w-4 h-4 mr-2" />
                         {{ __('admin.articles.new_article') }}
                     </a>
@@ -139,13 +144,16 @@
                                     <tr>
                                         <th scope="col"
                                             class="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            {{ __('admin.common.title') }}</th>
+                                            {{ __('admin.common.title') }}
+                                        </th>
                                         <th scope="col"
                                             class="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            {{ __('admin.common.category') }}</th>
+                                            {{ __('admin.common.category') }}
+                                        </th>
                                         <th scope="col"
                                             class="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            {{ __('admin.common.status') }}</th>
+                                            {{ __('admin.common.status') }}
+                                        </th>
                                         <th scope="col" class="relative px-6 py-3.5">
                                             <span class="sr-only">{{ __('admin.common.actions') }}</span>
                                         </th>
