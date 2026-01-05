@@ -31,7 +31,6 @@ class SettingSeeder extends Seeder
             // SEO Defaults
             ['key' => 'app_seo_title', 'value' => 'Latest Articles & Insights', 'created_at' => $now, 'updated_at' => $now],
             ['key' => 'app_seo_description', 'value' => 'Discover the latest articles, insights, and updates. Browse our collection of curated content covering various topics and categories.', 'created_at' => $now, 'updated_at' => $now],
-            ['key' => 'app_seo_keywords', 'value' => 'articles, blog, news, insights, content', 'created_at' => $now, 'updated_at' => $now],
         ];
 
         foreach ($settings as $setting) {

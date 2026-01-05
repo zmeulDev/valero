@@ -8,9 +8,6 @@
 
   <title>{{ config('app_name') }} - {{ config('app_seo_title') }}</title>
   <meta name="description" content="{{ config('app_seo_description') }}">
-  @if(config('app_seo_keywords'))
-    <meta name="keywords" content="{{ config('app_seo_keywords') }}">
-  @endif
   <meta property="og:title" content="{{ config('app_name') . ' - ' . config('app_seo_title') }}">
   <meta property="og:description" content="{{ config('app_seo_description') }}">
   <meta property="og:url" content="{{ url(route('home')) }}">
