@@ -147,6 +147,11 @@ Valero comes packed with powerful features for managing and publishing articles.
 - Search in sidebar
 - Search in admin panel
 
+### Article Linking
+- **Internal Linking** - Quickly search and copy canonical URLs of other articles while writing
+- **Status Indicators** - Visual badges for Published vs Scheduled articles
+- **One-Click Copy** - Instant clipboard with fallback support for all browsers
+
 ## 👥 User Management
 
 ### Authentication

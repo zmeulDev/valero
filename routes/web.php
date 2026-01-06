@@ -60,6 +60,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
 
     // Articles
     Route::get('articles/scheduled', [AdminArticleController::class, 'scheduled'])->name('articles.scheduled');
+    Route::get('articles/search-json', [AdminArticleController::class, 'searchJson'])->name('articles.search-json');
     Route::resource('articles', AdminArticleController::class);
 
     // Image handling - handled by AdminImageController

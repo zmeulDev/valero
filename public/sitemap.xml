@@ -1,92 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
-    <loc>http://localhost</loc>
-    <lastmod>2026-01-05T17:07:13+00:00</lastmod>
+    <loc>http://valero.test</loc>
+    <lastmod>2026-01-06T15:10:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
             </url>
     <url>
-    <loc>http://localhost/cookie-policy</loc>
-    <lastmod>2026-01-05T17:07:13+00:00</lastmod>
+    <loc>http://valero.test/cookie-policy</loc>
+    <lastmod>2026-01-06T15:10:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
             </url>
     <url>
-    <loc>http://localhost/category/tenetur-earum-exercitationem-voluptatum-porro-eveniet-veritatis-nihil-quod</loc>
+    <loc>http://valero.test/category/tenetur</loc>
     <lastmod>2026-01-05T17:02:35+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/quidem-eius-ea-ullam-excepturi-hic-odio-et</loc>
+    <loc>http://valero.test/category/quidem-eius-ea-ullam-excepturi-hic-odio-et</loc>
     <lastmod>2026-01-05T17:02:35+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/delectus-pariatur-soluta-omnis-libero</loc>
+    <loc>http://valero.test/category/delectus-pariatur-soluta-omnis-libero</loc>
     <lastmod>2026-01-05T17:02:35+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/quod-eos-fugiat-saepe-totam-animi-maxime-consequatur-quia</loc>
+    <loc>http://valero.test/category/quod-eos-fugiat</loc>
     <lastmod>2026-01-05T17:05:08+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/voluptas-impedit-dolorum-eum-veritatis-quisquam-qui</loc>
+    <loc>http://valero.test/category/ut-voluptas-dolor-illum-id-aliquam-facilis-velit</loc>
     <lastmod>2026-01-05T17:05:08+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/ut-voluptas-dolor-illum-id-aliquam-facilis-velit</loc>
-    <lastmod>2026-01-05T17:05:08+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-            </url>
-    <url>
-    <loc>http://localhost/category/beatae-fugiat-officiis-repellat-saepe-impedit</loc>
+    <loc>http://valero.test/category/beatae-fugiat-officiis-repellat-saepe-impedit</loc>
     <lastmod>2026-01-05T17:05:37+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/asperiores-autem-eius-iure-ad-qui-assumenda</loc>
+    <loc>http://valero.test/category/asperiores-autem-eius-iure-ad-qui-assumenda</loc>
     <lastmod>2026-01-05T17:05:37+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/dolorem-commodi-illum-quis-sint-quia-iste-sit</loc>
+    <loc>http://valero.test/category/dolorem-commodi-illum-quis-sint-quia-iste-sit</loc>
     <lastmod>2026-01-05T17:07:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/category/natus-magni-laborum-aperiam-eos</loc>
+    <loc>http://valero.test/category/natus-magni-laborum-aperiam-eos</loc>
     <lastmod>2026-01-05T17:07:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://localhost/articles/molestiae-totam-consequatur-ad-libero</loc>
-    <lastmod>2026-01-05T17:06:23+00:00</lastmod>
+    <loc>http://valero.test/articles/molestiae-totam-consequatur-ad-libero</loc>
+    <lastmod>2026-01-06T13:23:43+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://localhost/articles/error-id-quasi</loc>
-    <lastmod>2026-01-05T17:05:24+00:00</lastmod>
+    <loc>http://valero.test/articles/error-id-quasi</loc>
+    <lastmod>2026-01-06T13:22:16+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>
     <url>
-    <loc>http://localhost/articles/sunt-sit-nihil-perferendis</loc>
-    <lastmod>1998-05-10T03:44:09+00:00</lastmod>
+    <loc>http://valero.test/articles/sunt-sit-nihil-perferendis</loc>
+    <lastmod>2026-01-06T13:22:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://valero.test/articles/totam-sit-eos-tempora</loc>
+    <lastmod>2026-01-06T14:33:04+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://valero.test/articles/quis-minima-vel</loc>
+    <lastmod>2026-01-06T14:31:29+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://valero.test/articles/browser-test-article</loc>
+    <lastmod>2026-01-06T15:10:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+            </url>
+    <url>
+    <loc>http://valero.test/articles/hhh</loc>
+    <lastmod>2026-01-06T15:05:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
             </url>

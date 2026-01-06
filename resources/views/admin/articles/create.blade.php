@@ -240,6 +240,9 @@
                         </div>
                     </div>
 
+                    <!-- Search Link Component -->
+                    <x-admin.article.search-link />
+
 
 
                     <!-- Content -->

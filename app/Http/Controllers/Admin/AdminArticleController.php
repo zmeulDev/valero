@@ -539,6 +539,40 @@ class AdminArticleController extends Controller
 
 
     /**
+     * Search articles and return JSON for internal use.
+     */
+    public function searchJson(Request $request)
+    {
+        $search = $request->get('search');
+        $query = Article::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('excerpt', 'like', "%{$search}%");
+            });
+        }
+
+        $articles = $query->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get()
+            ->map(function ($article) {
+                $canonicalUrl = $article->seo?->canonical_url ?: route('articles.index', ['slug' => $article->slug]);
+
+                return [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'excerpt' => Str::limit($article->excerpt ?? '', 50),
+                    'canonical_url' => $canonicalUrl,
+                    'is_scheduled' => $article->scheduled_at && $article->scheduled_at->isFuture(),
+                    'status_label' => ($article->scheduled_at && $article->scheduled_at->isFuture()) ? 'Scheduled' : 'Published'
+                ];
+            });
+
+        return response()->json($articles);
+    }
+
+    /**
      * Display a listing of scheduled articles.
      */
     public function scheduled(Request $request)

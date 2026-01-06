@@ -256,6 +256,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Search Link Component -->
+                            <div class="mb-6">
+                                <x-admin.article.search-link />
+                            </div>
 
 
 
