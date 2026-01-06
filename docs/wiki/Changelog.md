@@ -37,6 +37,9 @@ All notable changes to Valero will be documented in this file.
 - ✨ **JavaScript Refactoring** - Centralized admin and frontend JavaScript files
 - ✨ **Enhanced External Links UI** - Platform-specific cards for YouTube, Instagram, and Local Store links
 - ✨ **Bookmarks Pagination** - Efficient pagination for bookmarks library in article options tab
+- ✨ **Dynamic Admin Filtering** - AJAX-based filtering for Dashboard and Articles Index (no page reloads)
+- ✨ **WebP Optimization** - Automatic conversion of all images to WebP format for performance
+- ✨ **Component Architecture** - Refactored partial views into reusable Blade Components
 
 ### Changed
 - 🎨 **Bookmarks Index UI** - Redesigned with modern card-based layout (10 items per page)

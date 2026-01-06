@@ -60,6 +60,7 @@ Valero comes packed with powerful features for managing and publishing articles.
 
 ### Image Processing
 - Format normalization (.jpeg → .jpg)
+- **Automatic WebP Conversion** - All images converted to high-performance WebP format
 - Direct file copy (preserves quality)
 - Bulk uploads (up to 30 images per article)
 - Drag-and-drop support

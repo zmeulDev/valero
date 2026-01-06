@@ -1,7 +1,8 @@
+import './bootstrap';
 import tinymceConfig from './tinymce-config';
 
 // Make calendarData function globally available for Alpine.js
-window.calendarData = function() {
+window.calendarData = function () {
     return {
         currentMonth: new Date().getMonth(),
         currentYear: new Date().getFullYear(),
@@ -36,7 +37,7 @@ window.calendarData = function() {
         },
         fetchCalendarData() {
             this.isLoading = true;
-            
+
             // In a real implementation, you would fetch data from the server
             // For now, we'll simulate the fetch with a timeout
             setTimeout(() => {
@@ -47,28 +48,28 @@ window.calendarData = function() {
         generateCalendarDays() {
             const firstDayOfMonth = new Date(this.currentYear, this.currentMonth, 1);
             const lastDayOfMonth = new Date(this.currentYear, this.currentMonth + 1, 0);
-            
+
             // Get the day of the week for the first day (0 = Sunday, 6 = Saturday)
             const firstDayIndex = firstDayOfMonth.getDay();
-            
+
             // Calculate days from previous month to show
             const daysFromPrevMonth = firstDayIndex;
-            
+
             // Calculate total days to show (previous month days + current month days + next month days)
             const totalDays = 42; // 6 rows of 7 days
-            
+
             // Create array to hold all calendar days
             this.calendarDays = [];
-            
+
             // Add days from previous month
             const prevMonth = new Date(this.currentYear, this.currentMonth, 0);
             const prevMonthDays = prevMonth.getDate();
-            
+
             for (let i = daysFromPrevMonth - 1; i >= 0; i--) {
                 const day = prevMonthDays - i;
                 const date = new Date(this.currentYear, this.currentMonth - 1, day);
                 const dateString = this.formatDateString(date);
-                
+
                 this.calendarDays.push({
                     day: day,
                     date: date,
@@ -78,12 +79,12 @@ window.calendarData = function() {
                     scheduledArticles: this.getScheduledArticlesForDate(dateString)
                 });
             }
-            
+
             // Add days from current month
             for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
                 const date = new Date(this.currentYear, this.currentMonth, day);
                 const dateString = this.formatDateString(date);
-                
+
                 this.calendarDays.push({
                     day: day,
                     date: date,
@@ -93,13 +94,13 @@ window.calendarData = function() {
                     scheduledArticles: this.getScheduledArticlesForDate(dateString)
                 });
             }
-            
+
             // Add days from next month
             const remainingDays = totalDays - this.calendarDays.length;
             for (let day = 1; day <= remainingDays; day++) {
                 const date = new Date(this.currentYear, this.currentMonth + 1, day);
                 const dateString = this.formatDateString(date);
-                
+
                 this.calendarDays.push({
                     day: day,
                     date: date,
@@ -111,15 +112,15 @@ window.calendarData = function() {
             }
         },
         formatDateString(date) {
-            return date.getFullYear() + '-' + 
-                   String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-                   String(date.getDate()).padStart(2, '0');
+            return date.getFullYear() + '-' +
+                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                String(date.getDate()).padStart(2, '0');
         },
         isToday(date) {
             const today = new Date();
-            return date.getDate() === today.getDate() && 
-                   date.getMonth() === today.getMonth() && 
-                   date.getFullYear() === today.getFullYear();
+            return date.getDate() === today.getDate() &&
+                date.getMonth() === today.getMonth() &&
+                date.getFullYear() === today.getFullYear();
         },
         getScheduledArticlesForDate(dateString) {
             return this.scheduledArticles.filter(article => {
@@ -134,110 +135,110 @@ window.calendarData = function() {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-  const themeToggleBtn = document.getElementById('theme-toggle-admin');
-  const darkIcon = document.getElementById('theme-toggle-dark-icon-admin');
-  const lightIcon = document.getElementById('theme-toggle-light-icon-admin');
+    const themeToggleBtn = document.getElementById('theme-toggle-admin');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon-admin');
+    const lightIcon = document.getElementById('theme-toggle-light-icon-admin');
 
-  if (themeToggleBtn && darkIcon && lightIcon) {
-    function applyTheme() {
-      if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
-        '(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-        lightIcon.classList.remove('hidden');
-        darkIcon.classList.add('hidden');
-      } else {
-        document.documentElement.classList.remove('dark');
-        darkIcon.classList.remove('hidden');
-        lightIcon.classList.add('hidden');
-      }
-    }
-
-    applyTheme();
-
-    themeToggleBtn.addEventListener('click', function () {
-      darkIcon.classList.toggle('hidden');
-      lightIcon.classList.toggle('hidden');
-
-      if (document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('color-theme', 'light');
-      } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('color-theme', 'dark');
-      }
-    });
-  }
-
-  if (document.querySelector('#content')) {
-    tinymce.init(tinymceConfig);
-  }
-
-  ['title', 'excerpt'].forEach(id => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.addEventListener('input', () => updateCharCount(id, id === 'title' ? 60 : 160));
-      updateCharCount(id, id === 'title' ? 60 : 160);
-    }
-  });
-
-  ['tags'].forEach(id => {
-    const element = document.getElementById(id);
-    if (element) {
-        element.addEventListener('input', () => updateTagCount(id, 10, 100));
-        updateTagCount(id, 10, 100);
-    }
-});
-
-  const settingsForm = document.getElementById('settings-form');
-  if (settingsForm) {
-    settingsForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const formData = new FormData(settingsForm);
-
-      fetch(settingsForm.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest'
+    if (themeToggleBtn && darkIcon && lightIcon) {
+        function applyTheme() {
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            }
         }
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.refresh) {
-            window.location.reload(true);
-          }
+
+        applyTheme();
+
+        themeToggleBtn.addEventListener('click', function () {
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
         });
+    }
+
+    if (document.querySelector('#content')) {
+        tinymce.init(tinymceConfig);
+    }
+
+    ['title', 'excerpt'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('input', () => updateCharCount(id, id === 'title' ? 60 : 160));
+            updateCharCount(id, id === 'title' ? 60 : 160);
+        }
     });
-  }
+
+    ['tags'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('input', () => updateTagCount(id, 10, 100));
+            updateTagCount(id, 10, 100);
+        }
+    });
+
+    const settingsForm = document.getElementById('settings-form');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(settingsForm);
+
+            fetch(settingsForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.refresh) {
+                        window.location.reload(true);
+                    }
+                });
+        });
+    }
 });
 
 function updateCharCount(elementId, limit = null) {
-  let content;
-  if (elementId === 'content' && typeof tinymce !== 'undefined') {
-    content = tinymce.get('content').getContent({
-      format: 'text'
-    });
-  } else {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    content = element.value;
-  }
-  const charCount = document.getElementById(elementId + '-char-count');
-  if (!charCount) return;
+    let content;
+    if (elementId === 'content' && typeof tinymce !== 'undefined') {
+        content = tinymce.get('content').getContent({
+            format: 'text'
+        });
+    } else {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        content = element.value;
+    }
+    const charCount = document.getElementById(elementId + '-char-count');
+    if (!charCount) return;
 
-  charCount.textContent = content.length;
+    charCount.textContent = content.length;
 
-  if (limit && content.length > limit) {
-    charCount.classList.add('text-red-500');
-  } else {
-    charCount.classList.remove('text-red-500');
-  }
+    if (limit && content.length > limit) {
+        charCount.classList.add('text-red-500');
+    } else {
+        charCount.classList.remove('text-red-500');
+    }
 }
 
 function updateTagCount(id, maxTags, maxChars) {
     const element = document.getElementById(id);
     const counter = document.getElementById(`${id}-counter`);
-    
+
     if (element && counter) {
         const value = element.value;
         const totalChars = value.length;
@@ -245,12 +246,12 @@ function updateTagCount(id, maxTags, maxChars) {
             .split(',')
             .map(tag => tag.trim())
             .filter(tag => tag.length > 0);
-            
+
         const count = tags.length;
-        
+
         // Update counter text with both limits
         counter.textContent = `${count}/${maxTags} tags (${totalChars}/${maxChars} chars)`;
-        
+
         // Visual feedback for exceeding either limit
         if (count > maxTags || totalChars > maxChars) {
             counter.classList.add('text-red-500');
@@ -259,7 +260,7 @@ function updateTagCount(id, maxTags, maxChars) {
             counter.classList.remove('text-red-500');
             counter.classList.add('text-gray-500');
         }
-        
+
         // Optional: Truncate if exceeding character limit
         if (totalChars > maxChars) {
             element.value = value.substring(0, maxChars);
@@ -268,7 +269,7 @@ function updateTagCount(id, maxTags, maxChars) {
 }
 
 // Global toast notification function with different types
-window.showToast = function(message, type = 'error') {
+window.showToast = function (message, type = 'error') {
     // Define toast styles based on type
     const styles = {
         success: {
@@ -324,7 +325,7 @@ window.showToast = function(message, type = 'error') {
     };
 
     const style = styles[type] || styles.error;
-    
+
     // Remove any existing toast
     const existingToast = document.getElementById('global-toast');
     if (existingToast) {
@@ -337,7 +338,7 @@ window.showToast = function(message, type = 'error') {
     toast.className = 'fixed bottom-24 right-5 w-full max-w-sm z-50';
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(10px)';
-    
+
     toast.innerHTML = `<div class="relative overflow-hidden rounded-lg border ${style.border} ${style.bg} shadow-lg">
         <div class="p-4">
           <div class="flex items-start">
@@ -361,7 +362,7 @@ window.showToast = function(message, type = 'error') {
         </div>
         <div class="absolute bottom-0 left-0 h-1 ${style.progress}" style="width: 100%; animation: toastProgress 5000ms linear forwards;"></div>
       </div>`;
-    
+
     // Add animation
     const styleEl = document.createElement('style');
     styleEl.textContent = '@keyframes toastProgress { from { width: 100%; } to { width: 0%; } }';
@@ -369,16 +370,16 @@ window.showToast = function(message, type = 'error') {
         styleEl.id = 'toast-animation-style';
         document.head.appendChild(styleEl);
     }
-    
+
     document.body.appendChild(toast);
-    
+
     // Animate in
     requestAnimationFrame(() => {
         toast.style.transition = 'all 0.3s ease-in-out';
         toast.style.opacity = '1';
         toast.style.transform = 'translateY(0)';
     });
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         toast.style.opacity = '0';
@@ -388,42 +389,42 @@ window.showToast = function(message, type = 'error') {
 };
 
 // Global validation toast function (backward compatibility)
-window.showValidationToast = function(message) {
+window.showValidationToast = function (message) {
     showToast(message, 'error');
 };
 
 // Alpine.js data function for article form validation (create)
-window.articleFormCreate = function() {
+window.articleFormCreate = function () {
     return {
         submitting: false,
         activeTab: 'content',
         submitForm(e) {
             e.preventDefault();
             if (this.submitting) return;
-            
+
             // Validate required fields
             const errors = [];
             const title = document.getElementById('title')?.value?.trim();
             let content = '';
-            
+
             // Get content from TinyMCE if available
             if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
                 content = tinymce.get('content').getContent({ format: 'text' })?.trim() || '';
             } else {
                 content = document.getElementById('content')?.value?.trim() || '';
             }
-            
+
             const category = document.getElementById('category_id')?.value;
-            
+
             if (!title) errors.push('Title');
             if (!content) errors.push('Content');
             if (!category) errors.push('Category');
-            
+
             if (errors.length > 0) {
                 if (typeof showValidationToast === 'function') {
                     showValidationToast('Please fill in the following required fields: ' + errors.join(', '));
                 }
-                
+
                 // Focus first missing field
                 if (!title) {
                     document.getElementById('title')?.focus();
@@ -446,7 +447,7 @@ window.articleFormCreate = function() {
                 }
                 return false;
             }
-            
+
             this.submitting = true;
             e.target.submit();
         }
@@ -454,16 +455,16 @@ window.articleFormCreate = function() {
 };
 
 // Alpine.js data function for article form validation (edit)
-window.articleFormEdit = function() {
+window.articleFormEdit = function () {
     return {
         submitting: false,
         validateAndSubmit(e) {
             if (this.submitting) return;
-            
+
             const errors = [];
             const titleEl = document.getElementById('title');
             const title = titleEl ? titleEl.value.trim() : '';
-            
+
             let content = '';
             if (typeof tinymce !== 'undefined' && tinymce.get('content')) {
                 content = tinymce.get('content').getContent({ format: 'text' }).trim() || '';
@@ -471,19 +472,19 @@ window.articleFormEdit = function() {
                 const contentEl = document.getElementById('content');
                 content = contentEl ? contentEl.value.trim() : '';
             }
-            
+
             const categoryEl = document.getElementById('category_id');
             const category = categoryEl ? categoryEl.value : '';
-            
+
             if (!title) errors.push('Title');
             if (!content) errors.push('Content');
             if (!category) errors.push('Category');
-            
+
             if (errors.length > 0) {
                 if (typeof showValidationToast === 'function') {
                     showValidationToast('Please fill in the following required fields: ' + errors.join(', '));
                 }
-                
+
                 if (!title) {
                     const nav = document.querySelector('nav');
                     if (nav) {
@@ -524,7 +525,7 @@ window.articleFormEdit = function() {
                 }
                 return false;
             }
-            
+
             this.submitting = true;
             e.target.submit();
         }
@@ -532,7 +533,7 @@ window.articleFormEdit = function() {
 };
 
 // Gallery Create Component
-window.galleryCreate = function(maxFiles, maxFileSizeMB) {
+window.galleryCreate = function (maxFiles, maxFileSizeMB) {
     return {
         files: [],
         maxFiles: maxFiles,
@@ -548,7 +549,7 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
             const maxFileSize = maxFileSizeMB * 1024 * 1024;
             const maxWidth = 5120;
             const maxHeight = 5120;
-            
+
             for (const file of selectedFiles) {
                 if (file.size > maxFileSize) {
                     alert(`File "${file.name}" is too large. Maximum file size is ${maxFileSizeMB}MB.`);
@@ -577,7 +578,7 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
                     return;
                 });
             }
-            
+
             this.files = selectedFiles.map(file => {
                 const fileObj = {
                     file: file, // Store the actual File object
@@ -590,14 +591,14 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
                     height: null,
                     previewUrl: URL.createObjectURL(file)
                 };
-                
+
                 // Format file size
                 if (fileObj.sizeMB < 1) {
                     fileObj.sizeFormatted = (file.size / 1024).toFixed(1) + ' KB';
                 } else {
                     fileObj.sizeFormatted = fileObj.sizeMB + ' MB';
                 }
-                
+
                 // Load dimensions asynchronously with proper Alpine reactivity
                 const img = new Image();
                 img.onload = () => {
@@ -616,7 +617,7 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
                     }
                 };
                 img.src = fileObj.previewUrl;
-                
+
                 return fileObj;
             });
         },
@@ -625,16 +626,16 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
             if (this.files[index]?.previewUrl) {
                 URL.revokeObjectURL(this.files[index].previewUrl);
             }
-            
+
             // Remove from array
             this.files.splice(index, 1);
-            
+
             // Update the file input to match
             if (this.files.length === 0) {
                 this.$refs.fileInput.value = '';
             }
         },
-        
+
         clearAllFiles() {
             // Revoke all object URLs to free memory
             this.files.forEach(fileObj => {
@@ -642,12 +643,12 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
                     URL.revokeObjectURL(fileObj.previewUrl);
                 }
             });
-            
+
             // Clear the array and file input
             this.files = [];
             this.$refs.fileInput.value = '';
         },
-        
+
         // Cleanup on component destroy
         destroy() {
             this.files.forEach(file => {
@@ -656,12 +657,12 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
                 }
             });
         },
-        
+
         // Initialize event listener for media library selection
         init() {
             window.addEventListener('media-selected-from-library', (event) => {
                 const selectedMedia = event.detail.media;
-                
+
                 // Convert library media to file-like objects for display
                 selectedMedia.forEach(media => {
                     this.files.push({
@@ -678,7 +679,7 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
                         libraryMediaId: media.id // Store the media ID for backend
                     });
                 });
-                
+
                 // Create hidden inputs for library media IDs
                 const container = this.$refs.fileInput.parentElement;
                 selectedMedia.forEach(media => {
@@ -695,7 +696,7 @@ window.galleryCreate = function(maxFiles, maxFileSizeMB) {
 };
 
 // Gallery Edit Component
-window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articleTitle) {
+window.galleryEdit = function (maxFiles, maxFileSizeMB, articleMediaCount, articleTitle) {
     return {
         uploading: false,
         files: [],
@@ -715,7 +716,7 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
         handleFiles(event) {
             const selectedFiles = Array.from(event.target.files);
             const remainingSlots = this.maxFiles;
-            
+
             if (selectedFiles.length > remainingSlots) {
                 alert(`You can only upload ${remainingSlots} more images. (Maximum total: ${maxFiles})`);
                 event.target.value = '';
@@ -726,7 +727,7 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
             const maxFileSize = maxFileSizeMB * 1024 * 1024;
             const maxWidth = 5120;
             const maxHeight = 5120;
-            
+
             for (const file of selectedFiles) {
                 if (file.size > maxFileSize) {
                     alert(`File "${file.name}" is too large. Maximum file size is ${maxFileSizeMB}MB.`);
@@ -755,7 +756,7 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
                     return;
                 });
             }
-            
+
             this.files = selectedFiles.map(file => {
                 const fileObj = {
                     file: file, // Store the actual File object
@@ -768,14 +769,14 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
                     height: null,
                     previewUrl: URL.createObjectURL(file)
                 };
-                
+
                 // Format file size
                 if (fileObj.sizeMB < 1) {
                     fileObj.sizeFormatted = (file.size / 1024).toFixed(1) + ' KB';
                 } else {
                     fileObj.sizeFormatted = fileObj.sizeMB + ' MB';
                 }
-                
+
                 // Load dimensions asynchronously with proper Alpine reactivity
                 const img = new Image();
                 img.onload = () => {
@@ -794,7 +795,7 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
                     }
                 };
                 img.src = fileObj.previewUrl;
-                
+
                 return fileObj;
             });
         },
@@ -804,16 +805,16 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
             if (this.files[index]?.previewUrl) {
                 URL.revokeObjectURL(this.files[index].previewUrl);
             }
-            
+
             // Remove from array
             this.files.splice(index, 1);
-            
+
             // Update the file input to match
             if (this.files.length === 0) {
                 this.$refs.fileInput.value = '';
             }
         },
-        
+
         clearAllFiles() {
             // Revoke all object URLs to free memory
             this.files.forEach(fileObj => {
@@ -821,12 +822,12 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
                     URL.revokeObjectURL(fileObj.previewUrl);
                 }
             });
-            
+
             // Clear the array and file input
             this.files = [];
             this.$refs.fileInput.value = '';
         },
-        
+
         // Cleanup on component destroy
         destroy() {
             this.files.forEach(file => {
@@ -838,23 +839,23 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
 
         uploadImages(event) {
             if (this.files.length === 0) return;
-            
+
             this.uploading = true;
-            
+
             // Build FormData manually from only the files that remain in this.files array
             const formData = new FormData();
-            
+
             // Add CSRF token from the form
             const csrfToken = event.target.querySelector('input[name="_token"]').value;
             formData.append('_token', csrfToken);
-            
+
             // Add only the files that are still in the this.files array
             this.files.forEach(fileObj => {
                 formData.append('gallery_images[]', fileObj.file);
             });
-            
+
             const routes = this.getRoutes();
-            
+
             fetch(event.target.action, {
                 method: 'POST',
                 body: formData,
@@ -862,29 +863,29 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Show success toast
-                    if (typeof showToast === 'function') {
-                        showToast(data.message || 'Images uploaded successfully', 'success');
-                    }
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success toast
+                        if (typeof showToast === 'function') {
+                            showToast(data.message || 'Images uploaded successfully', 'success');
+                        }
 
-                    // Reload the page to show new images
-                    window.location.reload();
-                } else {
-                    throw new Error(data.message || 'Upload failed');
-                }
-            })
-            .catch(error => {
-                console.error('Upload error:', error);
-                if (typeof showToast === 'function') {
-                    showToast(error.message || 'An unexpected error occurred', 'error');
-                }
-            })
-            .finally(() => {
-                this.uploading = false;
-            });
+                        // Reload the page to show new images
+                        window.location.reload();
+                    } else {
+                        throw new Error(data.message || 'Upload failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Upload error:', error);
+                    if (typeof showToast === 'function') {
+                        showToast(error.message || 'An unexpected error occurred', 'error');
+                    }
+                })
+                .finally(() => {
+                    this.uploading = false;
+                });
         },
 
         deleteImage(event) {
@@ -900,7 +901,7 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
         confirmDelete() {
             // Close modal
             this.showDeleteModal = false;
-            
+
             if (!this.deleteTarget) return;
 
             const { form, token, imageContainer } = this.deleteTarget;
@@ -914,46 +915,46 @@ window.galleryEdit = function(maxFiles, maxFileSizeMB, articleMediaCount, articl
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(async response => {
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.message || 'Failed to delete image');
-                }
-                return data;
-            })
-            .then(data => {
-                if (data.success) {
-                    // Remove the image container from DOM with animation
-                    imageContainer.style.transition = 'all 0.3s ease-out';
-                    imageContainer.style.transform = 'scale(0.8)';
-                    imageContainer.style.opacity = '0';
-                    
-                    setTimeout(() => imageContainer.remove(), 300);
-                    
-                    // Update the image count text using the ID
-                    const countElement = document.getElementById('gallery-count');
-                    if (countElement) {
-                        countElement.textContent = `${data.remainingImages} of ${maxFiles} images used`;
+                .then(async response => {
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to delete image');
                     }
-                    
-                    // Show success toast
+                    return data;
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Remove the image container from DOM with animation
+                        imageContainer.style.transition = 'all 0.3s ease-out';
+                        imageContainer.style.transform = 'scale(0.8)';
+                        imageContainer.style.opacity = '0';
+
+                        setTimeout(() => imageContainer.remove(), 300);
+
+                        // Update the image count text using the ID
+                        const countElement = document.getElementById('gallery-count');
+                        if (countElement) {
+                            countElement.textContent = `${data.remainingImages} of ${maxFiles} images used`;
+                        }
+
+                        // Show success toast
+                        if (typeof showToast === 'function') {
+                            showToast(data.message || 'Image deleted successfully', 'success');
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Delete error:', error);
                     if (typeof showToast === 'function') {
-                        showToast(data.message || 'Image deleted successfully', 'success');
+                        showToast(error.message || 'An error occurred while deleting the image', 'error');
                     }
-                }
-            })
-            .catch(error => {
-                console.error('Delete error:', error);
-                if (typeof showToast === 'function') {
-                    showToast(error.message || 'An error occurred while deleting the image', 'error');
-                }
-            });
+                });
         }
     };
 };
 
 // Media Library Modal Component
-window.mediaLibrary = function(articleId) {
+window.mediaLibrary = function (articleId) {
     return {
         open: false,
         loading: false,
@@ -992,7 +993,7 @@ window.mediaLibrary = function(articleId) {
                     page: page,
                     search: this.searchQuery
                 });
-                
+
                 if (this.articleId) {
                     params.append('exclude_article_id', this.articleId);
                 }
@@ -1007,15 +1008,15 @@ window.mediaLibrary = function(articleId) {
                 if (!response.ok) throw new Error('Failed to fetch media');
 
                 const data = await response.json();
-                
+
                 if (page === 1) {
                     this.mediaItems = data.data;
                 } else {
                     this.mediaItems = [...this.mediaItems, ...data.data];
                 }
-                
+
                 this.lastPage = data.last_page;
-                
+
             } catch (error) {
                 console.error('Error fetching media:', error);
                 showToast('Failed to load media library', 'error');
@@ -1054,7 +1055,7 @@ window.mediaLibrary = function(articleId) {
 
             try {
                 const mediaIds = this.selectedMedia.map(m => m.id);
-                const url = this.articleId 
+                const url = this.articleId
                     ? `/admin/articles/${this.articleId}/images/attach-from-library`
                     : null;
 
@@ -1070,7 +1071,7 @@ window.mediaLibrary = function(articleId) {
 
                 // For edit form, attach via AJAX
                 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-                
+
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -1086,7 +1087,7 @@ window.mediaLibrary = function(articleId) {
                 if (data.success) {
                     showToast(data.message, 'success');
                     this.closeLibrary();
-                    
+
                     // Reload the page to show the newly attached images
                     window.location.reload();
                 } else {
@@ -1104,7 +1105,7 @@ window.mediaLibrary = function(articleId) {
 };
 
 // Auth Form Component (for password visibility toggles)
-window.authForm = function() {
+window.authForm = function () {
     return {
         showPassword: false,
         showPasswordConfirmation: false
@@ -1112,7 +1113,7 @@ window.authForm = function() {
 };
 
 // Auth Form Component (for password visibility toggles)
-window.authForm = function() {
+window.authForm = function () {
     return {
         showPassword: false,
         showPasswordConfirmation: false

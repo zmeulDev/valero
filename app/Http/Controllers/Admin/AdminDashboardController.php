@@ -93,6 +93,10 @@ class AdminDashboardController extends Controller
             ->take(5)
             ->values();
 
+        if ($request->ajax()) {
+            return view('components.admin.dashboard-articles-table', compact('articles'));
+        }
+
         return view('admin.dashboard', compact(
             'articleCount',
             'publishedArticles',

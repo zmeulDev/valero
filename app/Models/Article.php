@@ -132,24 +132,35 @@ class Article extends Model
 
     public function getDynamicSEOData(): SEOData
     {
-        // Get clean description, limiting to 160 chars for SEO best practices
-        $description = Str::limit(
+        // 1. Prefer saved SEO data
+        $seoModel = $this->seo;
+
+        // 2. Fallbacks to Article data
+        $title = $seoModel?->title ?: $this->title;
+
+        $description = $seoModel?->description ?: Str::limit(
             html_entity_decode(strip_tags($this->excerpt ?: $this->content)),
             160
         );
+
+        $robots = $seoModel?->robots ?: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+        $canonicalUrl = $seoModel?->canonical_url ?: url(route('articles.index', ['slug' => $this->slug]));
 
         // Calculate reading time once
         $wordCount = str_word_count(html_entity_decode(strip_tags($this->content)));
         $readingTime = ceil($wordCount / 200);
 
         // Get cover image with absolute URL
-        $coverMedia = $this->media->firstWhere('is_cover', true);
-        $imageUrl = $coverMedia?->image_path
-            ? url(Storage::url($coverMedia->image_path))
-            : url(asset('storage/brand/logo.png'));
-
-        // Get the correct article URL (absolute)
-        $articleUrl = url(route('articles.index', ['slug' => $this->slug]));
+        // Prefer SEO image if set, otherwise cover image, otherwise default
+        $imageUrl = null;
+        if ($seoModel?->image) {
+            $imageUrl = url(Storage::url($seoModel->image));
+        } else {
+            $coverMedia = $this->media->firstWhere('is_cover', true);
+            $imageUrl = $coverMedia?->image_path
+                ? url(Storage::url($coverMedia->image_path))
+                : url(asset('storage/brand/logo.png'));
+        }
 
         // Get keywords array
         $keywords = collect([
@@ -164,13 +175,13 @@ class Article extends Model
         $faqs = $this->extractFaqs();
 
         $schemaCollection = SchemaCollection::make()
-            ->addArticle(function ($schema) use ($imageUrl, $description, $readingTime, $wordCount, $articleUrl) {
+            ->addArticle(function ($schema) use ($imageUrl, $title, $description, $readingTime, $wordCount, $canonicalUrl) {
                 // Force BlogPosting type if possible (property might be public)
                 if (property_exists($schema, 'type')) {
                     $schema->type = 'BlogPosting';
                 }
 
-                $schema->headline = $this->title;
+                $schema->headline = $title;
                 $schema->description = $description;
 
                 // package 'image' property must be string
@@ -199,17 +210,17 @@ class Article extends Model
 
                 $schema->mainEntityOfPage = [
                     '@type' => 'WebPage',
-                    '@id' => $articleUrl
+                    '@id' => $canonicalUrl
                 ];
 
                 return $schema;
             })
-            ->addBreadcrumbs(function ($breadcrumbs) {
+            ->addBreadcrumbs(function ($breadcrumbs) use ($title) {
                 return $breadcrumbs
                     ->prependBreadcrumbs([
                         'Home' => route('home'),
                         $this->category->name => route('category.index', $this->category),
-                        $this->title => route('articles.index', ['slug' => $this->slug])
+                        $title => route('articles.index', ['slug' => $this->slug])
                     ]);
             });
 
@@ -228,14 +239,15 @@ class Article extends Model
         }
 
         return new SEOData(
-            title: $this->title,
+            title: $title,
             description: $description,
             author: $this->user->name,
             image: $imageUrl, // Keep single URL for Open Graph/Twitter
             published_time: $this->created_at,
             modified_time: $this->updated_at,
             section: $this->category->name,
-            url: $articleUrl,
+            url: $canonicalUrl,
+            robots: $robots,
             type: 'BlogPosting',
             schema: $schemaCollection
         );

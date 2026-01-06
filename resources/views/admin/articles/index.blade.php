@@ -3,10 +3,88 @@
         showDeleteModal: false,
         itemToDelete: null,
         items: {{ $articles->items() ? json_encode($articles->items()) : '[]' }},
-        
+        isLoading: false,
+        currentStatus: '{{ request('status') }}',
+        currentCategory: '{{ request('category') }}',
+        searchQuery: '{{ request('search') }}',
+
         openDeleteModal(id) {
             $dispatch('open-delete-modal', id);
+        },
+
+        init() {
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', (event) => {
+                this.fetchArticles(window.location.search, false);
+            });
+        },
+
+        async fetchArticles(params, updateUrl = true) {
+            this.isLoading = true;
+            try {
+                // Determine params based on type
+                let urlParams;
+                if (typeof params === 'string' && params.startsWith('?')) {
+                     urlParams = new URLSearchParams(params);
+                } else if (typeof params === 'object') {
+                    // Merge current state with new params
+                    urlParams = new URLSearchParams(window.location.search);
+                    Object.keys(params).forEach(key => {
+                        if (params[key] === null || params[key] === '') {
+                            urlParams.delete(key);
+                        } else {
+                            urlParams.set(key, params[key]);
+                        }
+                    });
+                } else {
+                     urlParams = new URLSearchParams(); // fallback
+                }
+
+                // Make the request
+                const response = await axios.get(`{{ route('admin.articles.index') }}?${urlParams.toString()}`);
+                
+                // Update the DOM
+                this.$refs.articlesContainer.innerHTML = response.data;
+                
+                // Update URL if requested
+                if (updateUrl) {
+                    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+                    window.history.pushState({}, '', newUrl);
+                }
+
+                // Update local state for UI active states
+                this.currentStatus = urlParams.get('status') || '';
+                this.currentCategory = urlParams.get('category') || '';
+                this.searchQuery = urlParams.get('search') || '';
+
+                // Re-initialize any plugins if needed (e.g. tooltips) or re-bind events
+                // For now, the delete modal works via global event dispatch which persists
+                
+            } catch (error) {
+                console.error('Error fetching articles:', error);
+                window.showToast('Failed to load articles', 'error');
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        
+        applyStatus(status) {
+            this.fetchArticles({ status: status, page: 1 }); // specific status, reset page
+        },
+        
+        applyCategory(categoryId) {
+            this.fetchArticles({ category: categoryId, page: 1 });
+        },
+
+        applySearch(query) {
+             this.fetchArticles({ search: query, page: 1 });
+        },
+
+        clearSearch() {
+            this.searchQuery = '';
+            this.fetchArticles({ search: null, page: 1 });
         }
+
     }">
         <x-slot name="header">
             <x-admin.page-header icon="book-open" title="{{ __('admin.articles.title') }}"
@@ -48,28 +126,32 @@
                         <!-- Status Filter -->
                         <div
                             class="flex items-center bg-gray-100 dark:bg-gray-700/50 rounded-lg p-1 self-start sm:self-center">
-                            <a href="{{ route('admin.articles.index', array_merge(request()->except('status', 'page'))) }}"
-                                class="px-4 py-2 text-sm font-medium rounded-md transition-all {{ !request('status') ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200' }}">
+                            <button @click.prevent="applyStatus('')" type="button"
+                                :class="!currentStatus ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
+                                class="px-4 py-2 text-sm font-medium rounded-md transition-all">
                                 {{ __('admin.common.all') ?? 'All' }}
-                            </a>
-                            <a href="{{ route('admin.articles.index', array_merge(request()->except('page'), ['status' => 'published'])) }}"
-                                class="px-4 py-2 text-sm font-medium rounded-md transition-all {{ request('status') === 'published' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200' }}">
+                            </button>
+                            <button @click.prevent="applyStatus('published')" type="button"
+                                :class="currentStatus === 'published' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
+                                class="px-4 py-2 text-sm font-medium rounded-md transition-all">
                                 {{ __('admin.status.published') }}
-                            </a>
-                            <a href="{{ route('admin.articles.index', array_merge(request()->except('page'), ['status' => 'scheduled'])) }}"
-                                class="px-4 py-2 text-sm font-medium rounded-md transition-all {{ request('status') === 'scheduled' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200' }}">
+                            </button>
+                            <button @click.prevent="applyStatus('scheduled')" type="button"
+                                :class="currentStatus === 'scheduled' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
+                                class="px-4 py-2 text-sm font-medium rounded-md transition-all">
                                 {{ __('admin.status.scheduled') }}
-                            </a>
+                            </button>
                         </div>
 
                         <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                             <!-- Category Filter -->
                             <div class="relative" x-data="{ open: false }">
-                                <button @click="open = !open"
+                                <button @click.prevent="open = !open" type="button"
                                     class="w-full sm:w-auto inline-flex items-center justify-between px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                                     <div class="flex items-center">
                                         <x-lucide-filter class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
-                                        <span>{{ $selectedCategory ? $categories->find($selectedCategory)->name : __('admin.articles.all_categories') }}</span>
+                                        <span
+                                            x-text="currentCategory ? '{{ __('Category Selected') }}' : '{{ __('admin.articles.all_categories') }}'"></span>
                                     </div>
                                     <x-lucide-chevron-down class="h-4 w-4 ml-2 text-gray-400" />
                                 </button>
@@ -80,178 +162,74 @@
                                     x-transition:enter-end="transform opacity-100 scale-100"
                                     x-transition:leave="transition ease-in duration-75"
                                     x-transition:leave-start="transform opacity-100 scale-100"
-                                    x-transition:leave-end="transform opacity-0 scale-95"
+                                    x-transition:leave-end="transform opacity-0 scale-95" style="display: none;"
                                     class="absolute right-0 z-10 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div class="py-1" role="menu">
-                                        <a href="{{ route('admin.articles.index', request()->except('category', 'page')) }}"
-                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        <button @click.prevent="applyCategory(''); open = false" type="button"
+                                            class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
                                             {{ __('admin.articles.all_categories') }}
-                                        </a>
+                                        </button>
                                         @foreach($categories as $category)
-                                            <a href="{{ route('admin.articles.index', array_merge(request()->except('page'), ['category' => $category->id])) }}"
-                                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 {{ $selectedCategory == $category->id ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300' : '' }}">
+                                            <button @click.prevent="applyCategory('{{ $category->id }}'); open = false"
+                                                type="button"
+                                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                                :class="currentCategory == '{{ $category->id }}' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300' : ''">
                                                 {{ $category->name }}
-                                            </a>
+                                            </button>
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Search Bar -->
-                            <form method="GET" action="{{ route('admin.articles.index') }}" x-data="{ 
-                                        query: '{{ request('search') }}',
-                                        updateSearch: function(value) {
-                                            this.query = value;
-                                            // Add debounce to prevent too many requests
-                                            clearTimeout(this.timeout);
-                                            this.timeout = setTimeout(() => {
-                                                this.$refs.searchForm.submit();
-                                            }, 300);
-                                        }
-                                    }" x-ref="searchForm" class="relative flex-1 w-full sm:w-64">
-                                @foreach(request()->except('search', 'page') as $key => $value)
-                                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                                @endforeach
-
+                            <div class="relative flex-1 w-full sm:w-64">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <x-lucide-search class="h-4 w-4 text-gray-400" />
                                 </div>
-                                <input type="text" name="search" x-model="query"
-                                    @input="updateSearch($event.target.value)"
+                                <input type="text" x-model="searchQuery"
+                                    @input.debounce.300ms="applySearch($event.target.value)"
                                     class="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
-                                    placeholder="{{ __('admin.common.search') }}..." x-ref="searchInput">
-                                @if(request('search'))
+                                    placeholder="{{ __('admin.common.search') }}...">
+                                <template x-if="searchQuery">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                        <a href="{{ route('admin.articles.index', request()->except('search', 'page')) }}"
+                                        <button @click.prevent="clearSearch()" type="button"
                                             class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
                                             title="{{ __('admin.common.clear') }}">
                                             <x-lucide-x class="h-4 w-4" />
-                                        </a>
+                                        </button>
                                     </div>
-                                @endif
-                            </form>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Articles Table -->
-                @if($articles->count() > 0)
-                    <div
-                        class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden ring-1 ring-black ring-opacity-5">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                <thead class="bg-gray-50 dark:bg-gray-700/50">
-                                    <tr>
-                                        <th scope="col"
-                                            class="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            {{ __('admin.common.title') }}
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            {{ __('admin.common.category') }}
-                                        </th>
-                                        <th scope="col"
-                                            class="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            {{ __('admin.common.status') }}
-                                        </th>
-                                        <th scope="col" class="relative px-6 py-3.5">
-                                            <span class="sr-only">{{ __('admin.common.actions') }}</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    @foreach($articles as $article)
-                                        <tr
-                                            class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200 group">
-                                            <td class="px-6 py-4">
-                                                <div class="flex items-center">
-                                                    <div class="h-10 w-10 flex-shrink-0 relative">
-                                                        @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
-                                                            <img src="{{ asset('storage/' . $article->media->firstWhere('is_cover', true)->image_path) }}"
-                                                                alt="{{ $article->title }}"
-                                                                class="h-10 w-10 rounded-lg object-cover ring-2 ring-gray-100 dark:ring-gray-700 group-hover:ring-indigo-500/50 dark:group-hover:ring-indigo-400/50 transition-all">
-                                                        @else
-                                                            <div
-                                                                class="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center ring-2 ring-gray-100 dark:ring-gray-700">
-                                                                <x-lucide-image class="h-5 w-5 text-gray-400" />
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="ml-4 min-w-0 flex-1">
-                                                        <div
-                                                            class="text-sm font-medium text-gray-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                                            {{ $article->title }}
-                                                        </div>
-                                                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                                            {{ __('admin.articles.by') }} <span
-                                                                class="text-gray-700 dark:text-gray-300">{{ $article->user->name }}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span
-                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $article->category ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300' }}">
-                                                    {{ $article->category?->name ?? __('admin.articles.uncategorized') }}
-                                                </span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                                @if($article->scheduled_at && $article->scheduled_at->isFuture())
-                                                    <div class="flex flex-col">
-                                                        <span
-                                                            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 ring-1 ring-inset ring-yellow-600/20 w-fit">
-                                                            <x-lucide-clock class="w-3 h-3 mr-1" />
-                                                            {{ __('admin.status.scheduled') }}
-                                                        </span>
-                                                        <span class="text-xs text-gray-400 mt-1 pl-1">
-                                                            {{ $article->scheduled_at->format('M j, Y H:i') }}
-                                                        </span>
-                                                    </div>
-                                                @else
-                                                    <div class="flex flex-col">
-                                                        <span
-                                                            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20 w-fit">
-                                                            <x-lucide-check-circle class="w-3 h-3 mr-1" />
-                                                            {{ __('admin.status.published') }}
-                                                        </span>
-                                                        <span class="text-xs text-gray-400 mt-1 pl-1">
-                                                            {{ $article->created_at->format('M j, Y') }}
-                                                        </span>
-                                                    </div>
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <div class="flex justify-end items-center space-x-2">
-                                                    <a href="{{ route('admin.articles.show', $article) }}"
-                                                        class="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-1"
-                                                        title="{{ __('admin.common.view') }}">
-                                                        <x-lucide-eye class="h-5 w-5" />
-                                                    </a>
-                                                    <a href="{{ route('admin.articles.edit', $article) }}"
-                                                        class="text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors p-1"
-                                                        title="{{ __('admin.common.edit') }}">
-                                                        <x-lucide-pencil class="h-5 w-5" />
-                                                    </a>
-                                                    <button @click="openDeleteModal({{ $article->id }})"
-                                                        class="text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors p-1"
-                                                        title="{{ __('admin.common.delete') }}">
-                                                        <x-lucide-trash class="h-5 w-5" />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                <!-- Articles Table Container -->
+                <div class="relative min-h-[200px]">
+                    <!-- Loading Overlay -->
+                    <div x-show="isLoading" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        class="absolute inset-0 z-10 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm flex items-center justify-center rounded-lg"
+                        style="display: none;">
+                        <div class="flex flex-col items-center">
+                            <svg class="animate-spin h-8 w-8 text-indigo-600 dark:text-indigo-400 mb-2"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Loading...</span>
                         </div>
                     </div>
-                @else
-                    <x-nothing-found />
-                @endif
 
-                <!-- Pagination -->
-                <div class="mt-6">
-                    {{ $articles->links() }}
+                    <!-- AJAX Content Area -->
+                    <div x-ref="articlesContainer">
+                        <x-admin.articles-table :articles="$articles" />
+                    </div>
                 </div>
             </div>
         </div>

@@ -275,6 +275,13 @@ Delete orphaned images:
 php artisan media:cleanup-orphaned --force
 ```
 
+### format Conversion
+
+Convert all existing images to WebP:
+```bash
+php artisan media:convert-webp
+```
+
 ### Database Maintenance
 
 Optimize database:

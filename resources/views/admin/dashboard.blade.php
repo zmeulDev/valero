@@ -171,7 +171,38 @@
             </div>
 
             <!-- Latest Articles Section -->
-            <div class="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-md">
+            <div class="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-md"
+                 x-data="{
+                    currentStatus: '{{ request('status', '') }}',
+                    isLoading: false,
+                    async fetchArticles(status) {
+                        if (this.currentStatus === status && !this.isLoading) return;
+                        this.isLoading = true;
+                        this.currentStatus = status;
+                        
+                        try {
+                            const response = await axios.get('{{ route('admin.dashboard') }}', { 
+                                params: { status: status },
+                                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                            });
+                            this.$refs.articlesContainer.innerHTML = response.data;
+                            
+                            // Update URL
+                            const url = new URL(window.location);
+                            if(status) {
+                                url.searchParams.set('status', status);
+                            } else {
+                                url.searchParams.delete('status');
+                            }
+                            window.history.pushState({}, '', url);
+                            
+                        } catch (error) {
+                            console.error('Error fetching articles:', error);
+                        } finally {
+                            this.isLoading = false;
+                        }
+                    }
+                 }">
                     <div class="p-6">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
@@ -179,21 +210,30 @@
                                     <x-lucide-book-open class="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                                 </div>
                                 {{ __('admin.dashboard.latest_articles') }}
+                                <span x-show="isLoading" x-transition class="ml-2 text-sm text-gray-500">
+                                    <x-lucide-loader-2 class="w-4 h-4 animate-spin" />
+                                </span>
                             </h2>
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center bg-gray-100 dark:bg-gray-700/50 rounded-lg p-1">
-                                    <a href="{{ route('admin.dashboard') }}" 
-                                       class="px-3 py-1 text-xs font-medium rounded-md transition-all {{ !request('status') ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200' }}">
+                                    <button @click="fetchArticles('')" 
+                                       type="button"
+                                       class="px-3 py-1 text-xs font-medium rounded-md transition-all"
+                                       :class="currentStatus === '' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'">
                                         {{ __('admin.common.all') ?? 'All' }}
-                                    </a>
-                                    <a href="{{ route('admin.dashboard', ['status' => 'published']) }}" 
-                                       class="px-3 py-1 text-xs font-medium rounded-md transition-all {{ request('status') === 'published' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200' }}">
+                                    </button>
+                                    <button @click="fetchArticles('published')" 
+                                       type="button"
+                                       class="px-3 py-1 text-xs font-medium rounded-md transition-all"
+                                       :class="currentStatus === 'published' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'">
                                         {{ __('admin.status.published') }}
-                                    </a>
-                                    <a href="{{ route('admin.dashboard', ['status' => 'scheduled']) }}" 
-                                       class="px-3 py-1 text-xs font-medium rounded-md transition-all {{ request('status') === 'scheduled' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200' }}">
+                                    </button>
+                                    <button @click="fetchArticles('scheduled')" 
+                                       type="button"
+                                       class="px-3 py-1 text-xs font-medium rounded-md transition-all"
+                                       :class="currentStatus === 'scheduled' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'">
                                         {{ __('admin.status.scheduled') }}
-                                    </a>
+                                    </button>
                                 </div>
                                 <a href="{{ route('admin.articles.index') }}" 
                                    class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">
@@ -203,72 +243,9 @@
                             </div>
                         </div>
 
-                        @if ($articles->isEmpty())
-                            <x-nothing-found />
-                        @else
-                            <div class="overflow-x-auto ring-1 ring-black ring-opacity-5 rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                    <thead class="bg-gray-50 dark:bg-gray-700/50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                {{ __('admin.common.title') }}
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                {{ __('admin.dashboard.author') }}
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                {{ __('admin.dashboard.status') }}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                        @foreach ($articles as $article)
-                                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200 group">
-                                                <td class="px-6 py-4">
-                                                    <div class="flex items-center">
-                                                        <div class="h-10 w-10 flex-shrink-0 relative">
-                                                            @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
-                                                                <img class="h-10 w-10 rounded-lg object-cover ring-2 ring-gray-100 dark:ring-gray-700 group-hover:ring-indigo-500/50 dark:group-hover:ring-indigo-400/50 transition-all" 
-                                                                     src="{{ asset('storage/' . $article->media->firstWhere('is_cover', true)->image_path) }}" 
-                                                                     alt="">
-                                                            @else
-                                                                <div class="h-10 w-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center ring-2 ring-gray-100 dark:ring-gray-700">
-                                                                    <x-lucide-image class="h-5 w-5 text-gray-400" />
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                        <div class="ml-4 min-w-0">
-                                                            <div class="text-sm font-medium text-gray-900 dark:text-white line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                                                {{ $article->title }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    <div class="text-sm text-gray-900 dark:text-white">{{ $article->user->name }}</div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    @if($article->scheduled_at && $article->scheduled_at->isFuture())
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 ring-1 ring-inset ring-yellow-600/20">
-                                                            <x-lucide-clock class="w-3 h-3 mr-1" />
-                                                            {{ __('admin.status.scheduled') }}
-                                                        </span>
-                                                        <div class="text-[10px] text-gray-400 mt-1 pl-1">
-                                                            {{ $article->scheduled_at->format('M d, H:i') }}
-                                                        </div>
-                                                    @else
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">
-                                                            <x-lucide-check-circle class="w-3 h-3 mr-1" />
-                                                            {{ __('admin.status.published') }}
-                                                        </span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
+                        <div x-ref="articlesContainer">
+                            <x-admin.dashboard-articles-table :articles="$articles" />
+                        </div>
                     </div>
                 </div>
             <!-- Top Performing Articles -->

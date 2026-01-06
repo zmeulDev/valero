@@ -152,6 +152,8 @@ Business logic in `app/Services/`:
 Blade components in `resources/views/components/`:
 
 - `admin/` - Admin panel components
+  - `articles-table.blade.php` - Reusable articles table
+  - `dashboard-articles-table.blade.php` - Dashboard specific table
 - `frontend/` - Public-facing components
 - `auth/` - Authentication components
 
@@ -379,6 +381,11 @@ php artisan view:cache
 - Eager loading: `with()`
 - Query optimization
 - Connection pooling
+
+### Image Optimization
+
+- **WebP Standard**: All uploaded images are automatically converted to WebP.
+- **Conversion Command**: `php artisan media:convert-webp` to migrate existing assets.
 
 ### Asset Optimization
 

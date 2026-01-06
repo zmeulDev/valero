@@ -44,7 +44,7 @@ class AdminImageController extends Controller
             }
 
             $files = $request->file('gallery_images');
-            
+
             // Ensure we don't exceed the maximum number of images
             $remainingSlots = 30 - $article->media->count();
             if (count($files) > $remainingSlots) {
@@ -62,7 +62,7 @@ class AdminImageController extends Controller
             $hasCoverImage = $article->media()->where('is_cover', true)->exists();
 
             // Process all files in a transaction
-            DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage) {
+            DB::transaction(function () use ($files, $article, $manager, &$hasCoverImage) {
                 foreach ($files as $index => $imageFile) {
                     try {
                         // Validate image dimensions before processing - allow up to 5120 in either dimension
@@ -91,20 +91,20 @@ class AdminImageController extends Controller
                         $originalHeight = $dimensions[1];
                         $newWidth = $originalWidth;
                         $newHeight = $originalHeight;
-                        
+
                         // Determine if this will be a cover image
                         $willBeCover = ($index === 0 && !$hasCoverImage);
-                        
+
                         // Check if image needs processing (scaling)
                         $needsProcessing = false;
                         if ($willBeCover && $originalWidth > 1920) {
                             $needsProcessing = true;
                             $newWidth = 1920;
-                            $newHeight = (int)($originalHeight * (1920 / $originalWidth));
+                            $newHeight = (int) ($originalHeight * (1920 / $originalWidth));
                         } elseif (!$willBeCover && $originalWidth > 1920) {
                             $needsProcessing = true;
                             $newWidth = 1920;
-                            $newHeight = (int)($originalHeight * (1920 / $originalWidth));
+                            $newHeight = (int) ($originalHeight * (1920 / $originalWidth));
                         } elseif ($willBeCover && $originalWidth < 1200) {
                             Log::warning('Cover image is below 1200px width', [
                                 'article_id' => $article->id,
@@ -116,14 +116,16 @@ class AdminImageController extends Controller
                         $result = $this->processImage($imageFile, $filename, $needsProcessing, $manager, $newWidth);
                         $path = $result['path'];
                         $finalSize = $result['size'];
+                        $finalFilename = $result['filename'];
+                        $finalMimeType = $result['mime_type'];
 
                         // Create media record with final dimensions
                         $mediaData = [
                             'article_id' => $article->id,
                             'image_path' => $path,
                             'is_cover' => !$hasCoverImage,
-                            'filename' => $filename,
-                            'mime_type' => $imageFile->getMimeType(),
+                            'filename' => $finalFilename,
+                            'mime_type' => $finalMimeType,
                             'size' => $finalSize ?? $imageFile->getSize(),
                             'dimensions' => [
                                 'width' => $newWidth ?? $dimensions[0],
@@ -196,14 +198,14 @@ class AdminImageController extends Controller
             }
 
             $files = $request->file('gallery_images');
-            
+
             // Ensure we don't exceed the maximum number of images
             $remainingSlots = 20 - $article->media->count();
             if (count($files) > $remainingSlots) {
                 return response()->json([
                     'success' => false,
-                    'message' => "Maximum total of 20 images allowed. You currently have {$article->media->count()} images and are trying to upload " . 
-                                count($files) . " more. You can only upload {$remainingSlots} more images."
+                    'message' => "Maximum total of 20 images allowed. You currently have {$article->media->count()} images and are trying to upload " .
+                        count($files) . " more. You can only upload {$remainingSlots} more images."
                 ], 400);
             }
 
@@ -216,7 +218,7 @@ class AdminImageController extends Controller
             $uploadedImages = [];
 
             // Process all files in a transaction
-            DB::transaction(function() use ($files, $article, $manager, &$hasCoverImage, &$uploadedImages) {
+            DB::transaction(function () use ($files, $article, $manager, &$hasCoverImage, &$uploadedImages) {
                 foreach ($files as $imageIndex => $imageFile) {
                     try {
                         // Validate image dimensions before processing - allow up to 5120 in either dimension
@@ -224,7 +226,7 @@ class AdminImageController extends Controller
                         if ($dimensions[0] > 5120 || $dimensions[1] > 5120) {
                             throw new \Exception("Image dimensions ({$dimensions[0]}x{$dimensions[1]}) exceed the maximum allowed size of 5120x5120 pixels.");
                         }
-                        
+
                         // Check if this will be a cover image (first image if no cover exists)
                         $willBeCover = ($imageIndex === 0 && !$hasCoverImage);
                         if ($willBeCover) {
@@ -238,7 +240,7 @@ class AdminImageController extends Controller
                                 ]);
                                 session()->flash('image_warning', "Cover image width ({$dimensions[0]}px) is below the recommended 1200px for Google Discovery. The article will be created, but consider using a wider image for better SEO.");
                             }
-                            
+
                             // Warn about aspect ratio (recommend 16:9 = 1.777...)
                             $aspectRatio = $dimensions[0] / $dimensions[1];
                             $optimalRatio = 16 / 9;
@@ -263,7 +265,7 @@ class AdminImageController extends Controller
                         // Store original dimensions - NO RESIZING to preserve colors
                         $originalWidth = $dimensions[0];
                         $originalHeight = $dimensions[1];
-                        
+
                         // Log warning if cover image is below recommended width
                         if ($willBeCover && $originalWidth < 1200) {
                             Log::warning('Cover image is below 1200px width', [
@@ -276,6 +278,8 @@ class AdminImageController extends Controller
                         $result = $this->processImage($imageFile, $filename, false, $manager, $originalWidth);
                         $path = $result['path'];
                         $finalSize = $result['size'];
+                        $finalFilename = $result['filename'];
+                        $finalMimeType = $result['mime_type'];
 
                         // Generate descriptive alt text
                         $imageIndex = count($uploadedImages);
@@ -291,8 +295,8 @@ class AdminImageController extends Controller
                             'article_id' => $article->id,
                             'image_path' => $path,
                             'is_cover' => !$hasCoverImage,
-                            'filename' => $filename,
-                            'mime_type' => $imageFile->getMimeType(),
+                            'filename' => $finalFilename,
+                            'mime_type' => $finalMimeType,
                             'size' => $finalSize ?? $imageFile->getSize(),
                             'dimensions' => [
                                 'width' => $dimensions[0],
@@ -349,16 +353,16 @@ class AdminImageController extends Controller
         $wantsJson = request()->ajax() || request()->wantsJson();
 
         if (Auth::user()->id !== $article->user_id && !Auth::user()->isAdmin()) {
-            return $wantsJson 
+            return $wantsJson
                 ? response()->json(['success' => false, 'message' => 'Unauthorized action.'], 403)
                 : redirect()->back()->with('error', 'Unauthorized action.');
         }
 
         try {
-            DB::transaction(function() use ($article, $media) {
+            DB::transaction(function () use ($article, $media) {
                 // Delete the image files
                 $this->deleteImageFiles($media);
-                
+
                 // Delete the media record
                 $media->delete();
 
@@ -370,7 +374,7 @@ class AdminImageController extends Controller
             });
 
             // Return appropriate response based on request type
-            return $wantsJson 
+            return $wantsJson
                 ? response()->json([
                     'success' => true,
                     'message' => 'Image deleted successfully',
@@ -415,22 +419,22 @@ class AdminImageController extends Controller
         try {
             // Capture old cover ID before transaction
             $oldCoverId = $article->media()->where('is_cover', true)->value('id');
-            
+
             // Begin transaction to ensure atomic operation
             DB::transaction(function () use ($article, $media) {
                 // Remove current cover from all images
                 $article->media()->where('is_cover', true)->update(['is_cover' => false]);
-                
+
                 // Set new cover
                 $media->update(['is_cover' => true]);
-                
+
                 // Refresh article's media relationship
                 $article->load('media');
-                
+
                 // Update SEO data with new cover image
                 $this->updateArticleSEO($article);
             });
-            
+
             // Clear article caches
             $this->clearArticleCaches();
 
@@ -451,7 +455,7 @@ class AdminImageController extends Controller
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return redirect()->back()->with('error', 'Failed to set cover image: ' . $e->getMessage());
         }
     }
@@ -467,15 +471,15 @@ class AdminImageController extends Controller
         }
 
         $hasCover = $article->media()->where('is_cover', true)->exists();
-        
+
         foreach ($mediaIds as $index => $mediaId) {
             $originalMedia = Media::find($mediaId);
-            
+
             if (!$originalMedia) {
                 Log::warning('Library media not found', ['media_id' => $mediaId]);
                 continue;
             }
-            
+
             // Create a duplicate media record for this article
             // (We duplicate so the original article still has its media)
             Media::create([
@@ -488,12 +492,12 @@ class AdminImageController extends Controller
                 'alt_text' => $originalMedia->alt_text,
                 'is_cover' => ($index === 0 && !$hasCover) // First image becomes cover if no cover exists
             ]);
-            
+
             if ($index === 0 && !$hasCover) {
                 $hasCover = true;
             }
         }
-        
+
         Log::info('Library media attached', [
             'article_id' => $article->id,
             'attached_count' => count($mediaIds)
@@ -514,10 +518,10 @@ class AdminImageController extends Controller
             DB::transaction(function () use ($request, $article) {
                 $mediaIds = $request->input('media_ids');
                 $hasCover = $article->media()->where('is_cover', true)->exists();
-                
+
                 foreach ($mediaIds as $index => $mediaId) {
                     $originalMedia = Media::findOrFail($mediaId);
-                    
+
                     // Create a duplicate media record for this article
                     // (We duplicate so the original article still has its media)
                     Media::create([
@@ -530,21 +534,21 @@ class AdminImageController extends Controller
                         'alt_text' => $originalMedia->alt_text,
                         'is_cover' => ($index === 0 && !$hasCover) // First image becomes cover if no cover exists
                     ]);
-                    
+
                     if ($index === 0 && !$hasCover) {
                         $hasCover = true;
                     }
                 }
-                
+
                 // Refresh article's media relationship
                 $article->load('media');
-                
+
                 // Update SEO data if a new cover was set
                 if ($article->media()->where('is_cover', true)->exists()) {
                     $this->updateArticleSEO($article);
                 }
             });
-            
+
             // Clear caches
             $this->clearArticleCaches();
 
@@ -615,7 +619,7 @@ class AdminImageController extends Controller
         if (extension_loaded('imagick')) {
             return new ImageManager(new \Intervention\Image\Drivers\Imagick\Driver());
         }
-        
+
         return new ImageManager(new Driver());
     }
 
@@ -624,108 +628,102 @@ class AdminImageController extends Controller
      * Follows Laravel best practices for file storage.
      * Preserves color profiles when using Imagick.
      */
+    /**
+     * Process or copy image based on whether scaling is needed.
+     * Follows Laravel best practices for file storage.
+     * Preserves color profiles when using Imagick.
+     * Converts ALL images to WebP format.
+     */
     private function processImage($imageFile, string $filename, bool $needsProcessing, ImageManager $manager, int $newWidth): array
     {
+        // Force .webp extension for the stored file
+        $filename = pathinfo($filename, PATHINFO_FILENAME) . '.webp';
+
         $storedPath = 'images/' . $filename;
         $fullPath = storage_path('app/public/' . $storedPath);
-        
+
         // Ensure directory exists
         $directory = dirname($fullPath);
         if (!file_exists($directory)) {
             mkdir($directory, 0755, true);
         }
-        
-        // If no processing needed, upload the original file without ANY changes
-        if (!$needsProcessing) {
-            // Direct copy - preserves everything exactly as uploaded
-            copy($imageFile->getRealPath(), $fullPath);
-            $size = filesize($fullPath);
-            
-            return [
-                'path' => $storedPath,
-                'size' => $size
-            ];
-        }
-        
-        // Only process if scaling is needed - use Imagick to preserve ICC color profiles
+
+        // Note: We ALWAYS process now because we are converting to WebP
+
+        // Use Imagick to preserve ICC color profiles if available
         $tempPath = sys_get_temp_dir() . '/' . $filename;
-        
+
         try {
             // Check if we're using Imagick driver
             $usingImagick = extension_loaded('imagick');
-            
+
             if ($usingImagick) {
                 // Use Imagick directly to preserve color profiles during resizing
                 $imagick = new \Imagick($imageFile->getRealPath());
-                
+
                 // Preserve original colorspace
                 $originalColorspace = $imagick->getImageColorspace();
-                
+
                 // Extract ICC profile before processing
                 $profiles = $imagick->getImageProfiles("icc", true);
-                
-                // Set quality BEFORE resizing to avoid quality loss
-                $extension = strtolower($imageFile->getClientOriginalExtension());
-                if (in_array($extension, ['jpg', 'jpeg'])) {
-                    $imagick->setImageCompressionQuality(95);
-                } elseif ($extension === 'webp') {
-                    $imagick->setImageCompressionQuality(95);
+
+                // Resize image with high-quality LANCZOS filter if needed
+                if ($needsProcessing) {
+                    $imagick->resizeImage($newWidth, 0, \Imagick::FILTER_LANCZOS, 1);
                 }
-                
-                // Resize image with high-quality LANCZOS filter
-                $imagick->resizeImage($newWidth, 0, \Imagick::FILTER_LANCZOS, 1);
-                
+
                 // Restore the original colorspace
                 $imagick->setImageColorspace($originalColorspace);
-                
+
                 // Re-apply ICC profile after processing
                 if (!empty($profiles) && isset($profiles['icc'])) {
                     $imagick->profileImage("icc", $profiles['icc']);
                 }
-                
+
+                // Convert to WebP
+                $imagick->setImageFormat('webp');
+
+                // Set quality
+                $imagick->setImageCompressionQuality(85); // 85 is a good balance for WebP
+
                 // Write to temporary file
                 $imagick->writeImage($tempPath);
                 $imagick->clear();
                 $imagick->destroy();
             } else {
                 // Fall back to Intervention Image with GD driver
-                // Note: GD doesn't preserve color profiles as well
                 $img = $manager->read($imageFile);
-                $img->scale(width: $newWidth);
-                
-                // Save to temporary location with high quality
-                $extension = strtolower($imageFile->getClientOriginalExtension());
-                if (in_array($extension, ['jpg', 'jpeg'])) {
-                    $img->save($tempPath, quality: 95);
-                } elseif ($extension === 'png') {
-                    $img->save($tempPath);
-                } elseif ($extension === 'webp') {
-                    $img->save($tempPath, quality: 95);
-                } else {
-                    $img->save($tempPath);
+
+                if ($needsProcessing) {
+                    $img->scale(width: $newWidth);
                 }
+
+                // Save to temporary location as WebP
+                $img->save($tempPath, quality: 85);
             }
 
             // Move the processed file to final location
             rename($tempPath, $fullPath);
             $size = filesize($fullPath);
-            
+
             return [
                 'path' => $storedPath,
-                'size' => $size
+                'size' => $size,
+                'filename' => $filename, // Return new filename with webp extension
+                'mime_type' => 'image/webp'
             ];
         } catch (\Exception $e) {
             // Clean up temporary file if it exists
             if (isset($tempPath) && file_exists($tempPath)) {
                 @unlink($tempPath);
             }
-            
+
             Log::error('Image processing failed', [
                 'error' => $e->getMessage(),
                 'filename' => $filename,
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             throw $e;
         }
     }
@@ -739,19 +737,19 @@ class AdminImageController extends Controller
         $isShared = Media::where('image_path', $media->image_path)
             ->where('id', '!=', $media->id)
             ->exists();
-        
+
         // Only delete physical files if this is the last reference
         if (!$isShared) {
             // Delete main image file
             if ($media->image_path && Storage::disk('public')->exists($media->image_path)) {
                 Storage::disk('public')->delete($media->image_path);
-                
+
                 Log::info('Deleted image file (no other references)', [
                     'image_path' => $media->image_path,
                     'media_id' => $media->id
                 ]);
             }
-            
+
             // Delete variants if they exist
             if (!empty($media->variants)) {
                 foreach ($media->variants as $variant) {
