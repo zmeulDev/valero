@@ -21,37 +21,37 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+            <div class="bg-surface shadow-sm rounded-lg overflow-hidden">
                 <!-- Header -->
-                <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+                <div class="p-6 border-b border-border bg-background">
                     <div class="flex items-center space-x-6">
                         <div class="flex-shrink-0">
-                            <div class="h-24 w-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                                <x-lucide-user-plus class="h-12 w-12 text-gray-400 dark:text-gray-500" />
+                            <div class="h-24 w-24 rounded-full bg-surface-hover flex items-center justify-center">
+                                <x-lucide-user-plus class="h-12 w-12 text-muted" />
                             </div>
                         </div>
                         <div>
-                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('admin.teams.new_team_member') }}</h3>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                            <h3 class="text-2xl font-bold text-text">{{ __('admin.teams.new_team_member') }}</h3>
+                            <p class="mt-1 text-sm text-muted">
                                 {{ __('admin.teams.fill_in_the_information_below_to_create_a_new_team_member_account') }}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <form action="{{ route('admin.teams.store') }}" method="POST" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <form action="{{ route('admin.teams.store') }}" method="POST" class="divide-y divide-border">
                     @csrf
                     
                     <!-- Basic Information -->
                     <div class="p-6 space-y-6">
                         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.teams.name') }}</label>
+                                <label for="name" class="block text-sm font-medium text-text">{{ __('admin.teams.name') }}</label>
                                 <input type="text" 
                                        name="name" 
                                        id="name" 
                                        value="{{ old('name') }}" 
-                                       class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                       class="mt-1 block w-full rounded-lg border-border bg-background text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                        required>
                                 @error('name')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -59,12 +59,12 @@
                             </div>
 
                             <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.teams.email') }}</label>
+                                <label for="email" class="block text-sm font-medium text-text">{{ __('admin.teams.email') }}</label>
                                 <input type="email" 
                                        name="email" 
                                        id="email" 
                                        value="{{ old('email') }}" 
-                                       class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                       class="mt-1 block w-full rounded-lg border-border bg-background text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                        required>
                                 @error('email')
                                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -76,15 +76,15 @@
                     <!-- Security -->
                     <div class="p-6 space-y-6">
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.teams.password') }}</label>
+                            <label for="password" class="block text-sm font-medium text-text">{{ __('admin.teams.password') }}</label>
                             <div class="mt-1 relative rounded-lg shadow-sm">
                                 <input type="password" 
                                        name="password" 
                                        id="password" 
-                                       class="block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white pr-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                       class="block w-full rounded-lg border-border bg-background text-text pr-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                        required>
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                    <x-lucide-lock class="h-5 w-5 text-gray-400" />
+                                    <x-lucide-lock class="h-5 w-5 text-muted" />
                                 </div>
                             </div>
                             @error('password')
@@ -97,10 +97,10 @@
                     <div class="p-6 space-y-6">
                         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div>
-                                <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.teams.role') }}</label>
+                                <label for="role" class="block text-sm font-medium text-text">{{ __('admin.teams.role') }}</label>
                                 <select name="role" 
                                         id="role" 
-                                        class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        class="mt-1 block w-full rounded-lg border-border bg-background text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         required>
                                     <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>{{ __('admin.teams.user') }}</option>
                                     <option value="editor" {{ old('role') == 'editor' ? 'selected' : '' }}>{{ __('admin.teams.editor') }}</option>
@@ -118,20 +118,20 @@
                                            id="is_active"
                                            value="1" 
                                            {{ old('is_active', true) ? 'checked' : '' }}
-                                           class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                                           class="h-4 w-4 rounded border-border text-indigo-600 focus:ring-indigo-500 bg-background">
                                 </div>
                                 <div class="ml-3">
-                                    <label for="is_active" class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.teams.active_account') }}</label>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('admin.teams.allow_user_to_access_the_system') }}</p>
+                                    <label for="is_active" class="text-sm font-medium text-text">{{ __('admin.teams.active_account') }}</label>
+                                    <p class="text-xs text-muted">{{ __('admin.teams.allow_user_to_access_the_system') }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Form Actions -->
-                    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 flex items-center justify-between">
+                    <div class="px-6 py-4 bg-background flex items-center justify-between">
                         <a href="{{ route('admin.teams.index') }}" 
-                           class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                           class="inline-flex items-center px-4 py-2 border border-border rounded-lg shadow-sm text-sm font-medium text-text bg-surface hover:bg-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             {{ __('admin.teams.cancel') }}
                         </a>
                         <button type="submit" 

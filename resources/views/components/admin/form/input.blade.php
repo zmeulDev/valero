@@ -12,9 +12,9 @@
     'suffix' => null
 ])
 
-<div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+<div class="bg-surface shadow-sm rounded-lg overflow-hidden border border-border">
     <div class="p-4">
-        <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label for="{{ $name }}" class="block text-sm font-medium text-text mb-1">
             {{ $label }}
             @if($required) <span class="text-red-500">*</span> @endif
         </label>
@@ -34,7 +34,7 @@
                 @if($required) required @endif
                 @if($disabled) disabled @endif
                 @if($readonly) readonly @endif
-                {{ $attributes->merge(['class' => 'block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm' . ($prefix ? ' pl-10' : '') . ($suffix ? ' pr-10' : '')]) }}
+                {{ $attributes->merge(['class' => 'block w-full rounded-md border-border bg-background text-text focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm' . ($prefix ? ' pl-10' : '') . ($suffix ? ' pr-10' : '')]) }}
             >
 
             @if($suffix)
@@ -45,7 +45,7 @@
         </div>
 
         @if($help)
-            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ $help }}</p>
+            <p class="mt-2 text-sm text-muted">{{ $help }}</p>
         @endif
 
         @error($name)

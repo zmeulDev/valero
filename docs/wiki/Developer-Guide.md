@@ -226,6 +226,17 @@ Important indexes:
 
 Configuration: `tailwind.config.js`
 
+#### Semantic Color System
+
+Valero uses a semantic color system for consistent theming across light and dark modes. Always use these semantic variables instead of hardcoded colors:
+
+- `bg-background` - Main page background
+- `bg-surface` - Card/Component background
+- `bg-surface-hover` - Interactive element hover state
+- `text-text` - Primary text color
+- `text-muted` - Secondary/meta text color
+- `border-border` - Border color
+
 Custom colors:
 ```javascript
 theme: {
@@ -245,6 +256,7 @@ Implemented via:
 - System preference detection
 - Manual toggle
 - CSS classes: `dark:`
+- Semantic variables (automatically handle mode switching)
 
 ### Alpine.js
 

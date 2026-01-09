@@ -8,7 +8,7 @@
 ])
 
 <div>
-    <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+    <label for="{{ $name }}" class="block text-sm font-medium text-text">
         {{ $label }}
         @if($required)
             <span class="text-red-500">*</span>
@@ -18,7 +18,7 @@
         name="{{ $name }}" 
         id="{{ $name }}" 
         rows="{{ $rows }}" 
-        class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        class="mt-1 block w-full rounded-lg border-border bg-background text-text shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder-muted"
         placeholder="{{ $placeholder }}"
         {{ $required ? 'required' : '' }}>{{ $value }}</textarea>
     @error($name)

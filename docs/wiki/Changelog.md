@@ -29,6 +29,16 @@ All notable changes to Valero will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+- 🎨 **Semantic Theming** - Refactored Admin Dashboard, Frontend Article View, and Sidebar components to use semantic CSS variables (`bg-surface`, `text-muted`, etc.) for consistent dark mode support.
+- 🎨 **Frontend UI** - Modernized Article Cards, Header, and Sidebar components (Search, Ads, Share, Popular) with semantic styling.
+
+### Fixed
+- 🐛 **Dark Mode Visibility** - Fixed navigation text and "Read More" link visibility in dark mode.
+- 🐛 **Admin Breadcrumbs** - Fixed breadcrumb configuration in Playlist Create/Edit views.
+
+## [Unreleased]
+
 ### Added
 - ✨ **Bookmarking System** - Complete bookmark management with categories, search, and article integration
 - ✨ **Media Library Reuse** - Reuse existing images when creating/editing articles

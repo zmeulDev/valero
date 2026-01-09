@@ -15,8 +15,8 @@
     <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 </head>
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-    x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+<body class="font-sans antialiased bg-background text-text" x-data="{ scrolled: false }"
+    @scroll.window="scrolled = (window.pageYOffset > 20)">
     <x-navigation />
 
     <!-- Main Content -->

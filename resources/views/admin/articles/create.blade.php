@@ -12,7 +12,7 @@
       <x-slot:actions>
         <div class="flex items-center space-x-3">
             <a href="{{ route('admin.articles.index') }}" 
-               class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+               class="inline-flex items-center px-4 py-2 border border-border rounded-md shadow-sm text-sm font-medium text-text bg-surface hover:bg-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               <x-lucide-arrow-left class="w-4 h-4 mr-2" />
               {{ __('admin.articles.back_to_articles') }} 
             </a>
@@ -38,7 +38,7 @@
     </x-admin.page-header>
   </x-slot>
 
-  <div class="min-h-screen dark:bg-gray-900">
+  <div class="min-h-screen bg-background">
     <div class="container mx-auto px-4 py-8">
       <!-- Server-side validation errors toast (only shows if there are session messages) -->
       @if(session('success') || session('error') || session('info') || session('warning'))
@@ -107,7 +107,7 @@
               </svg>
               <span class="text-indigo-500">{{ __('admin.articles.creating_article') }}</span>
             </div>
-            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('admin.articles.creating_article_message') }}</p>
+            <p class="mt-2 text-sm text-muted">{{ __('admin.articles.creating_article_message') }}</p>
           </div>
         </div>
 
@@ -115,15 +115,15 @@
           <!-- Main Content -->
           <div class="w-full">
             <!-- Content Card with Tabs -->
-            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div class="bg-surface shadow-sm rounded-lg overflow-hidden border border-border">
               <!-- Tabs Header -->
-              <div class="border-b border-gray-200 dark:border-gray-700">
+              <div class="border-b border-border">
                 <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
                   <button type="button"
                           @click.prevent="activeTab = 'content'"
                           :class="{ 
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'content',
-                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'content'
+                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'content'
                           }"
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
@@ -136,7 +136,7 @@
                           @click.prevent="activeTab = 'gallery'"
                           :class="{ 
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'gallery',
-                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'gallery'
+                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'gallery'
                           }"
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
@@ -149,7 +149,7 @@
                           @click.prevent="activeTab = 'bookmarks'"
                           :class="{ 
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'bookmarks',
-                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'bookmarks'
+                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'bookmarks'
                           }"
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
@@ -162,7 +162,7 @@
                           @click.prevent="activeTab = 'options'"
                           :class="{ 
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'options',
-                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'options'
+                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'options'
                           }"
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
@@ -175,7 +175,7 @@
                           @click.prevent="activeTab = 'seo'"
                           :class="{ 
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'seo',
-                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'seo'
+                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'seo'
                           }"
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
@@ -188,7 +188,7 @@
                           @click.prevent="activeTab = 'publish'"
                           :class="{ 
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'publish',
-                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': activeTab !== 'publish'
+                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'publish'
                           }"
                           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
                     <div class="flex items-center space-x-2">
@@ -211,32 +211,32 @@
                   <div class="space-y-6">
                     <!-- Title -->
                     <div>
-                      <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      <label for="title" class="block text-sm font-medium text-text mb-1">
                         {{ __('admin.articles.title') }} <span class="text-red-500">*</span>
                       </label>
                       <input type="text" id="title" name="title"
-                        class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 @error('title') border-red-500 dark:border-red-500 @else border-gray-300 @enderror"
+                        class="w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-background text-text @error('title') border-red-500 dark:border-red-500 @else border-border @enderror"
                         value="{{ old('title') }}">
                       @error('title')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                       @enderror
                         <div class="mt-2 flex items-center justify-between text-sm">
-                            <p class="text-gray-500 dark:text-gray-400">{{ __('admin.articles.recommended_characters') }}</p>
-                            <p class="text-sm text-gray-500">{{ __('admin.articles.characters') }}: <span id="title-char-count">0</span></p>
+                            <p class="text-muted">{{ __('admin.articles.recommended_characters') }}</p>
+                            <p class="text-sm text-muted">{{ __('admin.articles.characters') }}: <span id="title-char-count">0</span></p>
                         </div>
                     </div>
 
                     <!-- Excerpt -->
                     <div>
-                      <label for="excerpt" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      <label for="excerpt" class="block text-sm font-medium text-text mb-1">
                         {{ __('admin.articles.excerpt') }}
                       </label>
                       <textarea id="excerpt" name="excerpt"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        class="w-full px-3 py-2 border border-border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-background text-text"
                         rows="3">{{ old('excerpt') }}</textarea>
                         <div class="mt-2 flex items-center justify-between text-sm">
-                            <p class="text-gray-500 dark:text-gray-400">{{ __('admin.articles.recommended_characters') }}</p>
-                            <p class="text-sm text-gray-500">{{ __('admin.articles.characters') }}: <span id="excerpt-char-count">0</span></p>
+                            <p class="text-muted">{{ __('admin.articles.recommended_characters') }}</p>
+                            <p class="text-sm text-muted">{{ __('admin.articles.characters') }}: <span id="excerpt-char-count">0</span></p>
                         </div>
                     </div>
 
@@ -247,7 +247,7 @@
 
                     <!-- Content -->
                     <div>
-                      <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      <label for="content" class="block text-sm font-medium text-text mb-1">
                         {{ __('admin.articles.content') }} <span class="text-red-500">*</span>
                       </label>
                       <textarea id="content" name="content" class="w-full @error('content') border-red-500 dark:border-red-500 @enderror">{{ old('content') }}</textarea>

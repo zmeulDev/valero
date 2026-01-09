@@ -1,6 +1,6 @@
 @props(['scheduledArticles'])
 
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6" x-data="{
+<div class="bg-surface rounded-lg shadow-sm border border-border p-6" x-data="{
     calendarArticles: {{ $scheduledArticles->toJson() }},
     currentDate: new Date(),
     
@@ -47,37 +47,37 @@
     }
 }">
     <div class="flex items-center justify-between mb-6">
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+        <h2 class="text-lg font-semibold text-text flex items-center">
             <x-lucide-calendar class="w-5 h-5 mr-2 text-indigo-500" />
             <span x-text="`${monthName} ${currentDate.getFullYear()}`"></span>
         </h2>
         <div class="flex items-center space-x-2">
             <button @click="prevMonth()" type="button"
-                class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <x-lucide-chevron-left class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                class="p-2 hover:bg-background rounded-lg transition-colors border border-transparent hover:border-border">
+                <x-lucide-chevron-left class="w-5 h-5 text-muted" />
             </button>
             <button @click="nextMonth()" type="button"
-                class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <x-lucide-chevron-right class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                class="p-2 hover:bg-background rounded-lg transition-colors border border-transparent hover:border-border">
+                <x-lucide-chevron-right class="w-5 h-5 text-muted" />
             </button>
         </div>
     </div>
 
     <div class="grid grid-cols-7 gap-1 mb-2">
         <template x-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
-            <div class="text-center text-xs font-medium text-gray-500 dark:text-gray-400 py-2" x-text="day"></div>
+            <div class="text-center text-xs font-medium text-muted py-2" x-text="day"></div>
         </template>
     </div>
 
     <div class="grid grid-cols-7 gap-1">
         <template x-for="blank in firstDayOfMonth">
-            <div class="h-24 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg"></div>
+            <div class="h-24 bg-background/50 rounded-lg"></div>
         </template>
 
         <template x-for="day in daysInMonth">
-            <div class="h-24 border border-gray-100 dark:border-gray-700 rounded-lg p-2 relative group hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors bg-white dark:bg-gray-800"
+            <div class="h-24 border border-border rounded-lg p-2 relative group hover:border-indigo-500 transition-colors bg-background"
                 :class="{ 'ring-2 ring-indigo-500 ring-offset-2 dark:ring-offset-gray-900': isToday(day) }">
-                <span class="text-sm font-medium text-gray-700 dark:text-gray-300" x-text="day"></span>
+                <span class="text-sm font-medium text-text" x-text="day"></span>
 
                 <!-- Scheduled Indicators -->
                 <div class="mt-1 space-y-1 overflow-y-auto max-h-[3.5rem] scrollbar-hide">

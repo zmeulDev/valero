@@ -22,7 +22,7 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg">
+            <div class="bg-surface overflow-hidden shadow-sm rounded-lg">
                 <form action="{{ route('admin.partners.store') }}" 
                       method="POST" 
                       enctype="multipart/form-data"
@@ -93,8 +93,8 @@
                         </div>
 
                         <!-- SEO Settings -->
-                        <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
-                            <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ __('admin.partners.link_settings') }}</h4>
+                        <div class="bg-background p-4 rounded-lg">
+                            <h4 class="text-sm font-medium text-text mb-2">{{ __('admin.partners.link_settings') }}</h4>
                             <div class="space-y-6">
                                 <!-- Link Target -->
                                 <div>
@@ -115,8 +115,8 @@
 
                                 <!-- Link Rel -->
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.partners.link_attributes') }}</label>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                                    <label class="block text-sm font-medium text-text">{{ __('admin.partners.link_attributes') }}</label>
+                                    <p class="text-xs text-muted mb-2">
                                         {{ __('admin.partners.select_the_relationship_attributes_for_the_link') }}
                                     </p>
                                     <div class="space-y-2">
@@ -126,8 +126,8 @@
                                                        name="seo[rel][]" 
                                                        value="{{ $rel }}"
                                                        {{ in_array($rel, old('seo.rel', [])) ? 'checked' : '' }}
-                                                       class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ $rel }}</span>
+                                                       class="rounded border-border text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-background">
+                                                <span class="ml-2 text-sm text-text">{{ $rel }}</span>
                                             </label>
                                         @endforeach
                                     </div>
@@ -135,8 +135,8 @@
 
                                 <!-- UTM Parameters -->
                                 <div class="space-y-4">
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('admin.partners.utm_parameters') }}</label>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                                    <label class="block text-sm font-medium text-text">{{ __('admin.partners.utm_parameters') }}</label>
+                                    <p class="text-xs text-muted">
                                         {{ __('admin.partners.add_tracking_parameters_to_the_partner_link') }}
                                     </p>
                                     

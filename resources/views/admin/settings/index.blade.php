@@ -26,17 +26,17 @@
                         @csrf
                         
                         <!-- Tab Navigation -->
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
-                            <div class="border-b border-gray-200 dark:border-gray-700">
+                        <div class="bg-surface rounded-lg shadow-sm border border-border mb-6">
+                            <div class="border-b border-border">
                                 <nav class="-mb-px flex space-x-2 px-4 overflow-x-auto" aria-label="Tabs">
                                     <!-- Brand Tab -->
                                     <button 
                                         type="button"
                                         @click="activeTab = 'brand'"
-                                        :class="activeTab === 'brand' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
+                                        :class="activeTab === 'brand' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-muted hover:text-text hover:border-border'"
                                         class="group inline-flex items-center py-4 px-3 border-b-2 font-medium text-sm transition-colors whitespace-nowrap">
                                         <x-lucide-briefcase 
-                                            :class="activeTab === 'brand' ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'"
+                                            :class="activeTab === 'brand' ? 'text-indigo-500 dark:text-indigo-400' : 'text-muted group-hover:text-muted/80'"
                                             class="w-5 h-5 mr-2 transition-colors" />
                                         <span>Brand</span>
                                     </button>
@@ -45,10 +45,10 @@
                                     <button 
                                         type="button"
                                         @click="activeTab = 'seo'"
-                                        :class="activeTab === 'seo' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
+                                        :class="activeTab === 'seo' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-muted hover:text-text hover:border-border'"
                                         class="group inline-flex items-center py-4 px-3 border-b-2 font-medium text-sm transition-colors whitespace-nowrap">
                                         <x-lucide-search 
-                                            :class="activeTab === 'seo' ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'"
+                                            :class="activeTab === 'seo' ? 'text-indigo-500 dark:text-indigo-400' : 'text-muted group-hover:text-muted/80'"
                                             class="w-5 h-5 mr-2 transition-colors" />
                                         <span>SEO</span>
                                     </button>
@@ -57,10 +57,10 @@
                                     <button 
                                         type="button"
                                         @click="activeTab = 'api'"
-                                        :class="activeTab === 'api' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
+                                        :class="activeTab === 'api' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-muted hover:text-text hover:border-border'"
                                         class="group inline-flex items-center py-4 px-3 border-b-2 font-medium text-sm transition-colors whitespace-nowrap">
                                         <x-lucide-key 
-                                            :class="activeTab === 'api' ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'"
+                                            :class="activeTab === 'api' ? 'text-indigo-500 dark:text-indigo-400' : 'text-muted group-hover:text-muted/80'"
                                             class="w-5 h-5 mr-2 transition-colors" />
                                         <span>API</span>
                                     </button>
@@ -69,10 +69,10 @@
                                     <button 
                                         type="button"
                                         @click="activeTab = 'social'"
-                                        :class="activeTab === 'social' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'"
+                                        :class="activeTab === 'social' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-muted hover:text-text hover:border-border'"
                                         class="group inline-flex items-center py-4 px-3 border-b-2 font-medium text-sm transition-colors whitespace-nowrap">
                                         <x-lucide-share-2 
-                                            :class="activeTab === 'social' ? 'text-indigo-500 dark:text-indigo-400' : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'"
+                                            :class="activeTab === 'social' ? 'text-indigo-500 dark:text-indigo-400' : 'text-muted group-hover:text-muted/80'"
                                             class="w-5 h-5 mr-2 transition-colors" />
                                         <span>Social Media</span>
                                     </button>
@@ -171,7 +171,7 @@
                                                 <x-slot:prefix>
                                                     <x-dynamic-component 
                                                         :component="'lucide-' . $data['icon']"
-                                                        class="h-5 w-5 text-gray-400"
+                                                        class="h-5 w-5 text-muted"
                                                     />
                                                 </x-slot:prefix>
                                             </x-admin.form.text-input>

@@ -2,6 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Modern Global Styles */
+@layer base {
+    :root {
+        /* Light Mode - Gray 50 / Gray 900 */
+        --color-background: 249 250 251;
+        /* White */
+        --color-surface: 255 255 255;
+        /* Gray 900 */
+        --color-text: 17 24 39;
+        /* Gray 500 (Muted) */
+        --color-text-muted: 107 114 128;
+        /* Gray 200 (Border) */
+        --color-border: 229 231 235;
+    }
+
+    .dark {
+        /* Navy/Black (Gray 950 for deeper contrast or 900) - Matching current dark:bg-gray-900 */
+        --color-background: 17 24 39;
+        /* Gray 800 */
+        --color-surface: 31 41 55;
+        /* Gray 100 */
+        --color-text: 243 244 246;
+        /* Gray 400 */
+        --color-text-muted: 156 163 175;
+        /* Gray 700 (Border) */
+        --color-border: 55 65 81;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        /* Apply variables globally */
+        color: rgb(var(--color-text));
+        background-color: rgb(var(--color-background));
+    }
+
+    /* Custom Selection Color */
+    ::selection {
+        @apply bg-primary-500/30 text-primary-700 dark:text-primary-50;
+    }
+}
+
+/* Modern Scrollbar Styling */
+@layer utilities {
+
+    /* Chrome, Edge, Safari */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-300 dark:bg-gray-700 rounded-full transition-colors duration-200;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-400 dark:bg-gray-600;
+    }
+
+    /* Firefox */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.gray.300') transparent;
+    }
+
+    .dark * {
+        scrollbar-color: theme('colors.gray.700') transparent;
+    }
+
+    /* Glassmorphism Utility */
+    .glass {
+        @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border border-white/20 dark:border-gray-700/30 shadow-sm;
+    }
+
+    .glass-hover {
+        @apply hover:bg-white/80 dark:hover:bg-gray-900/80 transition-all duration-300;
+    }
+
+    /* Existing Scrollbar Hide Utility */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
 /* Poppins Font Configuration */
 @font-face {
     font-family: 'Poppins';
@@ -29,17 +125,5 @@
 
 /* Alpine.js utility */
 [x-cloak] {
-    display: none;
-}
-
-/* Custom utilities */
-@layer utilities {
-    .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-    }
-
-    .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
+    display: none !important;
 }

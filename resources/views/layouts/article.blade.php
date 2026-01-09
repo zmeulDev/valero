@@ -15,8 +15,8 @@
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 </head>
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
-  x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)">
+<body class="font-sans antialiased bg-background text-text" x-data="{ scrolled: false }"
+  @scroll.window="scrolled = (window.pageYOffset > 20)">
   <x-header :categories="$categories" :role="$role" />
 
   <!-- Preview Banner for Scheduled Articles -->
@@ -32,10 +32,10 @@
 
   <!-- Main Content -->
   <main class="container mx-auto">
-    <div class="bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div class="bg-background min-h-screen">
       <div class="container mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
         <main class="lg:col-span-3">
-          <article class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+          <article class="bg-surface rounded-xl shadow-md overflow-hidden">
             <div class="px-6 pb-8">
 
               <!-- Article Header -->

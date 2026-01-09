@@ -51,12 +51,12 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 <!-- Categories List -->
                 <div class="lg:col-span-3">
-                    <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
+                    <div class="bg-surface shadow-sm sm:rounded-lg border border-border">
                         <div class="p-6">
                             <div class="sm:flex sm:items-center sm:justify-between">
                                 <div>
-                                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">{{ __('admin.category.title') }}</h3>
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                    <h3 class="text-lg font-medium leading-6 text-text">{{ __('admin.category.title') }}</h3>
+                                    <p class="mt-1 text-sm text-muted">
                                         {{ __('admin.category.categories_description') }}
                                     </p>
                                 </div>
@@ -66,28 +66,28 @@
                                 @if ($categories->isEmpty())
                                     <x-nothing-found />
                                 @else
-                                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                                        <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
-                                            <thead class="bg-gray-50 dark:bg-gray-800">
+                                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg border border-border">
+                                        <table class="min-w-full divide-y divide-border">
+                                            <thead class="bg-background">
                                                 <tr>
-                                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">{{ __('admin.category.name') }}</th>
-                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">{{ __('admin.category.slug') }}</th>
-                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">{{ __('admin.category.articles_count') }}</th>
+                                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-text sm:pl-6">{{ __('admin.category.name') }}</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-text">{{ __('admin.category.slug') }}</th>
+                                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-text">{{ __('admin.category.articles_count') }}</th>
                                                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                                         <span class="sr-only">{{ __('admin.common.actions') }}</span>
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                                            <tbody class="divide-y divide-border bg-surface">
                                                 @foreach ($categories as $category)
-                                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                                                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-white sm:pl-6">
+                                                    <tr class="hover:bg-background transition-colors duration-200">
+                                                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-text sm:pl-6">
                                                             {{ $category->name }}
                                                         </td>
-                                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-muted">
                                                             {{ $category->slug }}
                                                         </td>
-                                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-muted">
                                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $category->articles_count > 0 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200' }}">
                                                                 {{ $category->articles_count }}
                                                             </span>
@@ -123,19 +123,19 @@
             
                 <!-- Create Category Form -->
                 <div class="lg:col-span-1">
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="bg-surface overflow-hidden shadow-sm sm:rounded-lg border border-border">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">
+                                <h3 class="text-lg font-medium leading-6 text-text">
                                     {{ __('admin.category.create') }}
                                 </h3>
-                                <x-lucide-plus-circle class="h-5 w-5 text-gray-400" />
+                                <x-lucide-plus-circle class="h-5 w-5 text-muted" />
                             </div>
                             <form action="{{ route('admin.categories.store') }}" method="POST">
                                 @csrf
                                 <div class="space-y-4">
                                     <div>
-                                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        <label for="name" class="block text-sm font-medium text-text">
                                             {{ __('admin.category.name') }}
                                         </label>
                                         <div class="mt-1 relative rounded-md shadow-sm">
@@ -146,9 +146,9 @@
                                                 maxlength="50"
                                                 x-on:input="charCount = $event.target.value.length"
                                                 placeholder="{{ __('admin.category.name_placeholder') }}"
-                                                class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                                class="block w-full rounded-md border-border bg-background text-text focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                         </div>
-                                        <p class="mt-1 text-xs" :class="{ 'text-red-500': charCount > 50, 'text-gray-500': charCount <= 50 }">
+                                        <p class="mt-1 text-xs" :class="{ 'text-red-500': charCount > 50, 'text-muted': charCount <= 50 }">
                                             <span x-text="charCount"></span>/50 characters
                                         </p>
                                     </div>

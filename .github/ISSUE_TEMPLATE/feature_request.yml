@@ -116,7 +116,8 @@ body:
       description: Documentation updates required.
       value: |
         - [ ] Update README.md
-        - [ ] Update Wiki
+        - [ ] Update Wiki (Features, Developer Guide)
+        - [ ] Update Changelog.md
     validations:
       required: false
 

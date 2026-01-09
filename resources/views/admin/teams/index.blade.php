@@ -1,6 +1,6 @@
 <x-admin-layout>
 
-<div x-data="{
+    <div x-data="{
         showDeleteModal: false,
         itemToDelete: null,
         items: {{ $users->items() ? json_encode($users->items()) : '[]' }},
@@ -11,16 +11,12 @@
     }">
 
         <x-slot name="header">
-            <x-admin.page-header
-                icon="users"
-                title="{{ __('admin.teams.title') }}"
-                description="{{ __('admin.teams.description') }}"
-                :breadcrumbs="[['label' => __('admin.teams.title')]]"
-            >
+            <x-admin.page-header icon="users" title="{{ __('admin.teams.title') }}"
+                description="{{ __('admin.teams.description') }}" :breadcrumbs="[['label' => __('admin.teams.title')]]">
                 <x-slot:actions>
                     <div class="flex items-center space-x-3">
-                        <a href="{{ route('admin.teams.create') }}" 
-                           class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        <a href="{{ route('admin.teams.create') }}"
+                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                             <x-lucide-user-plus class="w-4 h-4 mr-2" />
                             {{ __('admin.teams.add_member') }}
                         </a>
@@ -29,21 +25,12 @@
 
                 <x-slot:stats>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <x-admin.stats-card 
-                            icon="users" 
-                            label="{{ __('admin.teams.total_members') }}" 
-                            :value="$users->total()" 
-                        />
-                        <x-admin.stats-card 
-                            icon="shield" 
-                            label="{{ __('admin.teams.admins') }}" 
-                            :value="$users->where('role', 'admin')->count()" 
-                        />
-                        <x-admin.stats-card 
-                            icon="user" 
-                            label="{{ __('admin.teams.regular_users') }}" 
-                            :value="$users->where('role', 'user')->count()" 
-                        />
+                        <x-admin.stats-card icon="users" label="{{ __('admin.teams.total_members') }}"
+                            :value="$users->total()" />
+                        <x-admin.stats-card icon="shield" label="{{ __('admin.teams.admins') }}"
+                            :value="$users->where('role', 'admin')->count()" />
+                        <x-admin.stats-card icon="user" label="{{ __('admin.teams.regular_users') }}"
+                            :value="$users->where('role', 'user')->count()" />
                     </div>
                 </x-slot:stats>
             </x-admin.page-header>
@@ -52,11 +39,10 @@
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!-- Search Section -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
+                <div class="bg-surface rounded-lg shadow-sm border border-border mb-6">
                     <div class="p-4 sm:p-6">
                         <!-- Search Bar -->
-                        <form method="GET" action="{{ route('admin.teams.index') }}" 
-                              x-data="{ 
+                        <form method="GET" action="{{ route('admin.teams.index') }}" x-data="{ 
                                   query: '{{ request('search') }}',
                                   updateSearch: function(value) {
                                       this.query = value;
@@ -65,24 +51,17 @@
                                           this.$refs.searchForm.submit();
                                       }, 300);
                                   }
-                              }" 
-                              x-ref="searchForm"
-                              class="relative max-w-md">
+                              }" x-ref="searchForm" class="relative max-w-md">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <x-lucide-search class="h-5 w-5 text-gray-400" />
+                                <x-lucide-search class="h-5 w-5 text-muted" />
                             </div>
-                            <input type="text"
-                                   name="search"
-                                   x-model="query"
-                                   @input="updateSearch($event.target.value)"
-                                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
-                                   placeholder="{{ __('admin.teams.search_team_members') }}"
-                                   x-ref="searchInput">
+                            <input type="text" name="search" x-model="query" @input="updateSearch($event.target.value)"
+                                class="block w-full pl-10 pr-3 py-2 border border-border rounded-lg leading-5 bg-background text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
+                                placeholder="{{ __('admin.teams.search_team_members') }}" x-ref="searchInput">
                             @if(request('search'))
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                    <a href="{{ route('admin.teams.index') }}" 
-                                       class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-                                       title="Clear search">
+                                    <a href="{{ route('admin.teams.index') }}" class="text-muted hover:text-text"
+                                        title="Clear search">
                                         <x-lucide-x class="h-5 w-5" />
                                     </a>
                                 </div>
@@ -92,40 +71,42 @@
                 </div>
 
                 <!-- Table Section -->
-                <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="bg-surface shadow-sm rounded-lg border border-border overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-gray-50 dark:bg-gray-900/50">
+                        <table class="min-w-full divide-y divide-border">
+                            <thead class="bg-background">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-muted uppercase tracking-wider">
                                         {{ __('admin.teams.member') }}
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-muted uppercase tracking-wider">
                                         {{ __('admin.teams.role_status') }}
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                            {{ __('admin.teams.activity') }}
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-muted uppercase tracking-wider">
+                                        {{ __('admin.teams.activity') }}
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
                                         <span class="sr-only">{{ __('admin.teams.actions') }}</span>
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            <tbody class="bg-surface divide-y divide-border">
                                 @forelse($users as $user)
-                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
+                                    <tr class="hover:bg-background transition-colors duration-200">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 h-10 w-10">
-                                                    <img class="h-10 w-10 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700" 
-                                                         src="{{ $user->profile_photo_url }}" 
-                                                         alt="{{ $user->name }}">
+                                                    <img class="h-10 w-10 rounded-full object-cover border-2 border-border"
+                                                        src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
                                                 </div>
                                                 <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900 dark:text-white">
+                                                    <div class="text-sm font-medium text-text">
                                                         {{ $user->name }}
                                                     </div>
-                                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                                    <div class="text-sm text-muted">
                                                         {{ $user->email }}
                                                     </div>
                                                 </div>
@@ -159,11 +140,11 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex flex-col gap-1">
-                                                <span class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400">
+                                                <span class="inline-flex items-center text-sm text-text">
                                                     <x-lucide-book-open class="w-4 h-4 mr-1.5" />
                                                     {{ $user->articles_count }} {{ __('admin.teams.articles') }}
                                                 </span>
-                                                <span class="inline-flex items-center text-xs text-gray-500 dark:text-gray-400">
+                                                <span class="inline-flex items-center text-xs text-muted">
                                                     <x-lucide-clock class="w-3.5 h-3.5 mr-1.5" />
                                                     {{ $user->last_login_at ? __('admin.teams.last_active') . ' ' . $user->last_login_at->diffForHumans() : __('admin.teams.never_logged_in') }}
                                                 </span>
@@ -171,15 +152,15 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div class="flex items-center justify-end space-x-3">
-                                                <a href="{{ route('admin.teams.edit', $user) }}" 
-                                                   class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
-                                                   title="{{ __('admin.teams.edit_member') }}">
+                                                <a href="{{ route('admin.teams.edit', $user) }}"
+                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                                    title="{{ __('admin.teams.edit_member') }}">
                                                     <x-lucide-pencil class="w-5 h-5" />
                                                 </a>
                                                 @if($user->id !== auth()->id())
                                                     <button @click="openDeleteModal({{ $user->id }})"
-                                                            class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                                                            title="{{ __('admin.teams.delete_member') }}">
+                                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                                                        title="{{ __('admin.teams.delete_member') }}">
                                                         <x-lucide-trash class="w-5 h-5" />
                                                     </button>
                                                 @endif
@@ -188,9 +169,9 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                        <td colspan="4" class="px-6 py-4 text-center text-muted">
                                             <div class="flex flex-col items-center justify-center py-8">
-                                                <x-lucide-users class="w-12 h-12 mb-4 text-gray-400" />
+                                                <x-lucide-users class="w-12 h-12 mb-4 text-muted" />
                                                 <p class="text-sm">{{ __('admin.teams.no_team_members_found') }}</p>
                                             </div>
                                         </td>

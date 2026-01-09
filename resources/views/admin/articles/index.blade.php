@@ -91,7 +91,7 @@
                 description="{{ __('admin.articles.description') }}" :breadcrumbs="[['label' => __('admin.articles.breadcrumbs')]]">
                 <x-slot:actions>
                     <a href="{{ route('admin.articles.scheduled') }}"
-                        class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 mr-2">
+                        class="inline-flex items-center px-4 py-2 border border-border rounded-lg shadow-sm text-sm font-medium text-text bg-surface hover:bg-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 mr-2">
                         <x-lucide-calendar class="w-4 h-4 mr-2" />
                         {{ __('admin.articles.scheduled') }}
                     </a>
@@ -119,25 +119,24 @@
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Search and Filter Section -->
-                <div
-                    class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6 transition-all hover:shadow-md">
+                <div class="bg-surface rounded-lg shadow-sm border border-border mb-6 transition-all hover:shadow-md">
                     <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 justify-between items-center">
 
                         <!-- Status Filter -->
                         <div
-                            class="flex items-center bg-gray-100 dark:bg-gray-700/50 rounded-lg p-1 self-start sm:self-center">
+                            class="flex items-center bg-background rounded-lg p-1 self-start sm:self-center border border-border">
                             <button @click.prevent="applyStatus('')" type="button"
-                                :class="!currentStatus ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
+                                :class="!currentStatus ? 'bg-surface text-text shadow-sm border border-border' : 'text-muted hover:text-text'"
                                 class="px-4 py-2 text-sm font-medium rounded-md transition-all">
                                 {{ __('admin.common.all') ?? 'All' }}
                             </button>
                             <button @click.prevent="applyStatus('published')" type="button"
-                                :class="currentStatus === 'published' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
+                                :class="currentStatus === 'published' ? 'bg-surface text-text shadow-sm border border-border' : 'text-muted hover:text-text'"
                                 class="px-4 py-2 text-sm font-medium rounded-md transition-all">
                                 {{ __('admin.status.published') }}
                             </button>
                             <button @click.prevent="applyStatus('scheduled')" type="button"
-                                :class="currentStatus === 'scheduled' ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
+                                :class="currentStatus === 'scheduled' ? 'bg-surface text-text shadow-sm border border-border' : 'text-muted hover:text-text'"
                                 class="px-4 py-2 text-sm font-medium rounded-md transition-all">
                                 {{ __('admin.status.scheduled') }}
                             </button>
@@ -147,13 +146,13 @@
                             <!-- Category Filter -->
                             <div class="relative" x-data="{ open: false }">
                                 <button @click.prevent="open = !open" type="button"
-                                    class="w-full sm:w-auto inline-flex items-center justify-between px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                    class="w-full sm:w-auto inline-flex items-center justify-between px-4 py-2 border border-border rounded-lg text-sm font-medium text-text bg-background hover:bg-surface focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                                     <div class="flex items-center">
-                                        <x-lucide-filter class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
+                                        <x-lucide-filter class="h-4 w-4 mr-2 text-muted" />
                                         <span
                                             x-text="currentCategory ? '{{ __('Category Selected') }}' : '{{ __('admin.articles.all_categories') }}'"></span>
                                     </div>
-                                    <x-lucide-chevron-down class="h-4 w-4 ml-2 text-gray-400" />
+                                    <x-lucide-chevron-down class="h-4 w-4 ml-2 text-muted" />
                                 </button>
 
                                 <div x-show="open" @click.away="open = false"
@@ -163,16 +162,16 @@
                                     x-transition:leave="transition ease-in duration-75"
                                     x-transition:leave-start="transform opacity-100 scale-100"
                                     x-transition:leave-end="transform opacity-0 scale-95" style="display: none;"
-                                    class="absolute right-0 z-10 mt-2 w-56 rounded-lg shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    class="absolute right-0 z-10 mt-2 w-56 rounded-lg shadow-lg bg-surface ring-1 ring-black ring-opacity-5 focus:outline-none border border-border">
                                     <div class="py-1" role="menu">
                                         <button @click.prevent="applyCategory(''); open = false" type="button"
-                                            class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                            class="block w-full text-left px-4 py-2 text-sm text-text hover:bg-background">
                                             {{ __('admin.articles.all_categories') }}
                                         </button>
                                         @foreach($categories as $category)
                                             <button @click.prevent="applyCategory('{{ $category->id }}'); open = false"
                                                 type="button"
-                                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                                class="block w-full text-left px-4 py-2 text-sm text-text hover:bg-background"
                                                 :class="currentCategory == '{{ $category->id }}' ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300' : ''">
                                                 {{ $category->name }}
                                             </button>
@@ -184,16 +183,16 @@
                             <!-- Search Bar -->
                             <div class="relative flex-1 w-full sm:w-64">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <x-lucide-search class="h-4 w-4 text-gray-400" />
+                                    <x-lucide-search class="h-4 w-4 text-muted" />
                                 </div>
                                 <input type="text" x-model="searchQuery"
                                     @input.debounce.300ms="applySearch($event.target.value)"
-                                    class="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
+                                    class="block w-full pl-10 pr-10 py-2 border border-border rounded-lg leading-5 bg-background text-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent sm:text-sm transition-colors duration-200"
                                     placeholder="{{ __('admin.common.search') }}...">
                                 <template x-if="searchQuery">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                                         <button @click.prevent="clearSearch()" type="button"
-                                            class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
+                                            class="text-muted hover:text-text transition-colors"
                                             title="{{ __('admin.common.clear') }}">
                                             <x-lucide-x class="h-4 w-4" />
                                         </button>
@@ -222,7 +221,7 @@
                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                 </path>
                             </svg>
-                            <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Loading...</span>
+                            <span class="text-sm font-medium text-text">Loading...</span>
                         </div>
                     </div>
 

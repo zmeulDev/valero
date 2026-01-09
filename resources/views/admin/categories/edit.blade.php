@@ -7,7 +7,7 @@
     ]">
             <x-slot:actions>
                 <a href="{{ route('admin.categories.index') }}"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                    class="inline-flex items-center px-4 py-2 border border-border rounded-md shadow-sm text-sm font-medium text-text bg-surface hover:bg-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                     <x-lucide-arrow-left class="w-4 h-4 mr-2" />
                     {{ __('admin.common.back') }}
                 </a>
@@ -17,7 +17,7 @@
 
     <div class="py-6">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-surface overflow-hidden shadow-sm sm:rounded-lg border border-border">
                 <div class="p-6">
                     <form action="{{ route('admin.categories.update', $category) }}" method="POST">
                         @csrf
@@ -25,23 +25,23 @@
 
                         <div class="space-y-6">
                             <div x-data="{ charCount: {{ strlen($category->name) }} }">
-                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <label for="name" class="block text-sm font-medium text-text">
                                     {{ __('admin.category.name') }}
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}"
                                         required maxlength="50" x-on:input="charCount = $event.target.value.length"
-                                        class="block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        class="block w-full rounded-md border-border bg-background text-text focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                 </div>
                                 <p class="mt-1 text-xs"
-                                    :class="{ 'text-red-500': charCount > 50, 'text-gray-500': charCount <= 50 }">
+                                    :class="{ 'text-red-500': charCount > 50, 'text-muted': charCount <= 50 }">
                                     <span x-text="charCount"></span>/50 characters
                                 </p>
                             </div>
 
                             <div class="flex justify-end space-x-3">
                                 <a href="{{ route('admin.categories.index') }}"
-                                    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                    class="inline-flex items-center px-4 py-2 border border-border rounded-md shadow-sm text-sm font-medium text-text bg-surface hover:bg-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                                     {{ __('admin.common.cancel') }}
                                 </a>
                                 <button type="submit"

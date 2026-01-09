@@ -2,7 +2,7 @@
     <x-slot name="header">
         <x-admin.page-header icon="pencil" title="{{ __('admin.playlists.edit_playlist') }}"
             description="{{ __('admin.playlists.description') }}" :breadcrumbs="[
-        ['label' => __('admin.playlists.title'), 'route' => route('admin.playlists.index')],
+        ['label' => __('admin.playlists.title'), 'url' => route('admin.playlists.index')],
         ['label' => __('admin.common.edit')]
     ]" />
     </x-slot>

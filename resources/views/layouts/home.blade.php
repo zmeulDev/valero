@@ -62,7 +62,7 @@
 </head>
 
 <body x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)"
-  class="font-sans antialiased bg-gradient-to-br from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+  class="font-sans antialiased bg-background text-text">
   <div class="min-h-screen flex flex-col">
     <!-- Header -->
     <x-header :categories="$categories" :role="$role" />
