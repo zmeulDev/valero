@@ -23,7 +23,7 @@
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 
   <!-- Vite Assets -->
-  @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
+  @vite(['resources/js/valero-frontend.js'])
   @livewireStyles
 
   <!-- Alpine.js -->
@@ -48,7 +48,8 @@
           class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-              {{ __('frontend.common.articles_in_category') }}: {{ $category->name }}</h2>
+              {{ __('frontend.common.articles_in_category') }}: {{ $category->name }}
+            </h2>
           </div>
           @if ($articles->isEmpty())
             <x-nothing-found />

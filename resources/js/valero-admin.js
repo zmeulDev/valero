@@ -1,4 +1,5 @@
 import './bootstrap';
+import '../css/app.css';
 import tinymceConfig from './tinymce-config';
 
 // Make calendarData function globally available for Alpine.js

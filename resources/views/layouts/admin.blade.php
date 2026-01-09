@@ -8,13 +8,18 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ $title ?? 'Admin Panel' }} - {{ config('app_name', 'Valero') }}</title>
   <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
-  <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
   <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
 
   <!-- Vite Assets -->
-  @vite(['resources/css/app.css', 'resources/js/valero-admin.js'])
+  @vite(['resources/js/valero-admin.js'])
   @livewireStyles
-  <style>[x-cloak] { display: none !important; }</style>
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+  </style>
 
 </head>
 
@@ -28,7 +33,7 @@
 
     <!-- Page Header -->
     @if (isset($header))
-        {{ $header }}
+      {{ $header }}
     @endif
 
     <!-- Main Content -->

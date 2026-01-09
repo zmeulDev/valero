@@ -5,8 +5,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
                 'resources/js/valero-frontend.js',
                 'resources/js/valero-admin.js'
             ],

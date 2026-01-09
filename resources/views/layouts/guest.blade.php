@@ -11,7 +11,7 @@
 
 
   <!-- Vite Assets -->
-  @vite(['resources/css/app.css', 'resources/js/valero-frontend.js'])
+  @vite(['resources/js/valero-frontend.js'])
 
   <!-- Styles -->
   @livewireStyles

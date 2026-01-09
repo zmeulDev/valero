@@ -1,4 +1,5 @@
 // Theme
+import '../css/app.css';
 document.addEventListener('DOMContentLoaded', function () {
   const themeToggleBtn = document.getElementById('theme-toggle');
   const darkIcon = document.getElementById('theme-toggle-dark-icon');
