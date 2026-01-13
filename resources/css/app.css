@@ -6,7 +6,7 @@
 @layer base {
     :root {
         /* Light Mode - Gray 50 / Gray 900 */
-        --color-background: 249 250 251;
+        --color-background: 242 242 242;
         /* White */
         --color-surface: 255 255 255;
         /* Gray 900 */
@@ -14,7 +14,7 @@
         /* Gray 500 (Muted) */
         --color-text-muted: 107 114 128;
         /* Gray 200 (Border) */
-        --color-border: 229 231 235;
+        --color-border: 255 255 255;
     }
 
     .dark {

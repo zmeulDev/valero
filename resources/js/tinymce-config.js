@@ -1,5 +1,6 @@
 const tinymceConfig = {
     selector: '#content',
+    convert_urls: false,
     height: 500,
     plugins: [
         'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
@@ -19,7 +20,7 @@ const tinymceConfig = {
     paste_webkit_styles: 'none',
     paste_retain_style_properties: 'none',
     paste_merge_formats: true,
-    paste_preprocess: function(plugin, args) {
+    paste_preprocess: function (plugin, args) {
         // Remove font families, colors, and other inline styles from pasted content
         args.content = args.content
             .replace(/style="[^"]*font-family:[^;"]*;?[^"]*"/gi, '')
@@ -40,36 +41,36 @@ const tinymceConfig = {
         pre { background: #f4f4f4; padding: 1rem; border-radius: 4px; }
         code { font-family: monospace; }
     `,
-    setup: function(editor) {
-        editor.on('paste', function(e) {
+    setup: function (editor) {
+        editor.on('paste', function (e) {
             // Check if pasting HTML content (from Word, Google Docs, etc.)
             const htmlData = e.clipboardData.getData('text/html');
-            
+
             // If HTML is available, let TinyMCE handle it naturally
             if (htmlData && htmlData.trim()) {
                 return; // Let default paste behavior handle HTML
             }
-            
+
             // Only handle plain text paste
             e.preventDefault();
             const text = e.clipboardData.getData('text/plain');
-            
+
             if (!text || !text.trim()) return;
-            
+
             // Convert plain text to HTML preserving structure
             const lines = text.split('\n');
             let html = '';
             let inList = false;
             let currentIndentLevel = 0;
-            
+
             lines.forEach((line, index) => {
                 // Detect bullet points (*, -, •, ★, ✦, etc.)
                 const bulletMatch = line.match(/^(\s*)([*\-•★✦]+)\s*(.*)$/);
-                
+
                 if (bulletMatch) {
                     const indent = bulletMatch[1].length;
                     const content = bulletMatch[3];
-                    
+
                     if (!inList) {
                         html += '<ul>';
                         inList = true;
@@ -81,7 +82,7 @@ const tinymceConfig = {
                         html += '</ul>';
                         currentIndentLevel = indent;
                     }
-                    
+
                     html += `<li>${content || ''}</li>`;
                 } else {
                     // Close any open lists
@@ -90,7 +91,7 @@ const tinymceConfig = {
                         inList = false;
                         currentIndentLevel = 0;
                     }
-                    
+
                     // Regular paragraph
                     if (line.trim()) {
                         // Preserve leading spaces/tabs for indented paragraphs
@@ -107,12 +108,12 @@ const tinymceConfig = {
                     }
                 }
             });
-            
+
             // Close any remaining open lists
             if (inList) {
                 html += '</ul>';
             }
-            
+
             editor.insertContent(html);
         });
     }
