@@ -91,7 +91,7 @@ return [
          * where we don't have a description set via an associated ->seo model or via
          * the ->getDynamicSEOData() method.
          */
-        'fallback' => 'Default site description here',
+        'fallback' => config('app_seo_description', 'Discover the latest articles, insights, and updates on our blog.'),
     ],
 
     'image' => [

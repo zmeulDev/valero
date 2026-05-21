@@ -5,7 +5,7 @@ Disallow: /search
 Allow: /articles/
 Allow: /category/
 Allow: /categories
+Allow: /playlists
 Allow: /
 
-# Sitemap location (update with your production domain)
-Sitemap: https://valero.test/sitemap.xml
+Sitemap: /sitemap.xml

@@ -6,15 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app_name') }} - {{ config('app_seo_title') }}</title>
-  <meta name="description" content="{{ config('app_seo_description') }}">
-  <meta property="og:title" content="{{ config('app_name') . ' - ' . config('app_seo_title') }}">
-  <meta property="og:description" content="{{ config('app_seo_description') }}">
-  <meta property="og:url" content="{{ url(route('home')) }}">
-  <meta property="og:image" content="{{ url(asset('storage/brand/logo.png')) }}">
-  <meta property="og:type" content="website">
-  <link rel="canonical" href="{{ url(route('home')) }}">
-  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
+  @php
+  $seoData = new \RalphJSmit\Laravel\SEO\Support\SEOData(
+      title: $title ?? null,
+      description: $description ?? null,
+      image: $ogImage ?? null,
+      type: $ogType ?? 'website',
+  );
+  @endphp
+  {!! seo($seoData) !!}
+
+  {{ $head ?? '' }}
+
+  @if(config('app_googlesearchmeta'))
+  <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}">
+  @endif
 
   <!-- Organization Schema -->
   <script type="application/ld+json">

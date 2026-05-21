@@ -1,8 +1,12 @@
 <x-playlist-layout :popular-articles="$popularArticles" :categories="$categories">
     <x-slot:seo>
-        <!-- SEO -->
-        <title>{{ __('frontend.playlists.title') }} - {{ config('app_name') }}</title>
-        <meta name="description" content="{{ __('frontend.playlists.description') }}">
+        @php
+        $seoData = new \RalphJSmit\Laravel\SEO\Support\SEOData(
+            title: __('frontend.playlists.title'),
+            description: __('frontend.playlists.description'),
+        );
+        @endphp
+        {!! seo($seoData) !!}
     </x-slot:seo>
 
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">

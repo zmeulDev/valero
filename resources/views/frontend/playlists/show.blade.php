@@ -1,8 +1,6 @@
 <x-playlist-layout :popular-articles="$popularArticles" :categories="$categories">
     <x-slot:seo>
-        <!-- SEO -->
-        <title>{{ $playlist->title }} - {{ config('app_name') }}</title>
-        <meta name="description" content="{{ Str::limit($playlist->description, 160) }}">
+        {!! seo()->for($playlist) !!}
     </x-slot:seo>
 
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">

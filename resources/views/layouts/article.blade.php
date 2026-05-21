@@ -8,11 +8,14 @@
   {!! seo()->for($article) !!}
 
 
+  @if(config('app_googlesearchmeta'))
+  <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}">
+  @endif
+
   <!-- Vite Assets -->
   @vite(['resources/js/valero-frontend.js'])
 
   @livewireStyles
-  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
 </head>
 
 <body class="font-sans antialiased bg-background text-text" x-data="{ scrolled: false }"

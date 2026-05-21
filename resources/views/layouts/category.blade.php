@@ -20,7 +20,9 @@
   }
   </script>
 
-  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
+  @if(config('app_googlesearchmeta'))
+  <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}">
+  @endif
 
   <!-- Vite Assets -->
   @vite(['resources/js/valero-frontend.js'])

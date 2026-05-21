@@ -12,6 +12,10 @@ return preg_replace("/({$term})/i", '<mark class="bg-yellow-300 dark:bg-yellow-5
 
 <x-home-layout>
   <x-slot name="title">Search Results for "{{ $query }}"</x-slot>
+  <x-slot name="description">Search results for "{{ $query }}" on {{ config('app_name') }}</x-slot>
+  <x-slot name="head">
+    <meta name="robots" content="noindex, nofollow">
+  </x-slot>
   <div class="container mx-auto px-4 lg:px-8 py-12">
     <!-- Search Results Header -->
     <div class="flex flex-col md:flex-row items-center justify-between mb-8">

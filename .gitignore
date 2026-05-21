@@ -27,3 +27,6 @@ npm-debug.log
 yarn-error.log
 
 
+composer.lock
+package-lock.json
+public/sitemap.xml

@@ -1,5 +1,5 @@
 <x-home-layout>
-  <x-slot name="title">{{ config('app_name') }}</x-slot>
+  <!-- Default SEO title and description are used from config -->
 
   <div class="container mx-auto px-4 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
     <div class="lg:col-span-3 space-y-8">
