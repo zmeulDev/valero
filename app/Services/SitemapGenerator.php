@@ -64,17 +64,22 @@ class SitemapGenerator
                 );
             });
 
-        // Add only published articles
+        // Add only published articles with cover images
         Article::published()
-            ->with('category')
+            ->with('category', 'media')
             ->get()
             ->each(function (Article $article) use ($sitemap) {
-                $sitemap->add(
-                    Url::create("/articles/{$article->slug}")
-                        ->setLastModificationDate($article->updated_at)
-                        ->setPriority(0.8)
-                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
-                );
+                $url = Url::create("/articles/{$article->slug}")
+                    ->setLastModificationDate($article->updated_at)
+                    ->setPriority(0.8)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY);
+
+                $coverMedia = $article->media->firstWhere('is_cover', true);
+                if ($coverMedia?->image_path) {
+                    $url->addImage(url('storage/' . $coverMedia->image_path));
+                }
+
+                $sitemap->add($url);
             });
 
         $sitemap->writeToFile(public_path('sitemap.xml'));

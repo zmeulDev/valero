@@ -39,4 +39,14 @@ class Media extends Model
     {
         return $query->where('is_cover', false);
     }
+
+    public function getImageWidthAttribute(): ?int
+    {
+        return $this->dimensions['width'] ?? null;
+    }
+
+    public function getImageHeightAttribute(): ?int
+    {
+        return $this->dimensions['height'] ?? null;
+    }
 }

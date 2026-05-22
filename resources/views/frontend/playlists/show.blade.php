@@ -1,6 +1,63 @@
 <x-playlist-layout :popular-articles="$popularArticles" :categories="$categories">
     <x-slot:seo>
-        {!! seo()->for($playlist) !!}
+        @php
+            $coverMedia = $playlist->articles->first()?->media->firstWhere('is_cover', true);
+            $ogImage = $coverMedia?->image_path ? url('storage/' . $coverMedia->image_path) : url(asset('storage/brand/logo.png'));
+            $playlistUrl = url(route('frontend.playlists.show', $playlist->slug));
+            $seoDescription = \App\Helpers\SeoHelper::smartTruncate($playlist->description, 160);
+            $twitterHandle = config('app_twitter_handle') ? '@' . ltrim(config('app_twitter_handle'), '@') : '';
+            $ogLocale = match(app()->getLocale()) { 'ro' => 'ro_RO', 'es' => 'es_ES', default => 'en_US' };
+        @endphp
+
+        @if($coverMedia?->image_path)
+        <link rel="preload" as="image" href="{{ $ogImage }}">
+        @endif
+
+        <title>{{ $playlist->title }} - {{ config('app_name') }}</title>
+        <meta name="description" content="{{ $seoDescription }}">
+        <meta property="og:locale" content="{{ $ogLocale }}">
+        <meta property="og:title" content="{{ $playlist->title }} - {{ config('app_name') }}">
+        <meta property="og:description" content="{{ $seoDescription }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ $playlistUrl }}">
+        <meta property="og:image" content="{{ $ogImage }}">
+        <meta property="og:site_name" content="{{ config('app_name') }}">
+        <link rel="canonical" href="{{ $playlistUrl }}">
+
+        @if($twitterHandle)
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="{{ $twitterHandle }}">
+        <meta name="twitter:title" content="{{ $playlist->title }}">
+        <meta name="twitter:description" content="{{ $seoDescription }}">
+        <meta name="twitter:image" content="{{ $ogImage }}">
+        @endif
+
+        <!-- BreadcrumbList Schema -->
+        <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "{{ url(route('home')) }}"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Playlists",
+                    "item": "{{ url(route('frontend.playlists.index')) }}"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "{{ $playlist->title }}"
+                }
+            ]
+        }
+        </script>
     </x-slot:seo>
 
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -69,7 +126,13 @@
                     @if($article->cover_image)
                         <div class="hidden sm:block ml-4 flex-shrink-0">
                             <img src="{{ asset('storage/' . $article->cover_image->image_path) }}" alt="{{ $article->title }}"
-                                class="h-24 w-36 object-cover rounded-lg shadow-sm">
+                                @if($article->cover_image->dimensions)
+                                    width="{{ $article->cover_image->dimensions['width'] ?? 144 }}"
+                                    height="{{ $article->cover_image->dimensions['height'] ?? 96 }}"
+                                @endif
+                                class="h-24 w-36 object-cover rounded-lg shadow-sm"
+                                loading="lazy" decoding="async"
+                            >
                         </div>
                     @endif
                 </div>

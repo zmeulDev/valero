@@ -431,8 +431,6 @@ class AdminImageController extends Controller
                 // Refresh article's media relationship
                 $article->load('media');
 
-                // Update SEO data with new cover image
-                $this->updateArticleSEO($article);
             });
 
             // Clear article caches
@@ -543,10 +541,6 @@ class AdminImageController extends Controller
                 // Refresh article's media relationship
                 $article->load('media');
 
-                // Update SEO data if a new cover was set
-                if ($article->media()->where('is_cover', true)->exists()) {
-                    $this->updateArticleSEO($article);
-                }
             });
 
             // Clear caches
@@ -572,31 +566,6 @@ class AdminImageController extends Controller
                 'message' => 'Failed to attach images: ' . $e->getMessage()
             ], 400);
         }
-    }
-
-    /**
-     * Update article SEO data.
-     */
-    private function updateArticleSEO(Article $article): void
-    {
-        $coverImage = $article->media->firstWhere('is_cover', true);
-        $article->seo()->updateOrCreate(
-            [
-                'model_id' => $article->id,
-                'model_type' => Article::class,
-            ],
-            [
-                'title' => $article->title,
-                'description' => $article->excerpt ?? Str::limit(strip_tags($article->content), 160),
-                'tags' => $article->tags,
-                'image' => $coverImage ? $coverImage->image_path : null,
-                'author' => $article->user->name,
-                'robots' => 'index, follow',
-                'canonical_url' => route('articles.index', $article->slug),
-                'created_at' => $article->scheduled_at ?? $article->created_at,
-                'updated_at' => $article->updated_at,
-            ]
-        );
     }
 
     /**

@@ -22,15 +22,15 @@
         @foreach($article->media as $index => $image)
         <div class="group relative aspect-square overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800 cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/20 hover:scale-[1.02] gallery-image" data-index="{{ $index }}">
             {{-- Image --}}
-            <img 
-                src="{{ asset('storage/' . $image->image_path) }}" 
+            <img
+                src="{{ asset('storage/' . $image->image_path) }}"
                 alt="{{ $image->alt_text ?? __('frontend.article.gallery_image') }}"
                 @if($image->dimensions)
                     width="{{ $image->dimensions['width'] ?? 400 }}"
                     height="{{ $image->dimensions['height'] ?? 400 }}"
                 @endif
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
-                loading="lazy"
+                loading="lazy" decoding="async"
             >
             
             {{-- Overlay --}}

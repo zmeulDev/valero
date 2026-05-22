@@ -30,15 +30,15 @@
                         $coverMedia = $relatedArticle->media->firstWhere('is_cover', true);
                     @endphp
                     @if($coverMedia?->image_path ?? false)
-                        <img 
-                            src="{{ asset('storage/' . $coverMedia->image_path) }}" 
+                        <img
+                            src="{{ asset('storage/' . $coverMedia->image_path) }}"
                             alt="{{ $coverMedia->alt_text ?: $relatedArticle->title }}"
                             @if($coverMedia->dimensions)
                                 width="{{ $coverMedia->dimensions['width'] ?? 600 }}"
                                 height="{{ $coverMedia->dimensions['height'] ?? 338 }}"
                             @endif
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            loading="lazy"
+                            loading="lazy" decoding="async"
                         >
                     @else
                         <div class="w-full h-full flex items-center justify-center">

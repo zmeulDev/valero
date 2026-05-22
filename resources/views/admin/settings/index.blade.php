@@ -133,6 +133,19 @@
                                             rows="3"
                                             required
                                         />
+                                        <x-admin.form.text-input
+                                            name="app_default_og_image"
+                                            label="Default OG Image URL"
+                                            :value="$settings['app_default_og_image'] ?? ''"
+                                            placeholder="https://example.com/storage/brand/og-default.png"
+                                            type="url"
+                                        />
+                                        <x-admin.form.text-input
+                                            name="app_twitter_handle"
+                                            label="Twitter / X Handle"
+                                            :value="$settings['app_twitter_handle'] ?? ''"
+                                            placeholder="@username"
+                                        />
                                     </div>
                                 </x-admin.card>
                             </div>

@@ -6,12 +6,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  @php
-  $adminSeo = new \RalphJSmit\Laravel\SEO\Support\SEOData(
-      title: $title ?? 'Admin Panel',
-  );
-  @endphp
-  {!! seo($adminSeo) !!}
+  <title>{{ $title ?? 'Admin Panel' }} - {{ config('app_name', 'Valero') }}</title>
+  <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
+  <meta name="theme-color" content="#0ea5e9">
   <script src="https://cdn.tiny.cloud/1/{{ config('app_tinymce') }}/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
   <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
@@ -19,11 +16,6 @@
   <!-- Vite Assets -->
   @vite(['resources/js/valero-admin.js'])
   @livewireStyles
-  <style>
-    [x-cloak] {
-      display: none !important;
-    }
-  </style>
 
 </head>
 

@@ -6,7 +6,7 @@
         <div class="sm:w-2/5">
             <div class="relative aspect-[4/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                 @if($article->media->firstWhere('is_cover', true)->image_path ?? false)
-                <x-frontend.article.card-with-image :article="$article" />
+                <x-frontend.article.card-with-image :article="$article" loading="eager" fetchpriority="high" />
                 @else
                 <x-frontend.article.card-no-image />
                 @endif
@@ -43,7 +43,8 @@
                         <img class="w-10 h-10 rounded-full ring-2 ring-white/20"
                             src="{{ $article->user->profile_photo_url }}"
                             alt="{{ $article->user->name }}"
-                            loading="lazy">
+                            loading="eager" decoding="async"
+                        >
                         <div class="space-y-0.5">
                             <div class="text-white font-medium">{{ $article->user->name }}</div>
                             <div class="text-white/60 text-sm">

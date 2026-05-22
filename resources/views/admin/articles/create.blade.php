@@ -147,7 +147,7 @@
 
                   <button type="button"
                           @click.prevent="activeTab = 'bookmarks'"
-                          :class="{ 
+                          :class="{
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'bookmarks',
                               'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'bookmarks'
                           }"
@@ -159,8 +159,21 @@
                   </button>
 
                   <button type="button"
+                          @click.prevent="activeTab = 'seo'"
+                          :class="{
+                              'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'seo',
+                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'seo'
+                          }"
+                          class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
+                    <div class="flex items-center space-x-2">
+                      <x-lucide-search class="w-5 h-5" />
+                      <span>SEO</span>
+                    </div>
+                  </button>
+
+                  <button type="button"
                           @click.prevent="activeTab = 'options'"
-                          :class="{ 
+                          :class="{
                               'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'options',
                               'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'options'
                           }"
@@ -168,19 +181,6 @@
                     <div class="flex items-center space-x-2">
                       <x-lucide-settings class="w-5 h-5" />
                       <span>{{ __('admin.articles.options') }}</span>
-                    </div>
-                  </button>
-
-                  <button type="button"
-                          @click.prevent="activeTab = 'seo'"
-                          :class="{ 
-                              'border-indigo-500 text-indigo-600 dark:text-indigo-500': activeTab === 'seo',
-                              'border-transparent text-muted hover:text-text hover:border-border': activeTab !== 'seo'
-                          }"
-                          class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition duration-150 ease-in-out">
-                    <div class="flex items-center space-x-2">
-                      <x-lucide-search class="w-5 h-5" />
-                      <span>{{ __('admin.articles.seo') }}</span>
                     </div>
                   </button>
 
@@ -278,18 +278,6 @@
                   <x-admin.article.bookmarks />
                 </div>
 
-                <!-- Options Tab -->
-                <div x-show="activeTab === 'options'"
-                     x-transition:enter="transition ease-out duration-200"
-                     x-transition:enter-start="opacity-0 translate-y-1"
-                     x-transition:enter-end="opacity-100 translate-y-0"
-                     x-transition:leave="transition ease-in duration-150"
-                     x-transition:leave-start="opacity-100 translate-y-0"
-                     x-transition:leave-end="opacity-0 translate-y-1"
-                     class="p-6">
-                  <x-admin.article.options :article="null" />
-                </div>
-
                 <!-- SEO Tab -->
                 <div x-show="activeTab === 'seo'"
                      x-transition:enter="transition ease-out duration-200"
@@ -300,6 +288,18 @@
                      x-transition:leave-end="opacity-0 translate-y-1"
                      class="p-6">
                   <x-admin.article.seo :article="null" />
+                </div>
+
+                <!-- Options Tab -->
+                <div x-show="activeTab === 'options'"
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 translate-y-1"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 translate-y-1"
+                     class="p-6">
+                  <x-admin.article.options :article="null" />
                 </div>
 
                 <!-- Publishing Tab -->

@@ -136,7 +136,6 @@ class AdminArticleController extends Controller
                 app(AdminImageController::class)->handleGalleryImages($request, $article);
             }
 
-            $this->updateSEO($article, $request);
             $this->clearArticleCaches();
 
             // Check for image warning and include it in the response
@@ -242,12 +241,9 @@ class AdminArticleController extends Controller
                     app(AdminImageController::class)->handleGalleryImages($request, $article);
                 }
 
-                // Update SEO
-                $this->updateSEO($article, $request);
+                // Clear caches
+                $this->clearArticleCaches();
             });
-
-            // Clear caches
-            $this->clearArticleCaches();
 
             // Check for image warning and include it in the response
             $response = redirect()
@@ -354,12 +350,6 @@ class AdminArticleController extends Controller
             $media->delete();
         }
 
-        // Delete SEO data
-        if ($article->seo) {
-            $article->seo->delete();
-        }
-
-        // Delete the article
         $article->delete();
 
         // Clear relevant caches
@@ -430,10 +420,10 @@ class AdminArticleController extends Controller
             'local_store_link' => 'nullable|url|max:500',
 
             // SEO validation
-            'seo_title' => 'nullable|string|max:60',
-            'seo_description' => 'nullable|string|max:160',
-            'seo_robots' => 'nullable|string|max:255',
-            'seo_canonical_url' => 'nullable|url|max:500',
+            'meta_title' => 'nullable|string|max:60',
+            'meta_description' => 'nullable|string|max:160',
+            'meta_robots' => 'nullable|string|max:255',
+            'canonical_url' => 'nullable|url|max:500',
         ];
 
         // Only validate images if they are being uploaded
@@ -505,31 +495,6 @@ class AdminArticleController extends Controller
      * Handle gallery images upload.
      */
 
-    /**
-     * Update article SEO data.
-     */
-    private function updateSEO(Article $article, Request $request): void
-    {
-        $coverImage = $article->media->firstWhere('is_cover', true);
-
-        $article->seo()->updateOrCreate(
-            [
-                'model_id' => $article->id,
-                'model_type' => Article::class,
-            ],
-            [
-                'title' => $request->input('seo_title') ?: $article->title,
-                'description' => $request->input('seo_description') ?: ($article->excerpt ?? Str::limit(strip_tags($article->content), 160)),
-                'image' => $coverImage ? $coverImage->image_path : null,
-                'author' => $article->user->name,
-                'robots' => $request->input('seo_robots') ?: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-                'canonical_url' => $request->input('seo_canonical_url') ?: route('articles.index', $article->slug),
-                'created_at' => $article->scheduled_at ?? $article->created_at,
-                'updated_at' => $article->updated_at,
-            ]
-        );
-    }
-
     private function clearArticleCaches(): void
     {
         increment_cache_version();
@@ -557,7 +522,7 @@ class AdminArticleController extends Controller
             ->take(10)
             ->get()
             ->map(function ($article) {
-                $canonicalUrl = $article->seo?->canonical_url ?: route('articles.index', ['slug' => $article->slug]);
+                $canonicalUrl = route('articles.index', ['slug' => $article->slug]);
 
                 return [
                     'id' => $article->id,

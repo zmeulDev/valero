@@ -9,10 +9,13 @@
         @if($coverMedia?->image_path ?? false)
             <!-- Main Image -->
             <img src="{{ asset('storage/' . $coverMedia->image_path) }}"
-                alt="{{ $coverMedia->alt_text ?: $article->title }}" @if($coverMedia->dimensions)
+                alt="{{ $coverMedia->alt_text ?: $article->title }}"
+                @if($coverMedia->dimensions)
                     width="{{ $coverMedia->dimensions['width'] ?? 1200 }}"
-                height="{{ $coverMedia->dimensions['height'] ?? 630 }}" @endif
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                    height="{{ $coverMedia->dimensions['height'] ?? 630 }}"
+                @endif
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="eager" fetchpriority="high" decoding="async">
 
             <!-- Subtle Gradient Overlay for Text Readability -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>

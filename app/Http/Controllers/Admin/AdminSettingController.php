@@ -56,6 +56,8 @@ class AdminSettingController extends Controller
                 'app_timezone' => 'required|string|in:' . implode(',', timezone_identifiers_list()),
                 'app_seo_title' => 'required|string|max:255',
                 'app_seo_description' => 'required|string|max:500',
+                'app_twitter_handle' => 'nullable|string|max:255',
+                'app_default_og_image' => 'nullable|url|max:500',
                 'app_tinymce' => 'required|string',
                 'app_googlesearchmeta' => 'required|string',
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

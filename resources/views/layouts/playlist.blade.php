@@ -12,6 +12,8 @@
     <meta name="google-site-verification" content="{{ config('app_googlesearchmeta') }}">
     @endif
 
+    <link rel="icon" href="{{ asset('storage/brand/favicon.ico') }}">
+
     <!-- Vite Assets -->
     @vite(['resources/js/valero-frontend.js'])
     @livewireStyles

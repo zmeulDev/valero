@@ -90,7 +90,7 @@
                                 <x-nothing-found />
                             @else
                                 <div class="space-y-4">
-                                    @php $maxCount = $topCategories->first()->articles_count ?? 1; @endphp
+                                    @php $maxCount = max($topCategories->first()->articles_count ?? 1, 1); @endphp
                                     @foreach($topCategories as $category)
                                         <div class="group">
                                             <div class="flex items-center justify-between mb-1">

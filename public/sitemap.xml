@@ -2,62 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
     <loc>http://valero.test</loc>
-    <lastmod>2026-05-21T11:33:26+00:00</lastmod>
+    <lastmod>2026-05-22T05:46:39+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
             </url>
     <url>
     <loc>http://valero.test/cookie-policy</loc>
-    <lastmod>2026-05-21T11:33:26+00:00</lastmod>
+    <lastmod>2026-05-22T05:46:39+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
             </url>
     <url>
     <loc>http://valero.test/categories</loc>
-    <lastmod>2026-05-21T11:33:26+00:00</lastmod>
+    <lastmod>2026-05-22T05:46:39+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
     <loc>http://valero.test/playlists</loc>
-    <lastmod>2026-05-21T11:33:26+00:00</lastmod>
+    <lastmod>2026-05-22T05:46:39+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
             </url>
     <url>
-    <loc>http://valero.test/category/doloremque-enim-autem-nemo-unde-doloremque-enim</loc>
-    <lastmod>2026-05-08T01:44:58+00:00</lastmod>
+    <loc>http://valero.test/category/amet-quia-ab-minus-recusandae</loc>
+    <lastmod>2026-05-22T04:34:31+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
             </url>
     <url>
-    <loc>http://valero.test/category/quisquam-veniam-magni-autem-eos-repellendus-ea-sapiente</loc>
-    <lastmod>2026-05-08T01:44:58+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/maiores-ea-aperiam</loc>
-    <lastmod>2026-05-08T01:45:46+00:00</lastmod>
+    <loc>http://valero.test/articles/gt41asia-shanghai-ce-am-invatat-fara-google-fara-recenzii-si-fara-harti</loc>
+    <lastmod>2026-05-22T05:46:39+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/laboriosam-autem-quo-amet</loc>
-    <lastmod>2021-04-03T08:46:18+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/sapiente-voluptas</loc>
-    <lastmod>2021-01-07T17:04:19+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
-    <url>
-    <loc>http://valero.test/articles/repudiandae-non</loc>
-    <lastmod>2026-05-21T11:13:50+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-            </url>
+    <image:image>
+    <image:loc>http://valero.test/storage/images/6a0fe4a6080f1.webp</image:loc>
+</image:image>
+        </url>
 </urlset>

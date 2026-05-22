@@ -40,13 +40,5 @@ class SettingServiceProvider extends ServiceProvider
         if (!config('app_seo_description')) {
             config(['app_seo_description' => $appDescription]);
         }
-
-        // Update SEO config with dynamic app name
-        config(['seo.title.suffix' => ' | ' . config('app_name')]);
-        config(['seo.site_name' => config('app_name')]);
-        config(['seo.author.fallback' => config('app_name')]);
-
-        // Set homepage title so seo() helper produces the correct title on the home page
-        config(['seo.title.homepage_title' => config('app_name') . ' - ' . config('app_seo_title')]);
     }
 }
